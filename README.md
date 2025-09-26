@@ -16,15 +16,15 @@ This curriculum is designed with a foundational approach, assuming no prior codi
 
 ## Curriculum Overview
 
-| Session | Lesson | Description |
-|---------|--------|-------------|
-| Session 1 | [Terminal Basics](./01-terminal-basics/README.md) | Introduction to command-line interfaces |
-| Session 1 | [Simple Math with Python](./02-simple-math-python/README.md) | Basic Python concepts using math operations |
-| Session 2 | [Basic HTML](./03-basic-html/README.md) | Creating simple web pages |
-| Session 2 | [Python Functions](./04-python-functions/README.md) | Building reusable code with functions |
-| Session 3 | [Advanced HTML & CSS](./05-advanced-html-css/README.md) | Enhancing web pages with styles |
-| Session 3 | [Visual Applications](./06-visual-applications/README.md) | Creating visual applications with Python |
-| Session 4 | [AI Integration](./07-ai-integration/README.md) | Introduction to AI tools like GitHub Copilot |
+| Lesson | Description |
+|--------|-------------|
+| [Terminal Basics](./exercises/01-terminal-basics/README.md) | Introduction to command-line interfaces |
+| [Simple Math with Python](./exercises/02-simple-math-python/README.md) | Basic Python concepts using math operations |
+| [Basic HTML](./exercises/03-basic-html/README.md) | Creating simple web pages |
+| [Python Functions](./exercises/04-python-functions/README.md) | Building reusable code with functions |
+| [Advanced HTML & CSS](./exercises/05-advanced-html-css/README.md) | Enhancing web pages with styles |
+| [Visual Applications](./exercises/06-visual-applications/README.md) | Creating visual applications with Python |
+| [AI Integration](./exercises/07-ai-integration/README.md) | Introduction to AI tools like GitHub Copilot |
 
 ## Getting Started
 
@@ -53,7 +53,7 @@ This curriculum is designed for instructor-led demonstrations in a classroom set
 ## Additional Resources
 
 - [Visual Markdown Presentations](./presentations/) - Markdown-based presentations to replace traditional slides
-- [GitHub Copilot Integration Guide](./07-ai-integration/README.md) - Instructions for introducing AI coding assistants
+- [GitHub Copilot Integration Guide](./exercises/07-ai-integration/README.md) - Instructions for introducing AI coding assistants
 
 ---
 

@@ -2,7 +2,7 @@
 
 /* Hero section with computer hardware theme */
 .session-header {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/computer-parts.png');
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/fixed/computer-parts.svg');
     background-size: cover;
     background-position: center;
     color: white;
