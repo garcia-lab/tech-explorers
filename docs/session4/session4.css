@@ -2,7 +2,7 @@
 
 /* Header with AI theme */
 .session-header {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/fixed/github-spark-logo.svg');
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/github-spark-logo.svg');
     background-size: cover;
     background-position: center;
     color: white;
