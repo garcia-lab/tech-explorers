@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Scavenger Hunt - Tech Explorers</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .task-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .task-list {
+            list-style-type: none;
+            counter-reset: task-counter;
+        }
+        
+        .task-list li {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            counter-increment: task-counter;
+            padding-left: 50px;
+        }
+        
+        .task-list li::before {
+            content: counter(task-counter);
+            position: absolute;
+            left: 15px;
+            top: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .task-category {
+            background-color: rgba(114, 9, 183, 0.1);
+            border-left: 5px solid var(--accent-color);
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .task-category h3 {
+            margin-top: 0;
+        }
+        
+        .tips-box {
+            background-color: rgba(67, 97, 238, 0.1);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .answer-sheet {
+            background-color: white;
+            border: 2px dashed var(--accent-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .answer-sheet h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+        
+        .answer-field {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .answer-field label {
+            width: 30px;
+            height: 30px;
+            background-color: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .answer-field input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .print-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        
+        @media print {
+            header, nav, footer {
+                display: none;
+            }
+            
+            main {
+                padding: 0;
+            }
+            
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Internet Scavenger Hunt</h1>
+            <p>Explore the web while practicing research skills</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="../session1/"><i class="fas fa-arrow-left"></i> Back to Session 1</a></li>
+                <li><a href="all-activities.html"><i class="fas fa-th-list"></i> All Activities</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="container">
+            <div class="card">
+                <h2>Mission: Internet Explorer</h2>
+                <p>Your mission, should you choose to accept it, is to search the web and find answers to these questions. This activity will help you practice:</p>
+                <ul>
+                    <li>Using search engines effectively</li>
+                    <li>Finding reliable information online</li>
+                    <li>Learning about technology and the internet</li>
+                </ul>
+                
+                <div class="tips-box">
+                    <h3><i class="fas fa-lightbulb"></i> Tips for Smart Searching</h3>
+                    <ul>
+                        <li>Use specific keywords related to your question</li>
+                        <li>Try different search engines (Google, Bing, DuckDuckGo)</li>
+                        <li>Check that information comes from reliable sources</li>
+                        <li>If you don't find what you need, try rephrasing your search</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="task-container">
+                <div class="task-category">
+                    <h3><i class="fas fa-globe"></i> The Internet and Web</h3>
+                </div>
+                
+                <ol class="task-list">
+                    <li>What year was the World Wide Web invented and who invented it?</li>
+                    <li>What does "HTTP" stand for?</li>
+                    <li>Find the names of three common web browsers that people use today.</li>
+                    <li>What's the difference between the Internet and the World Wide Web?</li>
+                    <li>What is an IP address and what does it look like? Give an example.</li>
+                </ol>
+                
+                <div class="task-category">
+                    <h3><i class="fas fa-shield-alt"></i> Online Safety</h3>
+                </div>
+                
+                <ol class="task-list" start="6">
+                    <li>List three tips for creating a strong password.</li>
+                    <li>What is "phishing" and how can you protect yourself from it?</li>
+                    <li>What information should you NOT share online with strangers?</li>
+                    <li>What is a "digital footprint"?</li>
+                    <li>Find a website that teaches kids about online safety. What is it called?</li>
+                </ol>
+                
+                <div class="task-category">
+                    <h3><i class="fas fa-laptop-code"></i> Technology Fun Facts</h3>
+                </div>
+                
+                <ol class="task-list" start="11">
+                    <li>How many computer languages exist in the world? (Find an approximate number)</li>
+                    <li>What was the first video ever uploaded to YouTube about?</li>
+                    <li>Find the name and speed of the world's fastest supercomputer.</li>
+                    <li>What does "AI" stand for and what is it?</li>
+                    <li>What year was the first smartphone invented?</li>
+                </ol>
+            </div>
+            
+            <div class="card">
+                <h2>Answer Sheet</h2>
+                <div class="answer-sheet">
+                    <h3>Internet Scavenger Hunt Answers</h3>
+                    <p>Name: _____________________________ Date: _______________</p>
+                    
+                    <div class="answer-field">
+                        <label>1</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>2</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>3</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>4</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>5</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>6</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>7</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>8</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>9</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>10</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>11</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>12</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>13</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>14</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                    
+                    <div class="answer-field">
+                        <label>15</label>
+                        <input type="text" placeholder="Your answer here...">
+                    </div>
+                </div>
+                
+                <button class="print-button" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print Answer Sheet
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tech Explorers Program | Created with ❤️ for young technologists</p>
+            <a href="../index.html">Back to Home</a>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

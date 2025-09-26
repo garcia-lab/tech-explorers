@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 3: Coding Adventures - Tech Explorers</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="session3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="session-header">
+        <div class="container">
+            <h1>Session 3: Coding Adventures</h1>
+            <p>Explore GitHub, programming languages, and create your own projects</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#overview"><i class="fas fa-map"></i> Overview</a></li>
+                <li><a href="#activities"><i class="fas fa-tasks"></i> Activities</a></li>
+                <li><a href="#resources"><i class="fas fa-book"></i> Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section id="overview" class="container">
+            <h2>Session Overview <i class="fas fa-code-branch"></i></h2>
+            <div class="card">
+                <h3>Welcome to Session 3!</h3>
+                <p>In this session, we'll explore the world of coding more deeply. We'll learn about GitHub - a platform for sharing code, discover different programming languages, and create our own interactive web projects using HTML and CSS!</p>
+                
+                <div class="learning-objectives">
+                    <h3>Learning Objectives</h3>
+                    <ul>
+                        <li>Understand what GitHub is and how it's used</li>
+                        <li>Learn about different programming languages and their uses</li>
+                        <li>Create interactive web pages using HTML and CSS</li>
+                        <li>Build a simple project to showcase your skills</li>
+                        <li>Learn basic version control concepts</li>
+                    </ul>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Introduction (10 minutes)</h4>
+                            <p>Review from Session 2 and introduce today's coding adventure</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>GitHub & Version Control (25 minutes)</h4>
+                            <p>Discover how programmers share and collaborate on code</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Programming Languages Tour (20 minutes)</h4>
+                            <p>Explore different programming languages and their purposes</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Break (10 minutes)</h4>
+                            <p>Time to stretch and ask questions</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>HTML & CSS Workshop (35 minutes)</h4>
+                            <p>Create interactive web pages with styling</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Project Showcase (10 minutes)</h4>
+                            <p>Share your creations and get inspiration</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Wrap-up and Preview (10 minutes)</h4>
+                            <p>Review what we've learned and preview Session 4</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="activities" class="container">
+            <h2>Activities <i class="fas fa-flask"></i></h2>
+            
+            <div class="activity-tabs">
+                <button class="tab-btn active" onclick="openActivity(event, 'github')">GitHub & Version Control</button>
+                <button class="tab-btn" onclick="openActivity(event, 'languages')">Programming Languages</button>
+                <button class="tab-btn" onclick="openActivity(event, 'html-css')">HTML & CSS</button>
+                <button class="tab-btn" onclick="openActivity(event, 'projects')">Coding Projects</button>
+            </div>
+            
+            <div id="github" class="activity-content active">
+                <div class="card">
+                    <h3>GitHub & Version Control</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-image">
+                            <img src="../assets/images/github-spark-logo.png" alt="GitHub logo">
+                        </div>
+                        <div class="concept-text">
+                            <h4>What is GitHub?</h4>
+                            <p>GitHub is a platform where programmers store, share, and collaborate on code. It's like a social network for coders, where people can work together on projects!</p>
+                            
+                            <p>GitHub uses something called <strong>version control</strong>, which keeps track of all changes made to code over time. This means you can:</p>
+                            <ul>
+                                <li>See who made what changes and when</li>
+                                <li>Go back to previous versions if something breaks</li>
+                                <li>Work on different parts of a project at the same time</li>
+                                <li>Share your code with others around the world</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>How GitHub Works</h4>
+                    <div class="github-workflow">
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h5>Create a Repository</h5>
+                                <p>A repository (or "repo") is a project folder that contains all your files and their history.</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h5>Make Changes to Files</h5>
+                                <p>Write code, add images, or create documents in your repository.</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h5>Commit Your Changes</h5>
+                                <p>Save your changes with a message explaining what you did.</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h5>Push to GitHub</h5>
+                                <p>Upload your commits to GitHub so others can see them.</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h5>Collaborate with Others</h5>
+                                <p>Others can suggest changes, report bugs, or add new features.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Activity: GitHub Explorer</h4>
+                    <p>Let's explore some cool projects on GitHub!</p>
+                    <ol>
+                        <li>Visit <a href="https://github.com/topics/beginner-friendly" target="_blank">beginner-friendly projects on GitHub</a></li>
+                        <li>Look at a project's README file to understand what it does</li>
+                        <li>Find a project that interests you</li>
+                        <li>Explore its code structure and files</li>
+                    </ol>
+                    
+                    <div class="challenge-box">
+                        <h4>Extra Challenge:</h4>
+                        <p>Create your own GitHub account (with parent/guardian permission) and start a simple repository!</p>
+                    </div>
+                    
+                    <a href="../activities/github-basics.html" class="button">Learn More About GitHub</a>
+                </div>
+            </div>
+            
+            <div id="languages" class="activity-content">
+                <div class="card">
+                    <h3>Programming Languages</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-text">
+                            <h4>What are Programming Languages?</h4>
+                            <p>Programming languages are special languages that humans use to give instructions to computers. Each language has its own syntax (grammar rules) and is designed for different purposes.</p>
+                            
+                            <p>Just like human languages (English, Spanish, Chinese, etc.), there are many different programming languages. Each one has strengths and weaknesses, making them better for certain tasks.</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Popular Programming Languages</h4>
+                    <div class="language-comparison">
+                        <div class="language-card">
+                            <img src="../assets/images/computer-parts.png" alt="Python logo">
+                            <h3>Python</h3>
+                            <p><strong>Difficulty:</strong> Easy</p>
+                            <p><strong>Best for:</strong> Beginners, data science, AI</p>
+                            <p><strong>Fun fact:</strong> Named after Monty Python!</p>
+                        </div>
+                        
+                        <div class="language-card">
+                            <img src="../assets/images/computer-parts.png" alt="HTML/CSS logo">
+                            <h3>HTML & CSS</h3>
+                            <p><strong>Difficulty:</strong> Easy</p>
+                            <p><strong>Best for:</strong> Websites, web apps</p>
+                            <p><strong>Fun fact:</strong> Creates everything you see on the web!</p>
+                        </div>
+                        
+                        <div class="language-card">
+                            <img src="../assets/images/computer-parts.png" alt="JavaScript logo">
+                            <h3>JavaScript</h3>
+                            <p><strong>Difficulty:</strong> Medium</p>
+                            <p><strong>Best for:</strong> Interactive websites, games</p>
+                            <p><strong>Fun fact:</strong> Not related to Java!</p>
+                        </div>
+                        
+                        <div class="language-card">
+                            <img src="../assets/images/computer-parts.png" alt="Scratch logo">
+                            <h3>Scratch</h3>
+                            <p><strong>Difficulty:</strong> Very Easy</p>
+                            <p><strong>Best for:</strong> Learning concepts, animations</p>
+                            <p><strong>Fun fact:</strong> Uses blocks instead of text!</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Choosing the Right Language</h4>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>If you want to make...</th>
+                            <th>Consider using...</th>
+                        </tr>
+                        <tr>
+                            <td>Websites</td>
+                            <td>HTML, CSS, JavaScript</td>
+                        </tr>
+                        <tr>
+                            <td>Games</td>
+                            <td>Scratch, Python, JavaScript</td>
+                        </tr>
+                        <tr>
+                            <td>Mobile Apps</td>
+                            <td>Swift (iOS), Kotlin (Android)</td>
+                        </tr>
+                        <tr>
+                            <td>Data Analysis</td>
+                            <td>Python, R</td>
+                        </tr>
+                        <tr>
+                            <td>Robots</td>
+                            <td>Python, C++</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>Activity: Language Matchmaker</h4>
+                    <p>What do you want to create with code? Think about your interests and what you'd like to build. Then, identify which programming language would be best to learn!</p>
+                    
+                    <a href="../activities/language-explorer.html" class="button">Explore More Languages</a>
+                </div>
+            </div>
+            
+            <div id="html-css" class="activity-content">
+                <div class="card">
+                    <h3>HTML & CSS Workshop</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-text">
+                            <h4>HTML & CSS: The Building Blocks of the Web</h4>
+                            <p>HTML (HyperText Markup Language) provides the structure of web pages, while CSS (Cascading Style Sheets) makes them look good!</p>
+                            
+                            <p>Think of it like building a house:</p>
+                            <ul>
+                                <li><strong>HTML</strong> is like the foundation and walls - it gives structure</li>
+                                <li><strong>CSS</strong> is like the paint, furniture, and decorations - it adds style</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>HTML Basics - Creating Structure</h4>
+                    <div class="code-area">
+                        <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Web Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome to My Page!&lt;/h1&gt;
+    &lt;p&gt;This is a paragraph of text.&lt;/p&gt;
+    &lt;img src="picture.jpg" alt="A cool picture"&gt;
+    &lt;ul&gt;
+        &lt;li&gt;List item 1&lt;/li&gt;
+        &lt;li&gt;List item 2&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;a href="https://example.com"&gt;Click here!&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                    </div>
+                    
+                    <h4>CSS Basics - Adding Style</h4>
+                    <div class="code-area">
+                        <pre>/* This is CSS code */
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: blue;
+    text-align: center;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+img {
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+a {
+    color: green;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}</pre>
+                    </div>
+                    
+                    <h4>Interactive HTML & CSS Playground</h4>
+                    <p>Let's create a fun personal web page!</p>
+                    <div class="code-playground">
+                        <div class="code-editor">
+                            <div class="editor-header">HTML/CSS Editor</div>
+                            <div class="editor-content" contenteditable="true">
+&lt;!-- Type your HTML code here --&gt;
+&lt;h1&gt;My Awesome Page&lt;/h1&gt;
+&lt;p&gt;This is my first web page! I'm learning to code.&lt;/p&gt;
+
+&lt;style&gt;
+/* Type your CSS code here */
+h1 {
+    color: purple;
+}
+&lt;/style&gt;</div>
+                        </div>
+                        <div class="code-preview">
+                            <div class="preview-header">Preview</div>
+                            <div class="preview-content" id="preview">
+                                <h1>My Awesome Page</h1>
+                                <p>This is my first web page! I'm learning to code.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-box">
+                        <h4>HTML/CSS Challenge:</h4>
+                        <p>Can you add the following to your page?</p>
+                        <ul>
+                            <li>A list of your favorite hobbies</li>
+                            <li>A colorful background</li>
+                            <li>A larger font size for paragraphs</li>
+                            <li>A border around some elements</li>
+                        </ul>
+                    </div>
+                    
+                    <a href="../activities/html-playground.html" class="button">Open Full HTML Playground</a>
+                </div>
+            </div>
+            
+            <div id="projects" class="activity-content">
+                <div class="card">
+                    <h3>Coding Projects</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-text">
+                            <h4>Bringing It All Together</h4>
+                            <p>Now it's time to apply what you've learned by creating your own coding projects! Here are some ideas to get you started:</p>
+                        </div>
+                    </div>
+                    
+                    <div class="project-showcase">
+                        <div class="project-card">
+                            <h4>Personal Web Page</h4>
+                            <p>Create a web page about yourself, your interests, or a topic you love using HTML and CSS.</p>
+                            <p><strong>Skills used:</strong> HTML, CSS</p>
+                            <p><strong>Difficulty:</strong> Beginner</p>
+                            <a href="../activities/personal-webpage-project.html" class="button">Start This Project</a>
+                        </div>
+                        
+                        <div class="project-card">
+                            <h4>Interactive Quiz</h4>
+                            <p>Build a quiz about a topic you know well, with questions and answers.</p>
+                            <p><strong>Skills used:</strong> HTML, CSS, JavaScript basics</p>
+                            <p><strong>Difficulty:</strong> Intermediate</p>
+                            <a href="../activities/quiz-project.html" class="button">Start This Project</a>
+                        </div>
+                        
+                        <div class="project-card">
+                            <h4>Digital Pet</h4>
+                            <p>Create a simple virtual pet that you can feed and play with.</p>
+                            <p><strong>Skills used:</strong> HTML, CSS, JavaScript</p>
+                            <p><strong>Difficulty:</strong> Intermediate</p>
+                            <a href="../activities/digital-pet-project.html" class="button">Start This Project</a>
+                        </div>
+                        
+                        <div class="project-card">
+                            <h4>Story Adventure</h4>
+                            <p>Build a choose-your-own-adventure story with multiple paths.</p>
+                            <p><strong>Skills used:</strong> HTML links</p>
+                            <p><strong>Difficulty:</strong> Beginner</p>
+                            <a href="../activities/story-adventure-project.html" class="button">Start This Project</a>
+                        </div>
+                    </div>
+                    
+                    <h4>Sharing Your Projects</h4>
+                    <p>Once you've created something amazing, you might want to share it with others! Here are some ways to do that:</p>
+                    <ul>
+                        <li>Post your code on GitHub</li>
+                        <li>Share screenshots with friends and family</li>
+                        <li>Ask for feedback from other coders</li>
+                        <li>Keep improving your project with new features</li>
+                    </ul>
+                    
+                    <a href="../activities/project-gallery.html" class="button">View Project Gallery</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources" class="container">
+            <h2>Resources <i class="fas fa-book"></i></h2>
+            <div class="card">
+                <h3>Additional Learning Materials</h3>
+                
+                <div class="resources-grid">
+                    <a href="https://github.com/skills/introduction-to-github" target="_blank" class="resource-card">
+                        <img src="../assets/images/github-spark-logo.png" alt="GitHub Logo">
+                        <h3>GitHub Skills</h3>
+                        <p>Interactive GitHub tutorials</p>
+                    </a>
+                    
+                    <a href="https://www.w3schools.com/html/" target="_blank" class="resource-card">
+                        <img src="../assets/images/w3schools-logo.png" alt="W3Schools Logo">
+                        <h3>HTML Tutorial</h3>
+                        <p>Complete guide to HTML</p>
+                    </a>
+                    
+                    <a href="https://www.w3schools.com/css/" target="_blank" class="resource-card">
+                        <img src="../assets/images/w3schools-logo.png" alt="W3Schools Logo">
+                        <h3>CSS Tutorial</h3>
+                        <p>Learn CSS step-by-step</p>
+                    </a>
+                    
+                    <a href="https://scratch.mit.edu/" target="_blank" class="resource-card">
+                        <img src="../assets/images/scratch-logo.png" alt="Scratch Logo">
+                        <h3>Scratch</h3>
+                        <p>Visual programming for beginners</p>
+                    </a>
+                </div>
+                
+                <h3>Printable Worksheets</h3>
+                <ul class="downloads-list">
+                    <li><a href="../worksheets/html-tags-reference.pdf" target="_blank"><i class="fas fa-file-pdf"></i> HTML Tags Reference</a></li>
+                    <li><a href="../worksheets/css-properties-guide.pdf" target="_blank"><i class="fas fa-file-pdf"></i> CSS Properties Guide</a></li>
+                    <li><a href="../worksheets/web-design-planning.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Web Design Planning Worksheet</a></li>
+                    <li><a href="../worksheets/github-glossary.pdf" target="_blank"><i class="fas fa-file-pdf"></i> GitHub Glossary</a></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="container">
+            <div class="next-session">
+                <h2>Coming Up Next <i class="fas fa-arrow-right"></i></h2>
+                <div class="card next-preview">
+                    <div class="next-content">
+                        <h3>Session 4: AI Exploration</h3>
+                        <p>In our final session, we'll explore the exciting world of Artificial Intelligence and how tools like GitHub Copilot can help us code!</p>
+                        <ul>
+                            <li>Understand what AI is and how it works</li>
+                            <li>Explore ChatGPT and similar AI tools</li>
+                            <li>Learn how GitHub Copilot helps programmers</li>
+                            <li>Create projects with AI assistance</li>
+                            <li>Discuss AI ethics and responsible use</li>
+                        </ul>
+                    </div>
+                    <div class="next-image">
+                        <img src="../assets/images/github-spark-logo.png" alt="GitHub Copilot visualization">
+                    </div>
+                </div>
+                <a href="../session4/" class="button">Preview Session 4</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tech Explorers Program | Created with ❤️ for young technologists</p>
+            <a href="../index.html">Back to Home</a>
+        </div>
+    </footer>
+
+    <script>
+        function openActivity(evt, activityName) {
+            // Hide all activity content
+            let tabContent = document.getElementsByClassName("activity-content");
+            for (let i = 0; i < tabContent.length; i++) {
+                tabContent[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tab buttons
+            let tabButtons = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // Show the selected content and mark button as active
+            document.getElementById(activityName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // Simple HTML/CSS playground
+        document.querySelector('.editor-content').addEventListener('input', function() {
+            document.getElementById('preview').innerHTML = this.textContent;
+        });
+    </script>
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Ethics Discussion - Tech Explorers</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .discussion-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .scenario {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .scenario-badge {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .scenario h3 {
+            margin-top: 10px;
+        }
+        
+        .discussion-points {
+            margin-top: 20px;
+        }
+        
+        .discussion-point {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .discussion-point:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .prompt-box {
+            background-color: rgba(67, 97, 238, 0.1);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .rules-box {
+            background-color: rgba(114, 9, 183, 0.1);
+            border-left: 5px solid var(--accent-color);
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .worksheet {
+            background-color: white;
+            border: 2px dashed var(--accent-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .worksheet h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+            text-align: center;
+        }
+        
+        .worksheet-question {
+            margin-bottom: 20px;
+        }
+        
+        .worksheet-question h4 {
+            margin-bottom: 10px;
+        }
+        
+        .answer-space {
+            min-height: 80px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 8px;
+        }
+        
+        .print-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        
+        .tip-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .tip-icon {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-right: 15px;
+            margin-top: 3px;
+        }
+        
+        .tip-content {
+            flex: 1;
+        }
+        
+        @media print {
+            header, nav, footer, .rules-box {
+                display: none;
+            }
+            
+            main {
+                padding: 0;
+            }
+            
+            .print-button {
+                display: none;
+            }
+            
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>AI Ethics Discussion</h1>
+            <p>Exploring important ethical questions about artificial intelligence</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="../session4/"><i class="fas fa-arrow-left"></i> Back to Session 4</a></li>
+                <li><a href="all-activities.html"><i class="fas fa-th-list"></i> All Activities</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="container">
+            <div class="card">
+                <h2>Ethics and AI</h2>
+                <p>As artificial intelligence becomes more common in our lives, it's important to think about how it should be used responsibly. Ethics is about making good choices and doing the right thing. This activity will help you think about important ethical questions related to AI.</p>
+                
+                <div class="rules-box">
+                    <h3><i class="fas fa-comment-dots"></i> Discussion Guidelines</h3>
+                    <ul>
+                        <li>Listen respectfully to others</li>
+                        <li>Share your thoughts clearly</li>
+                        <li>Consider different viewpoints</li>
+                        <li>Ask questions if you're unsure</li>
+                        <li>Remember there are often no perfect answers to ethical questions</li>
+                    </ul>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h3>Why Talk About AI Ethics?</h3>
+                        <p>Artificial intelligence is becoming part of everyday life - from voice assistants and video games to homework help and social media. By thinking about AI ethics now, you can become a responsible digital citizen who helps shape how these technologies are used in the future.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="discussion-container">
+                <h2>Discussion Scenarios</h2>
+                <p>Read each scenario and discuss the questions with your group or class.</p>
+                
+                <div class="scenario">
+                    <div class="scenario-badge">Scenario 1</div>
+                    <h3>AI Art Generator</h3>
+                    <p>Imagine your school has a new AI art generator. You can type in descriptions, and it creates artwork based on what you describe. The AI was trained by analyzing millions of artwork images from the internet, including works by famous artists, without asking their permission.</p>
+                    
+                    <div class="discussion-points">
+                        <div class="discussion-point">If you use the AI to create artwork in the style of a famous artist, is that copying?</div>
+                        <div class="discussion-point">Who should own the artwork created by AI - you, the AI, the company that made the AI, or the artists whose work was used to train the AI?</div>
+                        <div class="discussion-point">Would it be fair to enter AI-generated art in an art contest against artwork made entirely by humans?</div>
+                    </div>
+                </div>
+                
+                <div class="scenario">
+                    <div class="scenario-badge">Scenario 2</div>
+                    <h3>Homework Helper AI</h3>
+                    <p>A new AI chatbot is designed to help students with homework. It can answer questions, write essays, and solve math problems. Some students are using it to do their homework for them, while others use it to help understand concepts they're struggling with.</p>
+                    
+                    <div class="discussion-points">
+                        <div class="discussion-point">Is it cheating to use AI to help with homework? When does help become cheating?</div>
+                        <div class="discussion-point">How can AI be used responsibly for learning?</div>
+                        <div class="discussion-point">If the AI gives a wrong answer and a student submits it, who is responsible for the mistake?</div>
+                    </div>
+                </div>
+                
+                <div class="scenario">
+                    <div class="scenario-badge">Scenario 3</div>
+                    <h3>AI Decision-Making</h3>
+                    <p>A school is considering using an AI system to help decide which students should be placed in advanced classes. The AI would analyze grades, test scores, and other data to make recommendations.</p>
+                    
+                    <div class="discussion-points">
+                        <div class="discussion-point">Do you think it's fair to have AI make decisions about which students get into advanced classes?</div>
+                        <div class="discussion-point">What information should the AI consider? What information should it NOT be allowed to consider?</div>
+                        <div class="discussion-point">Should a teacher always review and have the final say on the AI's recommendations? Why or why not?</div>
+                    </div>
+                </div>
+                
+                <div class="scenario">
+                    <div class="scenario-badge">Scenario 4</div>
+                    <h3>AI and Privacy</h3>
+                    <p>A popular video game uses AI to learn how each player plays and then adjusts the game to make it more fun for them. To do this, it collects data about when you play, how you play, what you enjoy in the game, and even uses your device's microphone to hear your reactions.</p>
+                    
+                    <div class="discussion-points">
+                        <div class="discussion-point">Would you be comfortable with a game collecting this kind of data if it made the game more fun?</div>
+                        <div class="discussion-point">What kinds of personal information do you think AI systems should NOT be allowed to collect from kids?</div>
+                        <div class="discussion-point">How should companies explain to kids what data they're collecting and how it's being used?</div>
+                    </div>
+                </div>
+                
+                <div class="prompt-box">
+                    <h3><i class="fas fa-comments"></i> Additional Discussion Prompts</h3>
+                    <ul>
+                        <li>If an AI assistant (like Siri or Alexa) is always listening in your home, what are the benefits and concerns?</li>
+                        <li>Should AI-generated videos or images be clearly labeled so people know they aren't real?</li>
+                        <li>If AI can do many jobs that humans currently do, how might this affect future careers?</li>
+                        <li>Do you think AI systems should be programmed to always tell the truth, even if the truth might upset someone?</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>AI Ethics Reflection Worksheet</h2>
+                
+                <div class="worksheet">
+                    <h3>My Thoughts on AI Ethics</h3>
+                    <p>Name: _____________________________ Date: _______________</p>
+                    
+                    <div class="worksheet-question">
+                        <h4>1. Which scenario did you find most interesting to discuss? Why?</h4>
+                        <div class="answer-space"></div>
+                    </div>
+                    
+                    <div class="worksheet-question">
+                        <h4>2. Write down one ethical guideline you think should apply to AI systems.</h4>
+                        <div class="answer-space"></div>
+                    </div>
+                    
+                    <div class="worksheet-question">
+                        <h4>3. How do you think AI might affect your future? List one positive and one concern.</h4>
+                        <div class="answer-space"></div>
+                    </div>
+                    
+                    <div class="worksheet-question">
+                        <h4>4. If you could design an AI to help solve a problem in your school or community, what would it do? What ethical rules would it follow?</h4>
+                        <div class="answer-space"></div>
+                    </div>
+                </div>
+                
+                <button class="print-button" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print Worksheet
+                </button>
+            </div>
+            
+            <div class="card">
+                <h3>Key AI Ethics Concepts</h3>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h4>Fairness</h4>
+                        <p>AI systems should be fair and not discriminate against people based on things like age, gender, race, or where they live.</p>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h4>Privacy</h4>
+                        <p>AI often uses data about people. It's important that this data is protected and used in ways that respect people's privacy.</p>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h4>Transparency</h4>
+                        <p>People should understand how AI makes decisions and what data it uses, rather than AI being a "black box" that no one understands.</p>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h4>Human Control</h4>
+                        <p>Humans should always have control over AI systems, especially for important decisions that affect people's lives.</p>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="tip-content">
+                        <h4>Accountability</h4>
+                        <p>When AI makes mistakes or causes problems, someone should be responsible for fixing those problems.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tech Explorers Program | Created with ❤️ for young technologists</p>
+            <a href="../index.html">Back to Home</a>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

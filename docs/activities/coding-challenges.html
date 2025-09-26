@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding Challenges - Tech Explorers</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .challenge-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .challenge-tabs {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 1px;
+        }
+        
+        .challenge-tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Varela Round', sans-serif;
+            color: var(--text-light);
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .challenge-tab:hover {
+            color: var(--primary-color);
+        }
+        
+        .challenge-tab.active {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        .challenge-content {
+            display: none;
+        }
+        
+        .challenge-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .challenge-card {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .challenge-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .challenge-title {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin: 0;
+        }
+        
+        .challenge-difficulty {
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+        
+        .easy {
+            background-color: rgba(6, 214, 160, 0.2);
+            color: #06d6a0;
+        }
+        
+        .medium {
+            background-color: rgba(255, 209, 102, 0.2);
+            color: #ffd166;
+        }
+        
+        .hard {
+            background-color: rgba(239, 71, 111, 0.2);
+            color: #ef476f;
+        }
+        
+        .challenge-description {
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background-color: #2e3440;
+            color: #d8dee9;
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: monospace;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        
+        .solution-toggle {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .solution-toggle:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .solution {
+            display: none;
+            background-color: rgba(67, 97, 238, 0.1);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .hint-box {
+            background-color: rgba(114, 9, 183, 0.1);
+            border-left: 5px solid var(--accent-color);
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .challenge-tabs {
+                flex-wrap: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Coding Challenges</h1>
+            <p>Test and improve your coding skills</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="../session3/"><i class="fas fa-arrow-left"></i> Back to Session 3</a></li>
+                <li><a href="all-activities.html"><i class="fas fa-th-list"></i> All Activities</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="container">
+            <div class="card">
+                <h2>Welcome to Coding Challenges!</h2>
+                <p>This is where you can practice your coding skills with fun challenges. Choose your programming language and difficulty level to get started. Each challenge includes hints and solutions to help you learn.</p>
+                
+                <div class="hint-box">
+                    <h3><i class="fas fa-lightbulb"></i> Tips for Solving Coding Challenges</h3>
+                    <ul>
+                        <li>Read the problem statement carefully</li>
+                        <li>Break down complex problems into smaller steps</li>
+                        <li>Try to solve it on your own before looking at hints</li>
+                        <li>Only check the solution after giving it a good try</li>
+                        <li>Learn from the solution and understand why it works</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="challenge-container">
+                <div class="challenge-tabs">
+                    <button class="challenge-tab active" data-tab="html">HTML</button>
+                    <button class="challenge-tab" data-tab="python">Python</button>
+                    <button class="challenge-tab" data-tab="javascript">JavaScript</button>
+                    <button class="challenge-tab" data-tab="scratch">Scratch</button>
+                </div>
+                
+                <!-- HTML Challenges -->
+                <div class="challenge-content active" id="html-content">
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <h3 class="challenge-title">Create a Simple Webpage</h3>
+                            <span class="challenge-difficulty easy">Easy</span>
+                        </div>
+                        <div class="challenge-description">
+                            <p>Create a simple webpage about your favorite hobby. Include a heading, paragraph, and list of items related to your hobby.</p>
+                        </div>
+                        <div class="code-block">
+                            <!-- Starting code template -->
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Hobby&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- Create a heading here --&gt;
+    
+    &lt;!-- Write a paragraph about your hobby here --&gt;
+    
+    &lt;!-- Create a list about your hobby here --&gt;
+    
+&lt;/body&gt;
+&lt;/html&gt;
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('html-1')">Show Solution</button>
+                        <div class="solution" id="html-1">
+                            <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Hobby&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Soccer: My Favorite Sport&lt;/h1&gt;
+    
+    &lt;p&gt;Soccer is my favorite hobby because it's fun to play with friends and helps me stay active. I've been playing soccer since I was 6 years old.&lt;/p&gt;
+    
+    &lt;h2&gt;Things I Love About Soccer:&lt;/h2&gt;
+    &lt;ul&gt;
+        &lt;li&gt;Working as a team&lt;/li&gt;
+        &lt;li&gt;Running on the field&lt;/li&gt;
+        &lt;li&gt;Scoring goals&lt;/li&gt;
+        &lt;li&gt;Making new friends&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <h3 class="challenge-title">Add Images and Links</h3>
+                            <span class="challenge-difficulty medium">Medium</span>
+                        </div>
+                        <div class="challenge-description">
+                            <p>Improve a webpage by adding images and links. Include at least one image and two links to external websites.</p>
+                        </div>
+                        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Favorite Animals&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;My Favorite Animals&lt;/h1&gt;
+    
+    &lt;p&gt;Here are some animals I really like:&lt;/p&gt;
+    
+    &lt;h2&gt;Dolphins&lt;/h2&gt;
+    &lt;p&gt;Dolphins are very intelligent marine mammals.&lt;/p&gt;
+    &lt;!-- Add a dolphin image here --&gt;
+    &lt;!-- Add a link to a website about dolphins --&gt;
+    
+    &lt;h2&gt;Tigers&lt;/h2&gt;
+    &lt;p&gt;Tigers are the largest cat species with distinctive orange and black stripes.&lt;/p&gt;
+    &lt;!-- Add a tiger image here --&gt;
+    &lt;!-- Add a link to a website about tigers --&gt;
+    
+&lt;/body&gt;
+&lt;/html&gt;
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('html-2')">Show Solution</button>
+                        <div class="solution" id="html-2">
+                            <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Favorite Animals&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;My Favorite Animals&lt;/h1&gt;
+    
+    &lt;p&gt;Here are some animals I really like:&lt;/p&gt;
+    
+    &lt;h2&gt;Dolphins&lt;/h2&gt;
+    &lt;p&gt;Dolphins are very intelligent marine mammals.&lt;/p&gt;
+    &lt;img src="https://images.unsplash.com/photo-1607153333879-c174d265f1d2?w=400" alt="A dolphin jumping out of water"&gt;
+    &lt;p&gt;&lt;a href="https://www.nationalgeographic.com/animals/mammals/facts/bottlenose-dolphin" target="_blank"&gt;Learn more about dolphins on National Geographic&lt;/a&gt;&lt;/p&gt;
+    
+    &lt;h2&gt;Tigers&lt;/h2&gt;
+    &lt;p&gt;Tigers are the largest cat species with distinctive orange and black stripes.&lt;/p&gt;
+    &lt;img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=400" alt="A tiger in the wild"&gt;
+    &lt;p&gt;&lt;a href="https://www.worldwildlife.org/species/tiger" target="_blank"&gt;Learn about tiger conservation on WWF&lt;/a&gt;&lt;/p&gt;
+    
+&lt;/body&gt;
+&lt;/html&gt;
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <h3 class="challenge-title">Create a Styled Contact Form</h3>
+                            <span class="challenge-difficulty hard">Hard</span>
+                        </div>
+                        <div class="challenge-description">
+                            <p>Build a contact form with name, email, and message fields. Add some CSS to make it look nice.</p>
+                        </div>
+                        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Contact Form&lt;/title&gt;
+    &lt;style&gt;
+    /* Add your CSS styles here */
+    
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Contact Us&lt;/h1&gt;
+    
+    &lt;!-- Create your form here --&gt;
+    
+&lt;/body&gt;
+&lt;/html&gt;
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('html-3')">Show Solution</button>
+                        <div class="solution" id="html-3">
+                            <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Contact Form&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #4361ee;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        textarea {
+            height: 150px;
+        }
+        
+        button {
+            background-color: #4361ee;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background-color: #3a0ca3;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Contact Us&lt;/h1&gt;
+    
+    &lt;form&gt;
+        &lt;div class="form-group"&gt;
+            &lt;label for="name"&gt;Your Name:&lt;/label&gt;
+            &lt;input type="text" id="name" name="name" required&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label for="email"&gt;Email Address:&lt;/label&gt;
+            &lt;input type="email" id="email" name="email" required&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label for="message"&gt;Your Message:&lt;/label&gt;
+            &lt;textarea id="message" name="message" required&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        
+        &lt;button type="submit"&gt;Send Message&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Python Challenges -->
+                <div class="challenge-content" id="python-content">
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <h3 class="challenge-title">Number Guessing Game</h3>
+                            <span class="challenge-difficulty easy">Easy</span>
+                        </div>
+                        <div class="challenge-description">
+                            <p>Create a simple number guessing game where the computer picks a random number between 1 and 10, and the player tries to guess it.</p>
+                        </div>
+                        <div class="code-block">
+# Number Guessing Game
+# The computer will pick a random number between 1 and 10
+# Your job is to make the game work!
+
+# You'll need to use the random module
+import random
+
+# TODO: Generate a random number between 1 and 10
+
+# TODO: Ask the player to guess the number
+
+# TODO: Check if the guess is correct
+# If it's correct, print "You win!"
+# If it's wrong, print "Sorry, the number was [correct_number]"
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('python-1')">Show Solution</button>
+                        <div class="solution" id="python-1">
+                            <div class="code-block">
+# Number Guessing Game
+import random
+
+# Generate a random number between 1 and 10
+secret_number = random.randint(1, 10)
+
+# Ask the player to guess the number
+print("I'm thinking of a number between 1 and 10.")
+guess = int(input("What's your guess? "))
+
+# Check if the guess is correct
+if guess == secret_number:
+    print("You win! The number was", secret_number)
+else:
+    print("Sorry, the number was", secret_number)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <h3 class="challenge-title">Rock, Paper, Scissors Game</h3>
+                            <span class="challenge-difficulty medium">Medium</span>
+                        </div>
+                        <div class="challenge-description">
+                            <p>Create a Rock, Paper, Scissors game where the player plays against the computer.</p>
+                        </div>
+                        <div class="code-block">
+# Rock, Paper, Scissors Game
+import random
+
+# These are the options for the game
+options = ["rock", "paper", "scissors"]
+
+# TODO: Make the computer randomly choose rock, paper, or scissors
+
+# TODO: Ask the player for their choice
+
+# TODO: Compare the choices and determine the winner
+# Remember:
+# - Rock beats scissors
+# - Scissors beats paper
+# - Paper beats rock
+# - If both choose the same, it's a tie
+
+# TODO: Print the result
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('python-2')">Show Solution</button>
+                        <div class="solution" id="python-2">
+                            <div class="code-block">
+# Rock, Paper, Scissors Game
+import random
+
+# These are the options for the game
+options = ["rock", "paper", "scissors"]
+
+# Make the computer randomly choose
+computer_choice = random.choice(options)
+
+# Ask the player for their choice
+print("Let's play Rock, Paper, Scissors!")
+player_choice = input("Enter your choice (rock, paper, or scissors): ").lower()
+
+# Make sure the player entered a valid choice
+if player_choice not in options:
+    print("That's not a valid choice. Please choose rock, paper, or scissors.")
+else:
+    print(f"You chose {player_choice}")
+    print(f"Computer chose {computer_choice}")
+    
+    # Determine the winner
+    if player_choice == computer_choice:
+        print("It's a tie!")
+    elif (player_choice == "rock" and computer_choice == "scissors") or \
+         (player_choice == "scissors" and computer_choice == "paper") or \
+         (player_choice == "paper" and computer_choice == "rock"):
+        print("You win!")
+    else:
+        print("Computer wins!")
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <h3 class="challenge-title">Hangman Game</h3>
+                            <span class="challenge-difficulty hard">Hard</span>
+                        </div>
+                        <div class="challenge-description">
+                            <p>Create a simplified Hangman game where the player has to guess a word by suggesting letters.</p>
+                        </div>
+                        <div class="code-block">
+# Hangman Game
+import random
+
+# List of words to choose from
+words = ["python", "computer", "program", "code", "technology"]
+
+# TODO: Choose a random word from the list
+
+# TODO: Create a variable to keep track of the guessed letters
+
+# TODO: Create a variable to keep track of the number of wrong guesses
+
+# TODO: Create a game loop that continues until the player wins or loses
+
+# TODO: Display the word with underscores for letters not yet guessed
+
+# TODO: Ask the player to guess a letter
+
+# TODO: Check if the letter is in the word
+
+# TODO: Update the guessed letters
+
+# TODO: Check if the player has won or lost
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('python-3')">Show Solution</button>
+                        <div class="solution" id="python-3">
+                            <div class="code-block">
+# Hangman Game
+import random
+
+# List of words to choose from
+words = ["python", "computer", "program", "code", "technology"]
+
+# Choose a random word
+word = random.choice(words)
+
+# Keep track of guessed letters and wrong guesses
+guessed_letters = []
+wrong_guesses = 0
+max_wrong_guesses = 6
+
+print("Welcome to Hangman!")
+print(f"I'm thinking of a word with {len(word)} letters.")
+
+# Game loop
+while wrong_guesses < max_wrong_guesses:
+    # Display the word with underscores for letters not yet guessed
+    display = ""
+    for letter in word:
+        if letter in guessed_letters:
+            display += letter + " "
+        else:
+            display += "_ "
+    print("\nWord:", display)
+    
+    # Show guessed letters
+    print(f"Guessed letters: {', '.join(guessed_letters)}")
+    print(f"Wrong guesses: {wrong_guesses}/{max_wrong_guesses}")
+    
+    # Check if all letters have been guessed
+    if all(letter in guessed_letters for letter in word):
+        print("\nCongratulations! You guessed the word:", word)
+        break
+        
+    # Ask for a guess
+    guess = input("\nGuess a letter: ").lower()
+    
+    # Validate the input
+    if len(guess) != 1 or not guess.isalpha():
+        print("Please enter a single letter.")
+        continue
+        
+    # Check if the letter has already been guessed
+    if guess in guessed_letters:
+        print("You already guessed that letter!")
+        continue
+        
+    # Add the letter to guessed_letters
+    guessed_letters.append(guess)
+    
+    # Check if the guess is correct
+    if guess in word:
+        print("Good guess!")
+    else:
+        print("Sorry, that letter is not in the word.")
+        wrong_guesses += 1
+        
+# Check if the player lost
+if wrong_guesses == max_wrong_guesses:
+    print("\nGame over! You ran out of guesses.")
+    print(f"The word was: {word}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- JavaScript Challenges -->
+                <div class="challenge-content" id="javascript-content">
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <h3 class="challenge-title">Change Text with a Button</h3>
+                            <span class="challenge-difficulty easy">Easy</span>
+                        </div>
+                        <div class="challenge-description">
+                            <p>Create a button that changes the text of a paragraph when clicked.</p>
+                        </div>
+                        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Change Text Button&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;JavaScript Button Challenge&lt;/h1&gt;
+    
+    &lt;p id="text-to-change"&gt;This text will change when you click the button.&lt;/p&gt;
+    
+    &lt;button id="change-button"&gt;Click Me!&lt;/button&gt;
+    
+    &lt;script&gt;
+    // TODO: Write JavaScript code to change the text when the button is clicked
+    // 1. Get the button element
+    // 2. Add an event listener for the 'click' event
+    // 3. Inside the event listener, change the text of the paragraph
+    
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('js-1')">Show Solution</button>
+                        <div class="solution" id="js-1">
+                            <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Change Text Button&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;JavaScript Button Challenge&lt;/h1&gt;
+    
+    &lt;p id="text-to-change"&gt;This text will change when you click the button.&lt;/p&gt;
+    
+    &lt;button id="change-button"&gt;Click Me!&lt;/button&gt;
+    
+    &lt;script&gt;
+    // Get the button element
+    const button = document.getElementById('change-button');
+    
+    // Add an event listener for the 'click' event
+    button.addEventListener('click', function() {
+        // Change the text of the paragraph
+        const paragraph = document.getElementById('text-to-change');
+        paragraph.textContent = "You clicked the button! The text has changed.";
+        
+        // Optional: Change the color too
+        paragraph.style.color = "blue";
+    });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <h3 class="challenge-title">Simple Calculator</h3>
+                            <span class="challenge-difficulty medium">Medium</span>
+                        </div>
+                        <div class="challenge-description">
+                            <p>Create a simple calculator that can add, subtract, multiply, and divide two numbers.</p>
+                        </div>
+                        <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Simple Calculator&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .calculator {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        input {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        button {
+            padding: 10px;
+            background-color: #4361ee;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Simple Calculator&lt;/h1&gt;
+    
+    &lt;div class="calculator"&gt;
+        &lt;div class="input-group"&gt;
+            &lt;input type="text" id="result" disabled&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="input-group"&gt;
+            &lt;input type="number" id="num1" placeholder="Enter first number"&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="input-group"&gt;
+            &lt;input type="number" id="num2" placeholder="Enter second number"&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="buttons"&gt;
+            &lt;button id="add"&gt;Add&lt;/button&gt;
+            &lt;button id="subtract"&gt;Subtract&lt;/button&gt;
+            &lt;button id="multiply"&gt;Multiply&lt;/button&gt;
+            &lt;button id="divide"&gt;Divide&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;script&gt;
+    // TODO: Write JavaScript code for the calculator
+    // 1. Get references to all the HTML elements (inputs and buttons)
+    // 2. Add event listeners to the buttons
+    // 3. Implement the calculation functions
+    // 4. Display the result in the result input
+    // 5. Handle division by zero error
+    
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('js-2')">Show Solution</button>
+                        <div class="solution" id="js-2">
+                            <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Simple Calculator&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .calculator {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        input {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        button {
+            padding: 10px;
+            background-color: #4361ee;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Simple Calculator&lt;/h1&gt;
+    
+    &lt;div class="calculator"&gt;
+        &lt;div class="input-group"&gt;
+            &lt;input type="text" id="result" disabled&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="input-group"&gt;
+            &lt;input type="number" id="num1" placeholder="Enter first number"&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="input-group"&gt;
+            &lt;input type="number" id="num2" placeholder="Enter second number"&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="buttons"&gt;
+            &lt;button id="add"&gt;Add&lt;/button&gt;
+            &lt;button id="subtract"&gt;Subtract&lt;/button&gt;
+            &lt;button id="multiply"&gt;Multiply&lt;/button&gt;
+            &lt;button id="divide"&gt;Divide&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;script&gt;
+    // Get references to all HTML elements
+    const num1Input = document.getElementById('num1');
+    const num2Input = document.getElementById('num2');
+    const resultInput = document.getElementById('result');
+    const addButton = document.getElementById('add');
+    const subtractButton = document.getElementById('subtract');
+    const multiplyButton = document.getElementById('multiply');
+    const divideButton = document.getElementById('divide');
+    
+    // Helper function to get input values
+    function getInputValues() {
+        const num1 = parseFloat(num1Input.value);
+        const num2 = parseFloat(num2Input.value);
+        
+        // Check if inputs are valid numbers
+        if (isNaN(num1) || isNaN(num2)) {
+            resultInput.value = 'Please enter valid numbers';
+            return null;
+        }
+        
+        return { num1, num2 };
+    }
+    
+    // Add button event listener
+    addButton.addEventListener('click', function() {
+        const values = getInputValues();
+        if (values) {
+            const result = values.num1 + values.num2;
+            resultInput.value = result;
+        }
+    });
+    
+    // Subtract button event listener
+    subtractButton.addEventListener('click', function() {
+        const values = getInputValues();
+        if (values) {
+            const result = values.num1 - values.num2;
+            resultInput.value = result;
+        }
+    });
+    
+    // Multiply button event listener
+    multiplyButton.addEventListener('click', function() {
+        const values = getInputValues();
+        if (values) {
+            const result = values.num1 * values.num2;
+            resultInput.value = result;
+        }
+    });
+    
+    // Divide button event listener
+    divideButton.addEventListener('click', function() {
+        const values = getInputValues();
+        if (values) {
+            // Handle division by zero
+            if (values.num2 === 0) {
+                resultInput.value = "Cannot divide by zero";
+                return;
+            }
+            
+            const result = values.num1 / values.num2;
+            resultInput.value = result;
+        }
+    });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scratch Challenges -->
+                <div class="challenge-content" id="scratch-content">
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <h3 class="challenge-title">Moving Cat Game</h3>
+                            <span class="challenge-difficulty easy">Easy</span>
+                        </div>
+                        <div class="challenge-description">
+                            <p>Create a simple game where you control the Scratch cat with arrow keys.</p>
+                            <img src="../assets/images/scratch-cat-movement.png" alt="Scratch Cat Movement Example" style="max-width: 100%; margin: 15px 0;">
+                            <h4>Steps:</h4>
+                            <ol>
+                                <li>Go to <a href="https://scratch.mit.edu" target="_blank">scratch.mit.edu</a> and start a new project</li>
+                                <li>Keep the default cat sprite</li>
+                                <li>Add code to make the cat move when arrow keys are pressed</li>
+                                <li>Add code to make the cat say "Meow!" when the space key is pressed</li>
+                            </ol>
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('scratch-1')">Show Hint</button>
+                        <div class="solution" id="scratch-1">
+                            <h4>Hint:</h4>
+                            <p>For the arrow key controls, you'll need:</p>
+                            <ul>
+                                <li>Four "when key pressed" blocks (one for each arrow key)</li>
+                                <li>"Move [] steps" blocks for up/down</li>
+                                <li>"Turn [] degrees" blocks for left/right</li>
+                                <li>For the meow, use "when [space] key pressed" and "say [Meow!] for [1] seconds"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <h3 class="challenge-title">Collect the Stars Game</h3>
+                            <span class="challenge-difficulty medium">Medium</span>
+                        </div>
+                        <div class="challenge-description">
+                            <p>Create a game where the player controls a character that collects stars to earn points.</p>
+                            <img src="../assets/images/scratch-star-game.png" alt="Scratch Star Collection Game Example" style="max-width: 100%; margin: 15px 0;">
+                            <h4>Steps:</h4>
+                            <ol>
+                                <li>Create a player sprite (or use the default cat)</li>
+                                <li>Create a star sprite</li>
+                                <li>Add arrow key controls for the player</li>
+                                <li>Create a score variable</li>
+                                <li>Make the star move to random positions when touched by the player</li>
+                                <li>Increase the score each time the player touches a star</li>
+                            </ol>
+                        </div>
+                        <button class="solution-toggle" onclick="toggleSolution('scratch-2')">Show Hint</button>
+                        <div class="solution" id="scratch-2">
+                            <h4>Hint:</h4>
+                            <p>For the star sprite, you'll need:</p>
+                            <ul>
+                                <li>A "forever" block to continuously check if the player is touching it</li>
+                                <li>An "if touching [player]" condition inside the forever block</li>
+                                <li>Inside the if block, use "change [score] by [1]" and "go to random position"</li>
+                                <li>You might also want to add a sound effect when collecting a star</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tech Explorers Program | Created with ❤️ for young technologists</p>
+            <a href="../index.html">Back to Home</a>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.challenge-tab');
+        const tabContents = document.querySelectorAll('.challenge-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to current tab and content
+                tab.classList.add('active');
+                document.getElementById(`${tabId}-content`).classList.add('active');
+            });
+        });
+        
+        // Solution toggle functionality
+        function toggleSolution(id) {
+            const solution = document.getElementById(id);
+            if (solution.style.display === 'block') {
+                solution.style.display = 'none';
+            } else {
+                solution.style.display = 'block';
+            }
+        }
+    </script>
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+/* Session 2 specific styles */
+
+/* Hero section with computer hardware theme */
+.session-header {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/computer-parts.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+/* Hardware components gallery */
+.component-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.component-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.component-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.component-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+/* Operating system comparison */
+.os-comparison {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 2rem 0;
+}
+
+.os-card {
+    flex: 1;
+    min-width: 250px;
+    margin: 0.5rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.os-card img {
+    max-width: 80px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+/* Interactive coding area */
+.code-area {
+    background-color: #272822;
+    color: #f8f8f2;
+    font-family: monospace;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    overflow-x: auto;
+}
+
+.code-area .output {
+    background-color: #3e3d32;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+/* Binary challenge */
+.binary-challenge {
+    background-color: #f0f7ff;
+    border: 2px solid #d0e3ff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.binary-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.binary-digit {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.binary-digit.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .os-comparison {
+        flex-direction: column;
+    }
+    
+    .binary-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

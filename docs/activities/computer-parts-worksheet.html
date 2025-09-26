@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Parts Worksheet - Tech Explorers</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .diagram-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .computer-diagram {
+            position: relative;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .computer-diagram img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .parts-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .part-item {
+            background-color: var(--card-color);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .part-number {
+            background-color: var(--accent-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .part-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+        
+        .part-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-align: center;
+        }
+        
+        .worksheet {
+            background-color: white;
+            border: 2px dashed var(--accent-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .worksheet h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+            text-align: center;
+        }
+        
+        .worksheet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .label-box {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px 10px;
+            text-align: center;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .label-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .label-line {
+            width: 100%;
+            border-top: 1px dashed #ddd;
+            margin: 10px 0;
+        }
+        
+        .print-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        
+        .info-box {
+            background-color: rgba(67, 97, 238, 0.1);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        @media print {
+            header, nav, footer, .info-box {
+                display: none;
+            }
+            
+            main {
+                padding: 0;
+            }
+            
+            .print-button {
+                display: none;
+            }
+            
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Label Computer Parts</h1>
+            <p>Learn what's inside a computer</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="../session2/"><i class="fas fa-arrow-left"></i> Back to Session 2</a></li>
+                <li><a href="all-activities.html"><i class="fas fa-th-list"></i> All Activities</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="container">
+            <div class="card">
+                <h2>Computer Hardware Components</h2>
+                <p>Every computer has several important parts that work together. Learning about these components will help you understand how computers function!</p>
+                
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Activity Instructions</h3>
+                    <ol>
+                        <li>Study the computer parts and their descriptions below</li>
+                        <li>Look at the printable worksheet</li>
+                        <li>Print it out and label each part</li>
+                        <li>You can color the parts if you want!</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="diagram-container">
+                <h3>Inside a Computer</h3>
+                
+                <div class="computer-diagram">
+                    <img src="../assets/images/computer-parts-diagram.svg" alt="Computer Parts Diagram">
+                </div>
+                
+                <div class="parts-list">
+                    <div class="part-item">
+                        <div class="part-number">1</div>
+                        <div class="part-name">CPU (Processor)</div>
+                        <div class="part-description">The "brain" of the computer that processes instructions</div>
+                    </div>
+                    
+                    <div class="part-item">
+                        <div class="part-number">2</div>
+                        <div class="part-name">RAM (Memory)</div>
+                        <div class="part-description">Short-term memory that helps run programs</div>
+                    </div>
+                    
+                    <div class="part-item">
+                        <div class="part-number">3</div>
+                        <div class="part-name">Hard Drive</div>
+                        <div class="part-description">Stores all your files and programs</div>
+                    </div>
+                    
+                    <div class="part-item">
+                        <div class="part-number">4</div>
+                        <div class="part-name">Motherboard</div>
+                        <div class="part-description">The main circuit board that connects everything</div>
+                    </div>
+                    
+                    <div class="part-item">
+                        <div class="part-number">5</div>
+                        <div class="part-name">Power Supply</div>
+                        <div class="part-description">Provides electricity to all components</div>
+                    </div>
+                    
+                    <div class="part-item">
+                        <div class="part-number">6</div>
+                        <div class="part-name">Graphics Card</div>
+                        <div class="part-description">Creates images for your monitor</div>
+                    </div>
+                    
+                    <div class="part-item">
+                        <div class="part-number">7</div>
+                        <div class="part-name">Cooling Fan</div>
+                        <div class="part-description">Keeps components cool</div>
+                    </div>
+                    
+                    <div class="part-item">
+                        <div class="part-number">8</div>
+                        <div class="part-name">SSD Drive</div>
+                        <div class="part-description">Fast storage with no moving parts</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Printable Worksheet</h2>
+                
+                <div class="worksheet">
+                    <h3>Label the Computer Parts</h3>
+                    <p>Name: _____________________________ Date: _______________</p>
+                    
+                    <div class="computer-diagram">
+                        <img src="../assets/images/computer-parts-worksheet.svg" alt="Computer Parts Worksheet">
+                    </div>
+                    
+                    <div class="worksheet-grid">
+                        <div class="label-box">
+                            <div class="label-number">1</div>
+                            <div class="label-line"></div>
+                        </div>
+                        
+                        <div class="label-box">
+                            <div class="label-number">2</div>
+                            <div class="label-line"></div>
+                        </div>
+                        
+                        <div class="label-box">
+                            <div class="label-number">3</div>
+                            <div class="label-line"></div>
+                        </div>
+                        
+                        <div class="label-box">
+                            <div class="label-number">4</div>
+                            <div class="label-line"></div>
+                        </div>
+                        
+                        <div class="label-box">
+                            <div class="label-number">5</div>
+                            <div class="label-line"></div>
+                        </div>
+                        
+                        <div class="label-box">
+                            <div class="label-number">6</div>
+                            <div class="label-line"></div>
+                        </div>
+                        
+                        <div class="label-box">
+                            <div class="label-number">7</div>
+                            <div class="label-line"></div>
+                        </div>
+                        
+                        <div class="label-box">
+                            <div class="label-number">8</div>
+                            <div class="label-line"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="print-button" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print Worksheet
+                </button>
+            </div>
+            
+            <div class="card">
+                <h3>What Each Part Does</h3>
+                <ul>
+                    <li><strong>CPU (Central Processing Unit):</strong> Like the brain of the computer, it does all the calculations and processing.</li>
+                    <li><strong>RAM (Random Access Memory):</strong> Temporary memory that holds data your computer is actively using.</li>
+                    <li><strong>Hard Drive:</strong> Stores all your files, photos, videos, and programs even when the computer is off.</li>
+                    <li><strong>Motherboard:</strong> The main circuit board where everything connects together.</li>
+                    <li><strong>Power Supply:</strong> Converts electricity from the wall into the right type for your computer components.</li>
+                    <li><strong>Graphics Card:</strong> Creates the images that appear on your monitor, especially important for games.</li>
+                    <li><strong>Cooling Fan:</strong> Keeps everything from getting too hot while the computer works.</li>
+                    <li><strong>SSD (Solid State Drive):</strong> A newer, faster type of storage with no moving parts.</li>
+                </ul>
+                
+                <div class="info-box">
+                    <h3>Did You Know?</h3>
+                    <ul>
+                        <li>Modern CPUs can perform billions of calculations per second!</li>
+                        <li>If your computer is running slowly, you might need more RAM.</li>
+                        <li>The motherboard has special paths called "buses" that let the components communicate.</li>
+                        <li>SSDs are much faster than traditional hard drives because they have no moving parts.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tech Explorers Program | Created with ❤️ for young technologists</p>
+            <a href="../index.html">Back to Home</a>
+        </div>
+    </footer>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2: Inside Computers - Tech Explorers</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="session2.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="session-header">
+        <div class="container">
+            <h1>Session 2: Inside Computers</h1>
+            <p>Discover the amazing technology inside computers</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#overview"><i class="fas fa-map"></i> Overview</a></li>
+                <li><a href="#activities"><i class="fas fa-tasks"></i> Activities</a></li>
+                <li><a href="#resources"><i class="fas fa-book"></i> Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section id="overview" class="container">
+            <h2>Session Overview <i class="fas fa-microchip"></i></h2>
+            <div class="card">
+                <h3>Welcome to Session 2!</h3>
+                <p>In this session, we'll explore what makes computers work - from the physical parts (hardware) to the programs that run on them (software). We'll also learn about operating systems and how to create simple programs!</p>
+                
+                <div class="learning-objectives">
+                    <h3>Learning Objectives</h3>
+                    <ul>
+                        <li>Identify the key components of a computer</li>
+                        <li>Understand the difference between hardware and software</li>
+                        <li>Learn about different operating systems</li>
+                        <li>Discover how data is stored using binary</li>
+                        <li>Write simple math programs in Python</li>
+                    </ul>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Introduction (10 minutes)</h4>
+                            <p>Review from Session 1 and introduce today's topics</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Computer Hardware (35 minutes)</h4>
+                            <p>Learn about CPU, memory, storage, and other components</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Break (10 minutes)</h4>
+                            <p>Time to stretch and ask questions</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Operating Systems & Software (25 minutes)</h4>
+                            <p>Explore different operating systems and how software works</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Simple Math Programs (30 minutes)</h4>
+                            <p>Create Python programs for basic calculations</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Wrap-up and Preview (10 minutes)</h4>
+                            <p>Review what we've learned and preview Session 3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="activities" class="container">
+            <h2>Activities <i class="fas fa-flask"></i></h2>
+            
+            <div class="activity-tabs">
+                <button class="tab-btn active" onclick="openActivity(event, 'hardware')">Computer Hardware</button>
+                <button class="tab-btn" onclick="openActivity(event, 'os')">Operating Systems</button>
+                <button class="tab-btn" onclick="openActivity(event, 'binary')">Binary Numbers</button>
+                <button class="tab-btn" onclick="openActivity(event, 'math')">Math Programs</button>
+            </div>
+            
+            <div id="hardware" class="activity-content active">
+                <div class="card">
+                    <h3>Computer Hardware</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-image">
+                            <img src="../assets/images/computer-parts.png" alt="Computer parts with labels showing CPU, RAM, hard drive, motherboard, etc.">
+                        </div>
+                        <div class="concept-text">
+                            <h4>The Main Parts of a Computer</h4>
+                            <p>Computers have several important parts that work together:</p>
+                            <ul>
+                                <li><strong>CPU (Central Processing Unit)</strong> - The "brain" that performs calculations and executes instructions</li>
+                                <li><strong>RAM (Random Access Memory)</strong> - Temporarily stores data that programs are currently using</li>
+                                <li><strong>Storage</strong> - Hard drives or SSDs that permanently store your files and programs</li>
+                                <li><strong>Motherboard</strong> - The main circuit board that connects all parts together</li>
+                                <li><strong>Input Devices</strong> - Keyboards, mice, touchscreens, etc.</li>
+                                <li><strong>Output Devices</strong> - Monitors, speakers, printers, etc.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>The Hardware Component Gallery</h4>
+                    <div class="component-gallery">
+                        <div class="component-card">
+                            <img src="../assets/images/computer-parts.png" alt="CPU - Central Processing Unit">
+                            <h4>CPU</h4>
+                            <p>The brain of the computer that performs calculations and executes instructions.</p>
+                        </div>
+                        <div class="component-card">
+                            <img src="../assets/images/computer-parts.png" alt="RAM - Random Access Memory">
+                            <h4>RAM</h4>
+                            <p>Temporarily stores data that programs are currently using.</p>
+                        </div>
+                        <div class="component-card">
+                            <img src="../assets/images/computer-parts.png" alt="Hard Drive">
+                            <h4>Hard Drive</h4>
+                            <p>Permanently stores your files and programs.</p>
+                        </div>
+                        <div class="component-card">
+                            <img src="../assets/images/computer-parts.png" alt="Motherboard">
+                            <h4>Motherboard</h4>
+                            <p>The main circuit board that connects all components together.</p>
+                        </div>
+                        <div class="component-card">
+                            <img src="../assets/images/computer-parts.png" alt="Graphics Card">
+                            <h4>Graphics Card</h4>
+                            <p>Creates the images you see on your monitor.</p>
+                        </div>
+                        <div class="component-card">
+                            <img src="../assets/images/computer-parts.png" alt="Power Supply">
+                            <h4>Power Supply</h4>
+                            <p>Provides electricity to all components.</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Activity: Label the Computer Parts</h4>
+                    <p>Can you identify all the main components inside a computer?</p>
+                    <a href="../activities/computer-parts-worksheet.html" class="button">Start Computer Parts Activity</a>
+                </div>
+            </div>
+            
+            <div id="os" class="activity-content">
+                <div class="card">
+                    <h3>Operating Systems & Software</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-text">
+                            <h4>What is an Operating System?</h4>
+                            <p>An operating system (OS) is the main software that manages your computer. It controls the hardware, runs other software, and provides a user interface.</p>
+                            
+                            <p>The operating system is like a translator between you, your apps, and the computer hardware. Without it, your computer would just be a collection of parts that can't do anything!</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Common Operating Systems</h4>
+                    <div class="os-comparison">
+                        <div class="os-card">
+                            <img src="../assets/images/computer-parts.png" alt="Windows Logo">
+                            <h3>Windows</h3>
+                            <p>Made by Microsoft</p>
+                            <p>Used on most PCs</p>
+                            <p>Great for gaming and business</p>
+                        </div>
+                        
+                        <div class="os-card">
+                            <img src="../assets/images/computer-parts.png" alt="macOS Logo">
+                            <h3>macOS</h3>
+                            <p>Made by Apple</p>
+                            <p>Used on Mac computers</p>
+                            <p>Popular for creative work</p>
+                        </div>
+                        
+                        <div class="os-card">
+                            <img src="../assets/images/computer-parts.png" alt="Linux Logo">
+                            <h3>Linux</h3>
+                            <p>Open source (free)</p>
+                            <p>Many different versions</p>
+                            <p>Used by programmers and servers</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Software vs. Hardware</h4>
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Hardware</th>
+                            <th>Software</th>
+                        </tr>
+                        <tr>
+                            <td>Physical parts you can touch</td>
+                            <td>Programs and code you can't touch</td>
+                        </tr>
+                        <tr>
+                            <td>Examples: CPU, keyboard, screen</td>
+                            <td>Examples: Games, web browsers, word processors</td>
+                        </tr>
+                        <tr>
+                            <td>Wears out over time</td>
+                            <td>Can be updated and improved</td>
+                        </tr>
+                        <tr>
+                            <td>Usually expensive to replace</td>
+                            <td>Can be installed multiple times</td>
+                        </tr>
+                    </table>
+                    
+                    <h4>Activity: Operating System Explorer</h4>
+                    <p>Let's explore features of different operating systems!</p>
+                    <a href="../activities/os-explorer.html" class="button">Start OS Explorer Activity</a>
+                </div>
+            </div>
+            
+            <div id="binary" class="activity-content">
+                <div class="card">
+                    <h3>Binary Numbers</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-text">
+                            <h4>How Computers Store Data</h4>
+                            <p>Computers don't understand letters, numbers, or pictures the way we do. At their most basic level, computers only understand two states: ON or OFF, also represented as 1 or 0.</p>
+                            
+                            <p>These 1s and 0s are called <strong>binary digits</strong> or <strong>bits</strong>. They're the building blocks of all computer data.</p>
+                            
+                            <p>With enough bits put together, computers can represent anything - text, images, videos, sounds, and more!</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Binary Counting</h4>
+                    <p>We count using 10 digits (0-9), called the decimal system. But computers count using just 2 digits (0-1), called the binary system.</p>
+                    
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Decimal (Base 10)</th>
+                            <th>Binary (Base 2)</th>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>101</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>110</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>111</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>1000</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="binary-challenge">
+                        <h4>Activity: Binary Challenge</h4>
+                        <p>Click the binary digits (0 or 1) to create different numbers. Can you make the binary number for 15?</p>
+                        
+                        <div class="binary-grid">
+                            <div class="binary-digit" onclick="toggleBit(this, 7)">0</div>
+                            <div class="binary-digit" onclick="toggleBit(this, 6)">0</div>
+                            <div class="binary-digit" onclick="toggleBit(this, 5)">0</div>
+                            <div class="binary-digit" onclick="toggleBit(this, 4)">0</div>
+                            <div class="binary-digit" onclick="toggleBit(this, 3)">0</div>
+                            <div class="binary-digit" onclick="toggleBit(this, 2)">0</div>
+                            <div class="binary-digit" onclick="toggleBit(this, 1)">0</div>
+                            <div class="binary-digit" onclick="toggleBit(this, 0)">0</div>
+                        </div>
+                        
+                        <p>Decimal value: <span id="decimal-value">0</span></p>
+                        
+                        <div class="challenge-box">
+                            <h4>Binary Fun Facts:</h4>
+                            <ul>
+                                <li>A single binary digit (0 or 1) is called a "bit"</li>
+                                <li>Eight bits together make a "byte"</li>
+                                <li>A byte can represent numbers from 0 to 255</li>
+                                <li>Text, images, videos, and all computer data are stored as binary</li>
+                                <li>A kilobyte (KB) is about 1,000 bytes</li>
+                                <li>A megabyte (MB) is about 1,000,000 bytes</li>
+                                <li>A gigabyte (GB) is about 1,000,000,000 bytes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <a href="../activities/binary-decoder.html" class="button">Try the Binary Decoder</a>
+                </div>
+            </div>
+            
+            <div id="math" class="activity-content">
+                <div class="card">
+                    <h3>Math Programs with Python</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-text">
+                            <h4>Programming with Python</h4>
+                            <p>Python is a popular programming language that's easy to read and write. It's a great first language for beginners!</p>
+                            
+                            <p>In Python, you can write instructions for the computer to follow. These instructions can do many things, like perform calculations, create games, or analyze data.</p>
+                            
+                            <p>Today, we'll use Python to create simple math programs.</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Your First Python Program</h4>
+                    <div class="code-area">
+                        <pre># This is a simple Python program that adds two numbers
+a = 5
+b = 3
+sum = a + b
+print("The sum of", a, "and", b, "is", sum)</pre>
+                        <div class="output">The sum of 5 and 3 is 8</div>
+                    </div>
+                    
+                    <h4>Let's Try More Math Operations</h4>
+                    <div class="code-area">
+                        <pre># Python can do all kinds of math operations
+a = 10
+b = 2
+
+# Addition
+print(a, "+", b, "=", a + b)
+
+# Subtraction
+print(a, "-", b, "=", a - b)
+
+# Multiplication
+print(a, "*", b, "=", a * b)
+
+# Division
+print(a, "/", b, "=", a / b)
+
+# Exponentiation (a to the power of b)
+print(a, "^", b, "=", a ** b)</pre>
+                        <div class="output">10 + 2 = 12
+10 - 2 = 8
+10 * 2 = 20
+10 / 2 = 5.0
+10 ^ 2 = 100</div>
+                    </div>
+                    
+                    <h4>Making an Interactive Calculator</h4>
+                    <div class="code-area">
+                        <pre># This program asks the user for input
+print("Welcome to the Simple Calculator!")
+
+# Get input from the user
+num1 = int(input("Enter the first number: "))
+num2 = int(input("Enter the second number: "))
+
+# Perform calculations
+sum = num1 + num2
+difference = num1 - num2
+product = num1 * num2
+quotient = num1 / num2
+
+# Show results
+print("Sum:", sum)
+print("Difference:", difference)
+print("Product:", product)
+print("Quotient:", quotient)</pre>
+                        <div class="output">Welcome to the Simple Calculator!
+Enter the first number: 8
+Enter the second number: 2
+Sum: 10
+Difference: 6
+Product: 16
+Quotient: 4.0</div>
+                    </div>
+                    
+                    <h4>Activity: Create Your Own Math Program</h4>
+                    <p>Now it's your turn to write a Python program that can:</p>
+                    <ol>
+                        <li>Ask the user for their age</li>
+                        <li>Calculate how old they'll be in 10 years</li>
+                        <li>Calculate how many days old they are (approximately)</li>
+                        <li>Display the results</li>
+                    </ol>
+                    
+                    <a href="../activities/python-playground.html" class="button">Try the Python Playground</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources" class="container">
+            <h2>Resources <i class="fas fa-book"></i></h2>
+            <div class="card">
+                <h3>Additional Learning Materials</h3>
+                
+                <div class="resources-grid">
+                    <a href="https://code.org/learn" target="_blank" class="resource-card">
+                        <img src="../assets/images/codeorg-logo.png" alt="Code.org Logo">
+                        <h3>Code.org</h3>
+                        <p>Computer Science Fundamentals</p>
+                    </a>
+                    
+                    <a href="https://scratch.mit.edu/" target="_blank" class="resource-card">
+                        <img src="../assets/images/scratch-logo.png" alt="Scratch Logo">
+                        <h3>Scratch</h3>
+                        <p>Block-based coding for beginners</p>
+                    </a>
+                    
+                    <a href="https://www.w3schools.com/python/" target="_blank" class="resource-card">
+                        <img src="../assets/images/w3schools-logo.png" alt="W3Schools Logo">
+                        <h3>Python Tutorial</h3>
+                        <p>Learn Python step-by-step</p>
+                    </a>
+                    
+                    <a href="https://hourofcode.com/us/learn" target="_blank" class="resource-card">
+                        <img src="../assets/images/hour-of-code-logo.png" alt="Hour of Code Logo">
+                        <h3>Hour of Code</h3>
+                        <p>Fun coding activities for beginners</p>
+                    </a>
+                </div>
+                
+                <h3>Printable Worksheets</h3>
+                <ul class="downloads-list">
+                    <li><a href="../worksheets/computer-parts-diagram.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Computer Parts Diagram</a></li>
+                    <li><a href="../worksheets/binary-conversion-table.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Binary Conversion Table</a></li>
+                    <li><a href="../worksheets/python-cheatsheet.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Python Cheatsheet for Beginners</a></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="container">
+            <div class="next-session">
+                <h2>Coming Up Next <i class="fas fa-arrow-right"></i></h2>
+                <div class="card next-preview">
+                    <div class="next-content">
+                        <h3>Session 3: Coding Adventures</h3>
+                        <p>In our next session, we'll dive deeper into coding and learn about GitHub, programming languages, and create some exciting projects!</p>
+                        <ul>
+                            <li>Learn about GitHub and version control</li>
+                            <li>Explore different programming languages</li>
+                            <li>Create interactive web pages with HTML and CSS</li>
+                            <li>Build a simple game or animation</li>
+                        </ul>
+                    </div>
+                    <div class="next-image">
+                        <img src="../assets/images/github-spark-logo.png" alt="GitHub Spark logo">
+                    </div>
+                </div>
+                <a href="../session3/" class="button">Preview Session 3</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tech Explorers Program | Created with ❤️ for young technologists</p>
+            <a href="../index.html">Back to Home</a>
+        </div>
+    </footer>
+
+    <script>
+        function openActivity(evt, activityName) {
+            // Hide all activity content
+            let tabContent = document.getElementsByClassName("activity-content");
+            for (let i = 0; i < tabContent.length; i++) {
+                tabContent[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tab buttons
+            let tabButtons = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // Show the selected content and mark button as active
+            document.getElementById(activityName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // Binary challenge functionality
+        let binaryValue = 0;
+        
+        function toggleBit(element, position) {
+            if (element.textContent === "0") {
+                element.textContent = "1";
+                element.classList.add("active");
+                binaryValue += Math.pow(2, position);
+            } else {
+                element.textContent = "0";
+                element.classList.remove("active");
+                binaryValue -= Math.pow(2, position);
+            }
+            
+            document.getElementById("decimal-value").textContent = binaryValue;
+        }
+    </script>
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

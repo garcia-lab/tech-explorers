@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 4: AI Exploration - Tech Explorers</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="session4.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="session-header">
+        <div class="container">
+            <h1>Session 4: AI Exploration</h1>
+            <p>Discover the world of Artificial Intelligence and create with AI tools</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#overview"><i class="fas fa-map"></i> Overview</a></li>
+                <li><a href="#activities"><i class="fas fa-tasks"></i> Activities</a></li>
+                <li><a href="#resources"><i class="fas fa-book"></i> Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section id="overview" class="container">
+            <h2>Session Overview <i class="fas fa-robot"></i></h2>
+            <div class="card">
+                <h3>Welcome to Session 4!</h3>
+                <p>In our final session, we'll explore the exciting world of Artificial Intelligence (AI) and how it's changing technology. We'll learn about AI tools like ChatGPT and GitHub Copilot, create projects with AI assistance, and discuss the responsible use of these powerful tools!</p>
+                
+                <div class="learning-objectives">
+                    <h3>Learning Objectives</h3>
+                    <ul>
+                        <li>Understand what Artificial Intelligence is and how it works</li>
+                        <li>Explore AI tools like ChatGPT and GitHub Copilot</li>
+                        <li>Learn how to use AI to help with coding and creative projects</li>
+                        <li>Create projects with AI assistance</li>
+                        <li>Discuss AI ethics and responsible use</li>
+                    </ul>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Introduction (15 minutes)</h4>
+                            <p>Review from Session 3 and introduce AI concepts</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>AI Fundamentals (25 minutes)</h4>
+                            <p>Learn about what AI is and how it works</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>ChatGPT & AI Assistants (20 minutes)</h4>
+                            <p>Explore conversational AI tools</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Break (10 minutes)</h4>
+                            <p>Time to stretch and ask questions</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>GitHub Copilot Demo (25 minutes)</h4>
+                            <p>See how AI can help with coding</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>AI Projects & Ethics (15 minutes)</h4>
+                            <p>Create projects with AI and discuss responsible use</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Course Wrap-up (10 minutes)</h4>
+                            <p>Reflect on what we've learned and future explorations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="activities" class="container">
+            <h2>Activities <i class="fas fa-flask"></i></h2>
+            
+            <div class="activity-tabs">
+                <button class="tab-btn active" onclick="openActivity(event, 'ai-basics')">AI Fundamentals</button>
+                <button class="tab-btn" onclick="openActivity(event, 'chatgpt')">ChatGPT & AI Assistants</button>
+                <button class="tab-btn" onclick="openActivity(event, 'copilot')">GitHub Copilot</button>
+                <button class="tab-btn" onclick="openActivity(event, 'ai-ethics')">AI Ethics & Projects</button>
+            </div>
+            
+            <div id="ai-basics" class="activity-content active">
+                <div class="card">
+                    <h3>AI Fundamentals</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-text">
+                            <h4>What is Artificial Intelligence?</h4>
+                            <p>Artificial Intelligence (AI) refers to computer systems designed to perform tasks that typically require human intelligence. These include things like recognizing speech, making decisions, translating languages, and identifying patterns.</p>
+                            
+                            <p>AI works by using <strong>algorithms</strong> (sets of instructions) and <strong>data</strong> to learn patterns and make predictions. The more data an AI system processes, the better it gets at its task.</p>
+                            
+                            <h4>Types of AI</h4>
+                            <ul>
+                                <li><strong>Narrow AI</strong> - Designed for specific tasks (like voice assistants, chess programs)</li>
+                                <li><strong>General AI</strong> - Theoretical systems that could perform any intellectual task a human can</li>
+                            </ul>
+                            
+                            <h4>Machine Learning</h4>
+                            <p>Machine Learning is a type of AI where computers learn from examples rather than being explicitly programmed. It's like how humans learn from experience!</p>
+                        </div>
+                    </div>
+                    
+                    <h4>AI in Everyday Life</h4>
+                    <p>You probably interact with AI every day without realizing it:</p>
+                    
+                    <div class="ai-tools-comparison">
+                        <div class="ai-tool-card">
+                            <img src="../assets/images/github-spark-logo.png" alt="Smartphone Icon">
+                            <h3>Smart Assistants</h3>
+                            <p>Siri, Alexa, and Google Assistant use AI to understand your voice commands and questions.</p>
+                        </div>
+                        
+                        <div class="ai-tool-card">
+                            <img src="../assets/images/github-spark-logo.png" alt="Social Media Icon">
+                            <h3>Social Media</h3>
+                            <p>AI decides which posts to show in your feed based on what you like and engage with.</p>
+                        </div>
+                        
+                        <div class="ai-tool-card">
+                            <img src="../assets/images/github-spark-logo.png" alt="Video Game Icon">
+                            <h3>Video Games</h3>
+                            <p>AI controls characters' behaviors and makes them respond to your actions.</p>
+                        </div>
+                        
+                        <div class="ai-tool-card">
+                            <img src="../assets/images/github-spark-logo.png" alt="Photo App Icon">
+                            <h3>Photo Apps</h3>
+                            <p>AI recognizes faces in photos and applies filters that look good.</p>
+                        </div>
+                    </div>
+                    
+                    <h4>How AI "Learns"</h4>
+                    <p>AI systems learn through a process called "training." Here's a simple example:</p>
+                    <ol>
+                        <li><strong>Gather Data</strong>: Collect thousands of cat and dog pictures</li>
+                        <li><strong>Label Data</strong>: Mark each image as "cat" or "dog"</li>
+                        <li><strong>Train the Model</strong>: The AI looks for patterns in the data</li>
+                        <li><strong>Test the Model</strong>: Show the AI new pictures to see if it can identify cats and dogs correctly</li>
+                        <li><strong>Improve</strong>: Keep training with more data to make it better</li>
+                    </ol>
+                    
+                    <h4>Activity: AI Detector Challenge</h4>
+                    <p>Look at the examples below and try to guess which content was created by AI and which was created by a human!</p>
+                    
+                    <div class="challenge-box">
+                        <h5>Example 1: Short Poem</h5>
+                        <p class="example-text">The stars above, a cosmic sea<br>Twinkling lights for you and me<br>Ancient fires burning bright<br>Guide us through the endless night</p>
+                        <button class="reveal-btn" onclick="revealAnswer(this, 'AI')">Reveal Answer</button>
+                        <p class="answer hidden">This was created by AI! The rhythm is very consistent but the imagery is somewhat generic.</p>
+                    </div>
+                    
+                    <div class="challenge-box">
+                        <h5>Example 2: Recipe Instructions</h5>
+                        <p class="example-text">Crack the eggs into a bowl. Whisk them with a fork until they're kind of mixed. Heat the pan but not too hot or they'll burn. Put some butter in. Wait till it's melty and a bit bubbly. Pour in the eggs. Push them around with a spatula until they look done enough for you. Add salt if you want.</p>
+                        <button class="reveal-btn" onclick="revealAnswer(this, 'Human')">Reveal Answer</button>
+                        <p class="answer hidden">This was written by a human! The casual language, inconsistent detail, and subjective instructions ("kind of mixed", "done enough for you") are typical of human writing.</p>
+                    </div>
+                    
+                    <a href="../activities/ai-explorer.html" class="button">Try More AI Detection Activities</a>
+                </div>
+            </div>
+            
+            <div id="chatgpt" class="activity-content">
+                <div class="card">
+                    <h3>ChatGPT & AI Assistants</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-text">
+                            <h4>Conversational AI</h4>
+                            <p>Conversational AI systems like ChatGPT are designed to understand and generate human-like text. They can answer questions, have conversations, write stories, explain concepts, and much more!</p>
+                            
+                            <p>These systems are trained on vast amounts of text from the internet, books, and articles. They learn patterns in language and how words relate to each other.</p>
+                            
+                            <h4>How ChatGPT Works</h4>
+                            <p>ChatGPT is an AI assistant created by OpenAI. When you type a message, ChatGPT:</p>
+                            <ol>
+                                <li>Processes your text to understand what you're asking</li>
+                                <li>Searches through its "knowledge" of language patterns</li>
+                                <li>Predicts what would be a helpful and appropriate response</li>
+                                <li>Generates text one word at a time</li>
+                            </ol>
+                            <p>ChatGPT doesn't actually "understand" things like humans do. It doesn't have experiences or consciousness - it's recognizing patterns in text!</p>
+                        </div>
+                    </div>
+                    
+                    <h4>AI Assistants You Can Try</h4>
+                    <div class="ai-tools-comparison">
+                        <div class="ai-tool-card">
+                            <img src="../assets/images/github-spark-logo.png" alt="ChatGPT Logo">
+                            <h3>ChatGPT</h3>
+                            <p>A conversational AI that can answer questions, write text, and help with various tasks.</p>
+                            <a href="https://chat.openai.com/" target="_blank" class="button">Visit (With Adult Permission)</a>
+                        </div>
+                        
+                        <div class="ai-tool-card">
+                            <img src="../assets/images/github-spark-logo.png" alt="Bard Logo">
+                            <h3>Google Gemini</h3>
+                            <p>Google's AI assistant that can answer questions and generate content.</p>
+                            <a href="https://gemini.google.com/" target="_blank" class="button">Visit (With Adult Permission)</a>
+                        </div>
+                        
+                        <div class="ai-tool-card">
+                            <img src="../assets/images/github-spark-logo.png" alt="Bing Logo">
+                            <h3>Bing AI Chat</h3>
+                            <p>Microsoft's AI assistant integrated with the Bing search engine.</p>
+                            <a href="https://www.bing.com/new" target="_blank" class="button">Visit (With Adult Permission)</a>
+                        </div>
+                    </div>
+                    
+                    <h4>Tips for Using AI Assistants</h4>
+                    <div class="tips-list">
+                        <div class="tip">
+                            <h5>Be Specific</h5>
+                            <p>The more details you provide, the better the AI can help you. Instead of asking "Tell me about space," try "Explain how black holes work in simple terms for a 12-year-old."</p>
+                        </div>
+                        
+                        <div class="tip">
+                            <h5>Ask Follow-up Questions</h5>
+                            <p>If you don't understand something or want more information, ask! AI assistants can explain further or approach the topic differently.</p>
+                        </div>
+                        
+                        <div class="tip">
+                            <h5>Verify Information</h5>
+                            <p>AI can sometimes make mistakes or provide outdated information. Always double-check important facts with reliable sources.</p>
+                        </div>
+                        
+                        <div class="tip">
+                            <h5>Use It as a Tool, Not a Replacement</h5>
+                            <p>AI assistants are helpful tools, but they don't replace your own thinking and learning!</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Activity: Creating Prompts</h4>
+                    <p>A "prompt" is the text you send to an AI assistant. Good prompts get better results!</p>
+                    
+                    <div class="activity-example">
+                        <h5>Basic Prompt:</h5>
+                        <p>"Tell me about dinosaurs"</p>
+                        
+                        <h5>Better Prompt:</h5>
+                        <p>"I'm a 6th grader working on a science project. Can you explain 3 interesting facts about Triceratops in simple terms? Include how big they were, what they ate, and one surprising fact."</p>
+                    </div>
+                    
+                    <a href="../activities/chatgpt-playground.html" class="button">Try the AI Prompt Workshop</a>
+                </div>
+            </div>
+            
+            <div id="copilot" class="activity-content">
+                <div class="card">
+                    <h3>GitHub Copilot</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-text">
+                            <h4>Coding with AI Assistance</h4>
+                            <p>GitHub Copilot is an AI tool that helps people write code. It's like having a helpful coding partner that can suggest code as you type!</p>
+                            
+                            <p>Copilot was trained on billions of lines of public code from GitHub. This allows it to suggest code completions, entire functions, or solutions to coding problems.</p>
+                            
+                            <h4>How Copilot Helps Programmers</h4>
+                            <ul>
+                                <li>Suggests code as you type</li>
+                                <li>Helps write repetitive or standard code quickly</li>
+                                <li>Offers solutions to coding problems</li>
+                                <li>Helps learn programming by showing examples</li>
+                                <li>Explains code when asked</li>
+                            </ul>
+                            
+                            <p>Copilot doesn't replace human programmers - it's a tool that helps them work more efficiently!</p>
+                        </div>
+                    </div>
+                    
+                    <h4>GitHub Copilot Examples</h4>
+                    
+                    <div class="copilot-example">
+                        <div class="example-header">Example 1: Code Completion</div>
+                        <div class="example-content">
+                            <div class="prompt">
+                                <h5>You type:</h5>
+                                <pre>// Function to calculate the area of a circle
+function calculateCircleArea(</pre>
+                            </div>
+                            <div class="completion">
+                                <h5>Copilot suggests:</h5>
+                                <pre>// Function to calculate the area of a circle
+function calculateCircleArea(radius) {
+  return Math.PI * radius * radius;
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="copilot-example">
+                        <div class="example-header">Example 2: Generating a Function</div>
+                        <div class="example-content">
+                            <div class="prompt">
+                                <h5>You type a comment:</h5>
+                                <pre>// Function that checks if a word is a palindrome</pre>
+                            </div>
+                            <div class="completion">
+                                <h5>Copilot suggests:</h5>
+                                <pre>// Function that checks if a word is a palindrome
+function isPalindrome(word) {
+  const lowerCaseWord = word.toLowerCase();
+  const reversedWord = lowerCaseWord.split('').reverse().join('');
+  return lowerCaseWord === reversedWord;
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="copilot-example">
+                        <div class="example-header">Example 3: Creating a Game</div>
+                        <div class="example-content">
+                            <div class="prompt">
+                                <h5>You type:</h5>
+                                <pre>// Create a simple rock, paper, scissors game</pre>
+                            </div>
+                            <div class="completion">
+                                <h5>Copilot suggests (partial):</h5>
+                                <pre>// Create a simple rock, paper, scissors game
+function rockPaperScissors() {
+  const choices = ['rock', 'paper', 'scissors'];
+  const computerChoice = choices[Math.floor(Math.random() * 3)];
+  
+  const playerChoice = prompt('Enter rock, paper, or scissors:').toLowerCase();
+  
+  if (!choices.includes(playerChoice)) {
+    return 'Please enter a valid choice!';
+  }
+  
+  if (playerChoice === computerChoice) {
+    return `It's a tie! Computer also chose ${computerChoice}.`;
+  }
+  
+  if (
+    (playerChoice === 'rock' && computerChoice === 'scissors') ||
+    (playerChoice === 'paper' && computerChoice === 'rock') ||
+    (playerChoice === 'scissors' && computerChoice === 'paper')
+  ) {
+    return `You win! Computer chose ${computerChoice}.`;
+  } else {
+    return `You lose! Computer chose ${computerChoice}.`;
+  }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Benefits of Using Copilot</h4>
+                    <ul>
+                        <li><strong>Learn While Coding</strong> - See how experienced programmers might solve problems</li>
+                        <li><strong>Save Time</strong> - Write repetitive code faster</li>
+                        <li><strong>Focus on Bigger Ideas</strong> - Spend less time on details and more on planning</li>
+                        <li><strong>Try New Things</strong> - Get help with languages or frameworks you're learning</li>
+                    </ul>
+                    
+                    <h4>Remember: Always Review AI Code</h4>
+                    <p>AI code suggestions aren't always perfect. It's important to understand what the code does and check for errors!</p>
+                    
+                    <a href="../activities/copilot-demo.html" class="button">Watch Copilot Demo Video</a>
+                </div>
+            </div>
+            
+            <div id="ai-ethics" class="activity-content">
+                <div class="card">
+                    <h3>AI Ethics & Projects</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-text">
+                            <h4>Using AI Responsibly</h4>
+                            <p>As AI becomes more powerful and widespread, it's important to think about how we use it responsibly. Just like any tool, AI can be used in helpful or harmful ways.</p>
+                            
+                            <p>AI ethics involves thinking about questions like:</p>
+                            <ul>
+                                <li>When should we use AI and when shouldn't we?</li>
+                                <li>How do we make sure AI is fair and doesn't discriminate?</li>
+                                <li>Who is responsible when AI makes a mistake?</li>
+                                <li>How can we make sure humans stay in control of AI?</li>
+                                <li>What happens to privacy when AI can process so much data?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>AI Ethics Discussion</h4>
+                    
+                    <div class="ethics-discussion">
+                        <div class="discussion-point">
+                            <h5>AI and Creativity</h5>
+                            <p>AI can generate art, music, stories, and other creative works. Let's think about what this means:</p>
+                            
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>Potential Benefits</h5>
+                                    <ul>
+                                        <li>Helps people who don't have artistic skills create things</li>
+                                        <li>Provides inspiration for human creators</li>
+                                        <li>Makes art more accessible to everyone</li>
+                                        <li>Can create new styles by combining existing ones</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>Concerns</h5>
+                                    <ul>
+                                        <li>AI learns from human artists' work without permission</li>
+                                        <li>Might replace jobs for artists and creators</li>
+                                        <li>Hard to tell what's made by humans vs. AI</li>
+                                        <li>Questions about who owns AI-generated content</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="discussion-point">
+                            <h5>AI in Education</h5>
+                            <p>AI tools like ChatGPT can write essays, solve homework problems, and answer questions. How should we think about this?</p>
+                            
+                            <div class="pros-cons">
+                                <div class="pros">
+                                    <h5>Potential Benefits</h5>
+                                    <ul>
+                                        <li>Provides explanations in different ways to help understanding</li>
+                                        <li>Can act as a tutor to help with difficult concepts</li>
+                                        <li>Helps students who need extra support</li>
+                                        <li>Can make learning more interactive and engaging</li>
+                                    </ul>
+                                </div>
+                                <div class="cons">
+                                    <h5>Concerns</h5>
+                                    <ul>
+                                        <li>Students might use it to cheat on assignments</li>
+                                        <li>May reduce critical thinking if students rely on it too much</li>
+                                        <li>Could create unfair advantages for students with access to AI</li>
+                                        <li>Sometimes provides incorrect information</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Creating With AI: Project Ideas</h4>
+                    
+                    <div class="ai-project">
+                        <h4>AI Story Collaborator</h4>
+                        <p>Work with an AI to create a short story or comic. You provide the main characters and plot, and the AI helps with dialogue and descriptions.</p>
+                        
+                        <div class="difficulty-meter">
+                            <div class="difficulty-label">Difficulty:</div>
+                            <div class="difficulty-dots">
+                                <div class="dot filled"></div>
+                                <div class="dot filled"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                        </div>
+                        
+                        <a href="../activities/ai-story-collaborator.html" class="button">Try This Project</a>
+                    </div>
+                    
+                    <div class="ai-project">
+                        <h4>Code Explanation Helper</h4>
+                        <p>Find a piece of code that interests you and use an AI to explain how it works. Then try to modify the code based on what you've learned.</p>
+                        
+                        <div class="difficulty-meter">
+                            <div class="difficulty-label">Difficulty:</div>
+                            <div class="difficulty-dots">
+                                <div class="dot filled"></div>
+                                <div class="dot filled"></div>
+                                <div class="dot filled"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                        </div>
+                        
+                        <a href="../activities/code-explanation-helper.html" class="button">Try This Project</a>
+                    </div>
+                    
+                    <div class="ai-project">
+                        <h4>AI Research Assistant</h4>
+                        <p>Use an AI to help research a topic you're interested in. Ask questions, get summaries, and create a presentation with what you learn.</p>
+                        
+                        <div class="difficulty-meter">
+                            <div class="difficulty-label">Difficulty:</div>
+                            <div class="difficulty-dots">
+                                <div class="dot filled"></div>
+                                <div class="dot filled"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                        </div>
+                        
+                        <a href="../activities/ai-research-assistant.html" class="button">Try This Project</a>
+                    </div>
+                    
+                    <h4>Guidelines for Using AI</h4>
+                    <ol>
+                        <li>Always be honest about using AI help</li>
+                        <li>Verify information from AI with reliable sources</li>
+                        <li>Use AI to enhance your work, not replace your thinking</li>
+                        <li>Consider the impact on others when using AI tools</li>
+                        <li>Remember that AI is a tool created by humans, not magic!</li>
+                    </ol>
+                    
+                    <a href="../activities/ai-ethics-discussion.html" class="button">Join the AI Ethics Discussion</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources" class="container">
+            <h2>Resources <i class="fas fa-book"></i></h2>
+            <div class="card">
+                <h3>Additional Learning Materials</h3>
+                
+                <div class="resources-grid">
+                    <a href="https://github.com/skills/copilot-first-code" target="_blank" class="resource-card">
+                        <img src="../assets/images/github-spark-logo.png" alt="GitHub Logo">
+                        <h3>Copilot Tutorial</h3>
+                        <p>Learn to use GitHub Copilot</p>
+                    </a>
+                    
+                    <a href="https://scratch.mit.edu/projects/editor/?tutorial=getStarted" target="_blank" class="resource-card">
+                        <img src="../assets/images/scratch-logo.png" alt="Scratch Logo">
+                        <h3>Scratch Projects</h3>
+                        <p>Create AI-inspired games</p>
+                    </a>
+                    
+                    <a href="https://www.commonsense.org/education/articles/the-teachers-guide-to-chatgpt-and-ai-tools-in-the-classroom" target="_blank" class="resource-card">
+                        <img src="../assets/images/common-sense-media-logo.png" alt="Common Sense Media Logo">
+                        <h3>AI in Education</h3>
+                        <p>Guide to AI tools for students</p>
+                    </a>
+                    
+                    <a href="https://code.org/ai" target="_blank" class="resource-card">
+                        <img src="../assets/images/codeorg-logo.png" alt="Code.org Logo">
+                        <h3>AI for Kids</h3>
+                        <p>Learn how AI works</p>
+                    </a>
+                </div>
+                
+                <h3>Printable Worksheets</h3>
+                <ul class="downloads-list">
+                    <li><a href="../worksheets/ai-vocabulary.pdf" target="_blank"><i class="fas fa-file-pdf"></i> AI Vocabulary Guide</a></li>
+                    <li><a href="../worksheets/prompt-writing-tips.pdf" target="_blank"><i class="fas fa-file-pdf"></i> AI Prompt Writing Tips</a></li>
+                    <li><a href="../worksheets/ai-ethics-scenarios.pdf" target="_blank"><i class="fas fa-file-pdf"></i> AI Ethics Scenario Cards</a></li>
+                    <li><a href="../worksheets/copilot-reference.pdf" target="_blank"><i class="fas fa-file-pdf"></i> GitHub Copilot Reference</a></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="container">
+            <div class="course-completion">
+                <h2>Course Completion <i class="fas fa-award"></i></h2>
+                <div class="card completion-card">
+                    <div class="completion-content">
+                        <h3>Congratulations Tech Explorer!</h3>
+                        <p>You've completed all four sessions of the Tech Explorers Program! We've covered:</p>
+                        <ul>
+                            <li>Technology fundamentals and how the Internet works</li>
+                            <li>Computer hardware, software, and how data is stored</li>
+                            <li>Programming with HTML, CSS, and Python</li>
+                            <li>GitHub and version control</li>
+                            <li>Artificial Intelligence and coding with AI assistance</li>
+                        </ul>
+                        
+                        <p>This is just the beginning of your technology journey! Keep exploring, creating, and learning.</p>
+                        
+                        <h4>Next Steps:</h4>
+                        <ul>
+                            <li>Continue with the projects from our activities section</li>
+                            <li>Explore the additional resources we've provided</li>
+                            <li>Try creating your own technology projects</li>
+                            <li>Share what you've learned with friends and family</li>
+                        </ul>
+                        
+                        <a href="../activities/all-activities.html" class="button">Explore All Activities</a>
+                        <a href="../index.html" class="button">Return to Home</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tech Explorers Program | Created with ❤️ for young technologists</p>
+            <a href="../index.html">Back to Home</a>
+        </div>
+    </footer>
+
+    <script>
+        function openActivity(evt, activityName) {
+            // Hide all activity content
+            let tabContent = document.getElementsByClassName("activity-content");
+            for (let i = 0; i < tabContent.length; i++) {
+                tabContent[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tab buttons
+            let tabButtons = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // Show the selected content and mark button as active
+            document.getElementById(activityName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // AI example answer reveal
+        function revealAnswer(button, answer) {
+            const answerElement = button.nextElementSibling;
+            answerElement.classList.remove('hidden');
+            button.textContent = `Answer: ${answer}`;
+            button.disabled = true;
+        }
+    </script>
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

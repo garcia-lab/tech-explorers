@@ -1,0 +1,166 @@
+/* Session 4 specific styles */
+
+/* Header with AI theme */
+.session-header {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/github-spark-logo.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+/* AI tools comparison */
+.ai-tools-comparison {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.ai-tool-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.ai-tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ai-tool-card img {
+    max-width: 100px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+/* GitHub Copilot examples */
+.copilot-example {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.example-header {
+    background-color: #f1f1f1;
+    padding: 1rem;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.example-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.prompt, .completion {
+    padding: 1rem;
+}
+
+.prompt {
+    background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+}
+
+.completion {
+    background-color: #f0ffef;
+}
+
+/* AI ethics discussion */
+.ethics-discussion {
+    margin: 2rem 0;
+}
+
+.discussion-point {
+    background-color: #f9f9f9;
+    border-left: 4px solid #4CAF50;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.pros, .cons {
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.pros {
+    background-color: #e8f5e9;
+    border: 1px solid #a5d6a7;
+}
+
+.cons {
+    background-color: #ffebee;
+    border: 1px solid #ef9a9a;
+}
+
+/* AI project ideas */
+.ai-project {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #f9f9f9;
+}
+
+.ai-project h4 {
+    color: #4CAF50;
+    margin-top: 0;
+}
+
+.difficulty-meter {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.difficulty-label {
+    margin-right: 0.5rem;
+    font-weight: bold;
+}
+
+.difficulty-dots {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ccc;
+}
+
+.dot.filled {
+    background-color: #4CAF50;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .example-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .prompt {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .pros-cons {
+        grid-template-columns: 1fr;
+    }
+}
