@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Explorers - Coloring Pages</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .coloring-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .coloring-item {
+            width: 300px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .coloring-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .coloring-item img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+        }
+        
+        .coloring-item h3 {
+            margin: 10px 0;
+        }
+        
+        .coloring-item .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .coloring-item .download-btn:hover {
+            background-color: #45a049;
+        }
+        
+        @media print {
+            .no-print {
+                display: none;
+            }
+            
+            .coloring-item {
+                page-break-inside: avoid;
+                border: none;
+                width: 100%;
+                padding: 0;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="no-print">
+        <h1>Tech Explorers</h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../activities/all-activities.html">All Activities</a></li>
+                <li><a href="../session1/index.html">Session 1</a></li>
+                <li><a href="../session2/index.html">Session 2</a></li>
+                <li><a href="../session3/index.html">Session 3</a></li>
+                <li><a href="../session4/index.html">Session 4</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section>
+            <h2>Tech Explorers Coloring Pages</h2>
+            <p>Download and print these tech-themed coloring pages for a fun and creative activity!</p>
+            
+            <div class="coloring-container">
+                <div class="coloring-item">
+                    <img src="../assets/images/computer-parts.png" alt="Computer Parts Coloring Page">
+                    <h3>Computer Parts</h3>
+                    <p>Learn about different computer components while coloring!</p>
+                    <a href="#" class="download-btn" onclick="window.print(); return false;">Print This Page</a>
+                </div>
+                
+                <div class="coloring-item">
+                    <img src="../assets/images/internet-diagram.png" alt="Internet Diagram Coloring Page">
+                    <h3>Internet Diagram</h3>
+                    <p>Color the internet connection diagram and learn how data flows!</p>
+                    <a href="#" class="download-btn" onclick="window.print(); return false;">Print This Page</a>
+                </div>
+                
+                <div class="coloring-item">
+                    <img src="https://placehold.co/300x200?text=Coding+Concepts" alt="Coding Concepts Coloring Page">
+                    <h3>Coding Concepts</h3>
+                    <p>Illustrative coding concepts for young programmers to color!</p>
+                    <a href="#" class="download-btn" onclick="window.print(); return false;">Print This Page</a>
+                </div>
+                
+                <div class="coloring-item">
+                    <img src="https://placehold.co/300x200?text=Robot+Friend" alt="Robot Friend Coloring Page">
+                    <h3>Robot Friend</h3>
+                    <p>Design and color your own robot companion!</p>
+                    <a href="#" class="download-btn" onclick="window.print(); return false;">Print This Page</a>
+                </div>
+                
+                <div class="coloring-item">
+                    <img src="https://placehold.co/300x200?text=Digital+World" alt="Digital World Coloring Page">
+                    <h3>Digital World</h3>
+                    <p>Explore the digital world through this creative coloring page!</p>
+                    <a href="#" class="download-btn" onclick="window.print(); return false;">Print This Page</a>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3>How to Use These Coloring Pages:</h3>
+                <ol>
+                    <li>Click the "Print This Page" button below each coloring page you want to use.</li>
+                    <li>Make sure your printer is set to print in black and white or draft mode to save ink.</li>
+                    <li>Use colored pencils, crayons, or markers to bring these tech-themed images to life!</li>
+                    <li>While coloring, discuss the technology concepts represented in each image.</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="no-print">
+        <p>&copy; 2023 Tech Explorers. All rights reserved.</p>
+    </footer>
+</body>
+</html>
