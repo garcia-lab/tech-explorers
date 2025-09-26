@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 1: Technology Fundamentals - Tech Explorers</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="session1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="session-header">
+        <div class="container">
+            <h1>Session 1: Technology Fundamentals</h1>
+            <p>Understanding the building blocks of modern technology</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#overview"><i class="fas fa-map"></i> Overview</a></li>
+                <li><a href="#activities"><i class="fas fa-tasks"></i> Activities</a></li>
+                <li><a href="#resources"><i class="fas fa-book"></i> Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section id="overview" class="container">
+            <h2>Session Overview <i class="fas fa-map-marked-alt"></i></h2>
+            <div class="card">
+                <h3>Welcome to Session 1!</h3>
+                <p>In this first session, we'll explore the fundamental concepts of technology and the internet. We'll learn about how computers communicate, what happens when you click a link, and how to be a good digital citizen!</p>
+                
+                <div class="learning-objectives">
+                    <h3>Learning Objectives</h3>
+                    <ul>
+                        <li>Understand how the internet works at a basic level</li>
+                        <li>Learn about web browsers and websites</li>
+                        <li>Explore the concept of digital citizenship</li>
+                        <li>Experience simple command-line interactions</li>
+                        <li>Create your first HTML webpage</li>
+                    </ul>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Introduction (15 minutes)</h4>
+                            <p>Meet the instructor and your fellow explorers!</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>How the Internet Works (30 minutes)</h4>
+                            <p>Discover the fascinating journey of data across the web</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Break (10 minutes)</h4>
+                            <p>Time to stretch and ask questions</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Terminal Basics (25 minutes)</h4>
+                            <p>Learn to communicate with computers using text commands</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Creating Your First Webpage (30 minutes)</h4>
+                            <p>Write HTML code to make a simple webpage</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Wrap-up and Preview (10 minutes)</h4>
+                            <p>Review what we've learned and preview Session 2</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="activities" class="container">
+            <h2>Activities <i class="fas fa-flask"></i></h2>
+            
+            <div class="activity-tabs">
+                <button class="tab-btn active" onclick="openActivity(event, 'internet')">Internet Exploration</button>
+                <button class="tab-btn" onclick="openActivity(event, 'terminal')">Terminal Adventure</button>
+                <button class="tab-btn" onclick="openActivity(event, 'webpage')">My First Webpage</button>
+                <button class="tab-btn" onclick="openActivity(event, 'citizenship')">Digital Citizenship</button>
+            </div>
+            
+            <div id="internet" class="activity-content active">
+                <div class="card">
+                    <h3>How the Internet Works</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-image">
+                            <img src="../assets/images/internet-diagram.png" alt="Internet diagram showing connections between devices">
+                        </div>
+                        <div class="concept-text">
+                            <h4>The Internet is Like a Giant Mail System</h4>
+                            <p>When you open a website, your computer sends a request across many connected computers called servers. These servers work together to find the right information and send it back to your computer.</p>
+                            
+                            <p>This happens in just seconds, even though the information might travel thousands of miles!</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Activity: Internet Scavenger Hunt</h4>
+                    <ol>
+                        <li>Find out what IP address is</li>
+                        <li>Discover what DNS stands for and what it does</li>
+                        <li>Find a website that was created before you were born</li>
+                        <li>Learn what HTTP stands for</li>
+                        <li>Find out who invented the World Wide Web</li>
+                    </ol>
+                    
+                    <a href="../activities/internet-scavenger-hunt.html" class="button">Start Scavenger Hunt</a>
+                </div>
+            </div>
+            
+            <div id="terminal" class="activity-content">
+                <div class="card">
+                    <h3>Terminal Basics</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-image">
+                            <div class="terminal-example">
+                                <div class="terminal-header">
+                                    <span class="terminal-button red"></span>
+                                    <span class="terminal-button yellow"></span>
+                                    <span class="terminal-button green"></span>
+                                </div>
+                                <div class="terminal-body">
+                                    <p><span class="prompt">$</span> <span class="command">ls</span></p>
+                                    <p class="output">Documents  Downloads  Pictures  Music</p>
+                                    <p><span class="prompt">$</span> <span class="command">cd Documents</span></p>
+                                    <p><span class="prompt">$</span> <span class="command">mkdir TechExplorers</span></p>
+                                    <p><span class="prompt">$</span> <span class="command">cd TechExplorers</span></p>
+                                    <p><span class="prompt">$</span> <span class="command">echo "Hello World!" > hello.txt</span></p>
+                                    <p><span class="prompt">$</span> <span class="command">cat hello.txt</span></p>
+                                    <p class="output">Hello World!</p>
+                                    <p><span class="prompt">$</span> <span class="blink">_</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="concept-text">
+                            <h4>Terminal: Talking Directly to Your Computer</h4>
+                            <p>A terminal (or command line) lets you control your computer by typing text commands. It might look old-fashioned, but it's powerful and used by professional programmers every day!</p>
+                            
+                            <p>Here are some basic commands:</p>
+                            <ul>
+                                <li><code>ls</code> - List files and folders</li>
+                                <li><code>cd</code> - Change directory (move between folders)</li>
+                                <li><code>mkdir</code> - Make a new directory (folder)</li>
+                                <li><code>echo</code> - Print text or save it to a file</li>
+                                <li><code>cat</code> - Display the contents of a file</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Activity: Terminal Challenge</h4>
+                    <p>Follow these steps to complete the challenge:</p>
+                    <ol>
+                        <li>Open Terminal (Mac) or Command Prompt (Windows)</li>
+                        <li>Navigate to your Documents folder using <code>cd Documents</code></li>
+                        <li>Create a folder called "TechExplorers" using <code>mkdir TechExplorers</code></li>
+                        <li>Navigate into that folder using <code>cd TechExplorers</code></li>
+                        <li>Create a file with a greeting using <code>echo "Hi, I'm [your name]!" > greeting.txt</code></li>
+                        <li>View your file using <code>cat greeting.txt</code></li>
+                    </ol>
+                    
+                    <a href="../activities/terminal-tutorial.html" class="button">Interactive Terminal Tutorial</a>
+                </div>
+            </div>
+            
+            <div id="webpage" class="activity-content">
+                <div class="card">
+                    <h3>My First Webpage</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-image">
+                            <div class="code-example">
+                                <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My First Webpage&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello World!&lt;/h1&gt;
+    &lt;p&gt;This is my first webpage.&lt;/p&gt;
+    &lt;ul&gt;
+        &lt;li&gt;I like technology&lt;/li&gt;
+        &lt;li&gt;I'm learning to code&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                            </div>
+                        </div>
+                        <div class="concept-text">
+                            <h4>HTML: The Building Blocks of the Web</h4>
+                            <p>HTML (HyperText Markup Language) is the code used to structure webpages. It uses "tags" to define different parts of a page.</p>
+                            
+                            <p>Common HTML tags:</p>
+                            <ul>
+                                <li><code>&lt;h1&gt;</code> - Main heading</li>
+                                <li><code>&lt;p&gt;</code> - Paragraph</li>
+                                <li><code>&lt;ul&gt;</code> - Unordered list</li>
+                                <li><code>&lt;li&gt;</code> - List item</li>
+                                <li><code>&lt;a&gt;</code> - Link</li>
+                                <li><code>&lt;img&gt;</code> - Image</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Activity: Create Your Own Webpage</h4>
+                    <p>Follow these steps to create a webpage about yourself:</p>
+                    <ol>
+                        <li>Open a text editor (like Notepad or TextEdit)</li>
+                        <li>Copy the HTML example shown above</li>
+                        <li>Modify the text to be about you and your interests</li>
+                        <li>Save the file as "mypage.html"</li>
+                        <li>Open the file in a web browser to see your page!</li>
+                    </ol>
+                    
+                    <div class="challenge-box">
+                        <h4>Extra Challenge:</h4>
+                        <p>Try adding these elements to your page:</p>
+                        <ul>
+                            <li>An image using <code>&lt;img src="url-to-image"&gt;</code></li>
+                            <li>A link to your favorite website using <code>&lt;a href="website-url"&gt;Link text&lt;/a&gt;</code></li>
+                            <li>Different size headings with <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>, etc.</li>
+                        </ul>
+                    </div>
+                    
+                    <a href="../activities/html-playground.html" class="button">Interactive HTML Editor</a>
+                </div>
+            </div>
+            
+            <div id="citizenship" class="activity-content">
+                <div class="card">
+                    <h3>Digital Citizenship</h3>
+                    
+                    <div class="concept-explainer">
+                        <div class="concept-image">
+                            <img src="../assets/images/digital-citizenship.png" alt="Digital citizenship concepts illustrated">
+                        </div>
+                        <div class="concept-text">
+                            <h4>Being a Good Digital Citizen</h4>
+                            <p>Digital citizenship is about using technology responsibly and respectfully. Just like in the real world, the online world has rules and etiquette that help keep everyone safe and happy.</p>
+                            
+                            <p>Key aspects of digital citizenship:</p>
+                            <ul>
+                                <li>Protecting your privacy and personal information</li>
+                                <li>Being kind and respectful online</li>
+                                <li>Giving credit for others' work (citing sources)</li>
+                                <li>Balancing screen time with other activities</li>
+                                <li>Critical thinking about online information</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4>Activity: Digital Citizenship Scenarios</h4>
+                    <p>Discuss what you would do in these situations:</p>
+                    
+                    <div class="scenario">
+                        <h5>Scenario 1: Online Research</h5>
+                        <p>You're working on a school project about dinosaurs and find some interesting facts online. How do you use this information in your project?</p>
+                    </div>
+                    
+                    <div class="scenario">
+                        <h5>Scenario 2: Social Media</h5>
+                        <p>You see a classmate posting unkind comments about another student online. What should you do?</p>
+                    </div>
+                    
+                    <div class="scenario">
+                        <h5>Scenario 3: Privacy</h5>
+                        <p>A game asks for your home address and phone number during sign-up. Should you provide this information?</p>
+                    </div>
+                    
+                    <div class="scenario">
+                        <h5>Scenario 4: Screen Time</h5>
+                        <p>You've been playing a fun coding game for two hours, but you have homework to do. How do you manage your time?</p>
+                    </div>
+                    
+                    <a href="../activities/digital-citizenship-quiz.html" class="button">Take the Digital Citizenship Quiz</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources" class="container">
+            <h2>Resources <i class="fas fa-book"></i></h2>
+            <div class="card">
+                <h3>Additional Learning Materials</h3>
+                
+                <div class="resources-grid">
+                    <a href="https://www.commonsense.org/education/digital-citizenship" target="_blank" class="resource-card">
+                        <img src="../assets/images/common-sense-media-logo.png" alt="Common Sense Media Logo">
+                        <h3>Digital Citizenship</h3>
+                        <p>Resources for being safe online</p>
+                    </a>
+                    
+                    <a href="https://code.org/curriculum/course1/4/Teacher" target="_blank" class="resource-card">
+                        <img src="../assets/images/codeorg-logo.png" alt="Code.org Logo">
+                        <h3>Internet Basics</h3>
+                        <p>How data travels on the internet</p>
+                    </a>
+                    
+                    <a href="https://www.w3schools.com/html/html_basic.asp" target="_blank" class="resource-card">
+                        <img src="../assets/images/w3schools-logo.png" alt="W3Schools Logo">
+                        <h3>HTML Basics</h3>
+                        <p>Complete HTML tutorial</p>
+                    </a>
+                    
+                    <a href="https://hourofcode.com/us/learn" target="_blank" class="resource-card">
+                        <img src="../assets/images/hour-of-code-logo.png" alt="Hour of Code Logo">
+                        <h3>Hour of Code</h3>
+                        <p>Fun coding activities for beginners</p>
+                    </a>
+                </div>
+                
+                <h3>Printable Worksheets</h3>
+                <ul class="downloads-list">
+                    <li><a href="../worksheets/internet-diagram.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Internet Diagram Worksheet</a></li>
+                    <li><a href="../worksheets/html-cheatsheet.pdf" target="_blank"><i class="fas fa-file-pdf"></i> HTML Cheat Sheet</a></li>
+                    <li><a href="../worksheets/terminal-commands.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Terminal Commands Reference</a></li>
+                    <li><a href="../worksheets/digital-citizenship-pledge.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Digital Citizenship Pledge</a></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="container">
+            <div class="next-session">
+                <h2>Coming Up Next <i class="fas fa-arrow-right"></i></h2>
+                <div class="card next-preview">
+                    <div class="next-content">
+                        <h3>Session 2: Inside Computers</h3>
+                        <p>In our next session, we'll explore the inner workings of computers, learning about hardware, software, and how they work together.</p>
+                        <ul>
+                            <li>Discover the main parts of a computer</li>
+                            <li>Learn about operating systems</li>
+                            <li>Understand how software works</li>
+                            <li>Create simple programs</li>
+                        </ul>
+                    </div>
+                    <div class="next-image">
+                        <img src="../assets/images/computer-parts.png" alt="Computer parts diagram">
+                    </div>
+                </div>
+                <a href="../session2/" class="button">Preview Session 2</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tech Explorers Program | Created with ❤️ for young technologists</p>
+            <a href="../index.html">Back to Home</a>
+        </div>
+    </footer>
+
+    <script>
+        function openActivity(evt, activityName) {
+            // Hide all activity content
+            let tabContent = document.getElementsByClassName("activity-content");
+            for (let i = 0; i < tabContent.length; i++) {
+                tabContent[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tab buttons
+            let tabButtons = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // Show the selected content and mark button as active
+            document.getElementById(activityName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

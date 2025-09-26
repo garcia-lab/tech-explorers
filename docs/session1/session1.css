@@ -1,0 +1,345 @@
+/* Styles specific to Session 1 page */
+
+/* Session Header Styling */
+.session-header {
+    background: linear-gradient(135deg, #4361ee, #7209b7);
+}
+
+/* Timeline Styling */
+.timeline {
+    position: relative;
+    margin: 30px 0;
+    padding: 0;
+}
+
+.timeline:before {
+    content: '';
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    bottom: 10px;
+    width: 4px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 80px;
+    margin-bottom: 25px;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 46px;
+    top: 15px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.2);
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px 20px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.timeline-content h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.timeline-content p {
+    margin: 0;
+    color: var(--text-light);
+}
+
+/* Learning Objectives Styling */
+.learning-objectives {
+    background-color: rgba(114, 9, 183, 0.08);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 25px 0;
+}
+
+.learning-objectives ul {
+    padding-left: 20px;
+}
+
+.learning-objectives li {
+    margin-bottom: 8px;
+}
+
+/* Activity Tabs Styling */
+.activity-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.tab-btn {
+    padding: 12px 20px;
+    background: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Varela Round', sans-serif;
+    color: var(--text-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.activity-content {
+    display: none;
+}
+
+.activity-content.active {
+    display: block;
+}
+
+/* Concept Explainer Styling */
+.concept-explainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 30px 0;
+    align-items: flex-start;
+}
+
+.concept-image {
+    flex: 1;
+    min-width: 300px;
+}
+
+.concept-image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.concept-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Terminal Example Styling */
+.terminal-example {
+    background: #2e3440;
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: monospace;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.terminal-header {
+    background: #3b4252;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.terminal-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-button.red {
+    background: #bf616a;
+}
+
+.terminal-button.yellow {
+    background: #ebcb8b;
+}
+
+.terminal-button.green {
+    background: #a3be8c;
+}
+
+.terminal-body {
+    padding: 15px;
+    color: #eceff4;
+    line-height: 1.5;
+}
+
+.terminal-body p {
+    margin: 5px 0;
+    white-space: pre-wrap;
+}
+
+.terminal-body .prompt {
+    color: #88c0d0;
+    margin-right: 10px;
+}
+
+.terminal-body .command {
+    color: #d8dee9;
+}
+
+.terminal-body .output {
+    color: #a3be8c;
+    padding-left: 20px;
+}
+
+.blink {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* Code Example Styling */
+.code-example {
+    background: #f6f8fa;
+    border-radius: 10px;
+    overflow: auto;
+    font-family: monospace;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.code-example pre {
+    padding: 15px;
+    margin: 0;
+}
+
+.code-example code {
+    color: #032f62;
+}
+
+/* Challenge Box Styling */
+.challenge-box {
+    background-color: rgba(255, 209, 102, 0.2);
+    border-left: 4px solid var(--warning-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 25px 0;
+}
+
+/* Scenario Styling */
+.scenario {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.scenario h5 {
+    margin-top: 0;
+    color: var(--secondary-color);
+}
+
+.scenario p {
+    margin-bottom: 0;
+}
+
+/* Downloads List Styling */
+.downloads-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.downloads-list li {
+    margin-bottom: 10px;
+}
+
+.downloads-list a {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.downloads-list a:hover {
+    background-color: #f0f0f0;
+    transform: translateX(5px);
+}
+
+.downloads-list i {
+    margin-right: 10px;
+    color: var(--accent-color);
+}
+
+/* Next Session Preview Styling */
+.next-session {
+    margin: 60px 0 30px;
+}
+
+.next-preview {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 30px;
+}
+
+.next-content {
+    flex: 2;
+    min-width: 300px;
+}
+
+.next-image {
+    flex: 1;
+    min-width: 250px;
+    text-align: center;
+}
+
+.next-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .concept-explainer {
+        flex-direction: column;
+    }
+    
+    .next-preview {
+        flex-direction: column;
+    }
+    
+    .timeline:before {
+        left: 30px;
+    }
+    
+    .timeline-item {
+        padding-left: 60px;
+    }
+    
+    .timeline-dot {
+        left: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .activity-tabs {
+        flex-direction: column;
+    }
+    
+    .tab-btn {
+        width: 100%;
+    }
+}
