@@ -1,4 +1,4 @@
-# Tech Explorers: Coding for Middle School Students
+# Tech Explorers
 
 Welcome to the Tech Explorers curriculum! This project aims to introduce middle school students (ages 10-14) to the exciting world of coding and computer science through a series of engaging, hands-on lessons.
 
