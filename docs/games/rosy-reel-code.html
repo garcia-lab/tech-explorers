@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎣 Rosy Reel - How the Code Works!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #87ceeb, #1e90ff);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .logo-section h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo-section p {
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-links a {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.9);
+            color: #4361ee;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            transform: scale(1.05);
+            background: white;
+        }
+        
+        /* Introduction Card */
+        .intro-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .intro-card h2 {
+            color: #3a0ca3;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .intro-card p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .concept-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        
+        .concept-card:hover, .concept-card.active {
+            transform: translateY(-5px);
+            border-color: #4361ee;
+            box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .concept-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .concept-card h3 {
+            color: #3a0ca3;
+            font-size: 1.1rem;
+        }
+        
+        /* Main Code Explorer */
+        .explorer-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+        }
+        
+        @media (max-width: 1000px) {
+            .explorer-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Code Panel */
+        .code-panel {
+            background: #1e1e1e;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .code-header {
+            background: #2d2d2d;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27c93f; }
+        
+        .code-title {
+            color: #888;
+            margin-left: 15px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .code-content {
+            padding: 20px;
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        pre {
+            margin: 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        
+        code {
+            color: #d4d4d4;
+        }
+        
+        /* Syntax highlighting */
+        .keyword { color: #c586c0; }
+        .function { color: #dcdcaa; }
+        .string { color: #ce9178; }
+        .number { color: #b5cea8; }
+        .comment { color: #6a9955; }
+        .variable { color: #9cdcfe; }
+        .property { color: #9cdcfe; }
+        .tag { color: #569cd6; }
+        .attribute { color: #9cdcfe; }
+        .value { color: #ce9178; }
+        .operator { color: #d4d4d4; }
+        
+        /* Highlight spans - clickable code sections */
+        .code-highlight {
+            background: rgba(67, 97, 238, 0.3);
+            border-radius: 4px;
+            padding: 2px 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .code-highlight:hover {
+            background: rgba(67, 97, 238, 0.5);
+        }
+        
+        .code-highlight.active {
+            background: rgba(247, 37, 133, 0.4);
+            box-shadow: 0 0 10px rgba(247, 37, 133, 0.5);
+        }
+        
+        /* Explanation Panel */
+        .explanation-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .explanation-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .explanation-card h3 {
+            color: #3a0ca3;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .explanation-card p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .explanation-card ul {
+            margin-left: 20px;
+            color: #555;
+        }
+        
+        .explanation-card li {
+            margin-bottom: 8px;
+        }
+        
+        .code-mini {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid #4361ee;
+        }
+        
+        /* Interactive popup tooltip */
+        .tooltip {
+            position: fixed;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+            max-width: 350px;
+            z-index: 1000;
+            display: none;
+            border: 3px solid #4361ee;
+        }
+        
+        .tooltip.show {
+            display: block;
+            animation: popIn 0.3s ease;
+        }
+        
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .tooltip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .tooltip-header h4 {
+            color: #3a0ca3;
+            font-size: 1.1rem;
+        }
+        
+        .tooltip-close {
+            background: #f72585;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tooltip p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .tooltip .emoji {
+            font-size: 2rem;
+            text-align: center;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        /* Section tabs */
+        .section-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .section-tab {
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .section-tab:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .section-tab.active {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+        }
+        
+        /* Try It Yourself Section */
+        .try-it-section {
+            background: linear-gradient(135deg, #ffd166, #f72585);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            color: white;
+        }
+        
+        .try-it-section h2 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .try-it-section p {
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .try-it-btn {
+            display: inline-block;
+            background: white;
+            color: #f72585;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .try-it-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Fun Facts */
+        .fun-fact-box {
+            background: linear-gradient(135deg, #06d6a0, #00b894);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .fun-fact-box h4 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <h1>🎣 Rosy Reel: Code Explorer</h1>
+                <p>Learn how the fishing game actually works!</p>
+            </div>
+            <div class="nav-links">
+                <a href="rosy-reel.html"><i class="fas fa-gamepad"></i> Play Game</a>
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+            </div>
+        </header>
+        
+        <!-- Introduction -->
+        <section class="intro-card">
+            <h2>🔍 How is a Game Made with Code?</h2>
+            <p>
+                Every game - from Minecraft to Rosy Reel - is built with code! Code tells the computer exactly what to draw on the screen, what happens when you click, and how to keep score. Let's explore how Rosy Reel works by looking at real pieces of its code!
+            </p>
+            
+            <div class="concept-grid">
+                <div class="concept-card" onclick="showSection('html')">
+                    <div class="icon">🏗️</div>
+                    <h3>HTML Structure</h3>
+                    <p>The building blocks</p>
+                </div>
+                <div class="concept-card" onclick="showSection('css')">
+                    <div class="icon">🎨</div>
+                    <h3>CSS Styling</h3>
+                    <p>Colors & animations</p>
+                </div>
+                <div class="concept-card" onclick="showSection('variables')">
+                    <div class="icon">📦</div>
+                    <h3>Variables</h3>
+                    <p>Remembering things</p>
+                </div>
+                <div class="concept-card" onclick="showSection('functions')">
+                    <div class="icon">⚙️</div>
+                    <h3>Functions</h3>
+                    <p>Actions & events</p>
+                </div>
+                <div class="concept-card" onclick="showSection('gameloop')">
+                    <div class="icon">🔄</div>
+                    <h3>Game Loop</h3>
+                    <p>Making fish move</p>
+                </div>
+                <div class="concept-card" onclick="showSection('events')">
+                    <div class="icon">🖱️</div>
+                    <h3>Click Events</h3>
+                    <p>Player input</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section Tabs -->
+        <div class="section-tabs">
+            <button class="section-tab active" onclick="showSection('html')">🏗️ HTML</button>
+            <button class="section-tab" onclick="showSection('css')">🎨 CSS</button>
+            <button class="section-tab" onclick="showSection('variables')">📦 Variables</button>
+            <button class="section-tab" onclick="showSection('functions')">⚙️ Functions</button>
+            <button class="section-tab" onclick="showSection('gameloop')">🔄 Game Loop</button>
+            <button class="section-tab" onclick="showSection('events')">🖱️ Events</button>
+        </div>
+        
+        <!-- Main Explorer Layout -->
+        <div class="explorer-layout">
+            <!-- Code Panel -->
+            <div class="code-panel">
+                <div class="code-header">
+                    <div class="code-dot red"></div>
+                    <div class="code-dot yellow"></div>
+                    <div class="code-dot green"></div>
+                    <span class="code-title" id="code-title">rosy-reel.html</span>
+                </div>
+                <div class="code-content">
+                    <pre><code id="code-display"></code></pre>
+                </div>
+            </div>
+            
+            <!-- Explanation Panel -->
+            <div class="explanation-panel" id="explanation-panel">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+        
+        <!-- Try It Yourself -->
+        <section class="try-it-section">
+            <h2>✨ Try It Yourself!</h2>
+            <p>
+                Now that you understand how the code works, why not try making your own game? 
+                Start with the JavaScript Playground and experiment with variables, functions, and events!
+            </p>
+            <a href="../playground/js-playground.html" class="try-it-btn">
+                <i class="fas fa-code"></i> Open JavaScript Playground
+            </a>
+            <a href="../playground/project-builder.html" class="try-it-btn" style="margin-left: 15px;">
+                <i class="fas fa-rocket"></i> Build Your Own Project
+            </a>
+        </section>
+    </div>
+    
+    <!-- Tooltip for interactive code highlights -->
+    <div class="tooltip" id="tooltip">
+        <div class="tooltip-header">
+            <h4 id="tooltip-title">Title</h4>
+            <button class="tooltip-close" onclick="hideTooltip()">×</button>
+        </div>
+        <span class="emoji" id="tooltip-emoji">🎣</span>
+        <p id="tooltip-content">Explanation goes here.</p>
+    </div>
+    
+    <script>
+        // Code sections with explanations
+        const codeSections = {
+            html: {
+                title: 'HTML - The Game Structure',
+                filename: 'rosy-reel.html (HTML)',
+                code: `<span class="comment">&lt;!-- The Fishing Pond - Where the magic happens! --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attribute">class</span>=<span class="value">"pond"</span> <span class="attribute">id</span>=<span class="value">"pond"</span><span class="tag">&gt;</span>
+    
+    <span class="comment">&lt;!-- Sky with sun and clouds --&gt;</span>
+    <span class="code-highlight" data-tooltip="sky">&lt;div class="sky"&gt;
+        &lt;svg class="sun"&gt;...&lt;/svg&gt;
+        &lt;svg class="cloud"&gt;...&lt;/svg&gt;
+    &lt;/div&gt;</span>
+    
+    <span class="comment">&lt;!-- Beach with cat friends --&gt;</span>
+    <span class="code-highlight" data-tooltip="beach">&lt;div class="beach"&gt;
+        &lt;div class="beach-friend"&gt;🐱&lt;/div&gt;
+    &lt;/div&gt;</span>
+    
+    <span class="comment">&lt;!-- Water where fish swim --&gt;</span>
+    <span class="code-highlight" data-tooltip="water">&lt;div class="water"&gt;&lt;/div&gt;</span>
+    
+    <span class="comment">&lt;!-- The cat in the boat --&gt;</span>
+    <span class="code-highlight" data-tooltip="boat">&lt;div class="boat-container" id="boat"&gt;
+        &lt;svg&gt;...boat graphics...&lt;/svg&gt;
+        &lt;svg id="fishing-cat"&gt;...cat...&lt;/svg&gt;
+    &lt;/div&gt;</span>
+    
+    <span class="comment">&lt;!-- Fishing line --&gt;</span>
+    <span class="code-highlight" data-tooltip="line">&lt;div class="fishing-line" id="fishing-line"&gt;
+        &lt;div class="hook"&gt;&lt;/div&gt;
+    &lt;/div&gt;</span>
+    
+    <span class="comment">&lt;!-- Container for all the fish --&gt;</span>
+    <span class="code-highlight" data-tooltip="fishcontainer">&lt;div id="fish-container"&gt;&lt;/div&gt;</span>
+
+<span class="tag">&lt;/div&gt;</span>`,
+                explanation: `
+                    <div class="explanation-card">
+                        <h3>🏗️ HTML is the Game's Skeleton</h3>
+                        <p>
+                            Just like your body has a skeleton that gives it shape, HTML creates the structure of our game. Each part of the game is a <strong>&lt;div&gt;</strong> element - a container that holds something.
+                        </p>
+                        <p>Click on the <span style="background: rgba(67, 97, 238, 0.3); padding: 2px 6px; border-radius: 4px;">highlighted code</span> to learn what each part does!</p>
+                        
+                        <div class="code-mini">
+&lt;div id="pond"&gt;  ← Container for everything
+    &lt;div class="sky"&gt;...&lt;/div&gt;    ← Top of screen
+    &lt;div class="beach"&gt;...&lt;/div&gt;  ← Middle
+    &lt;div class="water"&gt;...&lt;/div&gt;  ← Bottom
+&lt;/div&gt;
+                        </div>
+                        
+                        <div class="fun-fact-box">
+                            <h4>💡 Fun Fact</h4>
+                            <p>The game uses SVG (Scalable Vector Graphics) to draw the cat and fish. SVGs are like instructions for drawing - "draw a circle here, a line there" - so they look crisp at any size!</p>
+                        </div>
+                    </div>
+                `
+            },
+            css: {
+                title: 'CSS - Making It Look Good',
+                filename: 'rosy-reel.html (CSS)',
+                code: `<span class="comment">/* The water effect - a gradient from light to dark blue */</span>
+<span class="code-highlight" data-tooltip="gradient">.water {
+    <span class="property">background</span>: <span class="function">linear-gradient</span>(
+        <span class="number">180deg</span>,
+        <span class="value">#4fc3f7</span>,  <span class="comment">/* Light blue at top */</span>
+        <span class="value">#1976d2</span>   <span class="comment">/* Dark blue at bottom */</span>
+    );
+}</span>
+
+<span class="comment">/* Make fish wiggle when caught! */</span>
+<span class="code-highlight" data-tooltip="animation">@keyframes fishStruggle {
+    <span class="number">0%</span>, <span class="number">100%</span> { 
+        <span class="property">transform</span>: <span class="function">rotate</span>(<span class="number">-10deg</span>); 
+    }
+    <span class="number">50%</span> { 
+        <span class="property">transform</span>: <span class="function">rotate</span>(<span class="number">10deg</span>); 
+    }
+}
+
+.fish.caught {
+    <span class="property">animation</span>: fishStruggle <span class="number">0.3s</span> infinite;
+}</span>
+
+<span class="comment">/* Toast notifications slide in from the right */</span>
+<span class="code-highlight" data-tooltip="toast">@keyframes slideIn {
+    <span class="keyword">from</span> {
+        <span class="property">opacity</span>: <span class="number">0</span>;
+        <span class="property">transform</span>: <span class="function">translateX</span>(<span class="number">100px</span>);
+    }
+    <span class="keyword">to</span> {
+        <span class="property">opacity</span>: <span class="number">1</span>;
+        <span class="property">transform</span>: <span class="function">translateX</span>(<span class="number">0</span>);
+    }
+}</span>
+
+<span class="comment">/* Fish gently float up and down */</span>
+<span class="code-highlight" data-tooltip="float">@keyframes fishFloat {
+    <span class="number">0%</span>, <span class="number">100%</span> { 
+        <span class="property">transform</span>: <span class="function">translateY</span>(<span class="number">0</span>); 
+    }
+    <span class="number">50%</span> { 
+        <span class="property">transform</span>: <span class="function">translateY</span>(<span class="number">-5px</span>); 
+    }
+}</span>`,
+                explanation: `
+                    <div class="explanation-card">
+                        <h3>🎨 CSS Makes Things Beautiful</h3>
+                        <p>
+                            CSS controls how everything looks - colors, sizes, positions, and even animations! Without CSS, our game would be plain black text on white.
+                        </p>
+                        <p><strong>Key Concepts:</strong></p>
+                        <ul>
+                            <li><strong>Gradients</strong> - Smooth color transitions (like water)</li>
+                            <li><strong>Animations</strong> - Making things move!</li>
+                            <li><strong>Transform</strong> - Rotate, move, or scale things</li>
+                        </ul>
+                        
+                        <div class="code-mini">
+<span style="color: #c586c0;">@keyframes</span> wiggle {
+    0% { transform: rotate(-5deg); }
+    100% { transform: rotate(5deg); }
+}
+                        </div>
+                        <p style="margin-top: 10px;">
+                            Animations use <strong>@keyframes</strong> to define what happens at different points. 0% is the start, 100% is the end, and the browser fills in the middle!
+                        </p>
+                    </div>
+                `
+            },
+            variables: {
+                title: 'Variables - The Game\'s Memory',
+                filename: 'rosy-reel.html (JavaScript)',
+                code: `<span class="comment">// Game State - These variables remember everything!</span>
+
+<span class="comment">// How many fish have we caught? Start at 0 (or load from save)</span>
+<span class="code-highlight" data-tooltip="fishcount"><span class="keyword">let</span> <span class="variable">fishCount</span> = <span class="function">parseInt</span>(
+    <span class="variable">localStorage</span>.<span class="function">getItem</span>(<span class="string">'fishing_fishCount'</span>)
+) || <span class="number">0</span>;</span>
+
+<span class="comment">// How much money do we have? Start with 50 coins</span>
+<span class="code-highlight" data-tooltip="money"><span class="keyword">let</span> <span class="variable">money</span> = <span class="function">parseInt</span>(
+    <span class="variable">localStorage</span>.<span class="function">getItem</span>(<span class="string">'fishing_money'</span>)
+) || <span class="number">50</span>;</span>
+
+<span class="comment">// What bait are we using?</span>
+<span class="code-highlight" data-tooltip="bait"><span class="keyword">let</span> <span class="variable">currentBait</span> = <span class="string">'worm'</span>;</span>
+
+<span class="comment">// Is the fishing line in the water right now?</span>
+<span class="code-highlight" data-tooltip="islinecast"><span class="keyword">let</span> <span class="variable">isLineCast</span> = <span class="keyword">false</span>;
+<span class="keyword">let</span> <span class="variable">isWaitingToReel</span> = <span class="keyword">false</span>;</span>
+
+<span class="comment">// All the fish in the pond</span>
+<span class="code-highlight" data-tooltip="allfish"><span class="keyword">let</span> <span class="variable">allFish</span> = [
+    { <span class="property">id</span>: <span class="string">'fish-1'</span>, <span class="property">x</span>: <span class="number">25</span>, <span class="property">y</span>: <span class="number">60</span>, <span class="property">size</span>: <span class="string">'small'</span> },
+    { <span class="property">id</span>: <span class="string">'fish-2'</span>, <span class="property">x</span>: <span class="number">60</span>, <span class="property">y</span>: <span class="number">75</span>, <span class="property">size</span>: <span class="string">'large'</span> },
+    <span class="comment">// ...more fish</span>
+];</span>
+
+<span class="comment">// Different baits have different catch rates!</span>
+<span class="code-highlight" data-tooltip="baittypes"><span class="keyword">const</span> <span class="variable">baitTypes</span> = {
+    <span class="property">worm</span>:   { <span class="property">name</span>: <span class="string">'Worm'</span>,    <span class="property">catchRate</span>: <span class="number">0.3</span> },
+    <span class="property">minnow</span>: { <span class="property">name</span>: <span class="string">'Minnow'</span>,  <span class="property">catchRate</span>: <span class="number">0.5</span> },
+    <span class="property">lure</span>:   { <span class="property">name</span>: <span class="string">'Lure'</span>,    <span class="property">catchRate</span>: <span class="number">0.7</span> }
+};</span>`,
+                explanation: `
+                    <div class="explanation-card">
+                        <h3>📦 Variables are Like Labeled Boxes</h3>
+                        <p>
+                            Variables store information that the game needs to remember. Think of them as labeled boxes where you put things.
+                        </p>
+                        
+                        <div class="code-mini">
+<span style="color: #c586c0;">let</span> fishCount = 0;    <span style="color: #6a9955;">// A box called "fishCount" with 0 inside</span>
+<span style="color: #c586c0;">let</span> money = 50;       <span style="color: #6a9955;">// A box called "money" with 50 inside</span>
+                        </div>
+                        
+                        <p><strong>Two types of variables:</strong></p>
+                        <ul>
+                            <li><strong>let</strong> - Can change (like score going up)</li>
+                            <li><strong>const</strong> - Never changes (like game rules)</li>
+                        </ul>
+                        
+                        <div class="fun-fact-box">
+                            <h4>💾 localStorage</h4>
+                            <p>The game uses localStorage to save your progress! Even if you close the browser, your fish count and money are saved. It's like a save file!</p>
+                        </div>
+                    </div>
+                `
+            },
+            functions: {
+                title: 'Functions - Making Things Happen',
+                filename: 'rosy-reel.html (JavaScript)',
+                code: `<span class="comment">// This function runs when you catch a fish!</span>
+<span class="code-highlight" data-tooltip="catchfish"><span class="keyword">function</span> <span class="function">catchFish</span>(<span class="variable">fish</span>) {
+    <span class="comment">// Big fish = 2 points, small fish = 1 point</span>
+    <span class="keyword">const</span> <span class="variable">fishValue</span> = <span class="variable">fish</span>.<span class="property">size</span> === <span class="string">'large'</span> ? <span class="number">2</span> : <span class="number">1</span>;
+    
+    <span class="comment">// Add wiggle animation</span>
+    <span class="variable">fishEl</span>.<span class="property">classList</span>.<span class="function">add</span>(<span class="string">'caught'</span>);
+    
+    <span class="comment">// Show a fun message</span>
+    <span class="function">showToast</span>(<span class="string">'Caught a fish! 🐟'</span>, <span class="string">'success'</span>);
+    
+    <span class="comment">// Add to our fish count</span>
+    <span class="variable">fishCount</span> += <span class="variable">fishValue</span>;
+    
+    <span class="comment">// Save the game</span>
+    <span class="function">saveState</span>();
+}</span>
+
+<span class="comment">// Show popup messages (like "Caught a fish!")</span>
+<span class="code-highlight" data-tooltip="showtoast"><span class="keyword">function</span> <span class="function">showToast</span>(<span class="variable">message</span>, <span class="variable">type</span>) {
+    <span class="keyword">const</span> <span class="variable">toast</span> = <span class="variable">document</span>.<span class="function">createElement</span>(<span class="string">'div'</span>);
+    <span class="variable">toast</span>.<span class="property">className</span> = <span class="string">\`toast \${type}\`</span>;
+    <span class="variable">toast</span>.<span class="property">innerHTML</span> = <span class="string">\`&lt;span&gt;\${message}&lt;/span&gt;\`</span>;
+    <span class="variable">container</span>.<span class="function">appendChild</span>(<span class="variable">toast</span>);
+    
+    <span class="comment">// Remove after 3 seconds</span>
+    <span class="function">setTimeout</span>(() => <span class="variable">toast</span>.<span class="function">remove</span>(), <span class="number">3000</span>);
+}</span>
+
+<span class="comment">// Celebrate with confetti! 🎉</span>
+<span class="code-highlight" data-tooltip="confetti"><span class="keyword">function</span> <span class="function">createConfetti</span>() {
+    <span class="keyword">for</span> (<span class="keyword">let</span> <span class="variable">i</span> = <span class="number">0</span>; <span class="variable">i</span> < <span class="number">50</span>; <span class="variable">i</span>++) {
+        <span class="keyword">const</span> <span class="variable">piece</span> = <span class="variable">document</span>.<span class="function">createElement</span>(<span class="string">'div'</span>);
+        <span class="variable">piece</span>.<span class="property">className</span> = <span class="string">'confetti'</span>;
+        <span class="comment">// Random position and color</span>
+        <span class="variable">piece</span>.<span class="property">style</span>.<span class="property">left</span> = <span class="variable">Math</span>.<span class="function">random</span>() * <span class="number">100</span> + <span class="string">'%'</span>;
+        <span class="variable">container</span>.<span class="function">appendChild</span>(<span class="variable">piece</span>);
+    }
+}</span>`,
+                explanation: `
+                    <div class="explanation-card">
+                        <h3>⚙️ Functions are Reusable Actions</h3>
+                        <p>
+                            A function is like a recipe - a set of instructions you can use again and again. Instead of writing the same code 10 times, you write it once and "call" the function whenever you need it!
+                        </p>
+                        
+                        <div class="code-mini">
+<span style="color: #c586c0;">function</span> <span style="color: #dcdcaa;">sayHello</span>(name) {
+    alert("Hello, " + name + "!");
+}
+
+<span style="color: #dcdcaa;">sayHello</span>("Alex");  <span style="color: #6a9955;">// Shows: Hello, Alex!</span>
+<span style="color: #dcdcaa;">sayHello</span>("Sam");   <span style="color: #6a9955;">// Shows: Hello, Sam!</span>
+                        </div>
+                        
+                        <p><strong>Parts of a function:</strong></p>
+                        <ul>
+                            <li><strong>Name</strong> - What you call it (catchFish)</li>
+                            <li><strong>Parameters</strong> - Info it needs (fish)</li>
+                            <li><strong>Body</strong> - The instructions inside { }</li>
+                        </ul>
+                    </div>
+                `
+            },
+            gameloop: {
+                title: 'Game Loop - Making Fish Swim',
+                filename: 'rosy-reel.html (JavaScript)',
+                code: `<span class="comment">// This runs over and over to make fish move!</span>
+<span class="code-highlight" data-tooltip="setinterval"><span class="keyword">function</span> <span class="function">startFishMovement</span>() {
+    <span class="function">setInterval</span>(() => {
+        <span class="comment">// Update every fish's position</span>
+        <span class="variable">allFish</span> = <span class="variable">allFish</span>.<span class="function">map</span>(<span class="variable">fish</span> => {</span>
+            <span class="comment">// Calculate new position using trigonometry</span>
+            <span class="code-highlight" data-tooltip="movement"><span class="keyword">let</span> <span class="variable">newX</span> = <span class="variable">fish</span>.<span class="property">x</span> + <span class="variable">Math</span>.<span class="function">cos</span>(<span class="variable">fish</span>.<span class="property">direction</span>) * <span class="variable">fish</span>.<span class="property">speed</span>;
+            <span class="keyword">let</span> <span class="variable">newY</span> = <span class="variable">fish</span>.<span class="property">y</span> + <span class="variable">Math</span>.<span class="function">sin</span>(<span class="variable">fish</span>.<span class="property">direction</span>) * <span class="variable">fish</span>.<span class="property">speed</span>;</span>
+            
+            <span class="comment">// Bounce off walls!</span>
+            <span class="code-highlight" data-tooltip="bounce"><span class="keyword">if</span> (<span class="variable">newX</span> <= <span class="number">5</span> || <span class="variable">newX</span> >= <span class="number">95</span>) {
+                <span class="variable">newDirection</span> = <span class="number">180</span> - <span class="variable">fish</span>.<span class="property">direction</span>;
+            }</span>
+            
+            <span class="comment">// Sometimes change direction randomly</span>
+            <span class="code-highlight" data-tooltip="random"><span class="keyword">if</span> (<span class="variable">Math</span>.<span class="function">random</span>() < <span class="number">0.05</span>) {
+                <span class="variable">newDirection</span> += (<span class="variable">Math</span>.<span class="function">random</span>() - <span class="number">0.5</span>) * <span class="number">60</span>;
+            }</span>
+            
+            <span class="keyword">return</span> { ...<span class="variable">fish</span>, <span class="property">x</span>: <span class="variable">newX</span>, <span class="property">y</span>: <span class="variable">newY</span> };
+        });
+        
+        <span class="comment">// Move fish elements on screen</span>
+        <span class="code-highlight" data-tooltip="updatedom"><span class="variable">allFish</span>.<span class="function">forEach</span>(<span class="variable">fish</span> => {
+            <span class="keyword">const</span> <span class="variable">el</span> = <span class="variable">document</span>.<span class="function">getElementById</span>(<span class="variable">fish</span>.<span class="property">id</span>);
+            <span class="variable">el</span>.<span class="property">style</span>.<span class="property">left</span> = <span class="variable">fish</span>.<span class="property">x</span> + <span class="string">'%'</span>;
+            <span class="variable">el</span>.<span class="property">style</span>.<span class="property">top</span> = <span class="variable">fish</span>.<span class="property">y</span> + <span class="string">'%'</span>;
+        });</span>
+    }, <span class="number">200</span>); <span class="comment">// Run every 200 milliseconds</span>
+}</span>`,
+                explanation: `
+                    <div class="explanation-card">
+                        <h3>🔄 The Game Loop Makes Things Move</h3>
+                        <p>
+                            Games need to update many times per second to create smooth movement. The <strong>game loop</strong> is code that runs over and over again!
+                        </p>
+                        
+                        <div class="code-mini">
+<span style="color: #dcdcaa;">setInterval</span>(() => {
+    <span style="color: #6a9955;">// This code runs every 200ms (5 times/second)</span>
+    updateFishPositions();
+    checkForCollisions();
+    drawEverything();
+}, 200);
+                        </div>
+                        
+                        <p><strong>Each loop:</strong></p>
+                        <ol>
+                            <li>Calculate new fish positions (math!)</li>
+                            <li>Check if fish hit walls (bounce!)</li>
+                            <li>Maybe change direction (randomness!)</li>
+                            <li>Update the screen</li>
+                        </ol>
+                        
+                        <div class="fun-fact-box">
+                            <h4>⏱️ 200 Milliseconds</h4>
+                            <p>200ms = 0.2 seconds. The loop runs 5 times per second. Professional games often run 30-60 times per second for super smooth movement!</p>
+                        </div>
+                    </div>
+                `
+            },
+            events: {
+                title: 'Events - Responding to Clicks',
+                filename: 'rosy-reel.html (JavaScript)',
+                code: `<span class="comment">// Listen for clicks on the pond</span>
+<span class="code-highlight" data-tooltip="addevent"><span class="variable">document</span>.<span class="function">getElementById</span>(<span class="string">'pond'</span>)
+    .<span class="function">addEventListener</span>(<span class="string">'click'</span>, <span class="variable">handlePondClick</span>);</span>
+
+<span class="comment">// When someone clicks the pond...</span>
+<span class="code-highlight" data-tooltip="handleclick"><span class="keyword">function</span> <span class="function">handlePondClick</span>(<span class="variable">event</span>) {
+    <span class="comment">// Figure out WHERE they clicked</span>
+    <span class="keyword">const</span> <span class="variable">rect</span> = <span class="variable">event</span>.<span class="property">currentTarget</span>.<span class="function">getBoundingClientRect</span>();
+    <span class="keyword">const</span> <span class="variable">x</span> = ((<span class="variable">event</span>.<span class="property">clientX</span> - <span class="variable">rect</span>.<span class="property">left</span>) / <span class="variable">rect</span>.<span class="property">width</span>) * <span class="number">100</span>;
+    <span class="keyword">const</span> <span class="variable">y</span> = ((<span class="variable">event</span>.<span class="property">clientY</span> - <span class="variable">rect</span>.<span class="property">top</span>) / <span class="variable">rect</span>.<span class="property">height</span>) * <span class="number">100</span>;</span>
+    
+    <span class="comment">// Can only fish in the water (bottom half)</span>
+    <span class="code-highlight" data-tooltip="checkwater"><span class="keyword">if</span> (<span class="variable">y</span> < <span class="number">50</span>) {
+        <span class="function">showToast</span>(<span class="string">'You can only fish in the water!'</span>);
+        <span class="keyword">return</span>;
+    }</span>
+    
+    <span class="comment">// Either cast the line or reel it in</span>
+    <span class="code-highlight" data-tooltip="castorreel"><span class="keyword">if</span> (!<span class="variable">isLineCast</span>) {
+        <span class="function">castLine</span>(<span class="variable">x</span>, <span class="variable">y</span>);
+    } <span class="keyword">else</span> {
+        <span class="function">reelIn</span>();
+    }</span>
+}
+
+<span class="comment">// Check if we caught a fish when reeling in</span>
+<span class="code-highlight" data-tooltip="checkcatch"><span class="keyword">function</span> <span class="function">reelIn</span>() {
+    <span class="comment">// Find fish near the hook</span>
+    <span class="keyword">const</span> <span class="variable">caughtFish</span> = <span class="variable">allFish</span>.<span class="function">find</span>(<span class="variable">fish</span> => {
+        <span class="keyword">const</span> <span class="variable">distance</span> = <span class="variable">Math</span>.<span class="function">abs</span>(<span class="variable">fish</span>.<span class="property">x</span> - <span class="variable">lineX</span>) 
+                       + <span class="variable">Math</span>.<span class="function">abs</span>(<span class="variable">fish</span>.<span class="property">y</span> - <span class="variable">lineY</span>);
+        <span class="keyword">return</span> <span class="variable">distance</span> < <span class="number">20</span>;
+    });
+    
+    <span class="keyword">if</span> (<span class="variable">caughtFish</span>) {
+        <span class="function">catchFish</span>(<span class="variable">caughtFish</span>);
+    }
+}</span>`,
+                explanation: `
+                    <div class="explanation-card">
+                        <h3>🖱️ Events Let Players Interact</h3>
+                        <p>
+                            Events are how the game knows when you click, press a key, or move the mouse. The game "listens" for events and runs code when they happen!
+                        </p>
+                        
+                        <div class="code-mini">
+<span style="color: #6a9955;">// "When this button is clicked, run sayHi"</span>
+button.<span style="color: #dcdcaa;">addEventListener</span>('click', sayHi);
+
+<span style="color: #c586c0;">function</span> <span style="color: #dcdcaa;">sayHi</span>() {
+    alert("You clicked me!");
+}
+                        </div>
+                        
+                        <p><strong>The event object tells us:</strong></p>
+                        <ul>
+                            <li>WHERE the click happened (x, y coordinates)</li>
+                            <li>WHAT was clicked</li>
+                            <li>WHEN it happened</li>
+                            <li>What keys were held (Shift, Ctrl, etc.)</li>
+                        </ul>
+                        
+                        <div class="fun-fact-box">
+                            <h4>🎯 Hit Detection</h4>
+                            <p>The game calculates the distance between your click and each fish. If a fish is close enough (distance < 20), you might catch it!</p>
+                        </div>
+                    </div>
+                `
+            }
+        };
+        
+        // Tooltip explanations for highlighted code
+        const tooltips = {
+            sky: { emoji: '🌤️', title: 'The Sky', content: 'This div contains the background sky with the sun and clouds. It\'s positioned at the top of the pond.' },
+            beach: { emoji: '🏖️', title: 'The Beach', content: 'The sandy beach area where the cat friends cheer you on! Each "beach-friend" is a little character.' },
+            water: { emoji: '🌊', title: 'The Water', content: 'This is where the fish swim! It takes up the bottom half of the pond. The blue gradient makes it look like real water.' },
+            boat: { emoji: '🛶', title: 'The Boat & Cat', content: 'The boat container holds both the boat SVG and the fishing cat SVG. It moves left and right when you cast!' },
+            line: { emoji: '🎣', title: 'The Fishing Line', content: 'The fishing line is hidden until you click. Then it appears from the boat down to where you clicked!' },
+            fishcontainer: { emoji: '🐟', title: 'Fish Container', content: 'All the fish are added to this container by JavaScript. The code creates fish elements and puts them here!' },
+            gradient: { emoji: '🎨', title: 'Gradient Background', content: 'linear-gradient creates a smooth color blend. 180deg means top-to-bottom. Light blue fades to dark blue!' },
+            animation: { emoji: '🔄', title: 'Fish Struggle Animation', content: 'When caught, fish wiggle back and forth using rotate(). The animation runs "infinite" times until we remove the class!' },
+            toast: { emoji: '📢', title: 'Slide-In Animation', content: 'Toast messages start invisible (opacity: 0) and off-screen (translateX: 100px), then slide into view!' },
+            float: { emoji: '🫧', title: 'Floating Animation', content: 'Fish gently bob up and down. translateY moves them 5 pixels up at 50%, then back down at 100%.' },
+            fishcount: { emoji: '🐟', title: 'Fish Count Variable', content: 'This remembers how many fish you\'ve caught! It loads from localStorage so your progress is saved.' },
+            money: { emoji: '💰', title: 'Money Variable', content: 'Your coin balance! Starts at 50, goes up when you sell fish, goes down when you buy bait.' },
+            bait: { emoji: '🪱', title: 'Current Bait', content: 'Which bait are you using? Different baits have different catch rates - better bait = more fish!' },
+            islinecast: { emoji: '🎣', title: 'Game State Booleans', content: 'These true/false values track what\'s happening. Is the line in the water? Are we waiting to reel in?' },
+            allfish: { emoji: '🐠', title: 'Fish Array', content: 'An array (list) of all fish in the pond! Each fish has an id, position (x,y), and size.' },
+            baittypes: { emoji: '🎯', title: 'Bait Configuration', content: 'A constant object storing bait info. 0.3 catchRate means 30% chance to catch a fish with worm!' },
+            catchfish: { emoji: '🎉', title: 'Catch Fish Function', content: 'This runs when you successfully catch a fish! It adds points, shows a message, saves the game.' },
+            showtoast: { emoji: '💬', title: 'Toast Notification', content: 'Creates a popup message that slides in and disappears after 3 seconds. Uses createElement to make new HTML!' },
+            confetti: { emoji: '🎊', title: 'Confetti Celebration', content: 'Creates 50 random confetti pieces! Each gets a random position using Math.random().' },
+            setinterval: { emoji: '⏰', title: 'setInterval Loop', content: 'setInterval runs code repeatedly. Every 200ms (5 times per second), it updates all fish positions!' },
+            movement: { emoji: '📐', title: 'Position Calculation', content: 'Uses Math.cos and Math.sin to move fish in their current direction. This is trigonometry!' },
+            bounce: { emoji: '↩️', title: 'Wall Bounce', content: 'When fish hit the edge (< 5% or > 95%), their direction reverses! 180 - direction flips horizontal.' },
+            random: { emoji: '🎲', title: 'Random Direction Change', content: 'Math.random() gives a number between 0 and 1. If it\'s < 0.05 (5% chance), fish changes direction!' },
+            updatedom: { emoji: '🖥️', title: 'Update Display', content: 'forEach loops through each fish and updates its position on screen by changing style.left and style.top.' },
+            addevent: { emoji: '👂', title: 'Event Listener', content: 'addEventListener makes the pond "listen" for clicks. When clicked, it runs handlePondClick!' },
+            handleclick: { emoji: '📍', title: 'Get Click Position', content: 'Calculates WHERE you clicked as a percentage (0-100) of the pond width and height.' },
+            checkwater: { emoji: '💧', title: 'Water Check', content: 'If y < 50 (top half), you clicked the sky/beach. We only allow fishing in the water (bottom half)!' },
+            castorreel: { emoji: '🔀', title: 'Cast or Reel Decision', content: 'If line isn\'t cast, cast it. If it is cast, reel it in. This creates the two-click fishing mechanic!' },
+            checkcatch: { emoji: '🎯', title: 'Fish Detection', content: 'Uses .find() to search for a fish close to your hook. If distance < 20, you might catch it!' }
+        };
+        
+        let currentSection = 'html';
+        
+        function showSection(section) {
+            currentSection = section;
+            const data = codeSections[section];
+            
+            // Update tabs
+            document.querySelectorAll('.section-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.textContent.toLowerCase().includes(section.substring(0, 3))) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Update concept cards
+            document.querySelectorAll('.concept-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Update code display
+            document.getElementById('code-title').textContent = data.filename;
+            document.getElementById('code-display').innerHTML = data.code;
+            
+            // Update explanation
+            document.getElementById('explanation-panel').innerHTML = data.explanation;
+            
+            // Add click handlers to highlighted code
+            document.querySelectorAll('.code-highlight').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const tooltipId = el.dataset.tooltip;
+                    showTooltipAt(tooltipId, e);
+                });
+            });
+        }
+        
+        function showTooltipAt(tooltipId, event) {
+            const data = tooltips[tooltipId];
+            if (!data) return;
+            
+            const tooltip = document.getElementById('tooltip');
+            document.getElementById('tooltip-title').textContent = data.title;
+            document.getElementById('tooltip-emoji').textContent = data.emoji;
+            document.getElementById('tooltip-content').textContent = data.content;
+            
+            // Position tooltip near click
+            let x = event.clientX + 20;
+            let y = event.clientY - 50;
+            
+            // Keep tooltip on screen
+            if (x + 350 > window.innerWidth) {
+                x = event.clientX - 370;
+            }
+            if (y < 10) {
+                y = 10;
+            }
+            if (y + 200 > window.innerHeight) {
+                y = window.innerHeight - 210;
+            }
+            
+            tooltip.style.left = x + 'px';
+            tooltip.style.top = y + 'px';
+            tooltip.classList.add('show');
+            
+            // Highlight the clicked code
+            document.querySelectorAll('.code-highlight').forEach(el => el.classList.remove('active'));
+            event.target.closest('.code-highlight').classList.add('active');
+        }
+        
+        function hideTooltip() {
+            document.getElementById('tooltip').classList.remove('show');
+            document.querySelectorAll('.code-highlight').forEach(el => el.classList.remove('active'));
+        }
+        
+        // Close tooltip when clicking elsewhere
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.code-highlight') && !e.target.closest('.tooltip')) {
+                hideTooltip();
+            }
+        });
+        
+        // Initialize with HTML section
+        showSection('html');
+    </script>
+</body>
+</html>

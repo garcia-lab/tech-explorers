@@ -620,11 +620,41 @@
             <br>
             <small>© 2025 Tech Explorers | No login required • Works on Chromebooks • 100% free!</small>
         </p>
+        <!-- Build Info Display -->
+        <div id="build-info" style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; font-size: 0.75rem; opacity: 0.7;">
+            <span id="build-env" style="background: #4361ee; padding: 2px 8px; border-radius: 4px; margin-right: 8px;">Loading...</span>
+            <span id="build-commit" style="font-family: 'Fira Code', monospace;">---</span>
+        </div>
     </footer>
 
+    <script src="assets/js/build-info.js"></script>
     <script src="assets/js/project-storage.js"></script>
     <script src="assets/js/script.js"></script>
     <script>
+        // Update build info display
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.TECH_EXPLORERS_BUILD_INFO) {
+                const info = window.TECH_EXPLORERS_BUILD_INFO;
+                const envEl = document.getElementById('build-env');
+                const commitEl = document.getElementById('build-commit');
+                
+                if (envEl) {
+                    const envColors = {
+                        'production': '#06d6a0',
+                        'preview': '#ffd166',
+                        'development': '#4361ee'
+                    };
+                    envEl.textContent = info.environment.toUpperCase();
+                    envEl.style.background = envColors[info.environment] || '#7209b7';
+                }
+                
+                if (commitEl) {
+                    commitEl.textContent = `Commit: ${info.gitCommitShort} (${info.gitBranch})`;
+                    commitEl.title = `Full commit: ${info.gitCommit}\nBuilt: ${info.buildTime}`;
+                }
+            }
+        });
+
         // Update progress stars based on achievements
         document.addEventListener('DOMContentLoaded', function() {
             if (window.TechExplorers) {

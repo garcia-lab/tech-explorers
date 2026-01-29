@@ -1,6 +1,7 @@
 {
   "version": 2,
   "name": "tech-explorers",
+  "buildCommand": "npm run build",
   "outputDirectory": "docs",
   "headers": [
     {

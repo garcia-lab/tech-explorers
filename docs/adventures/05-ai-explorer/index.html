@@ -265,6 +265,27 @@
             min-height: 100px;
             font-size: 1.2rem;
         }
+        
+        /* Topic buttons for questions */
+        .topic-btn {
+            display: block;
+            width: 100%;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 5px;
+            color: white;
+            text-align: left;
+        }
+        
+        .topic-btn:hover {
+            background: rgba(255,255,255,0.4);
+            transform: translateX(5px);
+        }
     </style>
 </head>
 <body>
@@ -397,32 +418,87 @@
                     </p>
 
                     <div class="ai-demo">
-                        <h3>🤖 CodeBot - Your Coding Helper</h3>
-                        <p style="color: #666; margin-bottom: 20px;">Ask me about coding, HTML, CSS, or JavaScript!</p>
+                        <h3>🤖 CodeBot - Your Learning Helper</h3>
+                        <p style="color: #666; margin-bottom: 20px;">Ask me about ANYTHING! Science, math, history, animals, space, coding, and more!</p>
                         
                         <div class="chat-container" id="chat-container">
                             <div class="chat-message ai">
                                 <div class="chat-avatar">🤖</div>
                                 <div class="chat-bubble">
-                                    Hi! I'm CodeBot! 👋 Ask me anything about coding. Try asking "What is HTML?" or "How do I make a button?"
+                                    Hi! I'm CodeBot! 👋 I know about lots of things - not just coding! Try asking me about dinosaurs, planets, math, how things work, or anything you're curious about!
                                 </div>
                             </div>
                         </div>
                         
                         <div class="chat-input-area">
-                            <input type="text" id="ai-input" placeholder="Ask me something...">
+                            <input type="text" id="ai-input" placeholder="Ask me anything...">
                             <button class="send-btn" onclick="sendMessage()">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
                         
-                        <div style="margin-top: 15px;">
-                            <strong>Try asking:</strong>
-                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-                                <button onclick="quickAsk('What is HTML?')" style="background: #f8f9fa; border: 2px solid #ddd; padding: 8px 15px; border-radius: 20px; cursor: pointer;">What is HTML?</button>
-                                <button onclick="quickAsk('How do I add color?')" style="background: #f8f9fa; border: 2px solid #ddd; padding: 8px 15px; border-radius: 20px; cursor: pointer;">How do I add color?</button>
-                                <button onclick="quickAsk('What is JavaScript?')" style="background: #f8f9fa; border: 2px solid #ddd; padding: 8px 15px; border-radius: 20px; cursor: pointer;">What is JavaScript?</button>
+                        <div style="margin-top: 20px;">
+                            <strong>🌟 Topics to Explore:</strong>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                                <!-- Coding & Technology -->
+                                <div style="background: linear-gradient(135deg, #4361ee, #7209b7); padding: 15px; border-radius: 15px; color: white;">
+                                    <strong style="display: block; margin-bottom: 8px;">💻 Coding & Technology</strong>
+                                    <button onclick="quickAsk('What is a computer?')" class="topic-btn">What is a computer?</button>
+                                    <button onclick="quickAsk('How does the internet work?')" class="topic-btn">How does the internet work?</button>
+                                    <button onclick="quickAsk('What is coding?')" class="topic-btn">What is coding?</button>
+                                    <button onclick="quickAsk('What is a robot?')" class="topic-btn">What is a robot?</button>
+                                </div>
+                                
+                                <!-- Science & Nature -->
+                                <div style="background: linear-gradient(135deg, #06d6a0, #00b894); padding: 15px; border-radius: 15px; color: white;">
+                                    <strong style="display: block; margin-bottom: 8px;">🔬 Science & Nature</strong>
+                                    <button onclick="quickAsk('Why is the sky blue?')" class="topic-btn">Why is the sky blue?</button>
+                                    <button onclick="quickAsk('How do plants grow?')" class="topic-btn">How do plants grow?</button>
+                                    <button onclick="quickAsk('What are dinosaurs?')" class="topic-btn">What are dinosaurs?</button>
+                                    <button onclick="quickAsk('Why do we have seasons?')" class="topic-btn">Why do we have seasons?</button>
+                                </div>
+                                
+                                <!-- Space & Universe -->
+                                <div style="background: linear-gradient(135deg, #3a0ca3, #4361ee); padding: 15px; border-radius: 15px; color: white;">
+                                    <strong style="display: block; margin-bottom: 8px;">🚀 Space & Universe</strong>
+                                    <button onclick="quickAsk('How big is the sun?')" class="topic-btn">How big is the sun?</button>
+                                    <button onclick="quickAsk('What are planets?')" class="topic-btn">What are planets?</button>
+                                    <button onclick="quickAsk('Are there aliens?')" class="topic-btn">Are there aliens?</button>
+                                    <button onclick="quickAsk('What is a black hole?')" class="topic-btn">What is a black hole?</button>
+                                </div>
+                                
+                                <!-- Math & Numbers -->
+                                <div style="background: linear-gradient(135deg, #f72585, #b5179e); padding: 15px; border-radius: 15px; color: white;">
+                                    <strong style="display: block; margin-bottom: 8px;">🔢 Math & Numbers</strong>
+                                    <button onclick="quickAsk('What is 7 times 8?')" class="topic-btn">What is 7 times 8?</button>
+                                    <button onclick="quickAsk('What is pi?')" class="topic-btn">What is pi?</button>
+                                    <button onclick="quickAsk('Why do we need math?')" class="topic-btn">Why do we need math?</button>
+                                    <button onclick="quickAsk('What is infinity?')" class="topic-btn">What is infinity?</button>
+                                </div>
+                                
+                                <!-- Animals -->
+                                <div style="background: linear-gradient(135deg, #ff8c00, #ff6b35); padding: 15px; border-radius: 15px; color: white;">
+                                    <strong style="display: block; margin-bottom: 8px;">🦁 Animals</strong>
+                                    <button onclick="quickAsk('How fast can a cheetah run?')" class="topic-btn">How fast is a cheetah?</button>
+                                    <button onclick="quickAsk('Why do cats purr?')" class="topic-btn">Why do cats purr?</button>
+                                    <button onclick="quickAsk('How do fish breathe?')" class="topic-btn">How do fish breathe?</button>
+                                    <button onclick="quickAsk('What is the biggest animal?')" class="topic-btn">Biggest animal?</button>
+                                </div>
+                                
+                                <!-- History & People -->
+                                <div style="background: linear-gradient(135deg, #ffd166, #ef8354); padding: 15px; border-radius: 15px; color: white;">
+                                    <strong style="display: block; margin-bottom: 8px;">📜 History & People</strong>
+                                    <button onclick="quickAsk('Who invented electricity?')" class="topic-btn">Who invented electricity?</button>
+                                    <button onclick="quickAsk('How were pyramids built?')" class="topic-btn">How were pyramids built?</button>
+                                    <button onclick="quickAsk('Who was the first programmer?')" class="topic-btn">First programmer?</button>
+                                    <button onclick="quickAsk('When did humans invent video games?')" class="topic-btn">First video games?</button>
+                                </div>
                             </div>
+                            
+                            <p style="margin-top: 15px; font-size: 0.9rem; color: #666; text-align: center;">
+                                💡 Or type your own question! I can answer questions about almost anything!
+                            </p>
                         </div>
                     </div>
 
@@ -619,32 +695,357 @@
     </footer>
 
     <script>
-        // Simple chatbot
+        // Expanded chatbot with many topics
         const responses = {
-            'html': 'HTML stands for HyperText Markup Language! It\'s the skeleton of every website. You use tags like <h1> and <p> to build the structure of your page! 🏗️',
-            'css': 'CSS stands for Cascading Style Sheets! It\'s what makes websites look pretty - colors, fonts, sizes, and layouts! Think of it as the clothes and makeup for your HTML! 🎨',
-            'javascript': 'JavaScript is the magic that makes websites interactive! It can make buttons work, animations move, and games play! It\'s like the electricity in a house! ⚡',
-            'button': 'To make a button in HTML, use: <button>Click me!</button> Then use JavaScript to make it do something when clicked! Try: onclick="alert(\'Hello!\')" 👆',
-            'color': 'To add color with CSS, use: color: blue; for text, or background-color: yellow; for backgrounds! You can use color names or hex codes like #ff0000 for red! 🌈',
-            'code': 'Coding is like giving instructions to a computer in a language it understands! You\'re already learning three coding languages: HTML, CSS, and JavaScript! 💻',
-            'ai': 'AI (Artificial Intelligence) is when computers learn to do smart things, like recognize pictures, understand speech, or help write code! I\'m a simple example of AI! 🤖',
-            'hello': 'Hello! 👋 I\'m CodeBot, your friendly coding helper! What would you like to learn about?',
-            'default': 'That\'s a great question! I\'m still learning. Try asking me about HTML, CSS, JavaScript, buttons, or colors! 🤔'
+            // === GREETINGS ===
+            'hello': 'Hello! 👋 I\'m CodeBot, your friendly learning helper! I know about lots of things - coding, science, animals, space, math, and more! What would you like to learn about?',
+            'hi': 'Hi there! 😊 Great to meet you! Ask me anything - I love answering questions about all sorts of topics!',
+            'hey': 'Hey! 🎉 I\'m here to help you learn cool stuff! What are you curious about today?',
+            'how are you': 'I\'m doing great, thanks for asking! 🤖 I\'m always happy when I get to help someone learn something new! How about you?',
+            'what is your name': 'I\'m CodeBot! 🤖 I was created to help young explorers like you learn about technology, science, and lots of other cool things!',
+            'who are you': 'I\'m CodeBot, an AI learning assistant! 🤖 I\'m like a friendly robot that knows about many topics and loves to answer questions!',
+            'thank you': 'You\'re welcome! 😊 I\'m always happy to help! Keep asking questions - curiosity is the best superpower!',
+            'thanks': 'You\'re welcome! 🌟 Keep being curious and asking great questions!',
+            'bye': 'Goodbye! 👋 Keep exploring and learning! You\'re doing amazing!',
+            
+            // === CODING & TECHNOLOGY ===
+            'html': 'HTML (HyperText Markup Language) is the skeleton of every website! 🏗️ It uses tags like <h1> for headings, <p> for paragraphs, and <img> for images. When you write HTML, you\'re telling the browser what content to show on the page!',
+            'css': 'CSS (Cascading Style Sheets) is like the fashion designer of websites! 🎨 It controls colors, fonts, sizes, and layouts. With CSS you can say "make this text blue" or "put this picture on the left." It makes websites look beautiful!',
+            'javascript': 'JavaScript is the magic that makes websites interactive! ⚡ It can make buttons work, animations move, games play, and so much more. When you click something and it changes - that\'s usually JavaScript!',
+            'coding': 'Coding is like giving instructions to a computer in a language it understands! 💻 Just like you learn English or Spanish, computers have their own languages like JavaScript, Python, and HTML. Programmers write these instructions to make apps, games, and websites!',
+            'computer': 'A computer is an electronic device that can store and process information! 🖥️ It has a brain called a CPU (Central Processing Unit), memory to remember things, and input/output devices like keyboards, mice, and screens. Computers can do math really fast - billions of calculations per second!',
+            'internet': 'The internet is like a huge web that connects millions of computers around the world! 🌐 When you visit a website, your computer sends a message through cables (and sometimes wirelessly) to another computer called a server, which sends back the webpage you want to see. It\'s like a super-fast postal system for data!',
+            'website': 'A website is a collection of pages on the internet! 🌐 It\'s made of HTML (the structure), CSS (the style), and often JavaScript (the interactivity). When you type a web address, your browser downloads these files and shows you the page!',
+            'robot': 'A robot is a machine that can be programmed to do tasks automatically! 🤖 Some robots build cars in factories, some vacuum your floors, and some even explore Mars! Robots use sensors to "see" and "feel" their environment, and computers to make decisions.',
+            'app': 'An app (application) is a program designed to do a specific task! 📱 Games, calculators, and social media are all apps. Apps can run on phones, tablets, and computers. Many apps are made using the same coding skills you\'re learning!',
+            'video game': 'Video games are interactive programs where players control characters or make decisions! 🎮 They\'re made with code (often JavaScript, C++, or C#), artwork, music, and game design. The first video game was made in 1958 - a simple tennis game!',
+            'algorithm': 'An algorithm is a step-by-step recipe for solving a problem! 🧮 Like a recipe for cookies tells you exactly what to do, an algorithm tells a computer exactly what steps to follow. GPS finding the fastest route? That\'s an algorithm!',
+            'bug': 'A bug is a mistake in computer code that makes the program not work correctly! 🐛 The first real computer bug was an actual moth that got stuck in a computer in 1947! Fixing bugs is called "debugging" and it\'s a big part of programming.',
+            'program': 'A program is a set of instructions that tells a computer what to do! 💾 Programs can be simple (like a calculator) or complex (like a video game). When you write code, you\'re creating a program!',
+            'variable': 'A variable is like a labeled box that stores information in a program! 📦 You give it a name (like "score" or "playerName") and put data inside. Later, you can check or change what\'s in the box. It\'s how computers remember things!',
+            'function': 'A function is a reusable piece of code that does a specific job! 🔧 It\'s like a recipe you can use again and again. Instead of writing the same code 10 times, you write it once as a function and just "call" it whenever you need it!',
+            'loop': 'A loop is code that repeats over and over! 🔁 It\'s like telling a computer "do this 100 times" instead of writing the same thing 100 times. Loops save lots of work and are used in almost every program!',
+            'hacker': 'A hacker is someone very skilled with computers! 👨‍💻 "Ethical hackers" or "white hat hackers" help find security problems to make systems safer. Some hackers create amazing software! The word originally meant someone who likes to tinker and solve problems creatively.',
+            'wifi': 'WiFi lets devices connect to the internet without wires! 📶 It uses invisible radio waves (like a walkie-talkie) to send data between your device and a router. The router then connects to the internet through cables.',
+            'server': 'A server is a powerful computer that stores and shares information with other computers! 🖥️ When you watch a YouTube video, it\'s stored on YouTube\'s servers. When you visit a website, a server sends the files to your browser!',
+            'database': 'A database is an organized collection of information stored on a computer! 📊 Think of it like a super-organized digital filing cabinet. Websites use databases to remember your username, save your game progress, and store millions of other pieces of data!',
+            'password': 'A password is a secret code that proves who you are! 🔐 Good passwords are long, use letters, numbers, and symbols, and are unique for each account. Never share your passwords, and don\'t use obvious ones like "123456" or your birthday!',
+            'download': 'Downloading means copying files from the internet to your device! ⬇️ When you download a game or song, you\'re copying it from a server somewhere in the world to your computer or phone.',
+            'upload': 'Uploading means sending files from your device to the internet! ⬆️ When you post a photo or video online, you\'re uploading it to a server where others can see it.',
+            'cloud': 'The cloud is just other people\'s computers storing your data! ☁️ When you save photos to "the cloud," they\'re stored on servers in big buildings called data centers. This lets you access your files from any device!',
+            'emoji': 'Emojis are small digital pictures used in text messages! 😊 The first emojis were created in Japan in 1999. There are now over 3,600 emojis, including faces, animals, food, and even a T-rex! 🦖',
+            'pixel': 'A pixel is the tiniest dot on a screen! 🔴🟢🔵 Your screen is made of millions of tiny pixels. Each pixel can show different colors by mixing red, green, and blue light. More pixels = sharper image!',
+            'code': 'Code is the language we use to talk to computers! 💻 Just like you write sentences with words, programmers write code with special commands and symbols. Different programming languages (like JavaScript or Python) have different rules!',
+            'python': 'Python is a programming language that\'s easy to learn! 🐍 It\'s named after Monty Python (a comedy group), not the snake! Python is used for websites, AI, science, and games. Its code is clean and easy to read!',
+            'game': 'Games are interactive experiences created with code, art, and design! 🎮 Making games combines creativity with programming. You need to think about rules, graphics, sound, and how players will interact. It\'s one of the most fun things to create with code!',
+            'animation': 'Animation makes things move on screen! 🎬 It works by showing many pictures very quickly (like a flipbook). In CSS, you can animate colors, sizes, and positions. In JavaScript, you can create even more complex animations!',
+            'browser': 'A browser is an app that lets you explore the internet! 🌐 Chrome, Safari, Firefox, and Edge are all browsers. When you type a web address, the browser fetches the HTML, CSS, and JavaScript from a server and displays the website!',
+            'keyboard': 'A keyboard is an input device with buttons for letters, numbers, and symbols! ⌨️ When you press a key, it sends a signal to the computer. The QWERTY layout was designed in 1873 for typewriters!',
+            'mouse': 'A mouse is an input device that controls a cursor on screen! 🖱️ It was invented by Douglas Engelbart in 1964. The first mouse was made of wood! Mice use sensors to detect movement.',
+            'button': 'To make a button in HTML, use: <button>Click me!</button> 👆 Then use JavaScript to make it do something when clicked! You can add onclick="yourFunction()" to run code when it\'s clicked.',
+            
+            // === SCIENCE & NATURE ===
+            'sky blue': 'The sky looks blue because of how sunlight bounces off the air! ☀️ Sunlight is made of all colors mixed together. When it hits tiny particles in the atmosphere, blue light scatters (bounces) more than other colors, so we see blue everywhere we look up!',
+            'rainbow': 'Rainbows happen when sunlight passes through water droplets! 🌈 The water acts like a tiny prism and splits white light into all its colors: red, orange, yellow, green, blue, indigo, and violet. You see rainbows when the sun is behind you and rain is in front!',
+            'thunder': 'Thunder is the sound lightning makes! ⚡ Lightning is super hot (hotter than the sun\'s surface!), and it heats the air so fast that the air explodes outward. That explosion creates the booming sound we call thunder. You see lightning before you hear thunder because light travels faster than sound!',
+            'lightning': 'Lightning is a giant spark of electricity in the sky! ⚡ Clouds build up electrical charge, and when there\'s enough, ZAP! It creates a bolt that can be 5 times hotter than the sun. Lightning bolts can travel at 270,000 mph!',
+            'volcano': 'A volcano is an opening in Earth\'s surface where hot melted rock (magma) can escape! 🌋 When magma reaches the surface, it\'s called lava. Volcanoes can create new land, but eruptions can be very dangerous!',
+            'earthquake': 'Earthquakes happen when pieces of Earth\'s crust suddenly move! 🌍 The Earth\'s surface is made of giant puzzle pieces called tectonic plates. When these plates push or slide past each other, the ground shakes. Most earthquakes are too small to feel!',
+            'dinosaur': 'Dinosaurs were amazing reptiles that lived millions of years ago! 🦕 They ruled the Earth for over 160 million years. Some were tiny (like chickens), while others were HUGE (like T-Rex and the long-necked Brachiosaurus). Scientists think birds are actually living dinosaurs!',
+            'fossil': 'Fossils are the preserved remains of ancient plants and animals! 🦴 When a creature dies and gets buried, minerals slowly replace its bones, turning them to stone over millions of years. Fossils help us learn about life long ago!',
+            'plant': 'Plants are living things that make their own food using sunlight! 🌱 They take in carbon dioxide from the air, water from the soil, and energy from the sun to make sugar (food) in a process called photosynthesis. They also give us the oxygen we breathe!',
+            'photosynthesis': 'Photosynthesis is how plants make food from sunlight! 🌿☀️ Plants use their leaves to capture sunlight, take in carbon dioxide from the air, and water from the soil. They mix these together to make sugar (their food) and release oxygen as a bonus. Thanks, plants!',
+            'gravity': 'Gravity is the force that pulls things toward each other! 🍎 It\'s why things fall down, why we stay on the ground, and why planets orbit the sun. The bigger something is, the stronger its gravity. Earth\'s gravity is what keeps the Moon orbiting us!',
+            'season': 'Seasons happen because Earth is tilted! 🌍 As Earth orbits the sun, different parts get more direct sunlight at different times. When your part of Earth tilts toward the sun, you get summer. When it tilts away, you get winter! That\'s why seasons are opposite in the Northern and Southern Hemispheres.',
+            'rain': 'Rain is water that falls from clouds! 🌧️ The sun heats water in oceans, lakes, and rivers, turning it into invisible water vapor that rises into the sky. When it cools down high in the atmosphere, it forms tiny droplets that make clouds. When droplets get heavy enough, they fall as rain!',
+            'snow': 'Snow forms when water vapor in clouds turns directly into ice crystals! ❄️ Each snowflake is unique and has six sides because of how water molecules bond together. Snow is actually colorless - it looks white because it reflects all colors of light!',
+            'cloud': 'Clouds are made of tiny water droplets or ice crystals floating in the sky! ☁️ Water from Earth evaporates and rises up. When it cools, it condenses into tiny droplets around dust particles, forming clouds. Different types of clouds bring different weather!',
+            'ocean': 'Oceans cover more than 70% of Earth\'s surface! 🌊 They\'re home to millions of species, from tiny plankton to enormous whales. The deepest part (the Mariana Trench) is over 36,000 feet deep - you could fit Mount Everest inside and still have room!',
+            'tree': 'Trees are the largest plants on Earth! 🌳 They can live for hundreds or even thousands of years. The oldest tree is over 5,000 years old! Trees give us oxygen, shade, fruit, wood, and homes for countless animals.',
+            'water': 'Water is essential for all life! 💧 It\'s the only substance that naturally exists as solid (ice), liquid (water), and gas (steam). Your body is about 60% water! Water molecules are made of 2 hydrogen atoms and 1 oxygen atom (H₂O).',
+            'fire': 'Fire is a chemical reaction that produces heat and light! 🔥 It needs three things: fuel (something to burn), oxygen (from air), and heat (to start it). Fire has helped humans cook food, stay warm, and light up the night for hundreds of thousands of years!',
+            'electricity': 'Electricity is the flow of tiny particles called electrons! ⚡ These electrons move through wires like water through a pipe. Electricity powers lights, computers, and almost everything we use. Lightning is natural electricity - a single bolt has enough power to toast 100,000 pieces of bread!',
+            'magnet': 'Magnets are objects that attract certain metals like iron! 🧲 They have two poles: north and south. Opposite poles attract, and same poles repel. Earth is actually a giant magnet, which is why compass needles always point north!',
+            'atom': 'Atoms are the tiny building blocks of everything! ⚛️ Everything you can touch - your desk, water, even YOU - is made of atoms. They\'re so small that a single drop of water contains more atoms than all the stars in the Milky Way galaxy!',
+            'oxygen': 'Oxygen is the gas we need to breathe! 💨 It makes up about 21% of air. Plants create oxygen through photosynthesis - so thank the trees! Your body uses oxygen to turn food into energy.',
+            'brain': 'Your brain is the most complex thing we know of in the universe! 🧠 It has about 86 billion neurons (brain cells) that send electrical signals to each other. Your brain controls everything you do - thinking, moving, feeling, and even breathing while you sleep!',
+            'heart': 'Your heart is a muscle that pumps blood through your body! ❤️ It beats about 100,000 times a day - that\'s 35 million times a year! Blood carries oxygen and nutrients to every cell in your body.',
+            'blood': 'Blood is the red liquid that flows through your body! 🩸 It carries oxygen from your lungs to your cells, nutrients from your food, and helps fight germs. An adult has about 5 liters of blood. It looks red because of iron in the red blood cells!',
+            'bone': 'Bones are the hard structures that make up your skeleton! 🦴 Adults have 206 bones, but babies have about 270! Some bones fuse together as you grow. Bones are living tissue - they\'re always being rebuilt and repaired.',
+            'cell': 'Cells are the tiny building blocks of all living things! 🔬 Your body has about 37 trillion cells! Each cell is like a tiny factory, with different parts doing different jobs. Some cells live for days, others for years!',
+            'dna': 'DNA is like a recipe book inside every cell that makes you, YOU! 🧬 It\'s a long molecule shaped like a twisted ladder. Your DNA contains instructions for everything from your eye color to how tall you\'ll be. If you uncoiled all the DNA in your body, it would stretch to the sun and back 600 times!',
+            'bacteria': 'Bacteria are tiny living things you can only see with a microscope! 🦠 They\'re everywhere - in soil, water, and even inside you! Most bacteria are helpful: they help you digest food and fight off bad germs. A few types can make you sick, which is why we wash our hands!',
+            'virus': 'A virus is a tiny thing that can make you sick! 🦠 Viruses are super small - even smaller than bacteria. They can\'t reproduce on their own, so they invade your cells and hijack them. Your immune system fights viruses, and vaccines help your body learn to fight them faster!',
+            
+            // === SPACE & UNIVERSE ===
+            'sun': 'The Sun is a giant ball of hot gas at the center of our solar system! ☀️ It\'s so big that about 1.3 million Earths could fit inside it! The Sun is about 93 million miles away, and its light takes 8 minutes to reach us. It\'s about 10,000°F on the surface and 27 million°F at the core!',
+            'moon': 'The Moon is Earth\'s only natural satellite! 🌙 It\'s about 239,000 miles away and controls our ocean tides with its gravity. The Moon doesn\'t make its own light - it reflects sunlight! Only 12 humans have walked on the Moon, all between 1969-1972.',
+            'planet': 'Planets are large objects that orbit a star (like our Sun)! 🪐 Our solar system has 8 planets: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. They come in two types: rocky (like Earth) and gas giants (like Jupiter).',
+            'earth': 'Earth is our amazing home planet! 🌍 It\'s the only planet we know of with liquid water and life! Earth is about 4.5 billion years old and is the third planet from the Sun. It spins once every 24 hours (one day) and orbits the Sun once every 365 days (one year).',
+            'mars': 'Mars is called the Red Planet because of its rusty red color! 🔴 It has the biggest volcano in the solar system (Olympus Mons) and might have had water long ago. NASA has sent robots there to explore! Humans might visit Mars in the 2030s!',
+            'jupiter': 'Jupiter is the biggest planet in our solar system! It\'s a gas giant - you couldn\'t stand on it! The famous Great Red Spot is a storm bigger than Earth that\'s been raging for over 300 years. Jupiter has at least 95 moons!',
+            'saturn': 'Saturn is famous for its beautiful rings! 💍 The rings are made of ice and rock pieces, from tiny grains to house-sized chunks. Saturn is a gas giant so light that it would float in a giant bathtub! It has 146 known moons!',
+            'star': 'Stars are giant balls of hot gas that produce light and heat! ⭐ Our Sun is a star - a medium-sized yellow one. The bigger the star, the hotter and brighter it is. Some stars are red (cooler) and some are blue (hotter). There are more stars in the universe than grains of sand on Earth!',
+            'galaxy': 'A galaxy is a huge collection of stars, planets, and space stuff! 🌌 Our galaxy is called the Milky Way and contains 100-400 billion stars! Galaxies come in different shapes - spiral, elliptical, and irregular. There are more than 2 trillion galaxies in the observable universe!',
+            'black hole': 'A black hole is a place where gravity is SO strong that nothing can escape - not even light! 🕳️ They form when huge stars collapse. The closest one to Earth is about 1,500 light-years away. Scientists took the first real picture of one in 2019!',
+            'alien': 'We haven\'t found aliens yet, but the universe is HUGE! 👽 There are billions of galaxies, each with billions of stars, many with planets. Many scientists think it\'s likely that life exists somewhere else, but we haven\'t discovered it yet. The search continues!',
+            'meteor': 'A meteor is a space rock that burns up in Earth\'s atmosphere - a "shooting star"! ☄️ They glow because they\'re traveling so fast (up to 160,000 mph!) that friction with air heats them up. About 17 meteors hit Earth every day, but most are tiny!',
+            'asteroid': 'Asteroids are rocky objects that orbit the Sun! ☄️ Most are in the "asteroid belt" between Mars and Jupiter. They\'re like leftover building blocks from when our solar system formed. The biggest asteroid, Ceres, is about 600 miles across!',
+            'comet': 'Comets are "dirty snowballs" made of ice, rock, and dust! ☄️ When they get close to the Sun, the ice melts and creates a beautiful glowing tail. Halley\'s Comet visits Earth every 75-76 years - you might see it in 2061!',
+            'rocket': 'Rockets are vehicles that can travel to space! 🚀 They work by shooting hot gases backward, which pushes the rocket forward (Newton\'s third law!). Rockets need to go at least 17,500 mph to stay in orbit around Earth!',
+            'astronaut': 'Astronauts are people who travel to space! 👨‍🚀 They need years of training to handle zero gravity, spacewalks, and living in a spacecraft. About 600 people have been to space so far. Astronauts on the ISS see 16 sunrises every day because they orbit so fast!',
+            'spacecraft': 'Spacecraft are vehicles designed to travel through space! 🛸 Some carry people (like the Space Shuttle or SpaceX Dragon), while others are robots (like Mars rovers). The Voyager 1 probe, launched in 1977, is now the farthest human-made object from Earth!',
+            'telescope': 'Telescopes are instruments that help us see far-away things! 🔭 They use lenses or mirrors to collect and focus light. The Hubble Space Telescope orbits Earth and has taken amazing pictures of distant galaxies. The James Webb Space Telescope sees even farther!',
+            'light year': 'A light-year is how far light travels in one year! 🌟 Light is the fastest thing in the universe - it travels at 186,000 miles per SECOND! One light-year equals about 6 trillion miles. The nearest star (besides our Sun) is about 4 light-years away.',
+            'orbit': 'An orbit is the curved path an object takes around another object in space! 🌍 Gravity is what keeps things in orbit. Earth orbits the Sun, the Moon orbits Earth, and satellites orbit Earth. The International Space Station orbits Earth every 90 minutes!',
+            'space station': 'The International Space Station (ISS) is a home in space! 🛸 It orbits Earth about 250 miles up, traveling at 17,500 mph! Astronauts from many countries live and work there, doing science experiments. It\'s about the size of a football field!',
+            'constellation': 'Constellations are patterns of stars that people named after shapes they saw in the sky! ⭐ There are 88 official constellations. Ancient people used them for navigation and storytelling. Orion the Hunter and the Big Dipper are famous ones!',
+            
+            // === MATH & NUMBERS ===
+            'math': 'Math is the language of numbers, patterns, and logic! 🔢 It\'s everywhere - in music, art, nature, computers, and games! Math helps us understand the world, solve problems, and build amazing things. Without math, we couldn\'t have computers, video games, or space travel!',
+            'times': 'I can help with multiplication! 🔢 What times problem would you like me to help with? Some fun facts: Any number times 0 is 0. Any number times 1 stays the same. Multiplication is just repeated addition!',
+            '7 times 8': '7 times 8 equals 56! 🔢 Here\'s a trick: 7 × 8 = 56, and 5, 6, 7, 8 are in order! Another way to remember: "56 = 7 × 8" sounds like "I need a break!"',
+            '6 times 9': '6 times 9 equals 54! 🔢 Here\'s a finger trick for 9s: Hold up 10 fingers, put down finger #6 (counting from left), you get 5 fingers on one side and 4 on the other: 54!',
+            '12 times 12': '12 times 12 equals 144! 🔢 This is also called "12 squared" because 12² = 144. Numbers multiplied by themselves make "square numbers" - called that because they make perfect squares!',
+            'pi': 'Pi (π) is a special number that equals about 3.14159...! 🥧 It\'s the ratio of a circle\'s circumference to its diameter. Pi goes on FOREVER without repeating - mathematicians have calculated over 100 trillion digits! Pi Day is March 14 (3/14)!',
+            'infinity': 'Infinity (∞) means something that goes on forever with no end! ♾️ There\'s no "biggest number" - you can always add 1 more! Fun fact: There are different "sizes" of infinity. The infinity of real numbers is bigger than the infinity of counting numbers!',
+            'zero': 'Zero is a very special number! 0️⃣ It means "nothing," but it\'s super important. Ancient people didn\'t have zero at first - it was invented in India around 500 AD. Zero is neither positive nor negative, and anything times zero equals zero!',
+            'fraction': 'A fraction shows a part of something! 🍕 Like 1/2 means one part out of two equal parts - half! The top number (numerator) shows how many parts you have, and the bottom number (denominator) shows how many equal parts the whole is divided into.',
+            'percent': 'Percent means "per hundred" or "out of 100"! 💯 So 50% means 50 out of 100, which is half. 100% means all of it. You see percents in sales (50% off!), grades, and statistics.',
+            'equation': 'An equation is a math sentence with an equals sign! ⚖️ Like 2 + 3 = 5. Both sides must be equal - like a balanced scale. Solving an equation means finding what number makes it true. In x + 5 = 10, x must equal 5!',
+            'add': 'Addition combines numbers together! ➕ It\'s one of the first math operations we learn. Fun fact: You can add numbers in any order (2 + 3 = 3 + 2). This is called the "commutative property."',
+            'subtract': 'Subtraction finds the difference between numbers! ➖ It\'s the opposite of addition. 10 - 3 means "start at 10 and take away 3" which gives you 7.',
+            'multiply': 'Multiplication is a fast way to add the same number many times! ✖️ 4 × 3 means "add 4 three times" (4 + 4 + 4 = 12). It\'s super useful for counting groups of things!',
+            'divide': 'Division splits things into equal groups! ➗ 12 ÷ 3 means "split 12 into 3 equal groups" - each group has 4. It\'s the opposite of multiplication!',
+            'geometry': 'Geometry is the math of shapes and spaces! 📐 It studies circles, triangles, squares, and 3D shapes. Geometry helps us understand the world - from architecture to art to video games!',
+            'triangle': 'A triangle is a shape with 3 sides and 3 angles! 🔺 The angles always add up to 180 degrees. Triangles are super strong shapes - that\'s why they\'re used in bridges and buildings!',
+            'square': 'A square is a shape with 4 equal sides and 4 right angles! ⬛ It\'s a special type of rectangle. The area of a square is side × side, which is why we call it "squaring" a number!',
+            'circle': 'A circle is a shape where every point is the same distance from the center! ⭕ Circles are everywhere in nature - the sun, moon, and planets all look circular! The distance around a circle (circumference) = π × diameter.',
+            
+            // === ANIMALS ===
+            'cheetah': 'Cheetahs are the fastest land animals on Earth! 🐆 They can run up to 70 mph (faster than cars on a highway!), but only for short bursts. They go from 0 to 60 mph in just 3 seconds! Their spotted coat helps them hide in tall grass.',
+            'cat': 'Cats are amazing animals! 🐱 They purr at a frequency (25-150 Hz) that can actually help heal bones! Cats spend 70% of their lives sleeping. They have over 20 different vocalizations and can rotate their ears 180 degrees!',
+            'purr': 'Cats purr by vibrating muscles in their voice box! 🐱 They purr when happy, but also when stressed or hurt - scientists think the vibration might help them heal! The frequency of purring (25-150 Hz) can improve bone density and reduce pain.',
+            'dog': 'Dogs are called "man\'s best friend" for a reason! 🐕 They\'ve been our companions for over 15,000 years. Dogs can understand over 150 words, smell diseases, and see in low light. Their nose prints are unique, like human fingerprints!',
+            'fish breathe': 'Fish breathe underwater using gills! 🐟 Gills are feathery organs that extract oxygen from water. As water flows over the gills, oxygen passes into the fish\'s blood, just like our lungs get oxygen from air.',
+            'shark': 'Sharks are amazing ocean predators! 🦈 They\'ve been around for over 400 million years - before dinosaurs! Sharks have super senses: they can smell blood from a quarter mile away and detect electricity from muscle movements!',
+            'whale': 'Whales are the biggest animals EVER! 🐋 Blue whales can be 100 feet long and weigh 200 tons - their hearts are the size of a car! Even though they live in water, they\'re mammals who breathe air and nurse their babies.',
+            'biggest animal': 'The blue whale is the biggest animal that has ever lived! 🐋 They can grow up to 100 feet long and weigh 200 tons. Their tongue alone weighs as much as an elephant! Their hearts are the size of a small car!',
+            'elephant': 'Elephants are the largest land animals! 🐘 They\'re incredibly smart - they recognize themselves in mirrors, mourn their dead, and never forget! An elephant\'s trunk has about 40,000 muscles and can lift 700 pounds.',
+            'giraffe': 'Giraffes are the tallest animals on Earth! 🦒 They can be up to 18 feet tall! Despite their long necks, they have the same number of neck bones as humans (7). Their tongues are about 18 inches long and can grab leaves!',
+            'lion': 'Lions are called the "King of the Jungle" but actually live in grasslands! 🦁 They\'re the only cats that live in groups (called prides). Male lions sleep up to 20 hours a day! A lion\'s roar can be heard from 5 miles away.',
+            'penguin': 'Penguins are birds that can\'t fly - but they\'re excellent swimmers! 🐧 Emperor penguins can dive over 1,800 feet deep and hold their breath for 20 minutes! They huddle together in Antarctica to stay warm in -40° weather.',
+            'dolphin': 'Dolphins are some of the smartest animals! 🐬 They use echolocation (sound waves) to "see" underwater. Dolphins sleep with half their brain at a time so they can keep breathing! They\'re actually a type of toothed whale.',
+            'octopus': 'Octopuses are super intelligent and strange! 🐙 They have 3 hearts, blue blood, and can change color instantly! Each of their 8 arms has its own "mini brain." If they lose an arm, it grows back!',
+            'butterfly': 'Butterflies taste with their feet! 🦋 They start as caterpillars, form a chrysalis, and transform completely. Some butterflies migrate thousands of miles! Their wings are covered in tiny scales that create their beautiful patterns.',
+            'bee': 'Bees are incredibly important for our planet! 🐝 They pollinate about 1/3 of the food we eat. A single bee visits 50-1000 flowers per trip! They communicate by "dancing" to tell other bees where flowers are.',
+            'spider': 'Spiders are amazing web builders! 🕷️ Spider silk is incredibly strong - pound for pound, stronger than steel! Spiders aren\'t insects (they have 8 legs, not 6). Most spiders are helpful, eating mosquitoes and flies.',
+            'snake': 'Snakes are legless reptiles! 🐍 They "smell" by flicking their tongue to collect scent particles. Most snakes are harmless to humans. The fastest snake, the black mamba, can move at 12 mph!',
+            'bird': 'Birds are the only animals with feathers! 🦅 They evolved from dinosaurs! Birds have hollow bones to help them fly. The hummingbird is the only bird that can fly backward!',
+            
+            // === HISTORY & PEOPLE ===
+            'electricity inventor': 'Many people helped discover and use electricity! ⚡ Benjamin Franklin did famous experiments with lightning in 1752. Thomas Edison invented the practical light bulb in 1879. Nikola Tesla developed the AC electrical system we use today!',
+            'benjamin franklin': 'Benjamin Franklin was a famous American inventor and founder! ⚡ He proved lightning was electricity with his famous kite experiment in 1752. He also invented bifocal glasses, the lightning rod, and helped write the Declaration of Independence!',
+            'pyramid': 'The Egyptian pyramids were built about 4,500 years ago! 🔺 The Great Pyramid of Giza has about 2.3 million stone blocks, each weighing 2.5-15 tons! Scientists still debate exactly how ancient Egyptians built them. They were tombs for pharaohs.',
+            'first programmer': 'Ada Lovelace is often called the first computer programmer! 👩‍💻 In the 1840s, she wrote instructions for Charles Babbage\'s Analytical Engine - the first general-purpose computer design. She was also Lord Byron\'s daughter!',
+            'ada lovelace': 'Ada Lovelace (1815-1852) was a math genius and visionary! 👩‍💻 She wrote the first computer program ever, for a machine that hadn\'t even been built yet! She predicted computers could create music and art, not just do math.',
+            'first video game': 'The first video game was "Tennis for Two" created in 1958 by physicist William Higinbotham! 🎮 It was played on an oscilloscope (a screen that shows electrical signals). Pong came out in 1972 and became the first popular arcade game.',
+            'internet history': 'The internet started in 1969 as ARPANET, connecting just 4 computers at universities! 🌐 The World Wide Web was invented by Tim Berners-Lee in 1989. The first website went live in 1991. Today, over 5 billion people use the internet!',
+            'dinosaur extinction': 'Dinosaurs went extinct about 66 million years ago! ☄️ Most scientists believe a huge asteroid hit Earth (in what\'s now Mexico), causing massive fires, tsunamis, and a "nuclear winter" that blocked sunlight. But birds - living dinosaurs - survived!',
+            'moon landing': 'Humans first walked on the Moon on July 20, 1969! 🚀 Apollo 11 astronauts Neil Armstrong and Buzz Aldrin spent about 2.5 hours walking on the Moon. Armstrong said the famous words: "That\'s one small step for man, one giant leap for mankind."',
+            'world war': 'World War I (1914-1918) and World War II (1939-1945) were the largest conflicts in human history. 🌍 They involved countries from around the world and led to many changes in technology, borders, and international cooperation.',
+            'ancient egypt': 'Ancient Egypt was one of the greatest civilizations! 🏛️ It lasted about 3,000 years along the Nile River. Egyptians built pyramids, invented hieroglyphics (picture writing), and made advances in medicine, math, and engineering!',
+            
+            // === FUN FACTS & MISC ===
+            'why': 'Asking "why" is one of the best things you can do! 🤔 Curiosity is how we learn and discover new things. Scientists, inventors, and explorers all started by asking "why?" Keep asking questions!',
+            'how': 'Understanding "how" things work helps us learn and create! 🔧 Engineers figure out "how" to build things. Scientists figure out "how" nature works. You can figure out "how" things work too by observing and experimenting!',
+            'joke': 'Here\'s a coding joke: Why do programmers prefer dark mode? 🌙 Because light attracts bugs! 🐛😄 Here\'s another: Why was the computer cold? It left its Windows open! ❄️',
+            'fun fact': 'Here\'s a fun fact: A group of flamingos is called a "flamboyance"! 🦩 Also, honey never spoils - archaeologists found 3,000-year-old honey in Egyptian tombs and it was still good! 🍯',
+            'riddle': 'Here\'s a riddle: I have keys but no locks. I have space but no room. You can enter but can\'t go inside. What am I? 🤔 Answer: A keyboard! ⌨️',
+            'favorite': 'As an AI, I don\'t have personal favorites, but I think learning and helping people are pretty great! 🤖 What\'s YOUR favorite thing to learn about?',
+            'color': 'Colors are so cool! 🌈 Light is made of different wavelengths, and each wavelength looks like a different color. Red has the longest waves, violet the shortest. Mixing colors of light is different from mixing paint colors!',
+            'music': 'Music is amazing! 🎵 It\'s made of sound waves at different frequencies. Higher frequencies = higher notes. Music affects our brains - it can make us happy, sad, excited, or calm. Humans have made music for at least 40,000 years!',
+            'book': 'Books are portals to other worlds and minds! 📚 Reading strengthens your brain, improves vocabulary, and boosts creativity. The longest novel ever is over 17,000 pages! What\'s your favorite book?',
+            'food': 'Food gives our bodies energy to move, think, and grow! 🍎 We get energy from carbohydrates, proteins, and fats. Vitamins and minerals help our bodies work properly. Eating a variety of colorful foods keeps us healthy!',
+            'sleep': 'Sleep is super important for your brain and body! 😴 While you sleep, your brain organizes memories and your body repairs itself. Kids need about 9-12 hours of sleep. Dreams happen during REM sleep!',
+            'dream': 'Dreams are stories your brain creates while you sleep! 💭 Everyone dreams, but we often forget them. Scientists aren\'t sure why we dream, but it might help us process emotions and memories. Some people can control their dreams (lucid dreaming)!',
+            'friend': 'Friends are people who care about you and share experiences with you! 👫 Having good friends is important for happiness and health. Good friends are kind, trustworthy, and fun to be around!',
+            'school': 'School is where you learn skills and knowledge for life! 🏫 You learn reading, math, science, and how to work with others. Even if some subjects are hard, learning makes your brain stronger!',
+            'help': 'I\'m here to help you learn! 🤗 You can ask me about coding (HTML, CSS, JavaScript), science, space, animals, math, history, and lots more. What would you like to know about?',
+            
+            // === SPECIAL RESPONSES ===
+            'default': 'That\'s a great question! 🤔 While I might not have the perfect answer, I encourage you to explore and find out more. You can ask me about coding, science, animals, space, math, or history - I know about lots of topics!'
         };
         
         function getResponse(message) {
-            message = message.toLowerCase();
+            message = message.toLowerCase().trim();
             
-            if (message.includes('hello') || message.includes('hi')) return responses.hello;
-            if (message.includes('html')) return responses.html;
-            if (message.includes('css') || message.includes('style')) return responses.css;
-            if (message.includes('javascript') || message.includes('js')) return responses.javascript;
-            if (message.includes('button')) return responses.button;
-            if (message.includes('color') || message.includes('colour')) return responses.color;
-            if (message.includes('code') || message.includes('coding')) return responses.code;
-            if (message.includes('ai') || message.includes('artificial')) return responses.ai;
+            // Check for specific phrases and keywords
+            if (message.includes('thank')) return responses['thank you'];
+            if (message.includes('hello') || message === 'hi' || message === 'hey') return responses['hello'];
+            if (message.includes('how are you')) return responses['how are you'];
+            if (message.includes('your name') || message.includes('who are you')) return responses['who are you'];
+            if (message.includes('bye') || message.includes('goodbye')) return responses['bye'];
             
-            return responses.default;
+            // Math questions
+            if (message.includes('7') && message.includes('8') && (message.includes('times') || message.includes('x') || message.includes('*') || message.includes('multiply'))) return responses['7 times 8'];
+            if (message.includes('6') && message.includes('9') && (message.includes('times') || message.includes('x') || message.includes('*'))) return responses['6 times 9'];
+            if (message.includes('12') && message.includes('12') && (message.includes('times') || message.includes('x') || message.includes('*'))) return responses['12 times 12'];
+            if (message.includes('what is pi') || message === 'pi' || message.includes('what\'s pi')) return responses['pi'];
+            if (message.includes('infinity')) return responses['infinity'];
+            if (message.includes('math') || message.includes('mathematics')) return responses['math'];
+            if (message.includes('times') && !message.includes('sometimes')) return responses['times'];
+            if (message.includes('fraction')) return responses['fraction'];
+            if (message.includes('percent')) return responses['percent'];
+            if (message.includes('equation')) return responses['equation'];
+            if (message.includes('geometry')) return responses['geometry'];
+            if (message.includes('triangle')) return responses['triangle'];
+            if (message.includes('square') && !message.includes('times')) return responses['square'];
+            if (message.includes('circle')) return responses['circle'];
+            
+            // Coding & Technology
+            if (message.includes('html')) return responses['html'];
+            if (message.includes('css') || message.includes('style')) return responses['css'];
+            if (message.includes('javascript') || message.includes('js ')) return responses['javascript'];
+            if (message.includes('python')) return responses['python'];
+            if (message.includes('coding') || message.includes('code ') || message.includes('programming')) return responses['coding'];
+            if (message.includes('computer') && !message.includes('game')) return responses['computer'];
+            if (message.includes('internet')) return responses['internet'];
+            if (message.includes('website') || message.includes('web site')) return responses['website'];
+            if (message.includes('robot')) return responses['robot'];
+            if (message.includes('video game') || message.includes('videogame')) return responses['video game'];
+            if (message.includes('game') && !message.includes('video')) return responses['game'];
+            if (message.includes('algorithm')) return responses['algorithm'];
+            if (message.includes('bug') && (message.includes('code') || message.includes('program') || message.includes('computer'))) return responses['bug'];
+            if (message.includes('variable')) return responses['variable'];
+            if (message.includes('function')) return responses['function'];
+            if (message.includes('loop')) return responses['loop'];
+            if (message.includes('hacker')) return responses['hacker'];
+            if (message.includes('wifi') || message.includes('wi-fi')) return responses['wifi'];
+            if (message.includes('server') && !message.includes('waiter')) return responses['server'];
+            if (message.includes('database')) return responses['database'];
+            if (message.includes('password')) return responses['password'];
+            if (message.includes('download')) return responses['download'];
+            if (message.includes('upload')) return responses['upload'];
+            if (message.includes('cloud') && (message.includes('data') || message.includes('storage') || message.includes('save'))) return responses['cloud'];
+            if (message.includes('emoji')) return responses['emoji'];
+            if (message.includes('pixel')) return responses['pixel'];
+            if (message.includes('animation') || message.includes('animate')) return responses['animation'];
+            if (message.includes('browser')) return responses['browser'];
+            if (message.includes('keyboard')) return responses['keyboard'];
+            if (message.includes('mouse') && !message.includes('animal')) return responses['mouse'];
+            if (message.includes('button')) return responses['button'];
+            if (message.includes('app ') || message.includes('apps') || message.includes('application')) return responses['app'];
+            if (message.includes('program') && !message.includes('programmer')) return responses['program'];
+            
+            // Science & Nature
+            if (message.includes('sky') && message.includes('blue')) return responses['sky blue'];
+            if (message.includes('rainbow')) return responses['rainbow'];
+            if (message.includes('thunder')) return responses['thunder'];
+            if (message.includes('lightning') && !message.includes('benjamin')) return responses['lightning'];
+            if (message.includes('volcano')) return responses['volcano'];
+            if (message.includes('earthquake')) return responses['earthquake'];
+            if (message.includes('dinosaur')) return responses['dinosaur'];
+            if (message.includes('fossil')) return responses['fossil'];
+            if (message.includes('plant') && message.includes('grow')) return responses['plant'];
+            if (message.includes('photosynthesis')) return responses['photosynthesis'];
+            if (message.includes('gravity')) return responses['gravity'];
+            if (message.includes('season')) return responses['season'];
+            if (message.includes('rain') && !message.includes('rainbow')) return responses['rain'];
+            if (message.includes('snow')) return responses['snow'];
+            if (message.includes('cloud') && !message.includes('storage')) return responses['cloud'];
+            if (message.includes('ocean') || message.includes('sea ')) return responses['ocean'];
+            if (message.includes('tree') && !message.includes('family')) return responses['tree'];
+            if (message.includes('water') && !message.includes('under')) return responses['water'];
+            if (message.includes('fire')) return responses['fire'];
+            if (message.includes('electricity') && !message.includes('who')) return responses['electricity'];
+            if (message.includes('magnet')) return responses['magnet'];
+            if (message.includes('atom')) return responses['atom'];
+            if (message.includes('oxygen')) return responses['oxygen'];
+            if (message.includes('brain')) return responses['brain'];
+            if (message.includes('heart')) return responses['heart'];
+            if (message.includes('blood')) return responses['blood'];
+            if (message.includes('bone') || message.includes('skeleton')) return responses['bone'];
+            if (message.includes('cell') && !message.includes('phone')) return responses['cell'];
+            if (message.includes('dna')) return responses['dna'];
+            if (message.includes('bacteria')) return responses['bacteria'];
+            if (message.includes('virus')) return responses['virus'];
+            
+            // Space & Universe
+            if (message.includes('sun ') || message.includes('sun?') || message === 'sun' || message.includes('how big is the sun')) return responses['sun'];
+            if (message.includes('moon')) return responses['moon'];
+            if (message.includes('planet')) return responses['planet'];
+            if (message.includes('earth')) return responses['earth'];
+            if (message.includes('mars')) return responses['mars'];
+            if (message.includes('jupiter')) return responses['jupiter'];
+            if (message.includes('saturn')) return responses['saturn'];
+            if (message.includes('star') && !message.includes('movie')) return responses['star'];
+            if (message.includes('galaxy') || message.includes('milky way')) return responses['galaxy'];
+            if (message.includes('black hole')) return responses['black hole'];
+            if (message.includes('alien')) return responses['alien'];
+            if (message.includes('meteor') || message.includes('shooting star')) return responses['meteor'];
+            if (message.includes('asteroid')) return responses['asteroid'];
+            if (message.includes('comet')) return responses['comet'];
+            if (message.includes('rocket')) return responses['rocket'];
+            if (message.includes('astronaut')) return responses['astronaut'];
+            if (message.includes('spacecraft') || message.includes('spaceship')) return responses['spacecraft'];
+            if (message.includes('telescope')) return responses['telescope'];
+            if (message.includes('light year') || message.includes('light-year')) return responses['light year'];
+            if (message.includes('orbit')) return responses['orbit'];
+            if (message.includes('space station') || message.includes('iss')) return responses['space station'];
+            if (message.includes('constellation')) return responses['constellation'];
+            
+            // Animals
+            if (message.includes('cheetah') || (message.includes('fast') && message.includes('animal'))) return responses['cheetah'];
+            if (message.includes('cat') && message.includes('purr')) return responses['purr'];
+            if (message.includes('cat') || message.includes('kitten')) return responses['cat'];
+            if (message.includes('dog') || message.includes('puppy')) return responses['dog'];
+            if (message.includes('fish') && message.includes('breathe')) return responses['fish breathe'];
+            if (message.includes('shark')) return responses['shark'];
+            if (message.includes('whale')) return responses['whale'];
+            if (message.includes('biggest animal') || message.includes('largest animal')) return responses['biggest animal'];
+            if (message.includes('elephant')) return responses['elephant'];
+            if (message.includes('giraffe')) return responses['giraffe'];
+            if (message.includes('lion')) return responses['lion'];
+            if (message.includes('penguin')) return responses['penguin'];
+            if (message.includes('dolphin')) return responses['dolphin'];
+            if (message.includes('octopus')) return responses['octopus'];
+            if (message.includes('butterfly')) return responses['butterfly'];
+            if (message.includes('bee ') || message.includes('bees')) return responses['bee'];
+            if (message.includes('spider')) return responses['spider'];
+            if (message.includes('snake')) return responses['snake'];
+            if (message.includes('bird')) return responses['bird'];
+            
+            // History & People
+            if ((message.includes('invent') || message.includes('discover')) && message.includes('electricity')) return responses['electricity inventor'];
+            if (message.includes('benjamin franklin') || message.includes('ben franklin')) return responses['benjamin franklin'];
+            if (message.includes('pyramid')) return responses['pyramid'];
+            if (message.includes('first programmer') || message.includes('ada lovelace')) return responses['first programmer'];
+            if (message.includes('first video game') || message.includes('first game') || message.includes('video game') && message.includes('when')) return responses['first video game'];
+            if (message.includes('internet') && message.includes('history')) return responses['internet history'];
+            if (message.includes('dinosaur') && message.includes('extinct')) return responses['dinosaur extinction'];
+            if (message.includes('moon landing') || message.includes('walk') && message.includes('moon')) return responses['moon landing'];
+            if (message.includes('ancient egypt') || message.includes('egyptian')) return responses['ancient egypt'];
+            
+            // Fun & Misc
+            if (message === 'why' || message === 'why?') return responses['why'];
+            if (message === 'how' || message === 'how?') return responses['how'];
+            if (message.includes('joke') || message.includes('funny')) return responses['joke'];
+            if (message.includes('fun fact') || message.includes('fact')) return responses['fun fact'];
+            if (message.includes('riddle')) return responses['riddle'];
+            if (message.includes('favorite') || message.includes('favourite')) return responses['favorite'];
+            if (message.includes('color') || message.includes('colour')) return responses['color'];
+            if (message.includes('music')) return responses['music'];
+            if (message.includes('book') || message.includes('read')) return responses['book'];
+            if (message.includes('food') || message.includes('eat')) return responses['food'];
+            if (message.includes('sleep')) return responses['sleep'];
+            if (message.includes('dream')) return responses['dream'];
+            if (message.includes('friend')) return responses['friend'];
+            if (message.includes('school')) return responses['school'];
+            if (message.includes('help')) return responses['help'];
+            if (message.includes('ai') || message.includes('artificial intelligence')) return 'AI (Artificial Intelligence) is when computers learn to do smart things! 🤖 Like recognizing pictures, understanding speech, or helping write code. I\'m a simple example of AI - I use patterns to understand your questions and give helpful answers!';
+            
+            return responses['default'];
         }
         
         function sendMessage() {
@@ -659,7 +1060,7 @@
             container.innerHTML += `
                 <div class="chat-message user">
                     <div class="chat-avatar">👤</div>
-                    <div class="chat-bubble">${message}</div>
+                    <div class="chat-bubble">${escapeHtml(message)}</div>
                 </div>
             `;
             
@@ -684,6 +1085,12 @@
         function quickAsk(question) {
             document.getElementById('ai-input').value = question;
             sendMessage();
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
         
         // Enter key support
