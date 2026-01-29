@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦸 Avatar Builder - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #06d6a0, #4361ee);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1000px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: rgba(255,255,255,0.3); }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 25px;
+        }
+        
+        @media (max-width: 800px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .card h2 {
+            color: #4361ee;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Avatar Display */
+        .avatar-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 280px;
+            height: 350px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .avatar-head {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .avatar-hair {
+            position: absolute;
+            top: -20px;
+            font-size: 60px;
+            z-index: 1;
+        }
+        
+        .avatar-face {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 2;
+        }
+        
+        .avatar-eyes {
+            display: flex;
+            gap: 25px;
+            font-size: 25px;
+        }
+        
+        .avatar-mouth {
+            font-size: 30px;
+        }
+        
+        .avatar-body {
+            margin-top: -10px;
+            font-size: 80px;
+        }
+        
+        .avatar-accessory {
+            position: absolute;
+            bottom: 20px;
+            font-size: 40px;
+        }
+        
+        .avatar-name {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            outline: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: transparent;
+        }
+        
+        .avatar-name:focus {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        .avatar-title {
+            font-size: 1rem;
+            color: #666;
+            font-style: italic;
+        }
+        
+        /* Customization Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 10px 15px;
+            border: none;
+            background: #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .tab-btn:hover { background: #dee2e6; }
+        .tab-btn.active { background: #4361ee; color: white; }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Option Grids */
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .option-btn {
+            padding: 12px;
+            border: 3px solid #e9ecef;
+            border-radius: 12px;
+            background: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .option-btn:hover { border-color: #4361ee; transform: scale(1.05); }
+        .option-btn.active { border-color: #4361ee; background: #f0f4ff; }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+        
+        .color-btn {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 3px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .color-btn:hover { transform: scale(1.1); }
+        .color-btn.active { border-color: #333; }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover { transform: scale(1.05); }
+        
+        .btn-save {
+            background: linear-gradient(135deg, #06d6a0, #4ade80);
+            color: white;
+        }
+        
+        .btn-random {
+            background: linear-gradient(135deg, #f72585, #7209b7);
+            color: white;
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+        }
+        
+        /* Saved Avatars */
+        .saved-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #e9ecef;
+        }
+        
+        .saved-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .saved-avatars {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .saved-avatar {
+            width: 70px;
+            height: 70px;
+            border: 3px solid #e9ecef;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+        
+        .saved-avatar:hover { border-color: #4361ee; transform: scale(1.1); }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show { transform: translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🦸 Avatar Builder</h1>
+            <p>Design your coding superhero identity!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-th"></i> Activities</a>
+            </div>
+        </header>
+        
+        <div class="main-grid">
+            <!-- Avatar Display -->
+            <div class="card">
+                <h2><i class="fas fa-user-astronaut"></i> Your Avatar</h2>
+                
+                <div class="avatar-stage">
+                    <div class="avatar-container" id="avatar-container">
+                        <div class="avatar-hair" id="avatar-hair">👑</div>
+                        <div class="avatar-head" id="avatar-head">
+                            <div class="avatar-face">
+                                <div class="avatar-eyes" id="avatar-eyes">
+                                    <span>👁️</span><span>👁️</span>
+                                </div>
+                                <div class="avatar-mouth" id="avatar-mouth">😊</div>
+                            </div>
+                        </div>
+                        <div class="avatar-body" id="avatar-body">👕</div>
+                        <div class="avatar-accessory" id="avatar-accessory">💻</div>
+                    </div>
+                    
+                    <div class="avatar-name" contenteditable="true" id="avatar-name">Code Hero</div>
+                    <div class="avatar-title" id="avatar-title">The Bug Slayer</div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-random" onclick="randomize()">
+                        <i class="fas fa-dice"></i> Random
+                    </button>
+                    <button class="btn btn-save" onclick="saveAvatar()">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </div>
+                
+                <div class="saved-section">
+                    <h3>💾 Saved Avatars</h3>
+                    <div class="saved-avatars" id="saved-avatars">
+                        <p style="color: #999; font-size: 0.9rem;">No saved avatars yet!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Customization -->
+            <div class="card">
+                <h2><i class="fas fa-palette"></i> Customize</h2>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="showTab('hair')">Hair</button>
+                    <button class="tab-btn" onclick="showTab('face')">Face</button>
+                    <button class="tab-btn" onclick="showTab('outfit')">Outfit</button>
+                    <button class="tab-btn" onclick="showTab('gear')">Gear</button>
+                    <button class="tab-btn" onclick="showTab('colors')">Colors</button>
+                    <button class="tab-btn" onclick="showTab('title')">Title</button>
+                </div>
+                
+                <!-- Hair Tab -->
+                <div class="tab-content active" id="tab-hair">
+                    <div class="option-grid">
+                        <button class="option-btn active" data-type="hair" data-value="👑">👑</button>
+                        <button class="option-btn" data-type="hair" data-value="🎩">🎩</button>
+                        <button class="option-btn" data-type="hair" data-value="🧢">🧢</button>
+                        <button class="option-btn" data-type="hair" data-value="🎀">🎀</button>
+                        <button class="option-btn" data-type="hair" data-value="🌟">🌟</button>
+                        <button class="option-btn" data-type="hair" data-value="🌈">🌈</button>
+                        <button class="option-btn" data-type="hair" data-value="🦄">🦄</button>
+                        <button class="option-btn" data-type="hair" data-value="🎭">🎭</button>
+                        <button class="option-btn" data-type="hair" data-value="🪖">🪖</button>
+                        <button class="option-btn" data-type="hair" data-value="👒">👒</button>
+                        <button class="option-btn" data-type="hair" data-value="🎓">🎓</button>
+                        <button class="option-btn" data-type="hair" data-value="⚡">⚡</button>
+                    </div>
+                </div>
+                
+                <!-- Face Tab -->
+                <div class="tab-content" id="tab-face">
+                    <h4 style="margin-bottom: 10px; color: #666;">Expression</h4>
+                    <div class="option-grid">
+                        <button class="option-btn active" data-type="mouth" data-value="😊">😊</button>
+                        <button class="option-btn" data-type="mouth" data-value="😎">😎</button>
+                        <button class="option-btn" data-type="mouth" data-value="🤓">🤓</button>
+                        <button class="option-btn" data-type="mouth" data-value="😄">😄</button>
+                        <button class="option-btn" data-type="mouth" data-value="🙂">🙂</button>
+                        <button class="option-btn" data-type="mouth" data-value="😏">😏</button>
+                        <button class="option-btn" data-type="mouth" data-value="🤩">🤩</button>
+                        <button class="option-btn" data-type="mouth" data-value="🥳">🥳</button>
+                    </div>
+                </div>
+                
+                <!-- Outfit Tab -->
+                <div class="tab-content" id="tab-outfit">
+                    <div class="option-grid">
+                        <button class="option-btn active" data-type="body" data-value="👕">👕</button>
+                        <button class="option-btn" data-type="body" data-value="👔">👔</button>
+                        <button class="option-btn" data-type="body" data-value="🥋">🥋</button>
+                        <button class="option-btn" data-type="body" data-value="🦸">🦸</button>
+                        <button class="option-btn" data-type="body" data-value="🧥">🧥</button>
+                        <button class="option-btn" data-type="body" data-value="👗">👗</button>
+                        <button class="option-btn" data-type="body" data-value="🥼">🥼</button>
+                        <button class="option-btn" data-type="body" data-value="🦺">🦺</button>
+                    </div>
+                </div>
+                
+                <!-- Gear Tab -->
+                <div class="tab-content" id="tab-gear">
+                    <div class="option-grid">
+                        <button class="option-btn active" data-type="accessory" data-value="💻">💻</button>
+                        <button class="option-btn" data-type="accessory" data-value="⌨️">⌨️</button>
+                        <button class="option-btn" data-type="accessory" data-value="🖥️">🖥️</button>
+                        <button class="option-btn" data-type="accessory" data-value="🚀">🚀</button>
+                        <button class="option-btn" data-type="accessory" data-value="⚡">⚡</button>
+                        <button class="option-btn" data-type="accessory" data-value="🛡️">🛡️</button>
+                        <button class="option-btn" data-type="accessory" data-value="🔮">🔮</button>
+                        <button class="option-btn" data-type="accessory" data-value="🎮">🎮</button>
+                        <button class="option-btn" data-type="accessory" data-value="📱">📱</button>
+                        <button class="option-btn" data-type="accessory" data-value="🤖">🤖</button>
+                        <button class="option-btn" data-type="accessory" data-value="🌟">🌟</button>
+                        <button class="option-btn" data-type="accessory" data-value="💡">💡</button>
+                    </div>
+                </div>
+                
+                <!-- Colors Tab -->
+                <div class="tab-content" id="tab-colors">
+                    <h4 style="margin-bottom: 10px; color: #666;">Background</h4>
+                    <div class="color-grid">
+                        <button class="color-btn active" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);" data-bg="linear-gradient(135deg, #f8f9fa, #e9ecef)"></button>
+                        <button class="color-btn" style="background: linear-gradient(135deg, #ffd166, #f59e0b);" data-bg="linear-gradient(135deg, #ffd166, #f59e0b)"></button>
+                        <button class="color-btn" style="background: linear-gradient(135deg, #06d6a0, #4ade80);" data-bg="linear-gradient(135deg, #06d6a0, #4ade80)"></button>
+                        <button class="color-btn" style="background: linear-gradient(135deg, #4361ee, #7209b7);" data-bg="linear-gradient(135deg, #4361ee, #7209b7)"></button>
+                        <button class="color-btn" style="background: linear-gradient(135deg, #f72585, #b5179e);" data-bg="linear-gradient(135deg, #f72585, #b5179e)"></button>
+                        <button class="color-btn" style="background: linear-gradient(135deg, #1a1a2e, #16213e);" data-bg="linear-gradient(135deg, #1a1a2e, #16213e)"></button>
+                    </div>
+                    
+                    <h4 style="margin: 15px 0 10px; color: #666;">Skin Tone</h4>
+                    <div class="color-grid">
+                        <button class="color-btn" style="background: #ffeaa7;" data-skin="#ffeaa7"></button>
+                        <button class="color-btn active" style="background: #fdcb6e;" data-skin="#fdcb6e"></button>
+                        <button class="color-btn" style="background: #e17055;" data-skin="#e17055"></button>
+                        <button class="color-btn" style="background: #d68560;" data-skin="#d68560"></button>
+                        <button class="color-btn" style="background: #8b5a3c;" data-skin="#8b5a3c"></button>
+                        <button class="color-btn" style="background: #5d4037;" data-skin="#5d4037"></button>
+                    </div>
+                </div>
+                
+                <!-- Title Tab -->
+                <div class="tab-content" id="tab-title">
+                    <div class="option-grid" style="grid-template-columns: 1fr 1fr;">
+                        <button class="option-btn active" data-type="title" data-value="The Bug Slayer" style="font-size: 0.8rem;">🐛 Bug Slayer</button>
+                        <button class="option-btn" data-type="title" data-value="Code Wizard" style="font-size: 0.8rem;">🧙 Code Wizard</button>
+                        <button class="option-btn" data-type="title" data-value="Pixel Master" style="font-size: 0.8rem;">🎨 Pixel Master</button>
+                        <button class="option-btn" data-type="title" data-value="Tech Explorer" style="font-size: 0.8rem;">🚀 Tech Explorer</button>
+                        <button class="option-btn" data-type="title" data-value="HTML Hero" style="font-size: 0.8rem;">🦸 HTML Hero</button>
+                        <button class="option-btn" data-type="title" data-value="CSS Artist" style="font-size: 0.8rem;">🎭 CSS Artist</button>
+                        <button class="option-btn" data-type="title" data-value="JS Ninja" style="font-size: 0.8rem;">⚡ JS Ninja</button>
+                        <button class="option-btn" data-type="title" data-value="Future Coder" style="font-size: 0.8rem;">🌟 Future Coder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        let avatar = {
+            hair: '👑',
+            mouth: '😊',
+            body: '👕',
+            accessory: '💻',
+            background: 'linear-gradient(135deg, #f8f9fa, #e9ecef)',
+            skin: '#fdcb6e',
+            name: 'Code Hero',
+            title: 'The Bug Slayer'
+        };
+        
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+        
+        // Option buttons
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.dataset.type;
+                const value = btn.dataset.value;
+                
+                // Update active state within same type
+                btn.parentElement.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                if (type === 'hair') {
+                    avatar.hair = value;
+                    document.getElementById('avatar-hair').textContent = value;
+                } else if (type === 'mouth') {
+                    avatar.mouth = value;
+                    document.getElementById('avatar-mouth').textContent = value;
+                } else if (type === 'body') {
+                    avatar.body = value;
+                    document.getElementById('avatar-body').textContent = value;
+                } else if (type === 'accessory') {
+                    avatar.accessory = value;
+                    document.getElementById('avatar-accessory').textContent = value;
+                } else if (type === 'title') {
+                    avatar.title = value;
+                    document.getElementById('avatar-title').textContent = value;
+                }
+            });
+        });
+        
+        // Color buttons
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.dataset.bg) {
+                    document.querySelectorAll('.color-btn[data-bg]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    avatar.background = btn.dataset.bg;
+                    document.getElementById('avatar-container').style.background = btn.dataset.bg;
+                } else if (btn.dataset.skin) {
+                    document.querySelectorAll('.color-btn[data-skin]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    avatar.skin = btn.dataset.skin;
+                    document.getElementById('avatar-head').style.background = btn.dataset.skin;
+                }
+            });
+        });
+        
+        function randomize() {
+            const hairs = ['👑', '🎩', '🧢', '🎀', '🌟', '🌈', '🦄', '🎭'];
+            const mouths = ['😊', '😎', '🤓', '😄', '🙂', '😏', '🤩', '🥳'];
+            const bodies = ['👕', '👔', '🥋', '🦸', '🧥', '👗', '🥼', '🦺'];
+            const accessories = ['💻', '⌨️', '🖥️', '🚀', '⚡', '🛡️', '🔮', '🎮'];
+            const backgrounds = [
+                'linear-gradient(135deg, #f8f9fa, #e9ecef)',
+                'linear-gradient(135deg, #ffd166, #f59e0b)',
+                'linear-gradient(135deg, #06d6a0, #4ade80)',
+                'linear-gradient(135deg, #4361ee, #7209b7)',
+                'linear-gradient(135deg, #f72585, #b5179e)'
+            ];
+            const skins = ['#ffeaa7', '#fdcb6e', '#e17055', '#d68560', '#8b5a3c', '#5d4037'];
+            
+            avatar.hair = hairs[Math.floor(Math.random() * hairs.length)];
+            avatar.mouth = mouths[Math.floor(Math.random() * mouths.length)];
+            avatar.body = bodies[Math.floor(Math.random() * bodies.length)];
+            avatar.accessory = accessories[Math.floor(Math.random() * accessories.length)];
+            avatar.background = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+            avatar.skin = skins[Math.floor(Math.random() * skins.length)];
+            
+            updateAvatarDisplay();
+            showToast('🎲 Random avatar generated!');
+        }
+        
+        function updateAvatarDisplay() {
+            document.getElementById('avatar-hair').textContent = avatar.hair;
+            document.getElementById('avatar-mouth').textContent = avatar.mouth;
+            document.getElementById('avatar-body').textContent = avatar.body;
+            document.getElementById('avatar-accessory').textContent = avatar.accessory;
+            document.getElementById('avatar-container').style.background = avatar.background;
+            document.getElementById('avatar-head').style.background = avatar.skin;
+        }
+        
+        function saveAvatar() {
+            avatar.name = document.getElementById('avatar-name').textContent;
+            
+            let savedAvatars = JSON.parse(localStorage.getItem('avatarBuilder_avatars') || '[]');
+            savedAvatars.unshift({...avatar, id: Date.now()});
+            if (savedAvatars.length > 8) savedAvatars = savedAvatars.slice(0, 8);
+            localStorage.setItem('avatarBuilder_avatars', JSON.stringify(savedAvatars));
+            
+            renderSavedAvatars();
+            showToast('💾 Avatar saved!');
+        }
+        
+        function renderSavedAvatars() {
+            const savedAvatars = JSON.parse(localStorage.getItem('avatarBuilder_avatars') || '[]');
+            const container = document.getElementById('saved-avatars');
+            
+            if (savedAvatars.length === 0) {
+                container.innerHTML = '<p style="color: #999; font-size: 0.9rem;">No saved avatars yet!</p>';
+                return;
+            }
+            
+            container.innerHTML = savedAvatars.map((av, i) => `
+                <div class="saved-avatar" 
+                     style="background: ${av.background};"
+                     onclick="loadAvatar(${i})"
+                     title="${av.name}">
+                    ${av.mouth}
+                </div>
+            `).join('');
+        }
+        
+        function loadAvatar(index) {
+            const savedAvatars = JSON.parse(localStorage.getItem('avatarBuilder_avatars') || '[]');
+            if (savedAvatars[index]) {
+                avatar = {...savedAvatars[index]};
+                updateAvatarDisplay();
+                document.getElementById('avatar-name').textContent = avatar.name;
+                document.getElementById('avatar-title').textContent = avatar.title;
+                showToast('✅ Avatar loaded!');
+            }
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        // Save name on change
+        document.getElementById('avatar-name').addEventListener('blur', () => {
+            avatar.name = document.getElementById('avatar-name').textContent;
+        });
+        
+        // Initialize
+        document.getElementById('avatar-head').style.background = avatar.skin;
+        renderSavedAvatars();
+    </script>
+</body>
+</html>

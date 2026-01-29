@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Tech Memory Match - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #06d6a0, #4361ee);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 700px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: white; color: #06d6a0; }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4361ee;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            background: white;
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            transition: all 0.3s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        
+        .card:hover:not(.flipped):not(.matched) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .card .front,
+        .card .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            backface-visibility: hidden;
+            transition: transform 0.6s;
+        }
+        
+        .card .front {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .card .back {
+            background: white;
+            border: 4px solid #4361ee;
+            transform: rotateY(180deg);
+        }
+        
+        .card.flipped .front { transform: rotateY(180deg); }
+        .card.flipped .back { transform: rotateY(0); }
+        
+        .card.matched {
+            background: linear-gradient(135deg, #06d6a0, #4ade80);
+            animation: matchPulse 0.5s ease;
+        }
+        
+        .card.matched .front {
+            background: linear-gradient(135deg, #06d6a0, #4ade80);
+        }
+        
+        @keyframes matchPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f72585, #ff6bcb);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(247, 37, 133, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #4361ee;
+            border: 2px solid #4361ee;
+        }
+        
+        .btn-secondary:hover {
+            background: #4361ee;
+            color: white;
+        }
+        
+        /* Win Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal.show { display: flex; }
+        
+        .modal-content {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 400px;
+            animation: popIn 0.5s ease;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .modal-content h2 {
+            font-size: 2.5rem;
+            color: #3a0ca3;
+            margin-bottom: 10px;
+        }
+        
+        .modal-content .trophy {
+            font-size: 5rem;
+            margin: 20px 0;
+        }
+        
+        .modal-content p {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+        }
+        
+        .difficulty-select {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .difficulty-select h3 {
+            color: #3a0ca3;
+            margin-bottom: 15px;
+        }
+        
+        .diff-btns {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .diff-btn {
+            padding: 10px 25px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .diff-btn:hover { border-color: #4361ee; color: #4361ee; }
+        .diff-btn.active { background: #4361ee; color: white; border-color: #4361ee; }
+        
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 999;
+        }
+        
+        .confetti-piece {
+            position: absolute;
+            animation: confettiFall 3s linear forwards;
+        }
+        
+        @keyframes confettiFall {
+            to {
+                top: 110%;
+                transform: rotate(720deg);
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .game-board {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+                padding: 15px;
+            }
+            .card { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Tech Memory Match</h1>
+            <p>Find matching pairs of tech icons!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-th"></i> Activities</a>
+            </div>
+        </header>
+        
+        <div class="difficulty-select">
+            <h3>Choose Difficulty:</h3>
+            <div class="diff-btns">
+                <button class="diff-btn active" onclick="setDifficulty('easy')">Easy (8)</button>
+                <button class="diff-btn" onclick="setDifficulty('medium')">Medium (12)</button>
+                <button class="diff-btn" onclick="setDifficulty('hard')">Hard (16)</button>
+            </div>
+        </div>
+        
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value" id="moves">0</div>
+                <div class="stat-label">Moves</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="matches">0</div>
+                <div class="stat-label">Matches</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="timer">0:00</div>
+                <div class="stat-label">Time</div>
+            </div>
+        </div>
+        
+        <div class="game-board" id="game-board">
+            <!-- Cards will be generated here -->
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="startGame()">
+                <i class="fas fa-redo"></i> New Game
+            </button>
+        </div>
+    </div>
+    
+    <div class="modal" id="win-modal">
+        <div class="modal-content">
+            <div class="trophy">🏆</div>
+            <h2>You Won!</h2>
+            <p id="win-message">Great job matching all the pairs!</p>
+            <button class="btn btn-primary" onclick="startGame(); closeModal();">Play Again</button>
+        </div>
+    </div>
+    
+    <div class="confetti" id="confetti"></div>
+    
+    <script>
+        const techIcons = ['💻', '🖥️', '⌨️', '🖱️', '📱', '🎮', '🤖', '🚀', '💡', '⚡', '🔧', '🎨', '🌐', '📡', '🔒', '💾'];
+        
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let timerInterval;
+        let seconds = 0;
+        let canFlip = true;
+        let difficulty = 'easy';
+        let pairsNeeded = 4;
+        
+        function setDifficulty(level) {
+            difficulty = level;
+            document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (level === 'easy') pairsNeeded = 4;
+            else if (level === 'medium') pairsNeeded = 6;
+            else pairsNeeded = 8;
+            
+            startGame();
+        }
+        
+        function startGame() {
+            clearInterval(timerInterval);
+            seconds = 0;
+            moves = 0;
+            matchedPairs = 0;
+            flippedCards = [];
+            canFlip = true;
+            
+            updateStats();
+            
+            // Select random icons
+            const selectedIcons = techIcons.slice(0, pairsNeeded);
+            const cardPairs = [...selectedIcons, ...selectedIcons];
+            
+            // Shuffle
+            cards = cardPairs.sort(() => Math.random() - 0.5);
+            
+            renderBoard();
+            startTimer();
+        }
+        
+        function renderBoard() {
+            const board = document.getElementById('game-board');
+            const cols = pairsNeeded <= 4 ? 4 : (pairsNeeded <= 6 ? 4 : 4);
+            board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            
+            board.innerHTML = cards.map((icon, i) => `
+                <div class="card" data-index="${i}" data-icon="${icon}" onclick="flipCard(this)">
+                    <div class="front">❓</div>
+                    <div class="back">${icon}</div>
+                </div>
+            `).join('');
+        }
+        
+        function flipCard(card) {
+            if (!canFlip) return;
+            if (card.classList.contains('flipped')) return;
+            if (card.classList.contains('matched')) return;
+            if (flippedCards.length >= 2) return;
+            
+            card.classList.add('flipped');
+            flippedCards.push(card);
+            
+            if (flippedCards.length === 2) {
+                moves++;
+                updateStats();
+                checkMatch();
+            }
+        }
+        
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const match = card1.dataset.icon === card2.dataset.icon;
+            
+            canFlip = false;
+            
+            setTimeout(() => {
+                if (match) {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    matchedPairs++;
+                    updateStats();
+                    
+                    if (matchedPairs === pairsNeeded) {
+                        clearInterval(timerInterval);
+                        setTimeout(showWinModal, 500);
+                    }
+                } else {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                }
+                
+                flippedCards = [];
+                canFlip = true;
+            }, match ? 300 : 1000);
+        }
+        
+        function updateStats() {
+            document.getElementById('moves').textContent = moves;
+            document.getElementById('matches').textContent = `${matchedPairs}/${pairsNeeded}`;
+        }
+        
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                document.getElementById('timer').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+        
+        function showWinModal() {
+            const modal = document.getElementById('win-modal');
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            
+            document.getElementById('win-message').textContent = 
+                `Completed in ${moves} moves and ${mins}:${secs.toString().padStart(2, '0')}!`;
+            
+            modal.classList.add('show');
+            createConfetti();
+        }
+        
+        function closeModal() {
+            document.getElementById('win-modal').classList.remove('show');
+        }
+        
+        function createConfetti() {
+            const container = document.getElementById('confetti');
+            container.innerHTML = '';
+            
+            const colors = ['#f72585', '#4361ee', '#06d6a0', '#ffd166', '#7209b7'];
+            const emojis = ['⭐', '🎉', '✨', '🏆'];
+            
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                
+                if (Math.random() > 0.5) {
+                    piece.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    piece.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                } else {
+                    piece.style.width = (Math.random() * 10 + 5) + 'px';
+                    piece.style.height = (Math.random() * 10 + 5) + 'px';
+                    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                }
+                
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = '-20px';
+                piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                
+                container.appendChild(piece);
+            }
+            
+            setTimeout(() => container.innerHTML = '', 4000);
+        }
+        
+        // Start game on load
+        startGame();
+    </script>
+</body>
+</html>

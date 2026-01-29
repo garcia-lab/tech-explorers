@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌈 Color Mixer Magic - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .nav-links a {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: white; color: #764ba2; }
+        
+        .game-area {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .mixer-section {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .color-picker-box {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .color-picker-box h3 {
+            color: #3a0ca3;
+            margin-bottom: 15px;
+        }
+        
+        .color-display {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 4px solid white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        input[type="color"] {
+            width: 80px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        .plus-sign {
+            font-size: 3rem;
+            color: #4361ee;
+            font-weight: bold;
+        }
+        
+        .equals-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .equals-sign {
+            font-size: 3rem;
+            color: #4361ee;
+            margin-bottom: 20px;
+        }
+        
+        .result-display {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto;
+            border: 6px solid white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        
+        .color-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .color-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+            background: #f8f9fa;
+            padding: 10px 25px;
+            border-radius: 10px;
+            display: inline-block;
+            font-weight: bold;
+            color: #3a0ca3;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .color-code:hover {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .palette-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px dashed #e9ecef;
+        }
+        
+        .palette-section h3 {
+            text-align: center;
+            color: #3a0ca3;
+            margin-bottom: 20px;
+        }
+        
+        .palette {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .palette-color {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            position: relative;
+        }
+        
+        .palette-color:hover {
+            transform: scale(1.1);
+            border-color: #4361ee;
+        }
+        
+        .palette-color .delete-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 22px;
+            height: 22px;
+            background: #ef476f;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: none;
+        }
+        
+        .palette-color:hover .delete-btn {
+            display: block;
+        }
+        
+        .add-to-palette {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #06d6a0, #4ade80);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.3s;
+        }
+        
+        .add-to-palette:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(6, 214, 160, 0.4);
+        }
+        
+        .presets {
+            margin-top: 30px;
+        }
+        
+        .presets h4 {
+            color: #666;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .preset-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .preset-btn {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .preset-btn:hover {
+            border-color: #4361ee;
+            color: #4361ee;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show { opacity: 1; }
+        
+        @media (max-width: 600px) {
+            .mixer-section {
+                grid-template-columns: 1fr;
+            }
+            .plus-sign { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌈 Color Mixer Magic</h1>
+            <p>Mix two colors together and see what you create!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-th"></i> Activities</a>
+            </div>
+        </header>
+        
+        <div class="game-area">
+            <div class="mixer-section">
+                <div class="color-picker-box">
+                    <h3>Color 1</h3>
+                    <div class="color-display" id="color1-display" style="background: #ff6b6b;"></div>
+                    <input type="color" id="color1" value="#ff6b6b" onchange="mixColors()">
+                </div>
+                
+                <div class="plus-sign">+</div>
+                
+                <div class="color-picker-box">
+                    <h3>Color 2</h3>
+                    <div class="color-display" id="color2-display" style="background: #4361ee;"></div>
+                    <input type="color" id="color2" value="#4361ee" onchange="mixColors()">
+                </div>
+            </div>
+            
+            <div class="equals-section">
+                <div class="equals-sign">=</div>
+                <div class="result-display" id="result-display" style="background: #9966f7;">
+                    ✨
+                </div>
+                <div class="color-info">
+                    <span class="color-code" id="result-code" onclick="copyColor()" title="Click to copy!">#9966F7</span>
+                    <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">Click the code to copy it!</p>
+                </div>
+            </div>
+            
+            <button class="add-to-palette" onclick="addToPalette()">
+                <i class="fas fa-plus"></i> Add to My Palette
+            </button>
+            
+            <div class="palette-section">
+                <h3>🎨 My Color Palette</h3>
+                <div class="palette" id="palette">
+                    <!-- Colors will be added here -->
+                </div>
+            </div>
+            
+            <div class="presets">
+                <h4>Try These Combinations:</h4>
+                <div class="preset-btns">
+                    <button class="preset-btn" onclick="setPreset('#ff0000', '#ffff00')">🔴 + 🟡 = ?</button>
+                    <button class="preset-btn" onclick="setPreset('#0000ff', '#ffff00')">🔵 + 🟡 = ?</button>
+                    <button class="preset-btn" onclick="setPreset('#ff0000', '#0000ff')">🔴 + 🔵 = ?</button>
+                    <button class="preset-btn" onclick="setPreset('#ffffff', '#000000')">⚪ + ⚫ = ?</button>
+                    <button class="preset-btn" onclick="setPreset('#ff69b4', '#00ffff')">💗 + 🩵 = ?</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast">Color copied!</div>
+    
+    <script>
+        let palette = JSON.parse(localStorage.getItem('colorPalette')) || [];
+        
+        function mixColors() {
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
+            
+            document.getElementById('color1-display').style.background = color1;
+            document.getElementById('color2-display').style.background = color2;
+            
+            // Convert hex to RGB
+            const r1 = parseInt(color1.slice(1,3), 16);
+            const g1 = parseInt(color1.slice(3,5), 16);
+            const b1 = parseInt(color1.slice(5,7), 16);
+            
+            const r2 = parseInt(color2.slice(1,3), 16);
+            const g2 = parseInt(color2.slice(3,5), 16);
+            const b2 = parseInt(color2.slice(5,7), 16);
+            
+            // Mix colors (average)
+            const r = Math.round((r1 + r2) / 2);
+            const g = Math.round((g1 + g2) / 2);
+            const b = Math.round((b1 + b2) / 2);
+            
+            const result = '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+            
+            document.getElementById('result-display').style.background = result;
+            document.getElementById('result-code').textContent = result.toUpperCase();
+        }
+        
+        function setPreset(c1, c2) {
+            document.getElementById('color1').value = c1;
+            document.getElementById('color2').value = c2;
+            mixColors();
+        }
+        
+        function copyColor() {
+            const code = document.getElementById('result-code').textContent;
+            navigator.clipboard.writeText(code);
+            showToast('Color copied: ' + code);
+        }
+        
+        function addToPalette() {
+            const color = document.getElementById('result-code').textContent;
+            if (!palette.includes(color)) {
+                palette.push(color);
+                localStorage.setItem('colorPalette', JSON.stringify(palette));
+                renderPalette();
+                showToast('Added to palette! 🎨');
+            } else {
+                showToast('Already in palette!');
+            }
+        }
+        
+        function renderPalette() {
+            const container = document.getElementById('palette');
+            container.innerHTML = palette.map((color, i) => `
+                <div class="palette-color" style="background: ${color};" onclick="copyPaletteColor('${color}')" title="${color}">
+                    <button class="delete-btn" onclick="event.stopPropagation(); removeFromPalette(${i})">×</button>
+                </div>
+            `).join('');
+            
+            if (palette.length === 0) {
+                container.innerHTML = '<p style="color: #999;">Your saved colors will appear here!</p>';
+            }
+        }
+        
+        function copyPaletteColor(color) {
+            navigator.clipboard.writeText(color);
+            showToast('Copied: ' + color);
+        }
+        
+        function removeFromPalette(index) {
+            palette.splice(index, 1);
+            localStorage.setItem('colorPalette', JSON.stringify(palette));
+            renderPalette();
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        // Initialize
+        mixColors();
+        renderPalette();
+    </script>
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 Animation Studio - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #f72585, #7209b7);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1100px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: rgba(255,255,255,0.3); }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 25px;
+        }
+        
+        @media (max-width: 900px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .card h2 {
+            color: #7209b7;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Preview Area */
+        .preview-container {
+            background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            border-radius: 15px;
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #e9ecef;
+        }
+        
+        .animated-element {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f72585, #7209b7);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        
+        /* Controls */
+        .control-group {
+            margin-bottom: 20px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .slider-container input[type="range"] {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, #f72585, #7209b7);
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 3px solid #7209b7;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .slider-value {
+            min-width: 50px;
+            text-align: center;
+            font-weight: bold;
+            color: #7209b7;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+        }
+        
+        select:focus { border-color: #7209b7; outline: none; }
+        
+        .shape-picker {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .shape-btn {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.2s;
+        }
+        
+        .shape-btn:hover { border-color: #f72585; }
+        .shape-btn.active { border-color: #7209b7; background: #f8f4ff; }
+        
+        .color-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .color-row input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        /* Animation Presets */
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .preset-btn {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .preset-btn:hover { border-color: #f72585; background: #fff5f9; }
+        .preset-btn.active { border-color: #7209b7; background: #f8f4ff; }
+        
+        .preset-btn .preset-icon { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+        
+        /* Code Display */
+        .code-display {
+            background: #1e1e2e;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .code-header span { color: #cdd6f4; font-weight: bold; }
+        
+        .copy-btn {
+            padding: 8px 15px;
+            background: #7209b7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        
+        .copy-btn:hover { background: #5a07a0; }
+        
+        .code-content {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a6e3a1;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show { transform: translateY(0); opacity: 1; }
+        
+        /* Play/Pause */
+        .playback-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .play-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .play-btn.play {
+            background: linear-gradient(135deg, #06d6a0, #4ade80);
+            color: white;
+        }
+        
+        .play-btn.stop {
+            background: #f72585;
+            color: white;
+        }
+        
+        .play-btn:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 Animation Studio</h1>
+            <p>Create awesome CSS animations!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-th"></i> Activities</a>
+            </div>
+        </header>
+        
+        <div class="main-grid">
+            <!-- Preview -->
+            <div class="card">
+                <h2><i class="fas fa-play-circle"></i> Preview</h2>
+                
+                <div class="playback-controls">
+                    <button class="play-btn play" id="play-btn" onclick="toggleAnimation()">
+                        <i class="fas fa-play"></i> Play Animation
+                    </button>
+                </div>
+                
+                <div class="preview-container">
+                    <div class="animated-element" id="animated-element">⭐</div>
+                </div>
+                
+                <div class="code-display">
+                    <div class="code-header">
+                        <span>CSS Code</span>
+                        <button class="copy-btn" onclick="copyCode()">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <div class="code-content" id="code-output"></div>
+                </div>
+            </div>
+            
+            <!-- Controls -->
+            <div class="card">
+                <h2><i class="fas fa-sliders-h"></i> Controls</h2>
+                
+                <div class="control-group">
+                    <label>🎭 Shape</label>
+                    <div class="shape-picker" id="shape-picker">
+                        <button class="shape-btn active" data-shape="⭐">⭐</button>
+                        <button class="shape-btn" data-shape="❤️">❤️</button>
+                        <button class="shape-btn" data-shape="🌈">🌈</button>
+                        <button class="shape-btn" data-shape="🚀">🚀</button>
+                        <button class="shape-btn" data-shape="🎈">🎈</button>
+                        <button class="shape-btn" data-shape="🦋">🦋</button>
+                        <button class="shape-btn" data-shape="🌸">🌸</button>
+                        <button class="shape-btn" data-shape="🎵">🎵</button>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label>🎨 Color</label>
+                    <div class="color-row">
+                        <input type="color" id="color1" value="#f72585">
+                        <span>to</span>
+                        <input type="color" id="color2" value="#7209b7">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label>✨ Animation Type</label>
+                    <div class="preset-grid">
+                        <button class="preset-btn active" data-animation="bounce">
+                            <span class="preset-icon">⬆️</span>
+                            Bounce
+                        </button>
+                        <button class="preset-btn" data-animation="spin">
+                            <span class="preset-icon">🔄</span>
+                            Spin
+                        </button>
+                        <button class="preset-btn" data-animation="pulse">
+                            <span class="preset-icon">💗</span>
+                            Pulse
+                        </button>
+                        <button class="preset-btn" data-animation="shake">
+                            <span class="preset-icon">📳</span>
+                            Shake
+                        </button>
+                        <button class="preset-btn" data-animation="swing">
+                            <span class="preset-icon">🎠</span>
+                            Swing
+                        </button>
+                        <button class="preset-btn" data-animation="float">
+                            <span class="preset-icon">☁️</span>
+                            Float
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label>⏱️ Speed: <span id="speed-value">1s</span></label>
+                    <div class="slider-container">
+                        <span>🐢</span>
+                        <input type="range" id="speed" min="0.2" max="3" step="0.1" value="1">
+                        <span>🐇</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label>📐 Size: <span id="size-value">80px</span></label>
+                    <div class="slider-container">
+                        <span>S</span>
+                        <input type="range" id="size" min="40" max="150" step="5" value="80">
+                        <span>L</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label>🔁 Loop</label>
+                    <select id="loop">
+                        <option value="infinite">Forever ♾️</option>
+                        <option value="1">Once</option>
+                        <option value="3">3 times</option>
+                        <option value="5">5 times</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        let isPlaying = false;
+        let currentAnimation = 'bounce';
+        let currentShape = '⭐';
+        
+        const animations = {
+            bounce: `@keyframes bounce {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateY(-30px); }
+}`,
+            spin: `@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}`,
+            pulse: `@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.3); }
+}`,
+            shake: `@keyframes shake {
+  0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+  25% { transform: translate(-50%, -50%) translateX(-10px); }
+  75% { transform: translate(-50%, -50%) translateX(10px); }
+}`,
+            swing: `@keyframes swing {
+  0%, 100% { transform: translate(-50%, -50%) rotate(-10deg); }
+  50% { transform: translate(-50%, -50%) rotate(10deg); }
+}`,
+            float: `@keyframes float {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0) rotate(0); }
+  25% { transform: translate(-50%, -50%) translateY(-10px) rotate(3deg); }
+  75% { transform: translate(-50%, -50%) translateY(-20px) rotate(-3deg); }
+}`
+        };
+        
+        // Shape buttons
+        document.querySelectorAll('.shape-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentShape = btn.dataset.shape;
+                updateElement();
+            });
+        });
+        
+        // Animation presets
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentAnimation = btn.dataset.animation;
+                updateElement();
+            });
+        });
+        
+        // Sliders
+        document.getElementById('speed').addEventListener('input', (e) => {
+            document.getElementById('speed-value').textContent = e.target.value + 's';
+            updateElement();
+        });
+        
+        document.getElementById('size').addEventListener('input', (e) => {
+            document.getElementById('size-value').textContent = e.target.value + 'px';
+            updateElement();
+        });
+        
+        // Colors
+        document.getElementById('color1').addEventListener('input', updateElement);
+        document.getElementById('color2').addEventListener('input', updateElement);
+        
+        // Loop
+        document.getElementById('loop').addEventListener('change', updateElement);
+        
+        function toggleAnimation() {
+            isPlaying = !isPlaying;
+            const btn = document.getElementById('play-btn');
+            
+            if (isPlaying) {
+                btn.innerHTML = '<i class="fas fa-stop"></i> Stop';
+                btn.className = 'play-btn stop';
+            } else {
+                btn.innerHTML = '<i class="fas fa-play"></i> Play Animation';
+                btn.className = 'play-btn play';
+            }
+            
+            updateElement();
+        }
+        
+        function updateElement() {
+            const element = document.getElementById('animated-element');
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
+            const speed = document.getElementById('speed').value;
+            const size = document.getElementById('size').value;
+            const loop = document.getElementById('loop').value;
+            
+            element.textContent = currentShape;
+            element.style.width = size + 'px';
+            element.style.height = size + 'px';
+            element.style.fontSize = (parseInt(size) * 0.5) + 'px';
+            element.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
+            
+            if (isPlaying) {
+                element.style.animation = `${currentAnimation} ${speed}s ease-in-out ${loop}`;
+            } else {
+                element.style.animation = 'none';
+            }
+            
+            updateCode();
+        }
+        
+        function updateCode() {
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
+            const speed = document.getElementById('speed').value;
+            const size = document.getElementById('size').value;
+            const loop = document.getElementById('loop').value;
+            
+            const code = `.animated-element {
+  width: ${size}px;
+  height: ${size}px;
+  background: linear-gradient(135deg, ${color1}, ${color2});
+  animation: ${currentAnimation} ${speed}s ease-in-out ${loop};
+}
+
+${animations[currentAnimation]}`;
+            
+            document.getElementById('code-output').textContent = code;
+        }
+        
+        function copyCode() {
+            const code = document.getElementById('code-output').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                showToast('✅ Code copied!');
+            });
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        // Initialize
+        updateElement();
+    </script>
+</body>
+</html>

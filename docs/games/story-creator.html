@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 Story Creator - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #ffd166, #f72585);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1100px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: rgba(255,255,255,0.3); }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 25px;
+        }
+        
+        @media (max-width: 900px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .card h2 {
+            color: #f72585;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Story Tools */
+        .tool-section {
+            margin-bottom: 25px;
+        }
+        
+        .tool-section h3 {
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+        
+        .page-picker {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .page-btn {
+            width: 45px;
+            height: 45px;
+            border: 3px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .page-btn:hover { border-color: #f72585; }
+        .page-btn.active { border-color: #f72585; background: #fff0f5; color: #f72585; }
+        
+        .add-page-btn {
+            background: linear-gradient(135deg, #ffd166, #f72585);
+            color: white;
+            border: none;
+        }
+        
+        .emoji-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .emoji-btn {
+            width: 45px;
+            height: 45px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .emoji-btn:hover { border-color: #f72585; transform: scale(1.1); }
+        
+        .background-picker {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .bg-btn {
+            height: 40px;
+            border: 3px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .bg-btn:hover { transform: scale(1.1); }
+        .bg-btn.active { border-color: #333; }
+        
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .color-picker input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        .font-picker {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .font-btn {
+            padding: 8px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .font-btn:hover { border-color: #f72585; }
+        .font-btn.active { border-color: #f72585; background: #fff0f5; }
+        
+        /* Book Preview */
+        .book-container {
+            perspective: 1500px;
+        }
+        
+        .book-page {
+            min-height: 500px;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.1);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .story-title {
+            text-align: center;
+            font-size: 2rem;
+            font-family: 'Comic Neue', cursive;
+            margin-bottom: 20px;
+            outline: none;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+        
+        .story-title:focus {
+            background: rgba(255,255,255,0.5);
+        }
+        
+        .story-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            outline: none;
+            min-height: 200px;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+        
+        .story-content:focus {
+            background: rgba(255,255,255,0.5);
+        }
+        
+        .story-illustration {
+            text-align: center;
+            font-size: 5rem;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .story-illustration:hover { transform: scale(1.1); }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover { transform: scale(1.05); }
+        
+        .btn-save {
+            background: linear-gradient(135deg, #06d6a0, #4ade80);
+            color: white;
+        }
+        
+        .btn-preview {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+        }
+        
+        .btn-delete {
+            background: #e9ecef;
+            color: #666;
+        }
+        
+        /* Saved Stories */
+        .saved-stories {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #e9ecef;
+        }
+        
+        .saved-stories h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .story-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .story-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .story-item:hover { background: #fff0f5; }
+        
+        .story-item-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .story-item-emoji { font-size: 1.5rem; }
+        
+        .story-item-title { font-weight: bold; color: #333; }
+        
+        .story-item-pages { font-size: 0.85rem; color: #666; }
+        
+        .delete-story-btn {
+            padding: 5px 10px;
+            border: none;
+            background: #f72585;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s;
+        }
+        
+        .story-item:hover .delete-story-btn { opacity: 1; }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show { transform: translateY(0); opacity: 1; }
+        
+        /* Preview Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.show { display: flex; }
+        
+        .modal-content {
+            background: white;
+            border-radius: 25px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: rgba(0,0,0,0.1);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .modal-pages {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+        
+        .preview-page {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px dashed #e9ecef;
+        }
+        
+        .preview-page:last-child { border-bottom: none; }
+        
+        .modal-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📖 Story Creator</h1>
+            <p>Write and illustrate your own digital story book!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-th"></i> Activities</a>
+            </div>
+        </header>
+        
+        <div class="main-grid">
+            <!-- Tools Panel -->
+            <div class="card">
+                <h2><i class="fas fa-tools"></i> Story Tools</h2>
+                
+                <div class="tool-section">
+                    <h3>📄 Pages</h3>
+                    <div class="page-picker" id="page-picker">
+                        <button class="page-btn active" data-page="0">1</button>
+                        <button class="page-btn add-page-btn" onclick="addPage()">+</button>
+                    </div>
+                </div>
+                
+                <div class="tool-section">
+                    <h3>🎨 Background</h3>
+                    <div class="background-picker" id="bg-picker">
+                        <button class="bg-btn active" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);" data-bg="linear-gradient(135deg, #ffecd2, #fcb69f)"></button>
+                        <button class="bg-btn" style="background: linear-gradient(135deg, #a8edea, #fed6e3);" data-bg="linear-gradient(135deg, #a8edea, #fed6e3)"></button>
+                        <button class="bg-btn" style="background: linear-gradient(135deg, #d299c2, #fef9d7);" data-bg="linear-gradient(135deg, #d299c2, #fef9d7)"></button>
+                        <button class="bg-btn" style="background: linear-gradient(135deg, #89f7fe, #66a6ff);" data-bg="linear-gradient(135deg, #89f7fe, #66a6ff)"></button>
+                        <button class="bg-btn" style="background: linear-gradient(135deg, #c1dfc4, #deecdd);" data-bg="linear-gradient(135deg, #c1dfc4, #deecdd)"></button>
+                        <button class="bg-btn" style="background: linear-gradient(135deg, #fff1eb, #ace0f9);" data-bg="linear-gradient(135deg, #fff1eb, #ace0f9)"></button>
+                        <button class="bg-btn" style="background: linear-gradient(135deg, #f5f7fa, #c3cfe2);" data-bg="linear-gradient(135deg, #f5f7fa, #c3cfe2)"></button>
+                        <button class="bg-btn" style="background: linear-gradient(135deg, #667eea, #764ba2);" data-bg="linear-gradient(135deg, #667eea, #764ba2)"></button>
+                    </div>
+                </div>
+                
+                <div class="tool-section">
+                    <h3>✏️ Text Color</h3>
+                    <div class="color-picker">
+                        <input type="color" id="text-color" value="#333333">
+                        <span>Choose text color</span>
+                    </div>
+                </div>
+                
+                <div class="tool-section">
+                    <h3>🖼️ Add Illustration</h3>
+                    <div class="emoji-picker">
+                        <button class="emoji-btn" onclick="setIllustration('🌟')">🌟</button>
+                        <button class="emoji-btn" onclick="setIllustration('🦄')">🦄</button>
+                        <button class="emoji-btn" onclick="setIllustration('🐉')">🐉</button>
+                        <button class="emoji-btn" onclick="setIllustration('🏰')">🏰</button>
+                        <button class="emoji-btn" onclick="setIllustration('🌈')">🌈</button>
+                        <button class="emoji-btn" onclick="setIllustration('🚀')">🚀</button>
+                        <button class="emoji-btn" onclick="setIllustration('🌸')">🌸</button>
+                        <button class="emoji-btn" onclick="setIllustration('🦋')">🦋</button>
+                        <button class="emoji-btn" onclick="setIllustration('🐱')">🐱</button>
+                        <button class="emoji-btn" onclick="setIllustration('🐶')">🐶</button>
+                        <button class="emoji-btn" onclick="setIllustration('🎈')">🎈</button>
+                        <button class="emoji-btn" onclick="setIllustration('⭐')">⭐</button>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-save" onclick="saveStory()">
+                        <i class="fas fa-save"></i> Save Story
+                    </button>
+                    <button class="btn btn-preview" onclick="previewStory()">
+                        <i class="fas fa-book-open"></i> Preview
+                    </button>
+                </div>
+                
+                <div class="saved-stories">
+                    <h3>📚 My Stories</h3>
+                    <div class="story-list" id="story-list">
+                        <p style="color: #999; text-align: center;">No saved stories yet!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Book Preview -->
+            <div class="card">
+                <h2><i class="fas fa-book"></i> Your Story</h2>
+                
+                <div class="book-container">
+                    <div class="book-page" id="book-page">
+                        <div class="story-title" contenteditable="true" id="story-title">My Amazing Story</div>
+                        <div class="story-illustration" id="story-illustration">🌟</div>
+                        <div class="story-content" contenteditable="true" id="story-content">
+                            Once upon a time, in a land far far away...
+                        </div>
+                        <div class="page-number" id="page-number">Page 1</div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons" style="margin-top: 20px;">
+                    <button class="btn btn-delete" onclick="deletePage()">
+                        <i class="fas fa-trash"></i> Delete Page
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Preview Modal -->
+    <div class="modal" id="preview-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-pages" id="modal-pages">
+                <!-- Pages will be rendered here -->
+            </div>
+            <div class="modal-nav">
+                <button class="btn btn-save" onclick="closeModal()">
+                    <i class="fas fa-check"></i> Done
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        let pages = [
+            {
+                title: 'My Amazing Story',
+                content: 'Once upon a time, in a land far far away...',
+                illustration: '🌟',
+                background: 'linear-gradient(135deg, #ffecd2, #fcb69f)',
+                textColor: '#333333'
+            }
+        ];
+        let currentPage = 0;
+        
+        function renderPagePicker() {
+            const picker = document.getElementById('page-picker');
+            picker.innerHTML = pages.map((_, i) => `
+                <button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}" onclick="goToPage(${i})">${i + 1}</button>
+            `).join('') + '<button class="page-btn add-page-btn" onclick="addPage()">+</button>';
+        }
+        
+        function goToPage(index) {
+            // Save current page
+            saveCurrent();
+            
+            // Switch to new page
+            currentPage = index;
+            loadPage();
+            renderPagePicker();
+        }
+        
+        function loadPage() {
+            const page = pages[currentPage];
+            document.getElementById('story-title').textContent = page.title;
+            document.getElementById('story-content').textContent = page.content;
+            document.getElementById('story-illustration').textContent = page.illustration;
+            document.getElementById('book-page').style.background = page.background;
+            document.getElementById('story-title').style.color = page.textColor;
+            document.getElementById('story-content').style.color = page.textColor;
+            document.getElementById('page-number').textContent = `Page ${currentPage + 1}`;
+            document.getElementById('text-color').value = page.textColor;
+            
+            // Update background picker
+            document.querySelectorAll('.bg-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.bg === page.background);
+            });
+        }
+        
+        function saveCurrent() {
+            pages[currentPage] = {
+                title: document.getElementById('story-title').textContent,
+                content: document.getElementById('story-content').textContent,
+                illustration: document.getElementById('story-illustration').textContent,
+                background: document.getElementById('book-page').style.background,
+                textColor: document.getElementById('text-color').value
+            };
+        }
+        
+        function addPage() {
+            saveCurrent();
+            pages.push({
+                title: 'Chapter ' + (pages.length + 1),
+                content: 'Continue your story here...',
+                illustration: '✨',
+                background: 'linear-gradient(135deg, #ffecd2, #fcb69f)',
+                textColor: '#333333'
+            });
+            currentPage = pages.length - 1;
+            loadPage();
+            renderPagePicker();
+            showToast('📄 New page added!');
+        }
+        
+        function deletePage() {
+            if (pages.length <= 1) {
+                showToast('❌ Cannot delete the only page!');
+                return;
+            }
+            
+            if (confirm('Delete this page?')) {
+                pages.splice(currentPage, 1);
+                if (currentPage >= pages.length) {
+                    currentPage = pages.length - 1;
+                }
+                loadPage();
+                renderPagePicker();
+                showToast('🗑️ Page deleted!');
+            }
+        }
+        
+        function setIllustration(emoji) {
+            document.getElementById('story-illustration').textContent = emoji;
+        }
+        
+        // Background picker
+        document.querySelectorAll('.bg-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('book-page').style.background = btn.dataset.bg;
+            });
+        });
+        
+        // Text color
+        document.getElementById('text-color').addEventListener('input', (e) => {
+            document.getElementById('story-title').style.color = e.target.value;
+            document.getElementById('story-content').style.color = e.target.value;
+        });
+        
+        function saveStory() {
+            saveCurrent();
+            
+            const storyId = 'story_' + Date.now();
+            const story = {
+                id: storyId,
+                pages: pages,
+                createdAt: new Date().toISOString(),
+                title: pages[0].title,
+                illustration: pages[0].illustration
+            };
+            
+            let savedStories = JSON.parse(localStorage.getItem('storyCreator_stories') || '[]');
+            savedStories.unshift(story);
+            if (savedStories.length > 10) savedStories = savedStories.slice(0, 10);
+            localStorage.setItem('storyCreator_stories', JSON.stringify(savedStories));
+            
+            renderSavedStories();
+            showToast('📚 Story saved!');
+        }
+        
+        function renderSavedStories() {
+            const savedStories = JSON.parse(localStorage.getItem('storyCreator_stories') || '[]');
+            const list = document.getElementById('story-list');
+            
+            if (savedStories.length === 0) {
+                list.innerHTML = '<p style="color: #999; text-align: center;">No saved stories yet!</p>';
+                return;
+            }
+            
+            list.innerHTML = savedStories.map((story, i) => `
+                <div class="story-item" onclick="loadStory(${i})">
+                    <div class="story-item-info">
+                        <span class="story-item-emoji">${story.illustration}</span>
+                        <div>
+                            <div class="story-item-title">${story.title}</div>
+                            <div class="story-item-pages">${story.pages.length} page${story.pages.length > 1 ? 's' : ''}</div>
+                        </div>
+                    </div>
+                    <button class="delete-story-btn" onclick="event.stopPropagation(); deleteStory(${i})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function loadStory(index) {
+            const savedStories = JSON.parse(localStorage.getItem('storyCreator_stories') || '[]');
+            if (savedStories[index]) {
+                pages = savedStories[index].pages;
+                currentPage = 0;
+                loadPage();
+                renderPagePicker();
+                showToast('📖 Story loaded!');
+            }
+        }
+        
+        function deleteStory(index) {
+            if (confirm('Delete this story?')) {
+                let savedStories = JSON.parse(localStorage.getItem('storyCreator_stories') || '[]');
+                savedStories.splice(index, 1);
+                localStorage.setItem('storyCreator_stories', JSON.stringify(savedStories));
+                renderSavedStories();
+                showToast('🗑️ Story deleted!');
+            }
+        }
+        
+        function previewStory() {
+            saveCurrent();
+            
+            const modal = document.getElementById('preview-modal');
+            const modalPages = document.getElementById('modal-pages');
+            
+            modalPages.innerHTML = pages.map((page, i) => `
+                <div class="preview-page" style="background: ${page.background}; border-radius: 15px; padding: 25px; color: ${page.textColor};">
+                    <div style="text-align: center; font-size: 1.8rem; font-family: 'Comic Neue', cursive; margin-bottom: 15px;">${page.title}</div>
+                    <div style="text-align: center; font-size: 4rem; margin: 15px 0;">${page.illustration}</div>
+                    <div style="font-size: 1.1rem; line-height: 1.8;">${page.content}</div>
+                    <div style="text-align: center; margin-top: 15px; opacity: 0.6; font-size: 0.9rem;">Page ${i + 1} of ${pages.length}</div>
+                </div>
+            `).join('');
+            
+            modal.classList.add('show');
+        }
+        
+        function closeModal() {
+            document.getElementById('preview-modal').classList.remove('show');
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        // Auto-save on content change
+        document.getElementById('story-title').addEventListener('blur', saveCurrent);
+        document.getElementById('story-content').addEventListener('blur', saveCurrent);
+        
+        // Initialize
+        renderSavedStories();
+    </script>
+</body>
+</html>

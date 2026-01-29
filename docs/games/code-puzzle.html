@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧩 Code Puzzle Challenge - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #7209b7, #3a0ca3);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 800px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: rgba(255,255,255,0.3); }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .stat {
+            background: rgba(255,255,255,0.2);
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .stat-label { font-size: 0.85rem; opacity: 0.8; }
+        
+        .game-area {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .level-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .level-header h2 {
+            color: #3a0ca3;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .level-header p {
+            color: #666;
+        }
+        
+        .puzzle-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .drop-zone {
+            min-height: 200px;
+            background: #f8f9fa;
+            border: 3px dashed #4361ee;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .drop-zone.over {
+            background: #e8f4ff;
+            border-style: solid;
+        }
+        
+        .code-pieces {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 15px;
+        }
+        
+        .code-piece {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            cursor: grab;
+            transition: all 0.3s;
+            user-select: none;
+        }
+        
+        .code-piece:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .code-piece.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        
+        .code-piece.placed {
+            background: linear-gradient(135deg, #06d6a0, #4ade80);
+        }
+        
+        .preview-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #e9ecef;
+        }
+        
+        .preview-section h3 {
+            color: #3a0ca3;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .preview-frame {
+            background: white;
+            border: 3px solid #e9ecef;
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 100px;
+            text-align: center;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-check {
+            background: linear-gradient(135deg, #06d6a0, #4ade80);
+            color: white;
+        }
+        
+        .btn-check:hover { transform: scale(1.05); }
+        
+        .btn-hint {
+            background: #ffd166;
+            color: #333;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            display: none;
+        }
+        
+        .btn-next.show { display: inline-block; }
+        
+        .feedback {
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .feedback.show { display: block; }
+        .feedback.correct { background: #d4edda; color: #155724; }
+        .feedback.incorrect { background: #f8d7da; color: #721c24; }
+        
+        .hint-box {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            color: #856404;
+        }
+        
+        .hint-box.show { display: block; }
+        
+        /* Confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1000;
+        }
+        
+        .confetti {
+            position: absolute;
+            animation: confettiFall 3s linear forwards;
+        }
+        
+        @keyframes confettiFall {
+            to {
+                top: 110%;
+                transform: rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧩 Code Puzzle Challenge</h1>
+            <p>Drag the code pieces into the right order!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-th"></i> Activities</a>
+            </div>
+        </header>
+        
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value" id="level">1</div>
+                <div class="stat-label">Level</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="score">0</div>
+                <div class="stat-label">Score</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="streak">0</div>
+                <div class="stat-label">Streak 🔥</div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="level-header">
+                <h2 id="challenge-title">Build a Heading</h2>
+                <p id="challenge-desc">Arrange the pieces to create an HTML heading</p>
+            </div>
+            
+            <div class="puzzle-container">
+                <div class="drop-zone" id="drop-zone">
+                    <p style="color: #999; text-align: center;">Drag code pieces here in the correct order</p>
+                </div>
+                
+                <div class="code-pieces" id="code-pieces">
+                    <!-- Pieces will be generated here -->
+                </div>
+            </div>
+            
+            <div class="hint-box" id="hint-box">
+                💡 <span id="hint-text"></span>
+            </div>
+            
+            <div class="feedback" id="feedback"></div>
+            
+            <div class="preview-section">
+                <h3>👀 Preview</h3>
+                <div class="preview-frame" id="preview-frame">
+                    <p style="color: #999;">Your result will appear here</p>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-hint" onclick="showHint()">
+                    <i class="fas fa-lightbulb"></i> Hint
+                </button>
+                <button class="btn btn-check" onclick="checkAnswer()">
+                    <i class="fas fa-check"></i> Check Answer
+                </button>
+                <button class="btn btn-next" id="next-btn" onclick="nextLevel()">
+                    Next Level <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="confetti-container" id="confetti"></div>
+    
+    <script>
+        const puzzles = [
+            {
+                title: "Build a Heading",
+                desc: "Arrange the pieces to create an HTML heading",
+                pieces: ["<h1>", "Hello World!", "</h1>"],
+                solution: "<h1>Hello World!</h1>",
+                hint: "HTML tags open with < > and close with </ >",
+                points: 10
+            },
+            {
+                title: "Create a Paragraph",
+                desc: "Build a paragraph with some text",
+                pieces: ["<p>", "This is my first paragraph.", "</p>"],
+                solution: "<p>This is my first paragraph.</p>",
+                hint: "Paragraphs use the <p> tag",
+                points: 10
+            },
+            {
+                title: "Make a Link",
+                desc: "Create a clickable link",
+                pieces: ["<a href=\"\">", "Click me!", "</a>"],
+                solution: "<a href=\"\">Click me!</a>",
+                hint: "Links use the <a> tag with href",
+                points: 15
+            },
+            {
+                title: "Bold Text",
+                desc: "Make the word IMPORTANT bold",
+                pieces: ["<strong>", "IMPORTANT", "</strong>"],
+                solution: "<strong>IMPORTANT</strong>",
+                hint: "Strong makes text bold",
+                points: 10
+            },
+            {
+                title: "Nested Tags",
+                desc: "Put bold text inside a paragraph",
+                pieces: ["<p>", "<strong>", "Bold text", "</strong>", "</p>"],
+                solution: "<p><strong>Bold text</strong></p>",
+                hint: "Inner tags close before outer tags",
+                points: 20
+            },
+            {
+                title: "Image Tag",
+                desc: "Create an image element",
+                pieces: ["<img", " src=\"cat.jpg\"", " alt=\"Cute cat\"", ">"],
+                solution: "<img src=\"cat.jpg\" alt=\"Cute cat\">",
+                hint: "Images don't have closing tags",
+                points: 20
+            },
+            {
+                title: "List Item",
+                desc: "Create an unordered list with one item",
+                pieces: ["<ul>", "<li>", "Apple", "</li>", "</ul>"],
+                solution: "<ul><li>Apple</li></ul>",
+                hint: "Lists contain list items",
+                points: 25
+            },
+            {
+                title: "Complete Page",
+                desc: "Build a basic heading with styling",
+                pieces: ["<h1 ", "style=\"color: blue;\"", ">", "Blue Title", "</h1>"],
+                solution: "<h1 style=\"color: blue;\">Blue Title</h1>",
+                hint: "Inline styles go inside the opening tag",
+                points: 30
+            }
+        ];
+        
+        let currentLevel = 0;
+        let score = 0;
+        let streak = 0;
+        let placedPieces = [];
+        
+        function loadLevel() {
+            const puzzle = puzzles[currentLevel];
+            
+            document.getElementById('challenge-title').textContent = puzzle.title;
+            document.getElementById('challenge-desc').textContent = puzzle.desc;
+            document.getElementById('level').textContent = currentLevel + 1;
+            document.getElementById('hint-text').textContent = puzzle.hint;
+            
+            // Reset
+            placedPieces = [];
+            document.getElementById('hint-box').classList.remove('show');
+            document.getElementById('feedback').classList.remove('show', 'correct', 'incorrect');
+            document.getElementById('next-btn').classList.remove('show');
+            document.getElementById('preview-frame').innerHTML = '<p style="color: #999;">Your result will appear here</p>';
+            
+            // Shuffle pieces
+            const shuffledPieces = [...puzzle.pieces].sort(() => Math.random() - 0.5);
+            
+            // Render pieces
+            const piecesContainer = document.getElementById('code-pieces');
+            piecesContainer.innerHTML = shuffledPieces.map((piece, i) => `
+                <div class="code-piece" draggable="true" data-piece="${escapeHtml(piece)}" data-index="${i}">
+                    ${escapeHtml(piece)}
+                </div>
+            `).join('');
+            
+            // Reset drop zone
+            document.getElementById('drop-zone').innerHTML = '<p style="color: #999; text-align: center;">Drag code pieces here in the correct order</p>';
+            
+            setupDragDrop();
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function setupDragDrop() {
+            const pieces = document.querySelectorAll('.code-piece');
+            const dropZone = document.getElementById('drop-zone');
+            
+            pieces.forEach(piece => {
+                piece.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', piece.dataset.piece);
+                    piece.classList.add('dragging');
+                });
+                
+                piece.addEventListener('dragend', () => {
+                    piece.classList.remove('dragging');
+                });
+                
+                // Also allow clicking to place
+                piece.addEventListener('click', () => {
+                    if (!piece.classList.contains('placed')) {
+                        addPieceToDropZone(piece.dataset.piece, piece);
+                    }
+                });
+            });
+            
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('over');
+            });
+            
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('over');
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('over');
+                const pieceText = e.dataTransfer.getData('text/plain');
+                const piece = document.querySelector(`.code-piece[data-piece="${CSS.escape(pieceText)}"]:not(.placed)`);
+                if (piece) {
+                    addPieceToDropZone(pieceText, piece);
+                }
+            });
+        }
+        
+        function addPieceToDropZone(pieceText, pieceElement) {
+            const dropZone = document.getElementById('drop-zone');
+            
+            // Remove placeholder
+            const placeholder = dropZone.querySelector('p');
+            if (placeholder) placeholder.remove();
+            
+            // Add piece to drop zone
+            const placedPiece = document.createElement('div');
+            placedPiece.className = 'code-piece placed';
+            placedPiece.textContent = pieceText;
+            placedPiece.onclick = () => removePieceFromDropZone(pieceText, placedPiece, pieceElement);
+            dropZone.appendChild(placedPiece);
+            
+            placedPieces.push(pieceText);
+            pieceElement.classList.add('placed');
+            pieceElement.style.opacity = '0.3';
+            
+            updatePreview();
+        }
+        
+        function removePieceFromDropZone(pieceText, placedPiece, originalPiece) {
+            placedPiece.remove();
+            placedPieces = placedPieces.filter(p => p !== pieceText);
+            originalPiece.classList.remove('placed');
+            originalPiece.style.opacity = '1';
+            
+            if (placedPieces.length === 0) {
+                document.getElementById('drop-zone').innerHTML = '<p style="color: #999; text-align: center;">Drag code pieces here in the correct order</p>';
+            }
+            
+            updatePreview();
+        }
+        
+        function updatePreview() {
+            const preview = document.getElementById('preview-frame');
+            const code = placedPieces.join('');
+            
+            if (code) {
+                preview.innerHTML = code;
+            } else {
+                preview.innerHTML = '<p style="color: #999;">Your result will appear here</p>';
+            }
+        }
+        
+        function checkAnswer() {
+            const puzzle = puzzles[currentLevel];
+            const answer = placedPieces.join('');
+            const feedback = document.getElementById('feedback');
+            
+            if (answer === puzzle.solution) {
+                score += puzzle.points;
+                streak++;
+                document.getElementById('score').textContent = score;
+                document.getElementById('streak').textContent = streak;
+                
+                feedback.textContent = '🎉 Correct! Great job!';
+                feedback.className = 'feedback show correct';
+                document.getElementById('next-btn').classList.add('show');
+                
+                if (streak >= 3) {
+                    createConfetti();
+                }
+            } else {
+                streak = 0;
+                document.getElementById('streak').textContent = streak;
+                
+                feedback.textContent = '❌ Not quite right. Try again or use a hint!';
+                feedback.className = 'feedback show incorrect';
+            }
+        }
+        
+        function showHint() {
+            document.getElementById('hint-box').classList.add('show');
+        }
+        
+        function nextLevel() {
+            currentLevel++;
+            if (currentLevel >= puzzles.length) {
+                alert(`🏆 Congratulations! You completed all ${puzzles.length} levels with ${score} points!`);
+                currentLevel = 0;
+                score = 0;
+                streak = 0;
+                document.getElementById('score').textContent = score;
+                document.getElementById('streak').textContent = streak;
+            }
+            loadLevel();
+        }
+        
+        function createConfetti() {
+            const container = document.getElementById('confetti');
+            container.innerHTML = '';
+            
+            const colors = ['#f72585', '#4361ee', '#06d6a0', '#ffd166', '#7209b7'];
+            const emojis = ['⭐', '🎉', '✨', '🏆', '💯'];
+            
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti';
+                
+                if (Math.random() > 0.5) {
+                    piece.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    piece.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                } else {
+                    piece.style.width = (Math.random() * 10 + 5) + 'px';
+                    piece.style.height = (Math.random() * 10 + 5) + 'px';
+                    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                }
+                
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = '-20px';
+                piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                
+                container.appendChild(piece);
+            }
+            
+            setTimeout(() => container.innerHTML = '', 4000);
+        }
+        
+        // Initialize
+        loadLevel();
+    </script>
+</body>
+</html>

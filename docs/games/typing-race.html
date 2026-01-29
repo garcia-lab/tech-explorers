@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⌨️ Code Typing Race - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container { max-width: 800px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00ff87, #60efff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        header p { color: #aaa; }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: rgba(255,255,255,0.2); }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 25px;
+        }
+        
+        .stat {
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            padding: 15px 30px;
+            border-radius: 15px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff87;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        .game-area {
+            background: #1e1e3f;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+        
+        .code-display {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.4rem;
+            line-height: 2;
+            padding: 25px;
+            background: #0d0d1a;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            min-height: 120px;
+            border: 2px solid #333;
+        }
+        
+        .code-display .correct { color: #00ff87; }
+        .code-display .incorrect { color: #ff4757; background: rgba(255,71,87,0.2); border-radius: 3px; }
+        .code-display .current { background: #00ff87; color: #0d0d1a; border-radius: 3px; animation: blink 1s infinite; }
+        .code-display .remaining { color: #666; }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .typing-input {
+            width: 100%;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.2rem;
+            background: #0d0d1a;
+            border: 2px solid #333;
+            border-radius: 15px;
+            color: white;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .typing-input:focus {
+            border-color: #00ff87;
+            box-shadow: 0 0 20px rgba(0, 255, 135, 0.2);
+        }
+        
+        .typing-input.error {
+            border-color: #ff4757;
+            animation: shake 0.3s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff87, #60efff);
+            color: #1a1a2e;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 25px rgba(0, 255, 135, 0.4);
+        }
+        
+        .level-select {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .level-btn {
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .level-btn:hover { border-color: #00ff87; }
+        .level-btn.active { background: #00ff87; color: #1a1a2e; }
+        
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #00ff87, #60efff);
+            transition: width 0.3s;
+            border-radius: 4px;
+        }
+        
+        /* Results Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal.show { display: flex; }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1e1e3f, #16213e);
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 450px;
+            border: 1px solid #333;
+            animation: popIn 0.5s ease;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .modal-content h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #00ff87, #60efff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .modal-content .trophy { font-size: 5rem; margin: 20px 0; }
+        
+        .result-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .result-stat {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .result-stat .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff87;
+        }
+        
+        .result-stat .label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .high-score {
+            background: linear-gradient(135deg, #ffd166, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⌨️ Code Typing Race</h1>
+            <p>Type the code as fast as you can! Practice makes perfect!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-th"></i> Activities</a>
+            </div>
+        </header>
+        
+        <div class="level-select">
+            <button class="level-btn active" onclick="setLevel('html')">HTML</button>
+            <button class="level-btn" onclick="setLevel('css')">CSS</button>
+            <button class="level-btn" onclick="setLevel('js')">JavaScript</button>
+        </div>
+        
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value" id="wpm">0</div>
+                <div class="stat-label">WPM</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="accuracy">100%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="timer">0:00</div>
+                <div class="stat-label">Time</div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress" style="width: 0%"></div>
+            </div>
+            
+            <div class="code-display" id="code-display">
+                <!-- Code will appear here -->
+            </div>
+            
+            <input type="text" class="typing-input" id="typing-input" 
+                   placeholder="Start typing when ready..." 
+                   autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="startGame()">
+                <i class="fas fa-play"></i> New Challenge
+            </button>
+        </div>
+    </div>
+    
+    <div class="modal" id="results-modal">
+        <div class="modal-content">
+            <div class="trophy">🏆</div>
+            <h2>Race Complete!</h2>
+            <div class="result-stats">
+                <div class="result-stat">
+                    <div class="value" id="final-wpm">0</div>
+                    <div class="label">Words/Min</div>
+                </div>
+                <div class="result-stat">
+                    <div class="value" id="final-accuracy">0%</div>
+                    <div class="label">Accuracy</div>
+                </div>
+                <div class="result-stat">
+                    <div class="value" id="final-time">0:00</div>
+                    <div class="label">Time</div>
+                </div>
+                <div class="result-stat">
+                    <div class="value" id="final-chars">0</div>
+                    <div class="label">Characters</div>
+                </div>
+            </div>
+            <p class="high-score" id="high-score-msg" style="display: none;">🌟 New High Score! 🌟</p>
+            <button class="btn btn-primary" onclick="startGame(); closeModal();">Try Again</button>
+        </div>
+    </div>
+    
+    <script>
+        const codeSnippets = {
+            html: [
+                '<h1>Hello World!</h1>',
+                '<p>This is a paragraph.</p>',
+                '<a href="link">Click me!</a>',
+                '<img src="cat.jpg" alt="Cute cat">',
+                '<button>Click Here</button>',
+                '<div class="box">Content</div>',
+                '<ul><li>Item 1</li></ul>',
+                '<input type="text" placeholder="Name">',
+                '<h2>Welcome to my website</h2>',
+                '<span style="color: red;">Red text</span>'
+            ],
+            css: [
+                'color: blue;',
+                'font-size: 20px;',
+                'background: red;',
+                'margin: 10px;',
+                'padding: 15px;',
+                'border-radius: 5px;',
+                'display: flex;',
+                'text-align: center;',
+                'width: 100%;',
+                'box-shadow: 2px 2px 5px gray;'
+            ],
+            js: [
+                'let x = 5;',
+                'console.log("Hi!");',
+                'function hello() {}',
+                'if (x > 10) {}',
+                'for (let i = 0; i < 5; i++)',
+                'document.getElementById("id")',
+                'alert("Hello!");',
+                'const name = "Alex";',
+                'array.push(item);',
+                'return true;'
+            ]
+        };
+        
+        let currentLevel = 'html';
+        let currentText = '';
+        let typedText = '';
+        let startTime = null;
+        let timerInterval = null;
+        let totalChars = 0;
+        let correctChars = 0;
+        let isComplete = false;
+        
+        function setLevel(level) {
+            currentLevel = level;
+            document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            startGame();
+        }
+        
+        function startGame() {
+            clearInterval(timerInterval);
+            
+            // Pick random snippet
+            const snippets = codeSnippets[currentLevel];
+            currentText = snippets[Math.floor(Math.random() * snippets.length)];
+            typedText = '';
+            totalChars = 0;
+            correctChars = 0;
+            startTime = null;
+            isComplete = false;
+            
+            renderCode();
+            updateStats();
+            
+            const input = document.getElementById('typing-input');
+            input.value = '';
+            input.classList.remove('error');
+            input.focus();
+            
+            document.getElementById('progress').style.width = '0%';
+            document.getElementById('timer').textContent = '0:00';
+        }
+        
+        function renderCode() {
+            const display = document.getElementById('code-display');
+            let html = '';
+            
+            for (let i = 0; i < currentText.length; i++) {
+                const char = currentText[i] === ' ' ? '&nbsp;' : currentText[i];
+                
+                if (i < typedText.length) {
+                    if (typedText[i] === currentText[i]) {
+                        html += `<span class="correct">${char}</span>`;
+                    } else {
+                        html += `<span class="incorrect">${char}</span>`;
+                    }
+                } else if (i === typedText.length) {
+                    html += `<span class="current">${char}</span>`;
+                } else {
+                    html += `<span class="remaining">${char}</span>`;
+                }
+            }
+            
+            display.innerHTML = html;
+        }
+        
+        function updateStats() {
+            if (!startTime) {
+                document.getElementById('wpm').textContent = '0';
+                document.getElementById('accuracy').textContent = '100%';
+                return;
+            }
+            
+            const elapsed = (Date.now() - startTime) / 1000 / 60; // minutes
+            const words = correctChars / 5; // standard: 5 chars = 1 word
+            const wpm = elapsed > 0 ? Math.round(words / elapsed) : 0;
+            const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 100;
+            
+            document.getElementById('wpm').textContent = wpm;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+        }
+        
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (!startTime) return;
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const mins = Math.floor(elapsed / 60);
+                const secs = elapsed % 60;
+                document.getElementById('timer').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            }, 100);
+        }
+        
+        document.getElementById('typing-input').addEventListener('input', function(e) {
+            if (isComplete) return;
+            
+            if (!startTime) {
+                startTime = Date.now();
+                startTimer();
+            }
+            
+            typedText = e.target.value;
+            totalChars++;
+            
+            // Check if current char is correct
+            const lastIndex = typedText.length - 1;
+            if (typedText[lastIndex] === currentText[lastIndex]) {
+                correctChars++;
+                this.classList.remove('error');
+            } else {
+                this.classList.add('error');
+                setTimeout(() => this.classList.remove('error'), 300);
+            }
+            
+            // Update progress
+            const progress = (typedText.length / currentText.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+            
+            renderCode();
+            updateStats();
+            
+            // Check if complete
+            if (typedText === currentText) {
+                isComplete = true;
+                clearInterval(timerInterval);
+                setTimeout(showResults, 300);
+            }
+        });
+        
+        function showResults() {
+            const elapsed = (Date.now() - startTime) / 1000;
+            const mins = Math.floor(elapsed / 60);
+            const secs = Math.floor(elapsed % 60);
+            const words = correctChars / 5;
+            const wpm = Math.round(words / (elapsed / 60));
+            const accuracy = Math.round((correctChars / totalChars) * 100);
+            
+            document.getElementById('final-wpm').textContent = wpm;
+            document.getElementById('final-accuracy').textContent = accuracy + '%';
+            document.getElementById('final-time').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById('final-chars').textContent = currentText.length;
+            
+            // Check high score
+            const highScore = localStorage.getItem('typingHighScore') || 0;
+            if (wpm > highScore) {
+                localStorage.setItem('typingHighScore', wpm);
+                document.getElementById('high-score-msg').style.display = 'block';
+            } else {
+                document.getElementById('high-score-msg').style.display = 'none';
+            }
+            
+            document.getElementById('results-modal').classList.add('show');
+        }
+        
+        function closeModal() {
+            document.getElementById('results-modal').classList.remove('show');
+        }
+        
+        // Start game on load
+        startGame();
+    </script>
+</body>
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔘 Button Designer - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1000px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            color: #3a0ca3;
+            margin-bottom: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.8);
+            color: #3a0ca3;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: white; }
+        
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 25px;
+        }
+        
+        @media (max-width: 900px) {
+            .workspace { grid-template-columns: 1fr; }
+        }
+        
+        .preview-area {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+        
+        .preview-area h3 {
+            color: #3a0ca3;
+            margin-bottom: 30px;
+        }
+        
+        #preview-button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .code-output {
+            margin-top: 30px;
+            width: 100%;
+        }
+        
+        .code-output h4 {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .code-box {
+            background: #1e1e3f;
+            color: #00ff87;
+            padding: 20px;
+            border-radius: 15px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            margin-top: 10px;
+            padding: 8px 20px;
+            background: #4361ee;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover { background: #3a0ca3; }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .control-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .control-panel h3 {
+            color: #3a0ca3;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .control-group input[type="text"],
+        .control-group input[type="number"],
+        .control-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        
+        .control-group input[type="color"] {
+            width: 100%;
+            height: 45px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        .control-group input[type="range"] {
+            width: 100%;
+            margin-top: 5px;
+        }
+        
+        .range-value {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #4361ee;
+            font-weight: bold;
+        }
+        
+        .color-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .preset-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .preset-btn {
+            padding: 8px 15px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .preset-btn:hover { border-color: #4361ee; color: #4361ee; }
+        
+        .effect-toggles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .effect-toggle {
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        
+        .effect-toggle.active {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔘 Button Designer</h1>
+            <p>Design the coolest button and get the CSS code!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-th"></i> Activities</a>
+            </div>
+        </header>
+        
+        <div class="workspace">
+            <div class="preview-area">
+                <h3>✨ Your Button</h3>
+                <button id="preview-button">Click Me!</button>
+                
+                <div class="code-output">
+                    <h4>CSS Code:</h4>
+                    <div class="code-box" id="css-output"></div>
+                    <button class="copy-btn" onclick="copyCode()">
+                        <i class="fas fa-copy"></i> Copy CSS
+                    </button>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="control-panel">
+                    <h3>📝 Button Text</h3>
+                    <div class="control-group">
+                        <input type="text" id="btn-text" value="Click Me!" oninput="updateButton()">
+                    </div>
+                </div>
+                
+                <div class="control-panel">
+                    <h3>🎨 Colors</h3>
+                    <div class="color-row">
+                        <div class="control-group">
+                            <label>Background</label>
+                            <input type="color" id="bg-color" value="#4361ee" oninput="updateButton()">
+                        </div>
+                        <div class="control-group">
+                            <label>Text Color</label>
+                            <input type="color" id="text-color" value="#ffffff" oninput="updateButton()">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label>Hover Color</label>
+                        <input type="color" id="hover-color" value="#3a0ca3" oninput="updateButton()">
+                    </div>
+                </div>
+                
+                <div class="control-panel">
+                    <h3>📐 Size & Shape</h3>
+                    <div class="control-group">
+                        <label>Padding</label>
+                        <input type="range" id="padding" min="5" max="40" value="15" oninput="updateButton()">
+                        <div class="range-value" id="padding-value">15px</div>
+                    </div>
+                    <div class="control-group">
+                        <label>Border Radius</label>
+                        <input type="range" id="radius" min="0" max="50" value="10" oninput="updateButton()">
+                        <div class="range-value" id="radius-value">10px</div>
+                    </div>
+                    <div class="control-group">
+                        <label>Font Size</label>
+                        <input type="range" id="font-size" min="12" max="32" value="18" oninput="updateButton()">
+                        <div class="range-value" id="font-size-value">18px</div>
+                    </div>
+                </div>
+                
+                <div class="control-panel">
+                    <h3>✨ Effects</h3>
+                    <div class="effect-toggles">
+                        <button class="effect-toggle active" data-effect="shadow" onclick="toggleEffect('shadow')">Shadow</button>
+                        <button class="effect-toggle" data-effect="gradient" onclick="toggleEffect('gradient')">Gradient</button>
+                        <button class="effect-toggle" data-effect="border" onclick="toggleEffect('border')">Border</button>
+                        <button class="effect-toggle" data-effect="glow" onclick="toggleEffect('glow')">Glow</button>
+                    </div>
+                </div>
+                
+                <div class="control-panel">
+                    <h3>🎯 Presets</h3>
+                    <div class="preset-btns">
+                        <button class="preset-btn" onclick="loadPreset('primary')">Primary</button>
+                        <button class="preset-btn" onclick="loadPreset('success')">Success</button>
+                        <button class="preset-btn" onclick="loadPreset('danger')">Danger</button>
+                        <button class="preset-btn" onclick="loadPreset('pill')">Pill</button>
+                        <button class="preset-btn" onclick="loadPreset('neon')">Neon</button>
+                        <button class="preset-btn" onclick="loadPreset('minimal')">Minimal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        let effects = { shadow: true, gradient: false, border: false, glow: false };
+        
+        function updateButton() {
+            const btn = document.getElementById('preview-button');
+            const text = document.getElementById('btn-text').value;
+            const bgColor = document.getElementById('bg-color').value;
+            const textColor = document.getElementById('text-color').value;
+            const hoverColor = document.getElementById('hover-color').value;
+            const padding = document.getElementById('padding').value;
+            const radius = document.getElementById('radius').value;
+            const fontSize = document.getElementById('font-size').value;
+            
+            // Update range displays
+            document.getElementById('padding-value').textContent = padding + 'px';
+            document.getElementById('radius-value').textContent = radius + 'px';
+            document.getElementById('font-size-value').textContent = fontSize + 'px';
+            
+            // Build styles
+            let styles = {
+                padding: `${padding}px ${padding * 2}px`,
+                borderRadius: `${radius}px`,
+                fontSize: `${fontSize}px`,
+                color: textColor,
+                background: bgColor,
+                border: 'none',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                transition: 'all 0.3s'
+            };
+            
+            // Apply effects
+            if (effects.gradient) {
+                styles.background = `linear-gradient(135deg, ${bgColor}, ${adjustColor(bgColor, -30)})`;
+            }
+            
+            if (effects.shadow) {
+                styles.boxShadow = `0 4px 15px ${bgColor}66`;
+            }
+            
+            if (effects.border) {
+                styles.border = `3px solid ${adjustColor(bgColor, -40)}`;
+            }
+            
+            if (effects.glow) {
+                styles.boxShadow = `0 0 20px ${bgColor}, 0 0 40px ${bgColor}66`;
+            }
+            
+            // Apply to button
+            btn.textContent = text;
+            Object.assign(btn.style, styles);
+            
+            // Hover effect
+            btn.onmouseenter = () => {
+                btn.style.background = effects.gradient 
+                    ? `linear-gradient(135deg, ${hoverColor}, ${adjustColor(hoverColor, -30)})`
+                    : hoverColor;
+                btn.style.transform = 'scale(1.05)';
+            };
+            btn.onmouseleave = () => {
+                btn.style.background = effects.gradient
+                    ? `linear-gradient(135deg, ${bgColor}, ${adjustColor(bgColor, -30)})`
+                    : bgColor;
+                btn.style.transform = 'scale(1)';
+            };
+            
+            // Generate CSS code
+            generateCSS(styles, bgColor, hoverColor);
+        }
+        
+        function generateCSS(styles, bgColor, hoverColor) {
+            let css = `.my-button {\n`;
+            css += `  padding: ${styles.padding};\n`;
+            css += `  border-radius: ${styles.borderRadius};\n`;
+            css += `  font-size: ${styles.fontSize};\n`;
+            css += `  color: ${styles.color};\n`;
+            css += `  background: ${styles.background};\n`;
+            css += `  border: ${styles.border};\n`;
+            css += `  font-weight: bold;\n`;
+            css += `  cursor: pointer;\n`;
+            if (styles.boxShadow) css += `  box-shadow: ${styles.boxShadow};\n`;
+            css += `  transition: all 0.3s;\n`;
+            css += `}\n\n`;
+            css += `.my-button:hover {\n`;
+            css += `  background: ${effects.gradient ? `linear-gradient(135deg, ${hoverColor}, ${adjustColor(hoverColor, -30)})` : hoverColor};\n`;
+            css += `  transform: scale(1.05);\n`;
+            css += `}`;
+            
+            document.getElementById('css-output').textContent = css;
+        }
+        
+        function adjustColor(hex, amount) {
+            const num = parseInt(hex.slice(1), 16);
+            const r = Math.max(0, Math.min(255, (num >> 16) + amount));
+            const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amount));
+            const b = Math.max(0, Math.min(255, (num & 0x0000FF) + amount));
+            return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+        }
+        
+        function toggleEffect(effect) {
+            effects[effect] = !effects[effect];
+            document.querySelector(`[data-effect="${effect}"]`).classList.toggle('active');
+            updateButton();
+        }
+        
+        function loadPreset(preset) {
+            const presets = {
+                primary: { bg: '#4361ee', text: '#ffffff', hover: '#3a0ca3', radius: 10, effects: ['shadow'] },
+                success: { bg: '#06d6a0', text: '#ffffff', hover: '#05b384', radius: 25, effects: ['shadow'] },
+                danger: { bg: '#ef476f', text: '#ffffff', hover: '#dc3545', radius: 8, effects: ['shadow'] },
+                pill: { bg: '#7209b7', text: '#ffffff', hover: '#560a86', radius: 50, effects: ['shadow', 'gradient'] },
+                neon: { bg: '#00ff87', text: '#1a1a2e', hover: '#00cc6a', radius: 5, effects: ['glow'] },
+                minimal: { bg: '#f8f9fa', text: '#333333', hover: '#e9ecef', radius: 8, effects: ['border'] }
+            };
+            
+            const p = presets[preset];
+            document.getElementById('bg-color').value = p.bg;
+            document.getElementById('text-color').value = p.text;
+            document.getElementById('hover-color').value = p.hover;
+            document.getElementById('radius').value = p.radius;
+            
+            // Reset effects
+            effects = { shadow: false, gradient: false, border: false, glow: false };
+            document.querySelectorAll('.effect-toggle').forEach(btn => btn.classList.remove('active'));
+            
+            // Apply preset effects
+            p.effects.forEach(e => {
+                effects[e] = true;
+                document.querySelector(`[data-effect="${e}"]`).classList.add('active');
+            });
+            
+            updateButton();
+            showToast(`${preset.charAt(0).toUpperCase() + preset.slice(1)} preset loaded!`);
+        }
+        
+        function copyCode() {
+            const code = document.getElementById('css-output').textContent;
+            navigator.clipboard.writeText(code);
+            showToast('CSS copied to clipboard! 📋');
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        // Initialize
+        updateButton();
+    </script>
+</body>
+</html>

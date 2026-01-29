@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>😎 Emoji Art Creator - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            color: #3a0ca3;
+            margin-bottom: 10px;
+        }
+        
+        header p { color: #666; }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.8);
+            color: #3a0ca3;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: white; transform: scale(1.05); }
+        
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .workspace { grid-template-columns: 1fr; }
+        }
+        
+        .canvas-area {
+            background: white;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+        }
+        
+        .canvas-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .size-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .size-selector label { font-weight: bold; color: #3a0ca3; }
+        
+        .size-selector select {
+            padding: 8px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .canvas {
+            display: grid;
+            gap: 2px;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 15px;
+            justify-content: center;
+        }
+        
+        .cell {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid #e9ecef;
+        }
+        
+        .cell:hover {
+            transform: scale(1.1);
+            border-color: #4361ee;
+            z-index: 1;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .panel h3 {
+            color: #3a0ca3;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .emoji-palette {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+        
+        .emoji-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .emoji-btn:hover { transform: scale(1.15); }
+        .emoji-btn.selected { border-color: #4361ee; background: #e8f4ff; }
+        
+        .category-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .category-tab {
+            padding: 6px 12px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .category-tab:hover { background: #e0e0e0; }
+        .category-tab.active { background: #4361ee; color: white; }
+        
+        .tool-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .tool-btn.eraser { background: #f0f0f0; color: #333; }
+        .tool-btn.eraser:hover { background: #e0e0e0; }
+        .tool-btn.eraser.active { background: #ef476f; color: white; }
+        
+        .tool-btn.clear { background: #ef476f; color: white; }
+        .tool-btn.clear:hover { background: #dc3545; }
+        
+        .tool-btn.save { background: linear-gradient(135deg, #06d6a0, #4ade80); color: white; }
+        .tool-btn.save:hover { transform: scale(1.02); }
+        
+        .tool-btn.share { background: linear-gradient(135deg, #4361ee, #7209b7); color: white; }
+        .tool-btn.share:hover { transform: scale(1.02); }
+        
+        .templates {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .template-btn {
+            padding: 10px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.2s;
+        }
+        
+        .template-btn:hover { border-color: #4361ee; transform: scale(1.05); }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>😎 Emoji Art Creator</h1>
+            <p>Create amazing pixel art using emojis!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-th"></i> Activities</a>
+            </div>
+        </header>
+        
+        <div class="workspace">
+            <div class="canvas-area">
+                <div class="canvas-controls">
+                    <div class="size-selector">
+                        <label>Canvas Size:</label>
+                        <select id="canvas-size" onchange="createCanvas()">
+                            <option value="8">8 x 8</option>
+                            <option value="10" selected>10 x 10</option>
+                            <option value="12">12 x 12</option>
+                            <option value="16">16 x 16</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="canvas" id="canvas">
+                    <!-- Grid will be generated here -->
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="panel">
+                    <h3>🎨 Pick an Emoji</h3>
+                    <div class="category-tabs">
+                        <button class="category-tab active" onclick="showCategory('faces')">Faces</button>
+                        <button class="category-tab" onclick="showCategory('animals')">Animals</button>
+                        <button class="category-tab" onclick="showCategory('nature')">Nature</button>
+                        <button class="category-tab" onclick="showCategory('food')">Food</button>
+                        <button class="category-tab" onclick="showCategory('shapes')">Shapes</button>
+                    </div>
+                    <div class="emoji-palette" id="emoji-palette">
+                        <!-- Emojis will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="panel">
+                    <h3>🛠️ Tools</h3>
+                    <button class="tool-btn eraser" id="eraser-btn" onclick="toggleEraser()">
+                        <i class="fas fa-eraser"></i> Eraser
+                    </button>
+                    <button class="tool-btn clear" onclick="clearCanvas()">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                    <button class="tool-btn save" onclick="saveArt()">
+                        <i class="fas fa-save"></i> Save Art
+                    </button>
+                </div>
+                
+                <div class="panel">
+                    <h3>✨ Templates</h3>
+                    <div class="templates">
+                        <button class="template-btn" onclick="loadTemplate('heart')" title="Heart">❤️</button>
+                        <button class="template-btn" onclick="loadTemplate('star')" title="Star">⭐</button>
+                        <button class="template-btn" onclick="loadTemplate('smiley')" title="Smiley">😊</button>
+                        <button class="template-btn" onclick="loadTemplate('cat')" title="Cat">🐱</button>
+                        <button class="template-btn" onclick="loadTemplate('rainbow')" title="Rainbow">🌈</button>
+                        <button class="template-btn" onclick="loadTemplate('flower')" title="Flower">🌸</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        const emojiCategories = {
+            faces: ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '😎', '🤓', '🧐', '🤔', '😴', '🥳', '😱', '🤯'],
+            animals: ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔', '🐧', '🐦', '🦋', '🐛', '🐌', '🐝', '🐠', '🐙'],
+            nature: ['🌸', '🌺', '🌻', '🌹', '🌷', '🌱', '🌲', '🌳', '🌴', '🌵', '🍀', '🍁', '🍂', '🌾', '☀️', '🌙', '⭐', '🌈', '☁️', '❄️', '🔥', '💧', '🌊', '⚡'],
+            food: ['🍎', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🍒', '🍑', '🍕', '🍔', '🍟', '🌭', '🍿', '🍩', '🍪', '🎂', '🍰', '🧁', '🍫', '🍬', '🍭', '🍦', '☕'],
+            shapes: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🔴', '🟠', '🟡', '🟢', '🔵', '🟣', '⚫', '⚪', '🟤', '🔶', '🔷', '⬛', '⬜', '🔲', '🔳', '✨']
+        };
+        
+        let canvasSize = 10;
+        let selectedEmoji = '😀';
+        let isErasing = false;
+        let grid = [];
+        
+        function createCanvas() {
+            canvasSize = parseInt(document.getElementById('canvas-size').value);
+            const canvas = document.getElementById('canvas');
+            canvas.style.gridTemplateColumns = `repeat(${canvasSize}, 40px)`;
+            
+            grid = Array(canvasSize).fill().map(() => Array(canvasSize).fill(''));
+            
+            canvas.innerHTML = '';
+            for (let y = 0; y < canvasSize; y++) {
+                for (let x = 0; x < canvasSize; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    cell.onclick = () => paintCell(x, y);
+                    cell.onmouseenter = (e) => { if (e.buttons === 1) paintCell(x, y); };
+                    canvas.appendChild(cell);
+                }
+            }
+        }
+        
+        function paintCell(x, y) {
+            const cell = document.querySelector(`.cell[data-x="${x}"][data-y="${y}"]`);
+            if (isErasing) {
+                cell.textContent = '';
+                grid[y][x] = '';
+            } else {
+                cell.textContent = selectedEmoji;
+                grid[y][x] = selectedEmoji;
+            }
+        }
+        
+        function showCategory(category) {
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const palette = document.getElementById('emoji-palette');
+            palette.innerHTML = emojiCategories[category].map(emoji => `
+                <button class="emoji-btn ${emoji === selectedEmoji ? 'selected' : ''}" 
+                        onclick="selectEmoji('${emoji}')">${emoji}</button>
+            `).join('');
+        }
+        
+        function selectEmoji(emoji) {
+            selectedEmoji = emoji;
+            isErasing = false;
+            document.getElementById('eraser-btn').classList.remove('active');
+            document.querySelectorAll('.emoji-btn').forEach(btn => {
+                btn.classList.toggle('selected', btn.textContent === emoji);
+            });
+        }
+        
+        function toggleEraser() {
+            isErasing = !isErasing;
+            document.getElementById('eraser-btn').classList.toggle('active', isErasing);
+            document.querySelectorAll('.emoji-btn').forEach(btn => btn.classList.remove('selected'));
+        }
+        
+        function clearCanvas() {
+            if (confirm('Clear the entire canvas?')) {
+                createCanvas();
+                showToast('Canvas cleared! ✨');
+            }
+        }
+        
+        function saveArt() {
+            const artData = {
+                size: canvasSize,
+                grid: grid,
+                date: new Date().toISOString()
+            };
+            
+            const saved = JSON.parse(localStorage.getItem('emojiArt') || '[]');
+            saved.push(artData);
+            localStorage.setItem('emojiArt', JSON.stringify(saved));
+            
+            showToast('Art saved! 🎨');
+        }
+        
+        function loadTemplate(name) {
+            clearCanvasQuiet();
+            
+            const templates = {
+                heart: [
+                    [0,1,1,0,0,1,1,0],
+                    [1,1,1,1,1,1,1,1],
+                    [1,1,1,1,1,1,1,1],
+                    [1,1,1,1,1,1,1,1],
+                    [0,1,1,1,1,1,1,0],
+                    [0,0,1,1,1,1,0,0],
+                    [0,0,0,1,1,0,0,0],
+                    [0,0,0,0,0,0,0,0]
+                ],
+                star: [
+                    [0,0,0,1,1,0,0,0],
+                    [0,0,0,1,1,0,0,0],
+                    [1,1,1,1,1,1,1,1],
+                    [0,1,1,1,1,1,1,0],
+                    [0,0,1,1,1,1,0,0],
+                    [0,1,1,0,0,1,1,0],
+                    [1,1,0,0,0,0,1,1],
+                    [1,0,0,0,0,0,0,1]
+                ],
+                smiley: [
+                    [0,0,1,1,1,1,0,0],
+                    [0,1,1,1,1,1,1,0],
+                    [1,1,2,1,1,2,1,1],
+                    [1,1,1,1,1,1,1,1],
+                    [1,1,1,1,1,1,1,1],
+                    [1,2,1,1,1,1,2,1],
+                    [0,1,2,2,2,2,1,0],
+                    [0,0,1,1,1,1,0,0]
+                ],
+                cat: [
+                    [1,1,0,0,0,0,1,1],
+                    [1,1,1,0,0,1,1,1],
+                    [1,1,1,1,1,1,1,1],
+                    [1,2,1,1,1,1,2,1],
+                    [1,1,1,3,3,1,1,1],
+                    [1,1,1,1,1,1,1,1],
+                    [1,1,1,1,1,1,1,1],
+                    [0,1,1,0,0,1,1,0]
+                ],
+                rainbow: [
+                    [0,0,1,1,1,1,0,0],
+                    [0,1,1,1,1,1,1,0],
+                    [1,2,2,2,2,2,2,1],
+                    [1,2,3,3,3,3,2,1],
+                    [1,2,3,4,4,3,2,1],
+                    [0,2,3,4,4,3,2,0],
+                    [0,0,3,4,4,3,0,0],
+                    [0,0,0,4,4,0,0,0]
+                ],
+                flower: [
+                    [0,0,1,0,0,1,0,0],
+                    [0,1,0,1,1,0,1,0],
+                    [1,0,1,2,2,1,0,1],
+                    [0,1,2,2,2,2,1,0],
+                    [0,1,2,2,2,2,1,0],
+                    [1,0,1,2,2,1,0,1],
+                    [0,1,0,3,3,0,1,0],
+                    [0,0,0,3,3,0,0,0]
+                ]
+            };
+            
+            const emojiMaps = {
+                heart: {1: '❤️'},
+                star: {1: '⭐'},
+                smiley: {1: '🟡', 2: '⚫'},
+                cat: {1: '🟠', 2: '⚫', 3: '🩷'},
+                rainbow: {1: '🔴', 2: '🟠', 3: '🟡', 4: '🟢'},
+                flower: {1: '🩷', 2: '🟡', 3: '🟢'}
+            };
+            
+            // Resize canvas to 8x8 for templates
+            document.getElementById('canvas-size').value = '8';
+            createCanvas();
+            
+            const template = templates[name];
+            const emojiMap = emojiMaps[name];
+            
+            for (let y = 0; y < 8; y++) {
+                for (let x = 0; x < 8; x++) {
+                    const value = template[y][x];
+                    if (value > 0) {
+                        const emoji = emojiMap[value];
+                        const cell = document.querySelector(`.cell[data-x="${x}"][data-y="${y}"]`);
+                        cell.textContent = emoji;
+                        grid[y][x] = emoji;
+                    }
+                }
+            }
+            
+            showToast('Template loaded! Edit it or start fresh! ✨');
+        }
+        
+        function clearCanvasQuiet() {
+            grid = Array(canvasSize).fill().map(() => Array(canvasSize).fill(''));
+            document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        // Initialize
+        createCanvas();
+        showCategory('faces');
+    </script>
+</body>
+</html>
