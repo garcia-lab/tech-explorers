@@ -1,0 +1,36 @@
+{
+  "name": "Tech Explorers - Coding Curriculum",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.debugpy",
+        "esbenp.prettier-vscode",
+        "ritwickdey.LiveServer",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "editor.fontSize": 14,
+        "editor.tabSize": 4,
+        "editor.formatOnSave": true,
+        "liveServer.settings.doNotShowInfoMsg": true
+      }
+    }
+  },
+  "postCreateCommand": "pip install --upgrade pip",
+  "forwardPorts": [5500],
+  "portsAttributes": {
+    "5500": {
+      "label": "Live Server",
+      "onAutoForward": "notify"
+    }
+  }
+}
