@@ -1,18 +1,7 @@
 {
   "version": 2,
   "name": "tech-explorers",
-  "builds": [
-    {
-      "src": "docs/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/docs/$1"
-    }
-  ],
+  "outputDirectory": "docs",
   "headers": [
     {
       "source": "/(.*)",
