@@ -1,11 +1,8 @@
 {
   "name": "Tech Explorers - Interactive Coding Curriculum",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
   
   "features": {
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.11"
-    },
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   
@@ -18,15 +15,15 @@
         "formulahendry.auto-close-tag",
         "pranaygp.vscode-css-peek",
         "ecmel.vscode-html-css",
-        "bradlc.vscode-tailwindcss",
-        "ms-python.python",
         "GitHub.copilot",
         "GitHub.copilot-chat",
         "streetsidesoftware.code-spell-checker",
         "yzhang.markdown-all-in-one",
         "bierner.markdown-preview-github-styles",
         "vincaslt.highlight-matching-tag",
-        "naumovs.color-highlight"
+        "naumovs.color-highlight",
+        "dbaeumer.vscode-eslint",
+        "christian-kohler.path-intellisense"
       ],
       "settings": {
         "editor.fontSize": 16,
@@ -66,20 +63,16 @@
     }
   },
   
-  "postCreateCommand": "npm install && echo '✨ Tech Explorers is ready! Run: npm run dev'",
+  "postCreateCommand": "echo '✨ Tech Explorers is ready! Use Live Server extension to preview the docs/ folder.'",
   
-  "postStartCommand": "echo '🚀 Welcome to Tech Explorers! Use the Live Server extension or run npm run dev to preview the site.'",
+  "postStartCommand": "echo '🚀 Welcome to Tech Explorers! Right-click docs/index.html and select Open with Live Server to preview.'",
   
-  "forwardPorts": [5500, 3000],
+  "forwardPorts": [5500],
   
   "portsAttributes": {
     "5500": {
       "label": "Live Server Preview",
       "onAutoForward": "openBrowser"
-    },
-    "3000": {
-      "label": "Development Server",
-      "onAutoForward": "notify"
     }
   },
   
@@ -88,8 +81,6 @@
     "memory": "4gb",
     "storage": "8gb"
   },
-  
-  "waitFor": "onCreateCommand",
   
   "containerEnv": {
     "SITE_NAME": "Tech Explorers",

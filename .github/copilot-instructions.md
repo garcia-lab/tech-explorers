@@ -18,7 +18,7 @@
 - **Class Size**: 13 students
 - **Device**: Chromebooks with internet access
 - **Experience Level**: Absolute beginners, no prior coding experience
-- **Session Duration**: 2 hours (extendable for fast learners)
+- **Session Duration**: 8+ hours of content available (designed for 2-hour sessions but expandable)
 
 ### Teacher/Proctor
 - Well-versed in computers and coding
@@ -70,6 +70,21 @@ tech-explorers/
 │   │   ├── css-playground.html
 │   │   ├── js-playground.html
 │   │   └── project-builder.html   # Full-stack project builder with templates
+│   ├── games/                     # Interactive games and activities (20+)
+│   │   ├── rosy-reel.html         # Fishing game (student-created concept)
+│   │   ├── pixel-art.html         # Pixel art maker
+│   │   ├── memory-match.html      # Tech icon memory game
+│   │   ├── typing-race.html       # Code typing speed game
+│   │   ├── animation-studio.html  # CSS animation creator
+│   │   ├── code-puzzle.html       # HTML tag ordering puzzles
+│   │   ├── bug-hunter.html        # Find and fix code bugs
+│   │   ├── story-creator.html     # Digital story book maker
+│   │   ├── game-maker.html        # Create custom click games
+│   │   ├── avatar-builder.html    # Design coding characters
+│   │   ├── portfolio-builder.html # Personal website builder
+│   │   └── ...more games
+│   ├── activities/                # Activity hub and worksheets
+│   │   └── all-activities.html    # Central activity browser with filters
 │   ├── gallery/                   # Student work gallery
 │   │   └── index.html             # View saved projects, achievements
 │   └── teacher/                   # Teacher resources
@@ -142,6 +157,13 @@ tech-explorers/
 - Advanced challenges
 - Creative freestyle projects
 - Peer helper certification
+
+### Interactive Games & Activities (20+)
+For students who finish early or want variety:
+- **Creative Tools**: Pixel Art, Emoji Art, Story Creator, Avatar Builder
+- **Skill Games**: Memory Match, Typing Race, Code Puzzle, Bug Hunter
+- **Builders**: Animation Studio, Button Designer, Game Maker, Portfolio Builder
+- **Featured**: Rosy Reel Fishing Game (student-created concept)
 
 ## 🧩 Interactive Elements
 
@@ -275,6 +297,33 @@ For issues or suggestions:
 - Tag with appropriate labels (bug, enhancement, content)
 - Include screenshots if UI-related
 - Include student feedback if available
+
+---
+
+## 🤖 Developer Preferences (for AI Assistants)
+
+When working on this project, follow these preferences:
+
+### Coding Style
+- **Self-contained HTML files**: Each game/activity should be a single HTML file with inline CSS and JS
+- **No build steps**: Avoid npm packages, bundlers, or transpilers
+- **localStorage for persistence**: Use localStorage for saving progress, high scores, and user creations
+- **Consistent UI patterns**: Toast notifications, confetti celebrations, colorful gradients
+
+### When Creating New Games/Activities
+1. Include navigation back to home and activities pages
+2. Add localStorage for saving user progress/work
+3. Use the established color palette and font stack
+4. Include difficulty indicators and time estimates
+5. Make it mobile-responsive
+6. Add celebratory feedback (confetti, sounds, animations)
+7. Test that it works without internet after initial load
+
+### Workflow Preferences
+- **Autonomous iteration**: When asked to improve, iterate deeply and implement comprehensively
+- **Think about engagement**: Students may lose interest; provide variety and quick wins
+- **Parents matter**: Students want to show their work to parents; make sharing easy
+- **Commit often**: Use descriptive commit messages listing all changes
 
 ---
 
