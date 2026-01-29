@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🖥️ Adventure 1: Meet the Computer - Tech Explorers</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/adventure.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="adventure-nav">
+        <a href="../../index.html" class="nav-home">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <div class="nav-progress">
+            <span class="progress-dot active"></span>
+            <span class="progress-dot"></span>
+            <span class="progress-dot"></span>
+            <span class="progress-dot"></span>
+            <span class="progress-dot"></span>
+        </div>
+        <div class="nav-title">Adventure 1 of 5</div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="adventure-hero" style="background: linear-gradient(135deg, #4361ee, #7209b7);">
+        <div class="hero-content">
+            <div class="adventure-badge">Adventure 1</div>
+            <h1>🖥️ Meet the Computer</h1>
+            <p class="hero-subtitle">Let's discover what computers are and how they work!</p>
+            <div class="time-estimate">
+                <i class="fas fa-clock"></i> About 20 minutes
+            </div>
+        </div>
+    </header>
+
+    <!-- Learning Objectives -->
+    <section class="objectives-section">
+        <div class="container">
+            <h2>🎯 What You'll Learn</h2>
+            <div class="objectives-grid">
+                <div class="objective-card">
+                    <div class="objective-icon">🤔</div>
+                    <p>What IS a computer?</p>
+                </div>
+                <div class="objective-card">
+                    <div class="objective-icon">🗣️</div>
+                    <p>How do we "talk" to computers?</p>
+                </div>
+                <div class="objective-card">
+                    <div class="objective-icon">🌐</div>
+                    <p>What is a web browser?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="adventure-content">
+        <div class="container">
+            
+            <!-- Step 1 -->
+            <section class="lesson-step" id="step1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <h2>What IS a Computer?</h2>
+                </div>
+                
+                <div class="step-content">
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">💡</div>
+                        <div class="fun-fact-content">
+                            <strong>Fun Fact!</strong>
+                            <p>A computer is like a super-fast helper that follows instructions!</p>
+                        </div>
+                    </div>
+
+                    <p class="big-text">
+                        A <strong>computer</strong> is a machine that can:
+                    </p>
+                    
+                    <div class="concept-cards">
+                        <div class="concept-card">
+                            <div class="concept-emoji">📥</div>
+                            <h3>Take In</h3>
+                            <p>It receives information (like when you type or click)</p>
+                        </div>
+                        <div class="concept-card">
+                            <div class="concept-emoji">🧠</div>
+                            <h3>Think</h3>
+                            <p>It processes the information super fast</p>
+                        </div>
+                        <div class="concept-card">
+                            <div class="concept-emoji">📤</div>
+                            <h3>Show</h3>
+                            <p>It displays the result (on the screen)</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-box">
+                        <h3>🎮 Try It: Computer Matching Game</h3>
+                        <p>Click on each item to see if it's a computer!</p>
+                        
+                        <div class="matching-game" id="computer-game">
+                            <div class="game-item" data-answer="yes" onclick="checkAnswer(this, true)">
+                                <span class="item-emoji">💻</span>
+                                <span class="item-label">Laptop</span>
+                            </div>
+                            <div class="game-item" data-answer="yes" onclick="checkAnswer(this, true)">
+                                <span class="item-emoji">📱</span>
+                                <span class="item-label">Phone</span>
+                            </div>
+                            <div class="game-item" data-answer="no" onclick="checkAnswer(this, false)">
+                                <span class="item-emoji">🪑</span>
+                                <span class="item-label">Chair</span>
+                            </div>
+                            <div class="game-item" data-answer="yes" onclick="checkAnswer(this, true)">
+                                <span class="item-emoji">🎮</span>
+                                <span class="item-label">Game Console</span>
+                            </div>
+                            <div class="game-item" data-answer="no" onclick="checkAnswer(this, false)">
+                                <span class="item-emoji">📚</span>
+                                <span class="item-label">Book</span>
+                            </div>
+                            <div class="game-item" data-answer="yes" onclick="checkAnswer(this, true)">
+                                <span class="item-emoji">⌚</span>
+                                <span class="item-label">Smart Watch</span>
+                            </div>
+                        </div>
+                        
+                        <div id="game-result" class="game-result"></div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check1" class="checkpoint-check">
+                        <label for="check1">
+                            <i class="fas fa-check-circle"></i>
+                            I understand what a computer is!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2 -->
+            <section class="lesson-step" id="step2">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h2>How Do We Talk to Computers?</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        Computers don't understand English (yet)! They understand <strong>code</strong>.
+                    </p>
+
+                    <div class="analogy-box">
+                        <div class="analogy-icon">🗣️ ➡️ 💻</div>
+                        <div class="analogy-content">
+                            <p><strong>Think of it like this:</strong></p>
+                            <p>If you want to talk to someone who speaks a different language, you need to learn their language!</p>
+                            <p>Code is the language computers understand.</p>
+                        </div>
+                    </div>
+
+                    <h3>Types of "Code Languages" (Programming Languages)</h3>
+                    
+                    <div class="language-showcase">
+                        <div class="language-card">
+                            <div class="language-icon" style="background: #e34f26;">HTML</div>
+                            <p>Builds the <strong>structure</strong> of websites</p>
+                            <small>Like the skeleton of a body!</small>
+                        </div>
+                        <div class="language-card">
+                            <div class="language-icon" style="background: #264de4;">CSS</div>
+                            <p>Makes things <strong>look pretty</strong></p>
+                            <small>Like clothes and makeup!</small>
+                        </div>
+                        <div class="language-card">
+                            <div class="language-icon" style="background: #f7df1e; color: black;">JS</div>
+                            <p>Makes things <strong>move and work</strong></p>
+                            <small>Like muscles and brain!</small>
+                        </div>
+                    </div>
+
+                    <div class="interactive-box">
+                        <h3>✨ See Code in Action!</h3>
+                        <p>Watch what happens when we run this simple code:</p>
+                        
+                        <div class="code-demo">
+                            <div class="code-window">
+                                <div class="code-header">
+                                    <span class="dot red"></span>
+                                    <span class="dot yellow"></span>
+                                    <span class="dot green"></span>
+                                    <span>script.js</span>
+                                </div>
+                                <pre class="code-content">
+<code><span class="keyword">alert</span>(<span class="string">"Hello, I'm a computer! 🤖"</span>);</code>
+                                </pre>
+                            </div>
+                            <button class="run-btn" onclick="alert('Hello, I\'m a computer! 🤖')">
+                                <i class="fas fa-play"></i> Run Code
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check2" class="checkpoint-check">
+                        <label for="check2">
+                            <i class="fas fa-check-circle"></i>
+                            I understand that code is how we talk to computers!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 3 -->
+            <section class="lesson-step" id="step3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h2>Your Browser is Your Window to the Internet!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">🌐</div>
+                        <div class="fun-fact-content">
+                            <strong>You're using a browser RIGHT NOW!</strong>
+                            <p>The program showing you this page is called a "web browser".</p>
+                        </div>
+                    </div>
+
+                    <h3>Popular Web Browsers</h3>
+                    
+                    <div class="browser-showcase">
+                        <div class="browser-card">
+                            <div class="browser-icon">🔵</div>
+                            <p>Chrome</p>
+                        </div>
+                        <div class="browser-card">
+                            <div class="browser-icon">🦊</div>
+                            <p>Firefox</p>
+                        </div>
+                        <div class="browser-card">
+                            <div class="browser-icon">🧭</div>
+                            <p>Safari</p>
+                        </div>
+                        <div class="browser-card">
+                            <div class="browser-icon">📘</div>
+                            <p>Edge</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-box">
+                        <h3>🔍 Browser Scavenger Hunt!</h3>
+                        <p>Find these parts of your browser and check them off:</p>
+                        
+                        <div class="scavenger-list">
+                            <div class="scavenger-item">
+                                <input type="checkbox" id="hunt1">
+                                <label for="hunt1">
+                                    <strong>Address Bar</strong> - Where you type website addresses (at the top!)
+                                </label>
+                            </div>
+                            <div class="scavenger-item">
+                                <input type="checkbox" id="hunt2">
+                                <label for="hunt2">
+                                    <strong>Back Button</strong> - Goes to the previous page (usually an arrow ←)
+                                </label>
+                            </div>
+                            <div class="scavenger-item">
+                                <input type="checkbox" id="hunt3">
+                                <label for="hunt3">
+                                    <strong>Refresh Button</strong> - Reloads the page (usually a circular arrow 🔄)
+                                </label>
+                            </div>
+                            <div class="scavenger-item">
+                                <input type="checkbox" id="hunt4">
+                                <label for="hunt4">
+                                    <strong>Tab</strong> - The name of this page at the very top
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check3" class="checkpoint-check">
+                        <label for="check3">
+                            <i class="fas fa-check-circle"></i>
+                            I found all the browser parts!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Celebration -->
+            <section class="celebration-section" id="celebration">
+                <div class="celebration-content">
+                    <div class="trophy">🏆</div>
+                    <h2>Adventure 1 Complete!</h2>
+                    <p>You now understand what computers are and how we communicate with them!</p>
+                    
+                    <div class="earned-badge">
+                        <div class="badge-icon">🖥️</div>
+                        <div class="badge-info">
+                            <strong>Badge Earned:</strong>
+                            <span>Computer Expert</span>
+                        </div>
+                    </div>
+
+                    <div class="next-steps">
+                        <h3>What's Next?</h3>
+                        <p>In <strong>Adventure 2</strong>, you'll build your very first webpage!</p>
+                        <a href="../02-html-hero/index.html" class="next-adventure-btn">
+                            Continue to HTML Hero <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer Navigation -->
+    <footer class="adventure-footer">
+        <a href="../../index.html" class="footer-btn secondary">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+        <a href="../02-html-hero/index.html" class="footer-btn primary">
+            Next Adventure <i class="fas fa-arrow-right"></i>
+        </a>
+    </footer>
+
+    <script>
+        // Computer matching game
+        function checkAnswer(element, isComputer) {
+            if (element.classList.contains('answered')) return;
+            
+            element.classList.add('answered');
+            
+            if (isComputer) {
+                element.classList.add('correct');
+                element.innerHTML += '<span class="answer-badge">✓ Yes, a computer!</span>';
+            } else {
+                element.classList.add('incorrect');
+                element.innerHTML += '<span class="answer-badge">✗ Not a computer</span>';
+            }
+            
+            // Check if all items are answered
+            const allItems = document.querySelectorAll('.game-item');
+            const answeredItems = document.querySelectorAll('.game-item.answered');
+            
+            if (allItems.length === answeredItems.length) {
+                document.getElementById('game-result').innerHTML = 
+                    '<div class="success-message">🎉 Great job! You identified all the computers!</div>';
+            }
+        }
+
+        // Progress tracking with local storage
+        document.querySelectorAll('.checkpoint-check').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const completed = document.querySelectorAll('.checkpoint-check:checked').length;
+                const total = document.querySelectorAll('.checkpoint-check').length;
+                
+                if (completed === total) {
+                    document.getElementById('celebration').scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 CSS Playground - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .playground-header {
+            background: linear-gradient(135deg, #264de4, #7209b7);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .playground-header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .playground-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            height: calc(100vh - 80px);
+        }
+        
+        @media (max-width: 1200px) {
+            .playground-main {
+                grid-template-columns: 1fr 1fr;
+            }
+            .html-section { display: none; }
+        }
+        
+        @media (max-width: 768px) {
+            .playground-main {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+        }
+        
+        .editor-section {
+            display: flex;
+            flex-direction: column;
+            background: #1e1e1e;
+        }
+        
+        .html-section {
+            background: #2d2d2d;
+        }
+        
+        .editor-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #2d2d2d;
+            border-bottom: 1px solid #444;
+        }
+        
+        .editor-title {
+            color: #fff;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .editor-title.css i { color: #264de4; }
+        .editor-title.html i { color: #e34f26; }
+        
+        .toolbar-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .toolbar-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .toolbar-btn.run { background: #06d6a0; color: white; }
+        .toolbar-btn.reset { background: #666; color: white; }
+        
+        .toolbar-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .code-editor {
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+            border: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            resize: none;
+            outline: none;
+        }
+        
+        .html-section .code-editor {
+            background: #2d2d2d;
+        }
+        
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .preview-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .preview-title {
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #preview-frame {
+            flex: 1;
+            border: none;
+            width: 100%;
+        }
+        
+        /* Color palette helper */
+        .color-helper {
+            padding: 10px 15px;
+            background: #252525;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .color-swatch {
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .color-swatch:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+    <header class="playground-header">
+        <h1>🎨 CSS Playground</h1>
+        <div class="nav-links">
+            <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="html-playground.html"><i class="fas fa-code"></i> HTML</a>
+            <a href="js-playground.html"><i class="fas fa-bolt"></i> JS</a>
+        </div>
+    </header>
+
+    <main class="playground-main">
+        <!-- CSS Editor -->
+        <section class="editor-section">
+            <div class="editor-toolbar">
+                <div class="editor-title css">
+                    <i class="fab fa-css3-alt"></i>
+                    <span>CSS Code</span>
+                </div>
+                <div class="toolbar-buttons">
+                    <button class="toolbar-btn run" onclick="updatePreview()">
+                        <i class="fas fa-play"></i> Apply
+                    </button>
+                    <button class="toolbar-btn reset" onclick="resetCode()">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
+                </div>
+            </div>
+            <div class="color-helper">
+                <div class="color-swatch" style="background: #e74c3c;" onclick="insertColor('#e74c3c')" title="Red"></div>
+                <div class="color-swatch" style="background: #3498db;" onclick="insertColor('#3498db')" title="Blue"></div>
+                <div class="color-swatch" style="background: #2ecc71;" onclick="insertColor('#2ecc71')" title="Green"></div>
+                <div class="color-swatch" style="background: #9b59b6;" onclick="insertColor('#9b59b6')" title="Purple"></div>
+                <div class="color-swatch" style="background: #f39c12;" onclick="insertColor('#f39c12')" title="Orange"></div>
+                <div class="color-swatch" style="background: #e91e63;" onclick="insertColor('#e91e63')" title="Pink"></div>
+                <div class="color-swatch" style="background: #1abc9c;" onclick="insertColor('#1abc9c')" title="Teal"></div>
+                <div class="color-swatch" style="background: #f1c40f;" onclick="insertColor('#f1c40f')" title="Yellow"></div>
+            </div>
+            <textarea id="css-editor" class="code-editor">/* 🎨 Style your page here! */
+
+body {
+    background-color: lightyellow;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+h1 {
+    color: purple;
+    font-size: 48px;
+    text-align: center;
+}
+
+p {
+    color: #333;
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.highlight {
+    background-color: yellow;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.box {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+}</textarea>
+        </section>
+
+        <!-- HTML Editor (read-only for context) -->
+        <section class="editor-section html-section">
+            <div class="editor-toolbar">
+                <div class="editor-title html">
+                    <i class="fab fa-html5"></i>
+                    <span>HTML (edit me too!)</span>
+                </div>
+            </div>
+            <textarea id="html-editor" class="code-editor"><!DOCTYPE html>
+<html>
+<head>
+    <title>CSS Styled Page</title>
+</head>
+<body>
+    <h1>🎨 My Styled Page</h1>
+    
+    <p>This paragraph is styled with CSS!</p>
+    
+    <p class="highlight">
+        This has the "highlight" class!
+    </p>
+    
+    <div class="box">
+        <h2>Cool Box!</h2>
+        <p>This box has a gradient background!</p>
+    </div>
+    
+    <h2>Try changing:</h2>
+    <ul>
+        <li>Colors (like "purple" or "#ff0000")</li>
+        <li>Font sizes (like "24px" or "2em")</li>
+        <li>Backgrounds</li>
+        <li>Borders and padding</li>
+    </ul>
+</body>
+</html></textarea>
+        </section>
+
+        <!-- Preview -->
+        <section class="preview-section">
+            <div class="preview-toolbar">
+                <div class="preview-title">
+                    <i class="fas fa-eye"></i>
+                    <span>Live Preview</span>
+                </div>
+            </div>
+            <iframe id="preview-frame"></iframe>
+        </section>
+    </main>
+
+    <script>
+        const defaultCSS = document.getElementById('css-editor').value;
+        const defaultHTML = document.getElementById('html-editor').value;
+        
+        function updatePreview() {
+            const css = document.getElementById('css-editor').value;
+            const html = document.getElementById('html-editor').value;
+            
+            // Inject CSS into HTML
+            const styledHTML = html.replace('</head>', `<style>${css}</style></head>`);
+            document.getElementById('preview-frame').srcdoc = styledHTML;
+        }
+        
+        function resetCode() {
+            document.getElementById('css-editor').value = defaultCSS;
+            document.getElementById('html-editor').value = defaultHTML;
+            updatePreview();
+        }
+        
+        function insertColor(color) {
+            const editor = document.getElementById('css-editor');
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const text = editor.value;
+            
+            editor.value = text.substring(0, start) + color + text.substring(end);
+            editor.focus();
+            editor.selectionStart = editor.selectionEnd = start + color.length;
+            updatePreview();
+        }
+        
+        // Initialize
+        updatePreview();
+        
+        // Auto-update
+        let timeout;
+        document.getElementById('css-editor').addEventListener('input', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(updatePreview, 500);
+        });
+        
+        document.getElementById('html-editor').addEventListener('input', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(updatePreview, 500);
+        });
+    </script>
+</body>
+</html>

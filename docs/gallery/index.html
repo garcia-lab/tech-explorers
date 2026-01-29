@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 My Projects Gallery - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .gallery-header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .gallery-header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        
+        .gallery-content {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .student-profile {
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .avatar-picker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .current-avatar {
+            font-size: 5rem;
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .current-avatar:hover {
+            transform: scale(1.1);
+        }
+        
+        .avatar-options {
+            display: none;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-width: 200px;
+            justify-content: center;
+        }
+        
+        .avatar-options.open {
+            display: flex;
+        }
+        
+        .avatar-option {
+            font-size: 2rem;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .avatar-option:hover {
+            background: #4361ee;
+            transform: scale(1.2);
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-info h2 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.8rem;
+            color: #3a0ca3;
+            margin-bottom: 10px;
+        }
+        
+        .name-input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        #student-name {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-family: inherit;
+        }
+        
+        #student-name:focus {
+            border-color: #4361ee;
+            outline: none;
+        }
+        
+        .save-name-btn {
+            padding: 12px 25px;
+            background: #06d6a0;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .save-name-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .stats-row {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4361ee;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .section-title {
+            color: white;
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        
+        .project-preview {
+            height: 180px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-preview iframe {
+            width: 200%;
+            height: 200%;
+            transform: scale(0.5);
+            transform-origin: top left;
+            border: none;
+            pointer-events: none;
+        }
+        
+        .project-type-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .project-info {
+            padding: 20px;
+        }
+        
+        .project-info h3 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+        
+        .project-date {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        
+        .project-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .project-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .project-btn.edit {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .project-btn.share {
+            background: #f72585;
+            color: white;
+        }
+        
+        .project-btn.delete {
+            background: #dee2e6;
+            color: #666;
+        }
+        
+        .project-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            color: white;
+        }
+        
+        .empty-state .icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h3 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .empty-state p {
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+        
+        .start-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #06d6a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        
+        .start-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(6, 214, 160, 0.5);
+        }
+        
+        /* Achievements Section */
+        .achievements-section {
+            margin-top: 50px;
+        }
+        
+        .achievements-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .achievement-badge {
+            background: rgba(255,255,255,0.95);
+            padding: 20px 25px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+        
+        .achievement-badge.locked {
+            background: rgba(255,255,255,0.3);
+            opacity: 0.6;
+        }
+        
+        .achievement-badge:not(.locked):hover {
+            transform: scale(1.05);
+        }
+        
+        .achievement-icon {
+            font-size: 2.5rem;
+        }
+        
+        .achievement-info h4 {
+            color: #333;
+            margin-bottom: 3px;
+        }
+        
+        .achievement-info p {
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        .achievement-badge.locked .achievement-info h4,
+        .achievement-badge.locked .achievement-info p {
+            color: white;
+        }
+        
+        /* Delete confirmation modal */
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .confirm-modal.open {
+            display: flex;
+        }
+        
+        .confirm-content {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        .confirm-content h3 {
+            color: #ef476f;
+            margin-bottom: 15px;
+        }
+        
+        .confirm-content p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        
+        .confirm-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .confirm-buttons button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .confirm-cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .confirm-delete {
+            background: #ef476f;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="gallery-header">
+        <h1>🎨 My Projects Gallery</h1>
+        <div class="nav-links">
+            <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="../playground/project-builder.html"><i class="fas fa-plus"></i> New Project</a>
+        </div>
+    </header>
+
+    <main class="gallery-content">
+        <!-- Student Profile Section -->
+        <section class="student-profile">
+            <div class="avatar-picker">
+                <div class="current-avatar" onclick="toggleAvatarPicker()" id="current-avatar">🧑‍💻</div>
+                <div class="avatar-options" id="avatar-options">
+                    <span class="avatar-option" onclick="selectAvatar('🧑‍💻')">🧑‍💻</span>
+                    <span class="avatar-option" onclick="selectAvatar('👧')">👧</span>
+                    <span class="avatar-option" onclick="selectAvatar('👦')">👦</span>
+                    <span class="avatar-option" onclick="selectAvatar('🧑')">🧑</span>
+                    <span class="avatar-option" onclick="selectAvatar('👩‍🔬')">👩‍🔬</span>
+                    <span class="avatar-option" onclick="selectAvatar('🧑‍🚀')">🧑‍🚀</span>
+                    <span class="avatar-option" onclick="selectAvatar('🦸')">🦸</span>
+                    <span class="avatar-option" onclick="selectAvatar('🧙')">🧙</span>
+                    <span class="avatar-option" onclick="selectAvatar('🤖')">🤖</span>
+                    <span class="avatar-option" onclick="selectAvatar('🦊')">🦊</span>
+                    <span class="avatar-option" onclick="selectAvatar('🐱')">🐱</span>
+                    <span class="avatar-option" onclick="selectAvatar('🐶')">🐶</span>
+                </div>
+            </div>
+            <div class="profile-info">
+                <h2>👋 Welcome, Explorer!</h2>
+                <div class="name-input-group">
+                    <input type="text" id="student-name" placeholder="Enter your name..." maxlength="30">
+                    <button class="save-name-btn" onclick="saveName()">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-number" id="project-count">0</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="achievement-count">0</div>
+                        <div class="stat-label">Achievements</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="adventure-count">0</div>
+                        <div class="stat-label">Adventures</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="projects-section">
+            <h2 class="section-title">
+                <i class="fas fa-folder-open"></i>
+                My Projects
+            </h2>
+            <div class="projects-grid" id="projects-grid">
+                <!-- Projects will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section class="achievements-section">
+            <h2 class="section-title">
+                <i class="fas fa-trophy"></i>
+                My Achievements
+            </h2>
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- Achievements will be loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="confirm-modal" id="confirm-modal">
+        <div class="confirm-content">
+            <h3>🗑️ Delete Project?</h3>
+            <p>Are you sure you want to delete this project? This cannot be undone!</p>
+            <div class="confirm-buttons">
+                <button class="confirm-cancel" onclick="closeConfirmModal()">Cancel</button>
+                <button class="confirm-delete" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/project-storage.js"></script>
+    <script>
+        let projectToDelete = null;
+        
+        // All possible achievements
+        const ALL_ACHIEVEMENTS = [
+            { id: 'first-project', name: 'First Creation', icon: '🎨', description: 'Created your first project' },
+            { id: 'adventure-1', name: 'Computer Explorer', icon: '💻', description: 'Completed Adventure 1' },
+            { id: 'adventure-2', name: 'HTML Hero', icon: '🦸', description: 'Completed Adventure 2' },
+            { id: 'adventure-3', name: 'CSS Artist', icon: '🎨', description: 'Completed Adventure 3' },
+            { id: 'adventure-4', name: 'JavaScript Wizard', icon: '⚡', description: 'Completed Adventure 4' },
+            { id: 'adventure-5', name: 'AI Explorer', icon: '🤖', description: 'Completed Adventure 5' },
+            { id: 'five-projects', name: 'Prolific Creator', icon: '🌟', description: 'Created 5 projects' },
+            { id: 'shared-project', name: 'Social Coder', icon: '🔗', description: 'Shared a project' },
+            { id: 'all-adventures', name: 'Master Explorer', icon: '🏆', description: 'Completed all adventures' }
+        ];
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfile();
+            loadProjects();
+            loadAchievements();
+        });
+        
+        function loadProfile() {
+            const student = TechExplorers.storage.getStudent();
+            
+            if (student.name) {
+                document.getElementById('student-name').value = student.name;
+                document.querySelector('.profile-info h2').textContent = `👋 Welcome, ${student.name}!`;
+            }
+            
+            if (student.avatar) {
+                document.getElementById('current-avatar').textContent = student.avatar;
+            }
+        }
+        
+        function saveName() {
+            const name = document.getElementById('student-name').value.trim();
+            if (name) {
+                const student = TechExplorers.storage.getStudent();
+                student.name = name;
+                TechExplorers.storage.saveStudent(student);
+                document.querySelector('.profile-info h2').textContent = `👋 Welcome, ${name}!`;
+                
+                // Show feedback
+                const btn = document.querySelector('.save-name-btn');
+                btn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                btn.style.background = '#06d6a0';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-save"></i> Save';
+                }, 2000);
+            }
+        }
+        
+        function toggleAvatarPicker() {
+            document.getElementById('avatar-options').classList.toggle('open');
+        }
+        
+        function selectAvatar(emoji) {
+            const student = TechExplorers.storage.getStudent();
+            student.avatar = emoji;
+            TechExplorers.storage.saveStudent(student);
+            document.getElementById('current-avatar').textContent = emoji;
+            document.getElementById('avatar-options').classList.remove('open');
+        }
+        
+        function loadProjects() {
+            const projects = TechExplorers.storage.getAllProjects();
+            const grid = document.getElementById('projects-grid');
+            
+            // Update stats
+            document.getElementById('project-count').textContent = projects.length;
+            
+            if (projects.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="icon">🚀</div>
+                        <h3>No Projects Yet!</h3>
+                        <p>Start building something amazing in the Project Builder!</p>
+                        <a href="../playground/project-builder.html" class="start-btn">
+                            <i class="fas fa-hammer"></i> Start Building
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = projects.map(project => `
+                <div class="project-card" data-id="${project.id}">
+                    <div class="project-preview">
+                        <iframe srcdoc="${escapeHtml(buildPreviewHtml(project))}"></iframe>
+                        <span class="project-type-badge">${getTypeBadge(project.type)}</span>
+                    </div>
+                    <div class="project-info">
+                        <h3>${escapeHtml(project.name)}</h3>
+                        <div class="project-date">
+                            ${formatDate(project.updatedAt)}
+                        </div>
+                        <div class="project-actions">
+                            <button class="project-btn edit" onclick="editProject('${project.id}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="project-btn share" onclick="shareProject('${project.id}')">
+                                <i class="fas fa-share"></i> Share
+                            </button>
+                            <button class="project-btn delete" onclick="deleteProject('${project.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function loadAchievements() {
+            const earned = TechExplorers.storage.getAchievements();
+            const grid = document.getElementById('achievements-grid');
+            
+            // Update stats
+            document.getElementById('achievement-count').textContent = earned.length;
+            document.getElementById('adventure-count').textContent = 
+                earned.filter(a => a.id.startsWith('adventure-')).length;
+            
+            grid.innerHTML = ALL_ACHIEVEMENTS.map(achievement => {
+                const isEarned = earned.some(e => e.id === achievement.id);
+                return `
+                    <div class="achievement-badge ${isEarned ? '' : 'locked'}">
+                        <div class="achievement-icon">${isEarned ? achievement.icon : '🔒'}</div>
+                        <div class="achievement-info">
+                            <h4>${achievement.name}</h4>
+                            <p>${achievement.description}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function buildPreviewHtml(project) {
+            let html = project.html || '<!DOCTYPE html><html><body></body></html>';
+            if (project.css) {
+                html = html.replace('</head>', `<style>${project.css}</style></head>`);
+            }
+            if (project.js) {
+                html = html.replace('</body>', `<script>${project.js}<\/script></body>`);
+            }
+            return html;
+        }
+        
+        function getTypeBadge(type) {
+            const badges = {
+                html: '🔵 HTML',
+                css: '🟣 CSS',
+                js: '🟡 JS',
+                full: '🌈 Full Stack'
+            };
+            return badges[type] || '📄 Project';
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins} min ago`;
+            if (diffHours < 24) return `${diffHours} hours ago`;
+            if (diffDays < 7) return `${diffDays} days ago`;
+            
+            return date.toLocaleDateString();
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML.replace(/"/g, '&quot;');
+        }
+        
+        function editProject(id) {
+            window.location.href = `../playground/project-builder.html?edit=${id}`;
+        }
+        
+        function shareProject(id) {
+            const project = TechExplorers.storage.getProject(id);
+            if (project) {
+                TechExplorers.share(project, () => downloadProject(project));
+                
+                // Award sharing achievement
+                if (TechExplorers.storage.addAchievement({
+                    id: 'shared-project',
+                    name: 'Social Coder',
+                    icon: '🔗'
+                })) {
+                    TechExplorers.celebration.badge('Social Coder', '🔗');
+                }
+            }
+        }
+        
+        function downloadProject(project) {
+            const html = buildPreviewHtml(project);
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = (project.name || 'my-project').replace(/[^a-z0-9]/gi, '-') + '.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function deleteProject(id) {
+            projectToDelete = id;
+            document.getElementById('confirm-modal').classList.add('open');
+        }
+        
+        function closeConfirmModal() {
+            projectToDelete = null;
+            document.getElementById('confirm-modal').classList.remove('open');
+        }
+        
+        function confirmDelete() {
+            if (projectToDelete) {
+                TechExplorers.storage.deleteProject(projectToDelete);
+                loadProjects();
+                closeConfirmModal();
+            }
+        }
+    </script>
+</body>
+</html>

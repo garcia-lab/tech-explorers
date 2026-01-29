@@ -3,170 +3,600 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Explorers Program</title>
+    <title>🚀 Tech Explorers - Your Coding Adventure Starts Here!</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #4361ee 0%, #7209b7 50%, #f72585 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .hero .emoji-row {
+            font-size: 3rem;
+            margin: 20px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .start-btn {
+            display: inline-block;
+            background: #06d6a0;
+            color: white;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(6, 214, 160, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(6, 214, 160, 0.5);
+            background: #05c090;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 8px 25px rgba(6, 214, 160, 0.4); }
+            50% { box-shadow: 0 8px 40px rgba(6, 214, 160, 0.6); }
+        }
+
+        /* Info Cards Section */
+        .info-section {
+            padding: 60px 20px;
+            background: #f8f9fa;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            color: #3a0ca3;
+            margin-bottom: 15px;
+        }
+
+        .info-card p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Adventure Map Section */
+        .adventure-section {
+            padding: 80px 20px;
+            background: linear-gradient(180deg, #fff 0%, #e8f4f8 100%);
+        }
+
+        .adventure-section h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            color: #3a0ca3;
+            margin-bottom: 50px;
+        }
+
+        .adventure-map {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .adventure-path {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #4361ee, #7209b7, #f72585, #06d6a0, #ffd166);
+            border-radius: 2px;
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+
+        .adventure-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .adventure-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .adventure-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .adventure-card {
+            flex: 0 0 45%;
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            border: 3px solid transparent;
+        }
+
+        .adventure-card:hover {
+            transform: scale(1.03);
+            border-color: #4361ee;
+        }
+
+        .adventure-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 30px;
+            flex-shrink: 0;
+            box-shadow: 0 5px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .adventure-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.6rem;
+            color: #3a0ca3;
+            margin-bottom: 10px;
+        }
+
+        .adventure-card h3 .emoji {
+            font-size: 2rem;
+        }
+
+        .adventure-card p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .adventure-card .time-badge {
+            display: inline-block;
+            background: rgba(67, 97, 238, 0.1);
+            color: #4361ee;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .adventure-card.bonus {
+            background: linear-gradient(135deg, #ffd166 0%, #ffeb99 100%);
+            border: 3px dashed #f72585;
+        }
+
+        .adventure-card.bonus h3 {
+            color: #7209b7;
+        }
+
+        /* Teacher Section */
+        .teacher-section {
+            padding: 60px 20px;
+            background: #3a0ca3;
+            color: white;
+            text-align: center;
+        }
+
+        .teacher-section h2 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .teacher-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .teacher-btn {
+            display: inline-block;
+            background: white;
+            color: #3a0ca3;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .teacher-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Quick Links */
+        .quick-links {
+            padding: 60px 20px;
+            background: #f8f9fa;
+        }
+
+        .quick-links h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #3a0ca3;
+            margin-bottom: 40px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .quick-link {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quick-link:hover {
+            transform: translateY(-5px);
+            border-color: #4361ee;
+            color: #4361ee;
+        }
+
+        .quick-link i {
+            font-size: 2.5rem;
+            color: #4361ee;
+            margin-bottom: 15px;
+        }
+
+        .quick-link h3 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+
+        footer .hearts {
+            color: #f72585;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .adventure-path {
+                display: none;
+            }
+
+            .adventure-item {
+                flex-direction: column !important;
+            }
+
+            .adventure-card {
+                flex: 1;
+                width: 100%;
+            }
+
+            .adventure-number {
+                margin: 0 0 20px 0;
+            }
+        }
+
+        /* Progress indicator for students */
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 15px 25px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .progress-container span {
+            margin: 0 5px;
+            font-size: 1.5rem;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .progress-container span.completed {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Tech Explorers 🚀</h1>
-            <p>A Fun Technology Journey for Young Minds</p>
-        </div>
-    </header>
-
-    <nav>
-        <div class="container">
-            <ul>
-                <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
-                <li><a href="#sessions"><i class="fas fa-chalkboard-teacher"></i> Sessions</a></li>
-                <li><a href="#activities"><i class="fas fa-pencil-alt"></i> Activities</a></li>
-                <li><a href="#resources"><i class="fas fa-link"></i> Resources</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main>
-        <section id="about" class="container">
-            <h2>Welcome to Tech Explorers! <i class="fas fa-laptop-code"></i></h2>
-            <div class="card">
-                <p>Tech Explorers is an exciting program designed to introduce elementary and middle school students (ages 6-14) to the wonderful world of technology!</p>
-                
-                <p>Through four engaging sessions, students will learn about:</p>
-                <ul>
-                    <li>How the Internet works 🌐</li>
-                    <li>Computer hardware and software 💻</li>
-                    <li>Coding and programming basics 👨‍💻</li>
-                    <li>Artificial Intelligence and its applications 🤖</li>
-                </ul>
-                
-                <p>Our program combines fun explanations, hands-on activities, and real-world examples to make learning technology engaging and accessible for young minds.</p>
-
-                <div class="highlight-box">
-                    <h3>Program Details</h3>
-                    <ul>
-                        <li><strong>Ages:</strong> 6-14 years</li>
-                        <li><strong>Format:</strong> Four 2-hour sessions</li>
-                        <li><strong>Materials:</strong> All available on this site!</li>
-                    </ul>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="emoji-row">🖥️ 💻 🚀 ✨ 🎨</div>
+            <h1>Tech Explorers</h1>
+            <p class="subtitle">Your Coding Adventure Starts Here!</p>
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">
+                Learn to build websites, make art with code, and discover the magic of technology!
+            </p>
+            <a href="adventures/01-meet-the-computer/index.html" class="start-btn">
+                🚀 Start Your Adventure!
+            </a>
+            <div class="progress-container">
+                <span class="completed">⭐</span>
+                <span>⭐</span>
+                <span>⭐</span>
+                <span>⭐</span>
+                <span>⭐</span>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="sessions" class="container">
-            <h2>Our Sessions <i class="fas fa-calendar-alt"></i></h2>
+    <!-- Info Cards -->
+    <section class="info-section">
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="icon">🌐</div>
+                <h3>No Downloads Needed!</h3>
+                <p>Everything works right in your browser. Just click and start learning - it's that easy!</p>
+            </div>
+            <div class="info-card">
+                <div class="icon">🎮</div>
+                <h3>Learn by Doing</h3>
+                <p>Type real code and see what happens instantly. Make mistakes - that's how we learn!</p>
+            </div>
+            <div class="info-card">
+                <div class="icon">🏆</div>
+                <h3>Earn Stars & Badges</h3>
+                <p>Complete challenges, collect stars, and become a coding superstar!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Adventure Map -->
+    <section class="adventure-section" id="adventures">
+        <h2>🗺️ Your Adventure Map</h2>
+        
+        <div class="adventure-map">
+            <div class="adventure-path"></div>
             
-            <div class="session-grid">
-                <div class="session-card">
-                    <div class="session-number">1</div>
-                    <h3>Technology Fundamentals</h3>
-                    <p>Introduction to technology, the Internet, and digital citizenship</p>
-                    <a href="session1/" class="button">Explore Session 1</a>
-                </div>
-                
-                <div class="session-card">
-                    <div class="session-number">2</div>
-                    <h3>Inside Computers</h3>
-                    <p>Computer hardware, operating systems, and applications</p>
-                    <a href="session2/" class="button">Explore Session 2</a>
-                </div>
-                
-                <div class="session-card">
-                    <div class="session-number">3</div>
-                    <h3>Coding Adventures</h3>
-                    <p>Introduction to GitHub, programming languages, and simple coding</p>
-                    <a href="session3/" class="button">Explore Session 3</a>
-                </div>
-                
-                <div class="session-card">
-                    <div class="session-number">4</div>
-                    <h3>AI Exploration</h3>
-                    <p>Understanding AI, ChatGPT, GitHub Copilot, and creating with AI</p>
-                    <a href="session4/" class="button">Explore Session 4</a>
-                </div>
+            <div class="adventure-item">
+                <a href="adventures/01-meet-the-computer/index.html" class="adventure-card">
+                    <h3><span class="emoji">🖥️</span> Meet the Computer</h3>
+                    <p>What IS a computer? How do we talk to it? Let's find out together!</p>
+                    <span class="time-badge">⏱️ 20 minutes</span>
+                </a>
+                <div class="adventure-number">1</div>
+                <div style="flex: 0 0 45%;"></div>
             </div>
-        </section>
 
-        <section id="activities" class="container">
-            <h2>Fun Activities <i class="fas fa-puzzle-piece"></i></h2>
-            <div class="card">
-                <p>Enhance your learning with these fun activities and worksheets!</p>
-                
-                <div class="activity-grid">
-                    <a href="activities/internet-scavenger-hunt.html" class="activity-card">
-                        <i class="fas fa-search"></i>
-                        <h3>Internet Scavenger Hunt</h3>
-                    </a>
-                    
-                    <a href="activities/computer-parts-worksheet.html" class="activity-card">
-                        <i class="fas fa-microchip"></i>
-                        <h3>Label Computer Parts</h3>
-                    </a>
-                    
-                    <a href="activities/coding-challenges.html" class="activity-card">
-                        <i class="fas fa-code"></i>
-                        <h3>Coding Challenges</h3>
-                    </a>
-                    
-                    <a href="activities/ai-ethics-discussion.html" class="activity-card">
-                        <i class="fas fa-robot"></i>
-                        <h3>AI Ethics Discussion</h3>
-                    </a>
-                    
-                    <a href="activities/coloring-pages.html" class="activity-card">
-                        <i class="fas fa-paint-brush"></i>
-                        <h3>Tech Coloring Pages</h3>
-                    </a>
-                    
-                    <a href="activities/all-activities.html" class="activity-card">
-                        <i class="fas fa-th-list"></i>
-                        <h3>All Activities</h3>
-                    </a>
-                </div>
+            <div class="adventure-item">
+                <a href="adventures/02-html-hero/index.html" class="adventure-card">
+                    <h3><span class="emoji">🏗️</span> HTML Hero</h3>
+                    <p>Build your very first webpage from scratch! You'll be a website builder!</p>
+                    <span class="time-badge">⏱️ 30 minutes</span>
+                </a>
+                <div class="adventure-number">2</div>
+                <div style="flex: 0 0 45%;"></div>
             </div>
-        </section>
 
-        <section id="resources" class="container">
-            <h2>Resources <i class="fas fa-book"></i></h2>
-            <div class="card">
-                <p>Explore these safe, kid-friendly resources to continue your technology journey:</p>
-                
-                <div class="resources-grid">
-                    <a href="https://scratch.mit.edu/" target="_blank" class="resource-card">
-                        <img src="assets/images/scratch-logo.svg" alt="Scratch Logo">
-                        <h3>Scratch</h3>
-                        <p>Block-based programming for beginners</p>
-                    </a>
-                    
-                    <a href="https://code.org/" target="_blank" class="resource-card">
-                        <img src="assets/images/codeorg-logo.svg" alt="Code.org Logo">
-                        <h3>Code.org</h3>
-                        <p>Learn to code with fun tutorials</p>
-                    </a>
-                    
-                    <a href="https://www.tinkercad.com/" target="_blank" class="resource-card">
-                        <img src="assets/images/tinkercad-logo.svg" alt="Tinkercad Logo">
-                        <h3>Tinkercad</h3>
-                        <p>Design in 3D and electronics</p>
-                    </a>
-                    
-                    <a href="https://github-spark.com" target="_blank" class="resource-card">
-                        <img src="assets/images/github-spark-logo.svg" alt="GitHub Spark Logo">
-                        <h3>GitHub Spark</h3>
-                        <p>Coding environment for young creators</p>
-                    </a>
-                </div>
+            <div class="adventure-item">
+                <a href="adventures/03-css-artist/index.html" class="adventure-card">
+                    <h3><span class="emoji">🎨</span> CSS Artist</h3>
+                    <p>Make your webpage BEAUTIFUL with colors, fonts, and cool designs!</p>
+                    <span class="time-badge">⏱️ 25 minutes</span>
+                </a>
+                <div class="adventure-number">3</div>
+                <div style="flex: 0 0 45%;"></div>
             </div>
-        </section>
-    </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Tech Explorers Program | Created with ❤️ for young technologists</p>
+            <div class="adventure-item">
+                <a href="adventures/04-javascript-wizard/index.html" class="adventure-card">
+                    <h3><span class="emoji">⚡</span> JavaScript Wizard</h3>
+                    <p>Make things HAPPEN! Buttons that click, animations that move, and more!</p>
+                    <span class="time-badge">⏱️ 20 minutes</span>
+                </a>
+                <div class="adventure-number">4</div>
+                <div style="flex: 0 0 45%;"></div>
+            </div>
+
+            <div class="adventure-item">
+                <a href="adventures/05-ai-explorer/index.html" class="adventure-card bonus">
+                    <h3><span class="emoji">🤖</span> AI Explorer <span style="font-size: 0.8rem; background: #f72585; color: white; padding: 3px 10px; border-radius: 10px; margin-left: 10px;">BONUS!</span></h3>
+                    <p>Peek into the future! Learn how AI is changing coding forever.</p>
+                    <span class="time-badge">⏱️ 15 minutes</span>
+                </a>
+                <div class="adventure-number">5</div>
+                <div style="flex: 0 0 45%;"></div>
+            </div>
         </div>
+    </section>
+
+    <!-- Bonus Games Section -->
+    <section class="quick-links" style="background: linear-gradient(135deg, #fce7f3, #ddd6fe);">
+        <h2>🎮 Your Game is Live!</h2>
+        <p style="text-align: center; color: #7c3aed; font-size: 1.2rem; margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">
+            Remember that awesome fishing game you helped brainstorm? <strong>It's here!</strong> 🌟<br>
+            <span style="font-size: 1rem; opacity: 0.8;">Show your parents what we made together!</span>
+        </p>
+        <div class="links-grid" style="max-width: 400px;">
+            <a href="games/rosy-reel.html" class="quick-link" style="border: 3px solid #ec4899; background: linear-gradient(135deg, #fdf2f8, white); transform: scale(1.15); box-shadow: 0 10px 40px rgba(236, 72, 153, 0.3);">
+                <div style="font-size: 4rem; margin-bottom: 10px;">🎣🐱</div>
+                <h3 style="color: #ec4899; font-size: 1.5rem;">Rosy Reel</h3>
+                <p style="font-size: 1rem; color: #666; margin-top: 8px;">The fishing game YOU created!</p>
+                <span style="display: inline-block; margin-top: 10px; background: linear-gradient(135deg, #ec4899, #8b5cf6); color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold;">▶ Play Now!</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="quick-links">
+        <h2>🎯 Jump Right In!</h2>
+        <div class="links-grid">
+            <a href="gallery/index.html" class="quick-link" style="border-color: #f72585; background: linear-gradient(135deg, #fff5f8, white);">
+                <i class="fas fa-images" style="color: #f72585;"></i>
+                <h3>🎨 My Projects</h3>
+            </a>
+            <a href="playground/project-builder.html" class="quick-link" style="border-color: #06d6a0; background: linear-gradient(135deg, #f0fff8, white);">
+                <i class="fas fa-rocket" style="color: #06d6a0;"></i>
+                <h3>🚀 Project Builder</h3>
+            </a>
+            <a href="playground/html-playground.html" class="quick-link">
+                <i class="fas fa-code"></i>
+                <h3>HTML Playground</h3>
+            </a>
+            <a href="playground/css-playground.html" class="quick-link">
+                <i class="fas fa-palette"></i>
+                <h3>CSS Playground</h3>
+            </a>
+            <a href="playground/js-playground.html" class="quick-link">
+                <i class="fas fa-bolt"></i>
+                <h3>JS Playground</h3>
+            </a>
+        </div>
+    </section>
+
+    <!-- Teacher Section -->
+    <section class="teacher-section">
+        <h2>👩‍🏫 Teachers & Parents</h2>
+        <p>Access facilitation guides, troubleshooting tips, and curriculum resources.</p>
+        <a href="teacher/guide.html" class="teacher-btn">
+            <i class="fas fa-chalkboard-teacher"></i> Teacher Guide
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            Made with <span class="hearts">❤️</span> for young coders everywhere!
+            <br>
+            <small>© 2025 Tech Explorers | No login required • Works on Chromebooks • 100% free!</small>
+        </p>
     </footer>
 
+    <script src="assets/js/project-storage.js"></script>
     <script src="assets/js/script.js"></script>
+    <script>
+        // Update progress stars based on achievements
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.TechExplorers) {
+                const achievements = TechExplorers.storage.getAchievements();
+                const stars = document.querySelectorAll('.progress-container span');
+                
+                const adventureAchievements = [
+                    'adventure-1', 'adventure-2', 'adventure-3', 'adventure-4', 'adventure-5'
+                ];
+                
+                adventureAchievements.forEach((id, index) => {
+                    if (achievements.some(a => a.id === id)) {
+                        if (stars[index]) {
+                            stars[index].classList.add('completed');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

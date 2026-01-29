@@ -1,0 +1,170 @@
+@import 'tailwindcss';
+@import "tw-animate-css";
+
+@layer base {
+  * {
+    @apply border-border
+  }
+}
+
+:root {
+  --background: oklch(0.45 0.15 240);
+  --foreground: oklch(1 0 0);
+
+  --card: oklch(0.7 0.1 180);
+  --card-foreground: oklch(0.2 0.1 240);
+  --popover: oklch(0.7 0.1 180);
+  --popover-foreground: oklch(0.2 0.1 240);
+
+  --primary: oklch(0.45 0.15 240);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.8 0.05 60);
+  --secondary-foreground: oklch(0.2 0.1 240);
+  --muted: oklch(0.6 0.1 180);
+  --muted-foreground: oklch(0.9 0.02 240);
+  --accent: oklch(0.7 0.15 20);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(1 0 0);
+
+  --border: oklch(0.6 0.1 200);
+  --input: oklch(0.6 0.1 200);
+  --ring: oklch(0.7 0.15 20);
+
+  --radius: 0.75rem;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) * 1.5);
+  --radius-xl: calc(var(--radius) * 2);
+  --radius-2xl: calc(var(--radius) * 3);
+  --radius-full: 9999px;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes ripple {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes swim {
+  0%, 100% { transform: translateX(0px) scaleX(1); }
+  50% { transform: translateX(-3px) scaleX(-1); }
+}
+
+@keyframes bubble {
+  0% { transform: translateY(0px) scale(1); opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-20px) scale(1.2); opacity: 0; }
+}
+
+@keyframes cat-fishing {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(2deg); }
+}
+
+@keyframes tail-wag {
+  0%, 100% { transform: rotate(45deg); }
+  50% { transform: rotate(60deg); }
+}
+
+@keyframes speech-pop {
+  0% { transform: translateX(-50%) scale(0); opacity: 0; }
+  10% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+  20% { transform: translateX(-50%) scale(0.95); }
+  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+@keyframes fish-struggle {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  25% { transform: translate(-3px, -2px) rotate(-5deg) scale(1.1); }
+  50% { transform: translate(3px, 2px) rotate(5deg) scale(0.9); }
+  75% { transform: translate(-2px, 3px) rotate(-3deg) scale(1.05); }
+}
+
+.fish-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.cute-fish {
+  animation: swim 4s ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(255, 20, 147, 0.3));
+}
+
+.water-ripple {
+  animation: ripple 1s ease-out;
+}
+
+.cat-fishing {
+  animation: cat-fishing 2s ease-in-out infinite;
+}
+
+.tail-wag {
+  animation: tail-wag 1s ease-in-out infinite;
+}
+
+.speech-bubble {
+  animation: speech-pop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.fish-struggle {
+  animation: fish-struggle 0.3s ease-in-out infinite;
+}
+
+@keyframes cheer-wave {
+  0%, 100% { transform: rotate(-10deg) translateY(0px); }
+  50% { transform: rotate(10deg) translateY(-3px); }
+}
+
+@keyframes excited-bounce {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.05); }
+}
+
+@keyframes tail-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  75% { transform: rotate(-15deg); }
+}
+
+.cheer-wave {
+  animation: cheer-wave 1.5s ease-in-out infinite;
+}
+
+.excited-bounce {
+  animation: excited-bounce 2s ease-in-out infinite;
+}
+
+.tail-wiggle {
+  animation: tail-wiggle 1s ease-in-out infinite;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}

@@ -1,0 +1,39 @@
+{
+  "name": "tech-explorers",
+  "version": "2.0.0",
+  "description": "An interactive coding curriculum for young learners (ages 6-14)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx serve docs -l 3000",
+    "start": "npx serve docs",
+    "test": "echo 'No tests configured yet'",
+    "lint": "npx prettier --check docs/**/*.{html,css,js}",
+    "format": "npx prettier --write docs/**/*.{html,css,js}",
+    "deploy": "vercel --prod",
+    "deploy:preview": "vercel"
+  },
+  "keywords": [
+    "education",
+    "coding",
+    "kids",
+    "html",
+    "css",
+    "javascript",
+    "curriculum",
+    "tech-education",
+    "learn-to-code"
+  ],
+  "author": "Garcia Lab",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/garcia-lab/tech-explorers.git"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.0",
+    "serve": "^14.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

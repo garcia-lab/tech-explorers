@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Adventure 4: JavaScript Wizard - Tech Explorers</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/adventure.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* JavaScript Wizard specific styles */
+        .demo-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 25px 0;
+        }
+        
+        .magic-btn {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .magic-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .magic-btn.color {
+            background: linear-gradient(135deg, #f72585, #7209b7);
+            color: white;
+        }
+        
+        .magic-btn.size {
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+        }
+        
+        .magic-btn.hide {
+            background: linear-gradient(135deg, #06d6a0, #4361ee);
+            color: white;
+        }
+        
+        #magic-box {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #ffd166, #f72585);
+            border-radius: 20px;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            transition: all 0.5s;
+        }
+        
+        .click-counter {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        #click-count {
+            font-size: 5rem;
+            color: #4361ee;
+            font-weight: bold;
+        }
+        
+        .counter-btn {
+            background: linear-gradient(135deg, #f72585, #7209b7);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .counter-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .counter-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Name greeter */
+        .name-form {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        #name-input {
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            border: 3px solid #4361ee;
+            border-radius: 25px;
+            outline: none;
+            min-width: 250px;
+        }
+        
+        #name-input:focus {
+            border-color: #f72585;
+        }
+        
+        .greet-btn {
+            background: #06d6a0;
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .greet-btn:hover {
+            transform: scale(1.05);
+            background: #05b389;
+        }
+        
+        #greeting-output {
+            font-size: 2rem;
+            color: #7209b7;
+            margin-top: 20px;
+            min-height: 50px;
+        }
+        
+        /* Quiz game */
+        .quiz-game {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        #quiz-question {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .quiz-btn {
+            background: #f8f9fa;
+            border: 3px solid #ddd;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 80px;
+        }
+        
+        .quiz-btn:hover {
+            border-color: #4361ee;
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        .quiz-btn.correct {
+            background: #06d6a0;
+            border-color: #06d6a0;
+            color: white;
+        }
+        
+        .quiz-btn.wrong {
+            background: #ef476f;
+            border-color: #ef476f;
+            color: white;
+        }
+        
+        #quiz-result {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            min-height: 40px;
+        }
+        
+        #quiz-score {
+            font-size: 1.2rem;
+            color: #666;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="adventure-nav">
+        <a href="../../index.html" class="nav-home">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <div class="nav-progress">
+            <span class="progress-dot completed"></span>
+            <span class="progress-dot completed"></span>
+            <span class="progress-dot completed"></span>
+            <span class="progress-dot active"></span>
+            <span class="progress-dot"></span>
+        </div>
+        <div class="nav-title">Adventure 4 of 5</div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="adventure-hero" style="background: linear-gradient(135deg, #f7df1e, #f72585);">
+        <div class="hero-content">
+            <div class="adventure-badge">Adventure 4</div>
+            <h1>⚡ JavaScript Wizard</h1>
+            <p class="hero-subtitle">Make things happen with the magic of code!</p>
+            <div class="time-estimate">
+                <i class="fas fa-clock"></i> About 20 minutes
+            </div>
+        </div>
+    </header>
+
+    <!-- Learning Objectives -->
+    <section class="objectives-section">
+        <div class="container">
+            <h2>🎯 What You'll Learn</h2>
+            <div class="objectives-grid">
+                <div class="objective-card">
+                    <div class="objective-icon">⚡</div>
+                    <p>What is JavaScript?</p>
+                </div>
+                <div class="objective-card">
+                    <div class="objective-icon">🖱️</div>
+                    <p>Make buttons do things</p>
+                </div>
+                <div class="objective-card">
+                    <div class="objective-icon">🎮</div>
+                    <p>Build interactive stuff!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="adventure-content">
+        <div class="container">
+            
+            <!-- Step 1 -->
+            <section class="lesson-step" id="step1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <h2>What is JavaScript?</h2>
+                </div>
+                
+                <div class="step-content">
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">✨</div>
+                        <div class="fun-fact-content">
+                            <strong>JavaScript is MAGIC for websites!</strong>
+                            <p>It makes things move, click, change, and come alive!</p>
+                        </div>
+                    </div>
+
+                    <div class="analogy-box">
+                        <div class="analogy-icon">🏠 ➡️ 🏠💡</div>
+                        <div class="analogy-content">
+                            <p><strong>Think about it like this:</strong></p>
+                            <p>HTML = The house (structure)</p>
+                            <p>CSS = The paint and decorations (style)</p>
+                            <p>JavaScript = The electricity! (makes things WORK)</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-box">
+                        <h3>⚡ Watch JavaScript in Action!</h3>
+                        <p>Click these buttons to see JavaScript magic:</p>
+                        
+                        <div class="demo-buttons">
+                            <button class="magic-btn color" onclick="changeBoxColor()">🎨 Change Color</button>
+                            <button class="magic-btn size" onclick="changeBoxSize()">📐 Change Size</button>
+                            <button class="magic-btn hide" onclick="toggleBox()">👀 Hide/Show</button>
+                        </div>
+                        
+                        <div id="magic-box">✨</div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check1" class="checkpoint-check">
+                        <label for="check1">
+                            <i class="fas fa-check-circle"></i>
+                            I saw JavaScript in action!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2 -->
+            <section class="lesson-step" id="step2">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h2>Let's Make a Click Counter!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        One of the coolest things JavaScript can do is <strong>count</strong> and <strong>remember</strong> things!
+                    </p>
+
+                    <div class="interactive-box">
+                        <h3>🔢 Click Counter Challenge</h3>
+                        <p>How many times can you click the button in 10 seconds?</p>
+                        
+                        <div class="click-counter">
+                            <div id="click-count">0</div>
+                            <button class="counter-btn" onclick="incrementCounter()">
+                                👆 Click Me!
+                            </button>
+                            <p style="margin-top: 20px; color: #666;">
+                                <button onclick="resetCounter()" style="background: #666; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer;">
+                                    🔄 Reset Counter
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">💻</div>
+                        <div class="fun-fact-content">
+                            <strong>Here's the code that makes it work:</strong>
+                            <pre style="background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 10px; margin-top: 10px; font-family: 'Fira Code', monospace; font-size: 0.9rem; overflow-x: auto;">
+<span style="color: #66d9ef;">let</span> count = <span style="color: #ae81ff;">0</span>;
+
+<span style="color: #66d9ef;">function</span> <span style="color: #a6e22e;">incrementCounter</span>() {
+    count = count + <span style="color: #ae81ff;">1</span>;
+    <span style="color: #888;">// Show the new count</span>
+}</pre>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check2" class="checkpoint-check">
+                        <label for="check2">
+                            <i class="fas fa-check-circle"></i>
+                            I made the counter go up!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 3 -->
+            <section class="lesson-step" id="step3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h2>Make a Personal Greeter!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        JavaScript can read what you type and respond to it!
+                    </p>
+
+                    <div class="interactive-box">
+                        <h3>👋 Hello, Friend!</h3>
+                        <p>Type your name and click the button:</p>
+                        
+                        <div class="name-form">
+                            <input type="text" id="name-input" placeholder="Type your name here...">
+                            <button class="greet-btn" onclick="greetUser()">
+                                Say Hello! 👋
+                            </button>
+                        </div>
+                        
+                        <div id="greeting-output"></div>
+                    </div>
+
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">🔮</div>
+                        <div class="fun-fact-content">
+                            <strong>The magic behind it:</strong>
+                            <pre style="background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 10px; margin-top: 10px; font-family: 'Fira Code', monospace; font-size: 0.9rem; overflow-x: auto;">
+<span style="color: #66d9ef;">function</span> <span style="color: #a6e22e;">greetUser</span>() {
+    <span style="color: #66d9ef;">let</span> name = <span style="color: #888;">/* get from input */</span>
+    <span style="color: #66d9ef;">alert</span>(<span style="color: #e6db74;">"Hello, "</span> + name + <span style="color: #e6db74;">"!"</span>);
+}</pre>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check3" class="checkpoint-check">
+                        <label for="check3">
+                            <i class="fas fa-check-circle"></i>
+                            The computer said hello to me!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 4 - Mini Game -->
+            <section class="lesson-step" id="step4">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <h2>⭐ Bonus: Math Quiz Game!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        Let's play a game I built with JavaScript! Can you answer the math questions?
+                    </p>
+
+                    <div class="interactive-box">
+                        <div class="quiz-game">
+                            <h3>🧮 Quick Math!</h3>
+                            <p id="quiz-question">Loading question...</p>
+                            
+                            <div class="quiz-options" id="quiz-options">
+                                <!-- Options will be inserted by JavaScript -->
+                            </div>
+                            
+                            <p id="quiz-result"></p>
+                            <p id="quiz-score">Score: 0</p>
+                            
+                            <button onclick="generateQuestion()" style="margin-top: 20px; background: #4361ee; color: white; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold;">
+                                🔄 New Question
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-box">
+                        <h3>🏆 Super Challenge!</h3>
+                        <p>Can you score 5 correct answers in a row?</p>
+                        <p style="opacity: 0.8; font-size: 0.9rem; margin-top: 15px;">
+                            💡 Games like this are made with JavaScript! You could make your own someday!
+                        </p>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check4" class="checkpoint-check">
+                        <label for="check4">
+                            <i class="fas fa-check-circle"></i>
+                            I played the JavaScript game!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Celebration -->
+            <section class="celebration-section" id="celebration">
+                <div class="celebration-content">
+                    <div class="trophy">⚡</div>
+                    <h2>Adventure 4 Complete!</h2>
+                    <p>You've learned how to make websites interactive! You're a JavaScript Wizard!</p>
+                    
+                    <div class="earned-badge">
+                        <div class="badge-icon">🧙‍♂️</div>
+                        <div class="badge-info">
+                            <strong>Badge Earned:</strong>
+                            <span>JavaScript Wizard</span>
+                        </div>
+                    </div>
+
+                    <div class="next-steps">
+                        <h3>What's Next?</h3>
+                        <p>In our <strong>Bonus Adventure</strong>, explore the exciting world of AI!</p>
+                        <a href="../05-ai-explorer/index.html" class="next-adventure-btn">
+                            Continue to AI Explorer <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer Navigation -->
+    <footer class="adventure-footer">
+        <a href="../03-css-artist/index.html" class="footer-btn secondary">
+            <i class="fas fa-arrow-left"></i> Previous Adventure
+        </a>
+        <a href="../05-ai-explorer/index.html" class="footer-btn primary">
+            Bonus Adventure <i class="fas fa-arrow-right"></i>
+        </a>
+    </footer>
+
+    <script>
+        // Magic box demos
+        const colors = ['#f72585', '#7209b7', '#4361ee', '#06d6a0', '#ffd166', '#e74c3c'];
+        let colorIndex = 0;
+        let isSmall = false;
+        let isHidden = false;
+        
+        function changeBoxColor() {
+            colorIndex = (colorIndex + 1) % colors.length;
+            const box = document.getElementById('magic-box');
+            box.style.background = `linear-gradient(135deg, ${colors[colorIndex]}, ${colors[(colorIndex + 1) % colors.length]})`;
+        }
+        
+        function changeBoxSize() {
+            const box = document.getElementById('magic-box');
+            if (isSmall) {
+                box.style.width = '200px';
+                box.style.height = '200px';
+                box.style.fontSize = '4rem';
+            } else {
+                box.style.width = '100px';
+                box.style.height = '100px';
+                box.style.fontSize = '2rem';
+            }
+            isSmall = !isSmall;
+        }
+        
+        function toggleBox() {
+            const box = document.getElementById('magic-box');
+            if (isHidden) {
+                box.style.opacity = '1';
+                box.style.transform = 'scale(1)';
+            } else {
+                box.style.opacity = '0';
+                box.style.transform = 'scale(0)';
+            }
+            isHidden = !isHidden;
+        }
+        
+        // Click counter
+        let count = 0;
+        
+        function incrementCounter() {
+            count++;
+            document.getElementById('click-count').textContent = count;
+            document.getElementById('click-count').style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                document.getElementById('click-count').style.transform = 'scale(1)';
+            }, 100);
+        }
+        
+        function resetCounter() {
+            count = 0;
+            document.getElementById('click-count').textContent = count;
+        }
+        
+        // Name greeter
+        function greetUser() {
+            const name = document.getElementById('name-input').value;
+            const output = document.getElementById('greeting-output');
+            
+            if (name.trim() === '') {
+                output.innerHTML = '👆 Please type your name first!';
+                output.style.color = '#f72585';
+            } else {
+                const greetings = [
+                    `Hello, ${name}! 👋`,
+                    `Nice to meet you, ${name}! 🎉`,
+                    `Welcome, ${name}! ⭐`,
+                    `Hey there, ${name}! You're awesome! 🚀`
+                ];
+                output.innerHTML = greetings[Math.floor(Math.random() * greetings.length)];
+                output.style.color = '#06d6a0';
+            }
+        }
+        
+        // Enter key support for name input
+        document.getElementById('name-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') greetUser();
+        });
+        
+        // Math quiz game
+        let score = 0;
+        let currentAnswer = 0;
+        
+        function generateQuestion() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const operators = ['+', '-', '×'];
+            const operator = operators[Math.floor(Math.random() * operators.length)];
+            
+            let answer;
+            switch(operator) {
+                case '+': answer = num1 + num2; break;
+                case '-': answer = Math.max(num1, num2) - Math.min(num1, num2); break;
+                case '×': answer = num1 * num2; break;
+            }
+            
+            const questionNum1 = operator === '-' ? Math.max(num1, num2) : num1;
+            const questionNum2 = operator === '-' ? Math.min(num1, num2) : num2;
+            
+            currentAnswer = answer;
+            document.getElementById('quiz-question').textContent = `What is ${questionNum1} ${operator} ${questionNum2}?`;
+            
+            // Generate options
+            const options = [answer];
+            while (options.length < 4) {
+                const wrongAnswer = answer + Math.floor(Math.random() * 10) - 5;
+                if (wrongAnswer !== answer && wrongAnswer >= 0 && !options.includes(wrongAnswer)) {
+                    options.push(wrongAnswer);
+                }
+            }
+            
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-btn';
+                btn.textContent = option;
+                btn.onclick = () => checkQuizAnswer(btn, option);
+                optionsContainer.appendChild(btn);
+            });
+            
+            document.getElementById('quiz-result').textContent = '';
+        }
+        
+        function checkQuizAnswer(btn, selected) {
+            const buttons = document.querySelectorAll('.quiz-btn');
+            buttons.forEach(b => {
+                b.disabled = true;
+                if (parseInt(b.textContent) === currentAnswer) {
+                    b.classList.add('correct');
+                }
+            });
+            
+            if (selected === currentAnswer) {
+                score++;
+                document.getElementById('quiz-result').innerHTML = '🎉 Correct! Great job!';
+                document.getElementById('quiz-result').style.color = '#06d6a0';
+            } else {
+                btn.classList.add('wrong');
+                document.getElementById('quiz-result').innerHTML = `❌ Not quite! The answer was ${currentAnswer}`;
+                document.getElementById('quiz-result').style.color = '#ef476f';
+            }
+            
+            document.getElementById('quiz-score').textContent = `Score: ${score}`;
+        }
+        
+        // Initialize quiz on load
+        window.onload = function() {
+            generateQuestion();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ JavaScript Playground - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .playground-header {
+            background: linear-gradient(135deg, #f7df1e, #f72585);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .playground-header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.8rem;
+            color: #333;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.6);
+        }
+        
+        .playground-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: calc(100vh - 80px);
+        }
+        
+        @media (max-width: 900px) {
+            .playground-main {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+        }
+        
+        .editor-section {
+            display: flex;
+            flex-direction: column;
+            background: #1e1e1e;
+        }
+        
+        .editor-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #2d2d2d;
+            border-bottom: 1px solid #444;
+        }
+        
+        .editor-title {
+            color: #fff;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .editor-title i { color: #f7df1e; }
+        
+        .toolbar-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .toolbar-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .toolbar-btn.run { background: #06d6a0; color: white; }
+        .toolbar-btn.reset { background: #666; color: white; }
+        .toolbar-btn.clear { background: #ef476f; color: white; }
+        
+        .toolbar-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        #code-editor {
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+            border: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            resize: none;
+            outline: none;
+        }
+        
+        .output-section {
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .output-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .output-title {
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #output-console {
+            flex: 1;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            overflow-y: auto;
+            background: #1a1a2e;
+            color: #eee;
+        }
+        
+        .console-line {
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .console-line.log { border-left: 3px solid #06d6a0; }
+        .console-line.error { border-left: 3px solid #ef476f; background: rgba(239, 71, 111, 0.1); }
+        .console-line.info { border-left: 3px solid #4361ee; }
+        
+        /* Snippets helper */
+        .snippets-bar {
+            padding: 10px 15px;
+            background: #252525;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .snippet-btn {
+            padding: 6px 15px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 15px;
+            color: #ccc;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .snippet-btn:hover {
+            background: #4361ee;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="playground-header">
+        <h1>⚡ JavaScript Playground</h1>
+        <div class="nav-links">
+            <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="html-playground.html"><i class="fas fa-code"></i> HTML</a>
+            <a href="css-playground.html"><i class="fas fa-palette"></i> CSS</a>
+        </div>
+    </header>
+
+    <main class="playground-main">
+        <section class="editor-section">
+            <div class="editor-toolbar">
+                <div class="editor-title">
+                    <i class="fab fa-js-square"></i>
+                    <span>JavaScript Code</span>
+                </div>
+                <div class="toolbar-buttons">
+                    <button class="toolbar-btn run" onclick="runCode()">
+                        <i class="fas fa-play"></i> Run
+                    </button>
+                    <button class="toolbar-btn reset" onclick="resetCode()">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
+                </div>
+            </div>
+            <div class="snippets-bar">
+                <button class="snippet-btn" onclick="insertSnippet('log')">console.log()</button>
+                <button class="snippet-btn" onclick="insertSnippet('alert')">alert()</button>
+                <button class="snippet-btn" onclick="insertSnippet('variable')">let x = </button>
+                <button class="snippet-btn" onclick="insertSnippet('function')">function</button>
+                <button class="snippet-btn" onclick="insertSnippet('if')">if/else</button>
+                <button class="snippet-btn" onclick="insertSnippet('loop')">for loop</button>
+            </div>
+            <textarea id="code-editor">// 🚀 Welcome to the JavaScript Playground!
+// Type your code below and click "Run" to see what happens!
+
+// 📝 LESSON 1: Printing Messages
+// console.log() prints messages to the console
+console.log("Hello, world!");
+console.log("I am learning JavaScript!");
+
+// 📝 LESSON 2: Variables
+// Variables store information
+let myName = "Alex";
+let myAge = 10;
+console.log("My name is " + myName);
+console.log("I am " + myAge + " years old");
+
+// 📝 LESSON 3: Math
+// JavaScript can do math!
+let result = 5 + 3;
+console.log("5 + 3 = " + result);
+
+let bigNumber = 10 * 10;
+console.log("10 × 10 = " + bigNumber);
+
+// 📝 LESSON 4: Functions
+// Functions are reusable code blocks
+function sayHello(name) {
+    console.log("Hello, " + name + "! 👋");
+}
+
+sayHello("Friend");
+sayHello("Tech Explorer");
+
+// 🎮 TRY IT: Change the values above and run again!
+// Can you make it say your name and age?</textarea>
+        </section>
+
+        <section class="output-section">
+            <div class="output-toolbar">
+                <div class="output-title">
+                    <i class="fas fa-terminal"></i>
+                    <span>Console Output</span>
+                </div>
+                <button class="toolbar-btn clear" onclick="clearConsole()">
+                    <i class="fas fa-trash"></i> Clear
+                </button>
+            </div>
+            <div id="output-console">
+                <div class="console-line info">
+                    ✨ Click "Run" to execute your JavaScript code!
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const defaultCode = document.getElementById('code-editor').value;
+        
+        const snippets = {
+            log: 'console.log("Hello!");',
+            alert: 'alert("Hello!");',
+            variable: 'let myVariable = "value";',
+            function: `function myFunction() {
+    console.log("Function called!");
+}
+
+myFunction();`,
+            if: `let number = 10;
+
+if (number > 5) {
+    console.log("Number is bigger than 5!");
+} else {
+    console.log("Number is 5 or smaller!");
+}`,
+            loop: `// Count from 1 to 5
+for (let i = 1; i <= 5; i++) {
+    console.log("Count: " + i);
+}`
+        };
+        
+        function runCode() {
+            const code = document.getElementById('code-editor').value;
+            const output = document.getElementById('output-console');
+            
+            // Clear previous output
+            output.innerHTML = '';
+            
+            // Override console.log
+            const originalLog = console.log;
+            const originalError = console.error;
+            
+            console.log = function(...args) {
+                const line = document.createElement('div');
+                line.className = 'console-line log';
+                line.textContent = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
+                ).join(' ');
+                output.appendChild(line);
+            };
+            
+            console.error = function(...args) {
+                const line = document.createElement('div');
+                line.className = 'console-line error';
+                line.textContent = '❌ ' + args.join(' ');
+                output.appendChild(line);
+            };
+            
+            try {
+                // Run the code
+                eval(code);
+                
+                // Show success message
+                const success = document.createElement('div');
+                success.className = 'console-line info';
+                success.textContent = '✅ Code executed successfully!';
+                output.appendChild(success);
+                
+            } catch (error) {
+                const errorLine = document.createElement('div');
+                errorLine.className = 'console-line error';
+                errorLine.textContent = '❌ Error: ' + error.message;
+                output.appendChild(errorLine);
+            }
+            
+            // Restore original console
+            console.log = originalLog;
+            console.error = originalError;
+        }
+        
+        function resetCode() {
+            document.getElementById('code-editor').value = defaultCode;
+            clearConsole();
+        }
+        
+        function clearConsole() {
+            const output = document.getElementById('output-console');
+            output.innerHTML = '<div class="console-line info">✨ Console cleared. Click "Run" to execute your code!</div>';
+        }
+        
+        function insertSnippet(name) {
+            const editor = document.getElementById('code-editor');
+            const snippet = snippets[name];
+            
+            const start = editor.selectionStart;
+            const text = editor.value;
+            
+            editor.value = text.substring(0, start) + '\n' + snippet + '\n' + text.substring(start);
+            editor.focus();
+        }
+    </script>
+</body>
+</html>

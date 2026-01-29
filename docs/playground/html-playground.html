@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏗️ HTML Playground - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .playground-header {
+            background: linear-gradient(135deg, #e34f26, #f72585);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .playground-header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .playground-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: calc(100vh - 80px);
+        }
+        
+        @media (max-width: 900px) {
+            .playground-main {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+        }
+        
+        .editor-section {
+            display: flex;
+            flex-direction: column;
+            background: #1e1e1e;
+        }
+        
+        .editor-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #2d2d2d;
+            border-bottom: 1px solid #444;
+        }
+        
+        .editor-title {
+            color: #fff;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .editor-title i {
+            color: #e34f26;
+        }
+        
+        .toolbar-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .toolbar-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .toolbar-btn.run {
+            background: #06d6a0;
+            color: white;
+        }
+        
+        .toolbar-btn.reset {
+            background: #666;
+            color: white;
+        }
+        
+        .toolbar-btn.copy {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .toolbar-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        #code-editor {
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+            border: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            resize: none;
+            outline: none;
+        }
+        
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .preview-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .preview-title {
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #preview-frame {
+            flex: 1;
+            border: none;
+            width: 100%;
+        }
+        
+        /* Templates sidebar */
+        .templates-panel {
+            position: fixed;
+            right: -320px;
+            top: 80px;
+            width: 320px;
+            height: calc(100vh - 80px);
+            background: white;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+            transition: right 0.3s;
+            z-index: 100;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .templates-panel.open {
+            right: 0;
+        }
+        
+        .templates-panel h3 {
+            color: #3a0ca3;
+            margin-bottom: 15px;
+        }
+        
+        .template-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .template-card:hover {
+            border-color: #4361ee;
+        }
+        
+        .template-card h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .template-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .close-templates {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .templates-toggle {
+            background: #7209b7;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="playground-header">
+        <h1>🏗️ HTML Playground</h1>
+        <div class="nav-links">
+            <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="css-playground.html"><i class="fas fa-palette"></i> CSS</a>
+            <a href="js-playground.html"><i class="fas fa-bolt"></i> JS</a>
+        </div>
+    </header>
+
+    <main class="playground-main">
+        <section class="editor-section">
+            <div class="editor-toolbar">
+                <div class="editor-title">
+                    <i class="fab fa-html5"></i>
+                    <span>HTML Code</span>
+                </div>
+                <div class="toolbar-buttons">
+                    <button class="toolbar-btn run" onclick="updatePreview()">
+                        <i class="fas fa-play"></i> Run
+                    </button>
+                    <button class="toolbar-btn reset" onclick="resetCode()">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
+                    <button class="toolbar-btn copy" onclick="copyCode()">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button class="toolbar-btn templates-toggle" onclick="toggleTemplates()">
+                        <i class="fas fa-magic"></i> Templates
+                    </button>
+                </div>
+            </div>
+            <textarea id="code-editor"><!DOCTYPE html>
+<html>
+<head>
+    <title>My Awesome Page</title>
+</head>
+<body>
+    <h1>🚀 Welcome to My Page!</h1>
+    
+    <p>Hello! I'm learning HTML and this is my webpage.</p>
+    
+    <h2>Things I Like:</h2>
+    <ul>
+        <li>🎮 Video Games</li>
+        <li>📚 Reading</li>
+        <li>💻 Coding!</li>
+    </ul>
+    
+    <h2>About Me</h2>
+    <p>I am a <strong>Tech Explorer</strong> learning to code!</p>
+    
+    <hr>
+    
+    <p><em>Thanks for visiting my page!</em></p>
+</body>
+</html></textarea>
+        </section>
+
+        <section class="preview-section">
+            <div class="preview-toolbar">
+                <div class="preview-title">
+                    <i class="fas fa-eye"></i>
+                    <span>Live Preview</span>
+                </div>
+                <span style="color: #666; font-size: 0.9rem;">
+                    ✨ See your code come to life!
+                </span>
+            </div>
+            <iframe id="preview-frame"></iframe>
+        </section>
+    </main>
+
+    <!-- Templates Panel -->
+    <div class="templates-panel" id="templates-panel">
+        <button class="close-templates" onclick="toggleTemplates()">×</button>
+        <h3>📦 Ready-Made Templates</h3>
+        <p style="color: #666; margin-bottom: 20px;">Click any template to try it!</p>
+        
+        <div class="template-card" onclick="loadTemplate('about')">
+            <h4>👤 About Me Page</h4>
+            <p>A personal page all about you!</p>
+        </div>
+        
+        <div class="template-card" onclick="loadTemplate('recipe')">
+            <h4>🍕 Recipe Page</h4>
+            <p>Share your favorite recipe!</p>
+        </div>
+        
+        <div class="template-card" onclick="loadTemplate('story')">
+            <h4>📖 Story Page</h4>
+            <p>Write a short story with chapters!</p>
+        </div>
+        
+        <div class="template-card" onclick="loadTemplate('gallery')">
+            <h4>🖼️ Emoji Gallery</h4>
+            <p>An art gallery using emojis!</p>
+        </div>
+        
+        <div class="template-card" onclick="loadTemplate('blank')">
+            <h4>📝 Blank Page</h4>
+            <p>Start completely fresh!</p>
+        </div>
+    </div>
+
+    <script>
+        const defaultCode = document.getElementById('code-editor').value;
+        
+        const templates = {
+            about: `<!DOCTYPE html>
+<html>
+<head>
+    <title>About Me</title>
+</head>
+<body>
+    <h1>👋 Hi, I'm [Your Name]!</h1>
+    
+    <h2>About Me</h2>
+    <p>I am [age] years old and I love [hobby]!</p>
+    
+    <h2>My Favorites</h2>
+    <ul>
+        <li>🎨 Favorite Color: [color]</li>
+        <li>🍕 Favorite Food: [food]</li>
+        <li>🎬 Favorite Movie: [movie]</li>
+        <li>🎮 Favorite Game: [game]</li>
+    </ul>
+    
+    <h2>My Goals</h2>
+    <p>When I grow up, I want to be a [dream job]!</p>
+    
+    <hr>
+    <p><strong>Fun fact:</strong> [something interesting about you]</p>
+</body>
+</html>`,
+            recipe: `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Favorite Recipe</title>
+</head>
+<body>
+    <h1>🍪 Chocolate Chip Cookies</h1>
+    <p><em>The best cookies ever!</em></p>
+    
+    <h2>📝 Ingredients</h2>
+    <ul>
+        <li>2 cups flour</li>
+        <li>1 cup sugar</li>
+        <li>1 cup chocolate chips</li>
+        <li>2 eggs</li>
+        <li>1 cup butter</li>
+    </ul>
+    
+    <h2>👨‍🍳 Instructions</h2>
+    <ol>
+        <li>Mix all the dry ingredients together</li>
+        <li>Add the eggs and butter</li>
+        <li>Stir in the chocolate chips</li>
+        <li>Bake at 350°F for 10 minutes</li>
+        <li>Let cool and enjoy! 🎉</li>
+    </ol>
+    
+    <hr>
+    <p><strong>Tip:</strong> Add extra chocolate chips for extra yumminess!</p>
+</body>
+</html>`,
+            story: `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Story</title>
+</head>
+<body>
+    <h1>🐉 The Dragon's Quest</h1>
+    <p><em>An adventure story by [Your Name]</em></p>
+    
+    <h2>Chapter 1: The Beginning</h2>
+    <p>Once upon a time, in a land far away, there lived a young dragon named Spark. Spark was different from other dragons - instead of breathing fire, Spark breathed <strong>rainbow bubbles</strong>!</p>
+    
+    <h2>Chapter 2: The Adventure</h2>
+    <p>One day, Spark decided to go on an adventure to find the magical Crystal Cave. Along the way, Spark met:</p>
+    <ul>
+        <li>A friendly unicorn named Star ⭐</li>
+        <li>A wise old owl named Professor Hoot 🦉</li>
+        <li>A silly frog named Jumpy 🐸</li>
+    </ul>
+    
+    <h2>Chapter 3: The End</h2>
+    <p>Together, they found the Crystal Cave and discovered that the real treasure was the friends they made along the way!</p>
+    
+    <p><strong>THE END</strong> 🌈</p>
+</body>
+</html>`,
+            gallery: `<!DOCTYPE html>
+<html>
+<head>
+    <title>Emoji Art Gallery</title>
+</head>
+<body>
+    <h1>🖼️ Welcome to My Emoji Art Gallery!</h1>
+    <p>Here are some emoji pictures I created:</p>
+    
+    <h2>🌅 Sunset Beach</h2>
+    <p style="font-size: 30px;">
+        🌴 🌊 🌊 🌊 🏖️ 🌊 🌊 🌊 🌴<br>
+        ☀️ 🌅 🦀 🐚 🏝️ 🐚 🦀 🌅 ☀️
+    </p>
+    
+    <h2>🏠 My House</h2>
+    <p style="font-size: 30px;">
+        ☁️ ☀️ ☁️ 🌈 ☁️<br>
+        🌲 🏠 🌲 🚗 🌲
+    </p>
+    
+    <h2>🌌 Space Adventure</h2>
+    <p style="font-size: 30px;">
+        ⭐ 🌙 ⭐ 🚀 ⭐ 🌙 ⭐<br>
+        🪐 👽 🛸 🌍 🛸 👽 🪐
+    </p>
+    
+    <hr>
+    <p><em>Try making your own emoji art!</em></p>
+</body>
+</html>`,
+            blank: `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+</head>
+<body>
+    
+    <!-- Start writing your HTML here! -->
+    
+</body>
+</html>`
+        };
+        
+        function updatePreview() {
+            const code = document.getElementById('code-editor').value;
+            document.getElementById('preview-frame').srcdoc = code;
+        }
+        
+        function resetCode() {
+            document.getElementById('code-editor').value = defaultCode;
+            updatePreview();
+        }
+        
+        function copyCode() {
+            const editor = document.getElementById('code-editor');
+            editor.select();
+            document.execCommand('copy');
+            alert('Code copied! 📋');
+        }
+        
+        function toggleTemplates() {
+            document.getElementById('templates-panel').classList.toggle('open');
+        }
+        
+        function loadTemplate(name) {
+            document.getElementById('code-editor').value = templates[name];
+            updatePreview();
+            toggleTemplates();
+        }
+        
+        // Initialize
+        updatePreview();
+        
+        // Auto-update
+        let timeout;
+        document.getElementById('code-editor').addEventListener('input', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(updatePreview, 500);
+        });
+    </script>
+</body>
+</html>

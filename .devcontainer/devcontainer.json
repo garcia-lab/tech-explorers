@@ -1,36 +1,98 @@
 {
-  "name": "Tech Explorers - Coding Curriculum",
-  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "name": "Tech Explorers - Interactive Coding Curriculum",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
-    }
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
+  
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-python.python",
-        "ms-python.debugpy",
-        "esbenp.prettier-vscode",
         "ritwickdey.LiveServer",
+        "esbenp.prettier-vscode",
+        "formulahendry.auto-rename-tag",
+        "formulahendry.auto-close-tag",
+        "pranaygp.vscode-css-peek",
+        "ecmel.vscode-html-css",
+        "bradlc.vscode-tailwindcss",
+        "ms-python.python",
         "GitHub.copilot",
-        "GitHub.copilot-chat"
+        "GitHub.copilot-chat",
+        "streetsidesoftware.code-spell-checker",
+        "yzhang.markdown-all-in-one",
+        "bierner.markdown-preview-github-styles",
+        "vincaslt.highlight-matching-tag",
+        "naumovs.color-highlight"
       ],
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python",
-        "editor.fontSize": 14,
-        "editor.tabSize": 4,
+        "editor.fontSize": 16,
+        "editor.tabSize": 2,
+        "editor.wordWrap": "on",
         "editor.formatOnSave": true,
-        "liveServer.settings.doNotShowInfoMsg": true
+        "editor.minimap.enabled": false,
+        "editor.bracketPairColorization.enabled": true,
+        "editor.guides.bracketPairs": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "liveServer.settings.doNotShowInfoMsg": true,
+        "liveServer.settings.root": "/docs",
+        "liveServer.settings.port": 5500,
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 1000,
+        "emmet.triggerExpansionOnTab": true,
+        "html.autoClosingTags": true,
+        "html.format.wrapLineLength": 0,
+        "prettier.tabWidth": 2,
+        "prettier.printWidth": 100,
+        "[html]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[css]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
       }
+    },
+    "codespaces": {
+      "openFiles": [
+        "README.md",
+        "docs/index.html"
+      ]
     }
   },
-  "postCreateCommand": "pip install --upgrade pip",
-  "forwardPorts": [5500],
+  
+  "postCreateCommand": "npm install && echo '✨ Tech Explorers is ready! Run: npm run dev'",
+  
+  "postStartCommand": "echo '🚀 Welcome to Tech Explorers! Use the Live Server extension or run npm run dev to preview the site.'",
+  
+  "forwardPorts": [5500, 3000],
+  
   "portsAttributes": {
     "5500": {
-      "label": "Live Server",
+      "label": "Live Server Preview",
+      "onAutoForward": "openBrowser"
+    },
+    "3000": {
+      "label": "Development Server",
       "onAutoForward": "notify"
     }
+  },
+  
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "4gb",
+    "storage": "8gb"
+  },
+  
+  "waitFor": "onCreateCommand",
+  
+  "containerEnv": {
+    "SITE_NAME": "Tech Explorers",
+    "NODE_ENV": "development"
   }
 }

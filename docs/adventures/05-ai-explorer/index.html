@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Adventure 5: AI Explorer - Tech Explorers</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/adventure.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* AI Explorer specific styles */
+        .ai-demo {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+        
+        .chat-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+        }
+        
+        .chat-message {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .chat-message.user {
+            flex-direction: row-reverse;
+        }
+        
+        .chat-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .chat-message.ai .chat-avatar {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+        }
+        
+        .chat-message.user .chat-avatar {
+            background: linear-gradient(135deg, #06d6a0, #4361ee);
+        }
+        
+        .chat-bubble {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 20px;
+            max-width: 70%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .chat-message.user .chat-bubble {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .chat-input-area {
+            display: flex;
+            gap: 15px;
+        }
+        
+        #ai-input {
+            flex: 1;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            border: 3px solid #4361ee;
+            border-radius: 30px;
+            outline: none;
+        }
+        
+        #ai-input:focus {
+            border-color: #7209b7;
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Future tech showcase */
+        .future-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .future-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        
+        .future-card:hover {
+            transform: translateY(-5px);
+            border-color: #4361ee;
+        }
+        
+        .future-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .future-card h3 {
+            color: #3a0ca3;
+            margin-bottom: 10px;
+        }
+        
+        .future-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* Quiz about AI */
+        .ai-quiz {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+        
+        .ai-quiz h3 {
+            color: white;
+        }
+        
+        .quiz-statement {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-statement p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .tf-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .tf-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tf-btn.true {
+            background: #06d6a0;
+            color: white;
+        }
+        
+        .tf-btn.false {
+            background: #f72585;
+            color: white;
+        }
+        
+        .tf-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .tf-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .quiz-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .quiz-feedback.correct {
+            background: rgba(6, 214, 160, 0.3);
+        }
+        
+        .quiz-feedback.incorrect {
+            background: rgba(247, 37, 133, 0.3);
+        }
+        
+        /* Imagination station */
+        .imagination-box {
+            background: linear-gradient(135deg, #ffd166, #f72585);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .imagination-box h3 {
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .idea-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+        
+        .idea-card {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .idea-card:hover {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.1);
+        }
+        
+        #imagination-output {
+            background: white;
+            color: #333;
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 100px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="adventure-nav">
+        <a href="../../index.html" class="nav-home">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <div class="nav-progress">
+            <span class="progress-dot completed"></span>
+            <span class="progress-dot completed"></span>
+            <span class="progress-dot completed"></span>
+            <span class="progress-dot completed"></span>
+            <span class="progress-dot active"></span>
+        </div>
+        <div class="nav-title">BONUS Adventure!</div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="adventure-hero" style="background: linear-gradient(135deg, #4361ee, #7209b7, #f72585);">
+        <div class="hero-content">
+            <div class="adventure-badge" style="background: #ffd166; color: #333;">⭐ BONUS</div>
+            <h1>🤖 AI Explorer</h1>
+            <p class="hero-subtitle">Discover the amazing world of Artificial Intelligence!</p>
+            <div class="time-estimate">
+                <i class="fas fa-clock"></i> About 15 minutes
+            </div>
+        </div>
+    </header>
+
+    <!-- Learning Objectives -->
+    <section class="objectives-section">
+        <div class="container">
+            <h2>🎯 What You'll Learn</h2>
+            <div class="objectives-grid">
+                <div class="objective-card">
+                    <div class="objective-icon">🧠</div>
+                    <p>What is AI?</p>
+                </div>
+                <div class="objective-card">
+                    <div class="objective-icon">💬</div>
+                    <p>How AI can help us</p>
+                </div>
+                <div class="objective-card">
+                    <div class="objective-icon">🚀</div>
+                    <p>The future of coding</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="adventure-content">
+        <div class="container">
+            
+            <!-- Step 1 -->
+            <section class="lesson-step" id="step1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <h2>What is Artificial Intelligence?</h2>
+                </div>
+                
+                <div class="step-content">
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">🤖</div>
+                        <div class="fun-fact-content">
+                            <strong>AI = Artificial Intelligence</strong>
+                            <p>It's when computers learn to do things that usually need human brains!</p>
+                        </div>
+                    </div>
+
+                    <p class="big-text">
+                        AI is like teaching a computer to be <strong>smart</strong>. It can recognize pictures, understand words, and even help us write code!
+                    </p>
+
+                    <div class="analogy-box">
+                        <div class="analogy-icon">🧠 ➡️ 💻</div>
+                        <div class="analogy-content">
+                            <p><strong>Think of AI like this:</strong></p>
+                            <p>Just like you learned to recognize a cat by seeing many cats...</p>
+                            <p>AI learns by looking at MILLIONS of examples!</p>
+                        </div>
+                    </div>
+
+                    <h3>AI You Already Use!</h3>
+                    
+                    <div class="future-grid">
+                        <div class="future-card">
+                            <div class="future-icon">📱</div>
+                            <h3>Voice Assistants</h3>
+                            <p>"Hey Siri" or "OK Google" - that's AI understanding your voice!</p>
+                        </div>
+                        <div class="future-card">
+                            <div class="future-icon">🎬</div>
+                            <h3>Netflix/YouTube</h3>
+                            <p>AI suggests videos you might like based on what you've watched!</p>
+                        </div>
+                        <div class="future-card">
+                            <div class="future-icon">📷</div>
+                            <h3>Photo Filters</h3>
+                            <p>AI finds faces in photos and adds fun effects!</p>
+                        </div>
+                        <div class="future-card">
+                            <div class="future-icon">🎮</div>
+                            <h3>Video Games</h3>
+                            <p>AI controls the characters you play against!</p>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check1" class="checkpoint-check">
+                        <label for="check1">
+                            <i class="fas fa-check-circle"></i>
+                            I understand what AI is!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2 -->
+            <section class="lesson-step" id="step2">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h2>Chat with a Pretend AI!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        Real AI chatbots can have conversations! Here's a simple example:
+                    </p>
+
+                    <div class="ai-demo">
+                        <h3>🤖 CodeBot - Your Coding Helper</h3>
+                        <p style="color: #666; margin-bottom: 20px;">Ask me about coding, HTML, CSS, or JavaScript!</p>
+                        
+                        <div class="chat-container" id="chat-container">
+                            <div class="chat-message ai">
+                                <div class="chat-avatar">🤖</div>
+                                <div class="chat-bubble">
+                                    Hi! I'm CodeBot! 👋 Ask me anything about coding. Try asking "What is HTML?" or "How do I make a button?"
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-area">
+                            <input type="text" id="ai-input" placeholder="Ask me something...">
+                            <button class="send-btn" onclick="sendMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        
+                        <div style="margin-top: 15px;">
+                            <strong>Try asking:</strong>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                                <button onclick="quickAsk('What is HTML?')" style="background: #f8f9fa; border: 2px solid #ddd; padding: 8px 15px; border-radius: 20px; cursor: pointer;">What is HTML?</button>
+                                <button onclick="quickAsk('How do I add color?')" style="background: #f8f9fa; border: 2px solid #ddd; padding: 8px 15px; border-radius: 20px; cursor: pointer;">How do I add color?</button>
+                                <button onclick="quickAsk('What is JavaScript?')" style="background: #f8f9fa; border: 2px solid #ddd; padding: 8px 15px; border-radius: 20px; cursor: pointer;">What is JavaScript?</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">💡</div>
+                        <div class="fun-fact-content">
+                            <strong>This is a simple chatbot!</strong>
+                            <p>Real AI like ChatGPT and GitHub Copilot are MUCH smarter - they learned from billions of conversations and code examples!</p>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check2" class="checkpoint-check">
+                        <label for="check2">
+                            <i class="fas fa-check-circle"></i>
+                            I chatted with CodeBot!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 3 -->
+            <section class="lesson-step" id="step3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h2>True or False: AI Edition!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        Test what you know about AI! Is each statement true or false?
+                    </p>
+
+                    <div class="ai-quiz">
+                        <h3>🧠 AI True or False</h3>
+                        
+                        <div class="quiz-statement" id="q1">
+                            <p>1. AI can recognize pictures of cats 🐱</p>
+                            <div class="tf-buttons">
+                                <button class="tf-btn true" onclick="checkTF(1, true)">✓ True</button>
+                                <button class="tf-btn false" onclick="checkTF(1, false)">✗ False</button>
+                            </div>
+                            <div class="quiz-feedback" id="feedback1"></div>
+                        </div>
+                        
+                        <div class="quiz-statement" id="q2">
+                            <p>2. AI is smarter than humans at everything 🧠</p>
+                            <div class="tf-buttons">
+                                <button class="tf-btn true" onclick="checkTF(2, true)">✓ True</button>
+                                <button class="tf-btn false" onclick="checkTF(2, false)">✗ False</button>
+                            </div>
+                            <div class="quiz-feedback" id="feedback2"></div>
+                        </div>
+                        
+                        <div class="quiz-statement" id="q3">
+                            <p>3. AI learns by looking at lots of examples 📚</p>
+                            <div class="tf-buttons">
+                                <button class="tf-btn true" onclick="checkTF(3, true)">✓ True</button>
+                                <button class="tf-btn false" onclick="checkTF(3, false)">✗ False</button>
+                            </div>
+                            <div class="quiz-feedback" id="feedback3"></div>
+                        </div>
+                        
+                        <div class="quiz-statement" id="q4">
+                            <p>4. AI can help people write code faster ⚡</p>
+                            <div class="tf-buttons">
+                                <button class="tf-btn true" onclick="checkTF(4, true)">✓ True</button>
+                                <button class="tf-btn false" onclick="checkTF(4, false)">✗ False</button>
+                            </div>
+                            <div class="quiz-feedback" id="feedback4"></div>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check3" class="checkpoint-check">
+                        <label for="check3">
+                            <i class="fas fa-check-circle"></i>
+                            I completed the AI quiz!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 4 -->
+            <section class="lesson-step" id="step4">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <h2>🚀 The Future is Exciting!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        You're learning skills that will be SO important in the future! Coders who understand AI will build amazing things!
+                    </p>
+
+                    <div class="imagination-box">
+                        <h3>✨ Imagination Station</h3>
+                        <p style="font-size: 1.2rem; margin-bottom: 20px;">What would YOU build with AI? Click an idea or add your own!</p>
+                        
+                        <div class="idea-cards">
+                            <div class="idea-card" onclick="showIdea('robot')">🤖 A helpful robot friend</div>
+                            <div class="idea-card" onclick="showIdea('game')">🎮 A super smart video game</div>
+                            <div class="idea-card" onclick="showIdea('homework')">📚 A homework helper</div>
+                            <div class="idea-card" onclick="showIdea('art')">🎨 An art creator</div>
+                            <div class="idea-card" onclick="showIdea('music')">🎵 A music maker</div>
+                        </div>
+                        
+                        <div id="imagination-output">
+                            Click an idea above to learn more! 👆
+                        </div>
+                    </div>
+
+                    <div class="fun-fact" style="margin-top: 30px;">
+                        <div class="fun-fact-icon">🌟</div>
+                        <div class="fun-fact-content">
+                            <strong>You're Already on Your Way!</strong>
+                            <p>By learning HTML, CSS, and JavaScript today, you're building the foundation to create amazing AI-powered apps in the future!</p>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check4" class="checkpoint-check">
+                        <label for="check4">
+                            <i class="fas fa-check-circle"></i>
+                            I'm excited about the future of coding!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Final Celebration -->
+            <section class="celebration-section" id="celebration" style="background: linear-gradient(135deg, #ffd166, #f72585, #7209b7, #4361ee);">
+                <div class="celebration-content">
+                    <div class="trophy" style="font-size: 6rem;">🎓</div>
+                    <h2>🎉 ALL ADVENTURES COMPLETE! 🎉</h2>
+                    <p>You are now officially a Tech Explorer! You've learned HTML, CSS, JavaScript, and explored AI!</p>
+                    
+                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 30px 0;">
+                        <div class="earned-badge">
+                            <div class="badge-icon">🖥️</div>
+                            <div class="badge-info">
+                                <span>Computer Expert</span>
+                            </div>
+                        </div>
+                        <div class="earned-badge">
+                            <div class="badge-icon">🏗️</div>
+                            <div class="badge-info">
+                                <span>HTML Hero</span>
+                            </div>
+                        </div>
+                        <div class="earned-badge">
+                            <div class="badge-icon">🎨</div>
+                            <div class="badge-info">
+                                <span>CSS Artist</span>
+                            </div>
+                        </div>
+                        <div class="earned-badge">
+                            <div class="badge-icon">⚡</div>
+                            <div class="badge-info">
+                                <span>JS Wizard</span>
+                            </div>
+                        </div>
+                        <div class="earned-badge">
+                            <div class="badge-icon">🤖</div>
+                            <div class="badge-info">
+                                <span>AI Explorer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="next-steps">
+                        <h3>Keep Learning!</h3>
+                        <p>Visit the playgrounds anytime to practice your new skills!</p>
+                        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+                            <a href="../../playground/html-playground.html" class="next-adventure-btn" style="background: #e34f26;">HTML Playground</a>
+                            <a href="../../playground/css-playground.html" class="next-adventure-btn" style="background: #264de4;">CSS Playground</a>
+                            <a href="../../playground/js-playground.html" class="next-adventure-btn" style="background: #f7df1e; color: #333;">JS Playground</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer Navigation -->
+    <footer class="adventure-footer">
+        <a href="../04-javascript-wizard/index.html" class="footer-btn secondary">
+            <i class="fas fa-arrow-left"></i> Previous Adventure
+        </a>
+        <a href="../../index.html" class="footer-btn primary">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+    </footer>
+
+    <script>
+        // Simple chatbot
+        const responses = {
+            'html': 'HTML stands for HyperText Markup Language! It\'s the skeleton of every website. You use tags like <h1> and <p> to build the structure of your page! 🏗️',
+            'css': 'CSS stands for Cascading Style Sheets! It\'s what makes websites look pretty - colors, fonts, sizes, and layouts! Think of it as the clothes and makeup for your HTML! 🎨',
+            'javascript': 'JavaScript is the magic that makes websites interactive! It can make buttons work, animations move, and games play! It\'s like the electricity in a house! ⚡',
+            'button': 'To make a button in HTML, use: <button>Click me!</button> Then use JavaScript to make it do something when clicked! Try: onclick="alert(\'Hello!\')" 👆',
+            'color': 'To add color with CSS, use: color: blue; for text, or background-color: yellow; for backgrounds! You can use color names or hex codes like #ff0000 for red! 🌈',
+            'code': 'Coding is like giving instructions to a computer in a language it understands! You\'re already learning three coding languages: HTML, CSS, and JavaScript! 💻',
+            'ai': 'AI (Artificial Intelligence) is when computers learn to do smart things, like recognize pictures, understand speech, or help write code! I\'m a simple example of AI! 🤖',
+            'hello': 'Hello! 👋 I\'m CodeBot, your friendly coding helper! What would you like to learn about?',
+            'default': 'That\'s a great question! I\'m still learning. Try asking me about HTML, CSS, JavaScript, buttons, or colors! 🤔'
+        };
+        
+        function getResponse(message) {
+            message = message.toLowerCase();
+            
+            if (message.includes('hello') || message.includes('hi')) return responses.hello;
+            if (message.includes('html')) return responses.html;
+            if (message.includes('css') || message.includes('style')) return responses.css;
+            if (message.includes('javascript') || message.includes('js')) return responses.javascript;
+            if (message.includes('button')) return responses.button;
+            if (message.includes('color') || message.includes('colour')) return responses.color;
+            if (message.includes('code') || message.includes('coding')) return responses.code;
+            if (message.includes('ai') || message.includes('artificial')) return responses.ai;
+            
+            return responses.default;
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('ai-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const container = document.getElementById('chat-container');
+            
+            // Add user message
+            container.innerHTML += `
+                <div class="chat-message user">
+                    <div class="chat-avatar">👤</div>
+                    <div class="chat-bubble">${message}</div>
+                </div>
+            `;
+            
+            // Clear input
+            input.value = '';
+            
+            // Simulate typing delay
+            setTimeout(() => {
+                const response = getResponse(message);
+                container.innerHTML += `
+                    <div class="chat-message ai">
+                        <div class="chat-avatar">🤖</div>
+                        <div class="chat-bubble">${response}</div>
+                    </div>
+                `;
+                container.scrollTop = container.scrollHeight;
+            }, 500);
+            
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        function quickAsk(question) {
+            document.getElementById('ai-input').value = question;
+            sendMessage();
+        }
+        
+        // Enter key support
+        document.getElementById('ai-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        // True/False quiz
+        const tfAnswers = {
+            1: { correct: true, feedback: 'Correct! AI is really good at recognizing images, including cats!' },
+            2: { correct: false, feedback: 'False! AI is only good at specific tasks. Humans are still better at creativity, emotions, and general thinking!' },
+            3: { correct: true, feedback: 'Correct! AI needs LOTS of examples to learn - sometimes millions!' },
+            4: { correct: true, feedback: 'Correct! Tools like GitHub Copilot help programmers write code faster!' }
+        };
+        
+        function checkTF(questionNum, answer) {
+            const feedback = document.getElementById(`feedback${questionNum}`);
+            const data = tfAnswers[questionNum];
+            const buttons = document.querySelectorAll(`#q${questionNum} .tf-btn`);
+            
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (answer === data.correct) {
+                feedback.className = 'quiz-feedback correct';
+                feedback.textContent = '✓ ' + data.feedback;
+            } else {
+                feedback.className = 'quiz-feedback incorrect';
+                feedback.textContent = '✗ ' + data.feedback;
+            }
+        }
+        
+        // Imagination station
+        const ideas = {
+            robot: '🤖 <strong>A Robot Friend:</strong> Imagine an AI robot that could help with chores, play games with you, and remind you about homework! You could program it to have a personality!',
+            game: '🎮 <strong>A Smart Video Game:</strong> An AI could create games that adapt to how you play - getting harder when you\'re winning and helping when you\'re stuck!',
+            homework: '📚 <strong>A Homework Helper:</strong> AI could explain math problems step by step, help you practice spelling, or quiz you on history - like a tutor that\'s always available!',
+            art: '🎨 <strong>An Art Creator:</strong> You could describe what you imagine, and AI could help create amazing pictures, designs, or even animations!',
+            music: '🎵 <strong>A Music Maker:</strong> AI could help you compose songs, create beats, or even generate background music for videos you make!'
+        };
+        
+        function showIdea(idea) {
+            document.getElementById('imagination-output').innerHTML = ideas[idea];
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎣 Rosy Reel - Fishing Adventure!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #87ceeb, #1e90ff);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .game-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-section h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo-section p {
+            font-size: 0.9rem;
+            color: #333;
+            font-style: italic;
+        }
+        
+        .stats-bar {
+            display: flex;
+            gap: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat-icon {
+            font-size: 1.5rem;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #333;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-links a {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.9);
+            color: #4361ee;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            transform: scale(1.05);
+            background: white;
+        }
+        
+        /* Main Game Area */
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+        
+        @media (max-width: 900px) {
+            .game-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .fishing-area {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .pond {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+        
+        /* Sky */
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 33%;
+            background: linear-gradient(180deg, #87ceeb, #b0e0e6);
+        }
+        
+        /* Sun */
+        .sun {
+            position: absolute;
+            top: 15px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            animation: pulse 4s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Clouds */
+        .cloud {
+            position: absolute;
+            opacity: 0.8;
+        }
+        
+        .cloud-1 { top: 20px; left: 30px; }
+        .cloud-2 { top: 40px; right: 100px; opacity: 0.6; }
+        .cloud-3 { top: 10px; left: 40%; opacity: 0.7; }
+        
+        /* Beach */
+        .beach {
+            position: absolute;
+            top: 33%;
+            left: 0;
+            right: 0;
+            height: 17%;
+            background: linear-gradient(180deg, #f4d03f, #e9b44c);
+        }
+        
+        /* Water */
+        .water {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, #4fc3f7, #1976d2);
+        }
+        
+        /* Water surface */
+        .water-surface {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255,255,255,0.5);
+        }
+        
+        /* Cat in boat */
+        .boat-container {
+            position: absolute;
+            top: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            transition: left 0.5s ease;
+        }
+        
+        .cat-speech {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 10px 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #333;
+            white-space: nowrap;
+            display: none;
+            z-index: 100;
+        }
+        
+        .cat-speech::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: white;
+        }
+        
+        .cat-speech.show { display: block; }
+        
+        /* Fish */
+        .fish {
+            position: absolute;
+            transition: all 0.3s;
+            z-index: 30;
+        }
+        
+        .fish.small { transform: scale(0.6); }
+        .fish.large { transform: scale(1.2); }
+        
+        .fish.caught {
+            animation: fishStruggle 0.3s infinite;
+        }
+        
+        .fish.reeling {
+            transition: all 1s ease-out;
+        }
+        
+        @keyframes fishStruggle {
+            0%, 100% { transform: rotate(-10deg) scale(1.3); }
+            50% { transform: rotate(10deg) scale(1.3); }
+        }
+        
+        @keyframes fishFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .fish:not(.caught):not(.reeling) {
+            animation: fishFloat 2s ease-in-out infinite;
+        }
+        
+        /* Fishing line */
+        .fishing-line {
+            position: absolute;
+            width: 2px;
+            background: #8b4513;
+            transform-origin: top;
+            z-index: 40;
+            display: none;
+        }
+        
+        .fishing-line.cast { display: block; }
+        
+        .hook {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background: #888;
+            border-radius: 50%;
+        }
+        
+        /* Beach friends */
+        .beach-friend {
+            position: absolute;
+            bottom: 0;
+            z-index: 20;
+        }
+        
+        .friend-speech {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            white-space: nowrap;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .friend-speech::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: white;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .beach-friend svg {
+            animation: bounce 1s ease-in-out infinite;
+        }
+        
+        /* Palm tree */
+        .palm-tree {
+            position: absolute;
+            bottom: 0;
+            right: 50px;
+            z-index: 20;
+        }
+        
+        /* Instructions */
+        .instructions {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 60;
+        }
+        
+        /* Current bait badge */
+        .bait-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            z-index: 60;
+        }
+        
+        /* Side panels */
+        .side-panels {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .panel h3 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.3rem;
+            color: #3a0ca3;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .fish-count {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .fish-count .number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ec4899;
+        }
+        
+        .fish-count .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .sell-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #06d6a0, #00b894);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .sell-btn:hover:not(:disabled) {
+            transform: scale(1.02);
+        }
+        
+        .sell-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .empty-inventory {
+            text-align: center;
+            color: #888;
+            padding: 30px 10px;
+        }
+        
+        /* Bait shop */
+        .bait-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .bait-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .bait-icon {
+            width: 30px;
+            height: 30px;
+            background: #ec4899;
+            border-radius: 50%;
+        }
+        
+        .bait-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .bait-rate {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .bait-btn {
+            padding: 8px 16px;
+            border: 2px solid #4361ee;
+            background: white;
+            color: #4361ee;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .bait-btn:hover:not(:disabled) {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .bait-btn:disabled {
+            border-color: #ccc;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .bait-btn.active {
+            background: #4361ee;
+            color: white;
+        }
+        
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .toast {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .toast.success { border-left: 4px solid #06d6a0; }
+        .toast.error { border-left: 4px solid #ef476f; }
+        .toast.info { border-left: 4px solid #4361ee; }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        
+        .confetti {
+            position: absolute;
+            animation: confettiFall 3s linear forwards;
+        }
+        
+        @keyframes confettiFall {
+            to {
+                top: 110%;
+                transform: rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <div class="logo-section">
+                <svg width="70" height="70" viewBox="0 0 80 80">
+                    <ellipse cx="40" cy="55" rx="20" ry="14" fill="#f97316" />
+                    <circle cx="40" cy="35" r="18" fill="#f97316" />
+                    <path d="M25 25 L20 10 L35 22 Z" fill="#f97316" />
+                    <path d="M55 25 L60 10 L45 22 Z" fill="#f97316" />
+                    <path d="M25 22 L22 12 L33 20 Z" fill="#fbbf24" />
+                    <path d="M55 22 L58 12 L47 20 Z" fill="#fbbf24" />
+                    <circle cx="32" cy="30" r="2.5" fill="black" />
+                    <circle cx="48" cy="30" r="2.5" fill="black" />
+                    <circle cx="33" cy="29" r="0.8" fill="white" />
+                    <circle cx="49" cy="29" r="0.8" fill="white" />
+                    <path d="M40 38 L37 41 L43 41 Z" fill="#dc2626" />
+                    <path d="M40 41 Q35 45 30 42" stroke="black" stroke-width="1.5" fill="none" />
+                    <path d="M40 41 Q45 45 50 42" stroke="black" stroke-width="1.5" fill="none" />
+                    <line x1="18" y1="32" x2="28" y2="30" stroke="black" stroke-width="1.2" />
+                    <line x1="18" y1="38" x2="28" y2="36" stroke="black" stroke-width="1.2" />
+                    <line x1="52" y1="30" x2="62" y2="32" stroke="black" stroke-width="1.2" />
+                    <line x1="52" y1="36" x2="62" y2="38" stroke="black" stroke-width="1.2" />
+                    <line x1="50" y1="60" x2="70" y2="25" stroke="#8b4513" stroke-width="3" />
+                    <circle cx="70" cy="25" r="1.5" fill="#8b4513" />
+                    <line x1="70" y1="25" x2="75" y2="40" stroke="#333" stroke-width="1" />
+                    <ellipse cx="76" cy="46" rx="4" ry="2.5" fill="#ff69b4" />
+                </svg>
+                <div>
+                    <h1>🎣 Rosy Reel</h1>
+                    <p>The fishing adventure YOU helped create!</p>
+                </div>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="stat-icon">🐟</span>
+                    <span class="stat-value" id="fish-count">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">💰</span>
+                    <span class="stat-value" id="money">50</span>
+                </div>
+            </div>
+            
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../gallery/index.html"><i class="fas fa-images"></i> Gallery</a>
+            </div>
+        </header>
+
+        <div class="game-layout">
+            <div class="fishing-area">
+                <div class="pond" id="pond">
+                    <!-- Sky -->
+                    <div class="sky">
+                        <!-- Sun -->
+                        <svg class="sun" viewBox="0 0 50 50">
+                            <g stroke="#fbbf24" stroke-width="2" stroke-linecap="round">
+                                <line x1="25" y1="2" x2="25" y2="8" />
+                                <line x1="25" y1="42" x2="25" y2="48" />
+                                <line x1="2" y1="25" x2="8" y2="25" />
+                                <line x1="42" y1="25" x2="48" y2="25" />
+                                <line x1="8" y1="8" x2="12" y2="12" />
+                                <line x1="38" y1="38" x2="42" y2="42" />
+                                <line x1="8" y1="42" x2="12" y2="38" />
+                                <line x1="38" y1="12" x2="42" y2="8" />
+                            </g>
+                            <circle cx="25" cy="25" r="12" fill="#fde047" stroke="#f59e0b" stroke-width="1" />
+                            <circle cx="21" cy="21" r="1.5" fill="#f59e0b" />
+                            <circle cx="29" cy="21" r="1.5" fill="#f59e0b" />
+                            <path d="M20 28 Q25 32 30 28" stroke="#f59e0b" stroke-width="1.5" fill="none" />
+                        </svg>
+                        
+                        <!-- Clouds -->
+                        <svg class="cloud cloud-1" width="60" height="30" viewBox="0 0 60 30">
+                            <circle cx="15" cy="15" r="8" fill="white" />
+                            <circle cx="25" cy="12" r="10" fill="white" />
+                            <circle cx="35" cy="15" r="8" fill="white" />
+                            <circle cx="45" cy="18" r="6" fill="white" />
+                        </svg>
+                        <svg class="cloud cloud-2" width="80" height="40" viewBox="0 0 80 40">
+                            <circle cx="20" cy="20" r="12" fill="white" />
+                            <circle cx="35" cy="15" r="15" fill="white" />
+                            <circle cx="50" cy="20" r="10" fill="white" />
+                            <circle cx="65" cy="25" r="8" fill="white" />
+                        </svg>
+                    </div>
+                    
+                    <!-- Beach -->
+                    <div class="beach">
+                        <!-- Palm tree -->
+                        <div class="palm-tree">
+                            <svg width="70" height="100" viewBox="0 0 70 100">
+                                <rect x="29" y="40" width="12" height="60" fill="#8B4513" rx="6" />
+                                <path d="M35 40 Q27 25 17 15 Q13 12 17 10 Q23 12 35 30" fill="#228B22" />
+                                <path d="M35 40 Q43 25 53 15 Q57 12 53 10 Q47 12 35 30" fill="#228B22" />
+                                <path d="M35 40 Q23 30 9 20 Q5 17 9 15 Q15 17 33 30" fill="#32CD32" />
+                                <path d="M35 40 Q47 30 61 20 Q65 17 61 15 Q55 17 37 30" fill="#32CD32" />
+                                <path d="M35 40 Q35 22 33 5 Q32 0 35 0 Q38 0 37 5 Q35 22 35 40" fill="#228B22" />
+                            </svg>
+                        </div>
+                        
+                        <!-- Beach friend 1 - Orange cat -->
+                        <div class="beach-friend" style="left: 60px;">
+                            <div class="friend-speech" style="color: #f97316;">"Go get 'em!"</div>
+                            <svg width="50" height="60" viewBox="0 0 50 60">
+                                <ellipse cx="25" cy="45" rx="14" ry="10" fill="#FF8C00" />
+                                <circle cx="25" cy="28" r="12" fill="#FF8C00" />
+                                <path d="M18 20 L14 8 L26 17 Z" fill="#FF8C00" />
+                                <path d="M32 20 L36 8 L24 17 Z" fill="#FF8C00" />
+                                <path d="M18 17 L16 10 L24 15 Z" fill="#FFB347" />
+                                <path d="M32 17 L34 10 L26 15 Z" fill="#FFB347" />
+                                <circle cx="21" cy="25" r="2" fill="black" />
+                                <circle cx="29" cy="25" r="2" fill="black" />
+                                <path d="M25 30 L23 32 L27 32 Z" fill="#FF1493" />
+                                <path d="M25 32 Q21 37 17 34" stroke="black" stroke-width="1" fill="none" />
+                                <path d="M25 32 Q29 37 33 34" stroke="black" stroke-width="1" fill="none" />
+                            </svg>
+                        </div>
+                        
+                        <!-- Beach friend 2 - Gray cat -->
+                        <div class="beach-friend" style="left: 45%; transform: translateX(-50%);">
+                            <div class="friend-speech" style="color: #708090;">"Reel 'em in!"</div>
+                            <svg width="40" height="50" viewBox="0 0 40 50">
+                                <ellipse cx="20" cy="38" rx="10" ry="8" fill="#2F4F4F" />
+                                <ellipse cx="20" cy="40" rx="6" ry="5" fill="white" />
+                                <circle cx="20" cy="22" r="9" fill="#2F4F4F" />
+                                <ellipse cx="20" cy="24" rx="5" ry="6" fill="white" />
+                                <path d="M14 14 L10 4 L22 12 Z" fill="#2F4F4F" />
+                                <path d="M26 14 L30 4 L18 12 Z" fill="#2F4F4F" />
+                                <circle cx="17" cy="20" r="1.5" fill="black" />
+                                <circle cx="23" cy="20" r="1.5" fill="black" />
+                                <path d="M20 25 L18 27 L22 27 Z" fill="#FF1493" />
+                            </svg>
+                        </div>
+                        
+                        <!-- Beach friend 3 - Gray tabby -->
+                        <div class="beach-friend" style="right: 120px;">
+                            <div class="friend-speech" style="color: #708090;">"You got this!"</div>
+                            <svg width="45" height="55" viewBox="0 0 45 55">
+                                <ellipse cx="22" cy="42" rx="12" ry="9" fill="#708090" />
+                                <circle cx="22" cy="26" r="10" fill="#708090" />
+                                <path d="M16 18 L12 6 L24 15 Z" fill="#708090" />
+                                <path d="M28 18 L32 6 L20 15 Z" fill="#708090" />
+                                <path d="M16 15 L14 8 L22 13 Z" fill="#C0C0C0" />
+                                <path d="M28 15 L30 8 L22 13 Z" fill="#C0C0C0" />
+                                <circle cx="19" cy="23" r="1.8" fill="black" />
+                                <circle cx="25" cy="23" r="1.8" fill="black" />
+                                <path d="M22 28 L20 30 L24 30 Z" fill="#FF69B4" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Water -->
+                    <div class="water"></div>
+                    <div class="water-surface"></div>
+                    
+                    <!-- Cat in boat -->
+                    <div class="boat-container" id="boat">
+                        <div class="cat-speech" id="cat-speech"></div>
+                        
+                        <!-- Boat -->
+                        <svg width="160" height="100" viewBox="0 0 160 100" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%);">
+                            <ellipse cx="80" cy="90" rx="55" ry="8" fill="rgba(0,0,0,0.2)" />
+                            <path d="M15 70 Q15 58 28 58 L132 58 Q145 58 145 70 L140 82 Q140 88 132 88 L28 88 Q20 88 20 82 Z" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+                            <path d="M28 63 Q28 60 32 60 L128 60 Q132 60 132 63 L132 75 Q132 78 128 78 L32 78 Q28 78 28 75 Z" fill="#D2691E"/>
+                            <line x1="80" y1="58" x2="80" y2="15" stroke="#8B4513" stroke-width="4"/>
+                            <path d="M82 15 L82 50 L115 35 Q118 32 115 28 L82 15" fill="#FFF8DC" stroke="#DDD" stroke-width="1"/>
+                            <polygon points="80,15 85,18 80,21" fill="#ff4444"/>
+                        </svg>
+                        
+                        <!-- Cat -->
+                        <svg id="fishing-cat" width="80" height="80" viewBox="0 0 80 80" style="position: relative; top: 15px;">
+                            <ellipse cx="40" cy="56" rx="22" ry="15" fill="#f97316" />
+                            <circle cx="40" cy="35" r="20" fill="#f97316" />
+                            <path d="M25 25 L20 10 L35 22 Z" fill="#f97316" />
+                            <path d="M55 25 L60 10 L45 22 Z" fill="#f97316" />
+                            <path d="M25 22 L22 12 L33 20 Z" fill="#fbbf24" />
+                            <path d="M55 22 L58 12 L47 20 Z" fill="#fbbf24" />
+                            <circle cx="32" cy="30" r="2.5" fill="black" />
+                            <circle cx="48" cy="30" r="2.5" fill="black" />
+                            <circle cx="33" cy="29" r="0.8" fill="white" />
+                            <circle cx="49" cy="29" r="0.8" fill="white" />
+                            <path d="M40 38 L37 41 L43 41 Z" fill="#dc2626" />
+                            <path d="M40 41 Q35 45 30 42" stroke="black" stroke-width="1.2" fill="none" />
+                            <path d="M40 41 Q45 45 50 42" stroke="black" stroke-width="1.2" fill="none" />
+                            <line x1="18" y1="32" x2="28" y2="30" stroke="black" stroke-width="1.2" />
+                            <line x1="18" y1="38" x2="28" y2="36" stroke="black" stroke-width="1.2" />
+                            <line x1="52" y1="30" x2="62" y2="32" stroke="black" stroke-width="1.2" />
+                            <line x1="52" y1="36" x2="62" y2="38" stroke="black" stroke-width="1.2" />
+                            <circle cx="30" cy="65" r="5" fill="#f97316" />
+                            <circle cx="50" cy="65" r="5" fill="#f97316" />
+                            <line x1="50" y1="60" x2="56" y2="42" stroke="#8b4513" stroke-width="3" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    
+                    <!-- Fishing line -->
+                    <div class="fishing-line" id="fishing-line">
+                        <div class="hook"></div>
+                    </div>
+                    
+                    <!-- Fish container -->
+                    <div id="fish-container"></div>
+                    
+                    <!-- Instructions -->
+                    <div class="instructions" id="instructions">Click to cast your line</div>
+                    
+                    <!-- Bait badge -->
+                    <div class="bait-badge" id="bait-badge">Current Bait: Worm</div>
+                </div>
+            </div>
+            
+            <div class="side-panels">
+                <div class="panel">
+                    <h3><i class="fas fa-fish" style="color: #ec4899;"></i> Inventory</h3>
+                    <div id="inventory-content">
+                        <div class="empty-inventory">
+                            No fish caught yet.<br>Cast your line!
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel">
+                    <h3><i class="fas fa-store" style="color: #4361ee;"></i> Bait Shop</h3>
+                    <div id="bait-shop">
+                        <div class="bait-item" data-bait="worm">
+                            <div class="bait-info">
+                                <div class="bait-icon" style="transform: scale(0.6);"></div>
+                                <div>
+                                    <div class="bait-name">Worm</div>
+                                    <div class="bait-rate">30% catch rate</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn active" onclick="selectBait('worm')">Using</button>
+                        </div>
+                        <div class="bait-item" data-bait="minnow">
+                            <div class="bait-info">
+                                <div class="bait-icon" style="transform: scale(0.8);"></div>
+                                <div>
+                                    <div class="bait-name">Minnow</div>
+                                    <div class="bait-rate">50% catch rate</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn" onclick="buyBait('minnow', 10)">10 coins</button>
+                        </div>
+                        <div class="bait-item" data-bait="lure">
+                            <div class="bait-info">
+                                <div class="bait-icon" style="transform: scale(1);"></div>
+                                <div>
+                                    <div class="bait-name">Special Lure</div>
+                                    <div class="bait-rate">70% catch rate</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn" onclick="buyBait('lure', 25)">25 coins</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast-container" id="toast-container"></div>
+    
+    <script>
+        // Game State
+        let fishCount = parseInt(localStorage.getItem('fishing_fishCount')) || 0;
+        let money = parseInt(localStorage.getItem('fishing_money')) || 50;
+        let currentBait = localStorage.getItem('fishing_bait') || 'worm';
+        let isLineCast = false;
+        let isWaitingToReel = false;
+        let lineX = 50;
+        let lineY = 80;
+        let allFish = [];
+        
+        const baitTypes = {
+            worm: { name: 'Worm', price: 0, catchRate: 0.3 },
+            minnow: { name: 'Minnow', price: 10, catchRate: 0.5 },
+            lure: { name: 'Special Lure', price: 25, catchRate: 0.7 }
+        };
+        
+        const catPhrases = [
+            "Purrfect catch! 🐱",
+            "Meow-nificent! I'm the best fisher in town!",
+            "This fish is almost as cute as me... almost! 😸",
+            "Another one bites the... hook! 🎣",
+            "Fishing level: Cat-tastic! 🐾",
+            "Who needs opposable thumbs anyway? 😼",
+            "I'm not kitten around - I'm a pro! 🎯",
+            "Fin-tastic! That's how we do it! 🐟",
+            "I'm having a reel-y good time! 🎣",
+            "Hook, line, and whisker! 😺",
+            "Some-fin special just happened! ✨",
+            "I'm the cat's meow at fishing! 😸",
+            "Pawsome catch! High-five? Oh wait... 🐾"
+        ];
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDisplay();
+            initializeFish();
+            startFishMovement();
+            updateBaitButtons();
+            
+            document.getElementById('pond').addEventListener('click', handlePondClick);
+        });
+        
+        function initializeFish() {
+            allFish = [
+                { id: 'fish-1', x: 25, y: 60, size: 'small', color: '#87ceeb', speed: 1.5, direction: 45 },
+                { id: 'fish-2', x: 60, y: 75, size: 'large', color: '#ff69b4', speed: 1, direction: 135 },
+                { id: 'fish-3', x: 40, y: 85, size: 'small', color: '#98fb98', speed: 1.8, direction: 225 },
+                { id: 'fish-4', x: 75, y: 65, size: 'large', color: '#dda0dd', speed: 0.8, direction: 315 },
+                { id: 'fish-5', x: 20, y: 78, size: 'small', color: '#f0e68c', speed: 1.3, direction: 90 },
+                { id: 'fish-6', x: 80, y: 88, size: 'large', color: '#ff7f50', speed: 0.6, direction: 180 },
+                { id: 'fish-7', x: 50, y: 70, size: 'small', color: '#20b2aa', speed: 1.4, direction: 270 },
+                { id: 'fish-8', x: 35, y: 92, size: 'large', color: '#9370db', speed: 0.7, direction: 0 }
+            ];
+            renderFish();
+        }
+        
+        function renderFish() {
+            const container = document.getElementById('fish-container');
+            container.innerHTML = allFish.map(fish => `
+                <div class="fish ${fish.size}" id="${fish.id}" style="left: ${fish.x}%; top: ${fish.y}%;">
+                    <svg width="${fish.size === 'small' ? 32 : 56}" height="${fish.size === 'small' ? 24 : 42}" viewBox="0 0 48 36">
+                        <g>
+                            <ellipse cx="24" cy="18" rx="15" ry="10.5" fill="${fish.color}" />
+                            <ellipse cx="24" cy="18" rx="12" ry="8.25" fill="${fish.color}" fill-opacity="0.8" />
+                            <path d="M9 18 L3 12 L6 18 L3 24 Z" fill="${fish.color}" fill-opacity="0.9" />
+                            <path d="M36 12 L42 9 L45 15 L39 18 Z" fill="${fish.color}" fill-opacity="0.9" />
+                            <path d="M36 24 L42 27 L45 21 L39 18 Z" fill="${fish.color}" fill-opacity="0.9" />
+                            <circle cx="30" cy="13.5" r="3.75" fill="white" />
+                            <circle cx="30.75" cy="12.75" r="2.25" fill="black" />
+                            <circle cx="31.5" cy="12" r="0.75" fill="white" />
+                            <path d="M18 22.5 Q24 24 30 22.5" stroke="${fish.color}" stroke-width="1.5" fill="none" fill-opacity="0.9" />
+                        </g>
+                    </svg>
+                </div>
+            `).join('');
+        }
+        
+        function startFishMovement() {
+            setInterval(() => {
+                allFish = allFish.map(fish => {
+                    let newX = fish.x + Math.cos(fish.direction * Math.PI / 180) * fish.speed * 0.5;
+                    let newY = fish.y + Math.sin(fish.direction * Math.PI / 180) * fish.speed * 0.5;
+                    let newDirection = fish.direction;
+                    
+                    // Bounce off walls
+                    if (newX <= 5 || newX >= 95) {
+                        newDirection = 180 - fish.direction;
+                        newX = Math.max(5, Math.min(95, newX));
+                    }
+                    if (newY <= 52 || newY >= 98) {
+                        newDirection = -fish.direction;
+                        newY = Math.max(52, Math.min(98, newY));
+                    }
+                    
+                    // Random direction changes
+                    if (Math.random() < 0.05) {
+                        newDirection += (Math.random() - 0.5) * 60;
+                    }
+                    
+                    return { ...fish, x: newX, y: newY, direction: newDirection };
+                });
+                
+                // Update fish positions in DOM
+                allFish.forEach(fish => {
+                    const el = document.getElementById(fish.id);
+                    if (el && !el.classList.contains('caught') && !el.classList.contains('reeling')) {
+                        el.style.left = fish.x + '%';
+                        el.style.top = fish.y + '%';
+                    }
+                });
+            }, 200);
+        }
+        
+        function handlePondClick(event) {
+            const rect = event.currentTarget.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width) * 100;
+            const y = ((event.clientY - rect.top) / rect.height) * 100;
+            
+            if (!isLineCast && !isWaitingToReel) {
+                // Can only fish in water (bottom half)
+                if (y < 50) {
+                    showToast('You can only fish in the water!', 'info');
+                    return;
+                }
+                
+                castLine(x, y);
+            } else if (isWaitingToReel) {
+                reelIn();
+            }
+        }
+        
+        function castLine(x, y) {
+            isLineCast = true;
+            isWaitingToReel = true;
+            lineX = x;
+            lineY = y;
+            
+            const boat = document.getElementById('boat');
+            boat.style.left = x + '%';
+            
+            const line = document.getElementById('fishing-line');
+            line.classList.add('cast');
+            line.style.left = x + '%';
+            line.style.top = '215px';
+            line.style.height = (y - 48) * 4.5 + 'px';
+            
+            updateInstructions('Click again to reel in!');
+        }
+        
+        function reelIn() {
+            isWaitingToReel = false;
+            
+            // Check if we caught a fish
+            const caughtFish = allFish.find(fish => {
+                const distance = Math.abs(fish.x - lineX) + Math.abs(fish.y - lineY);
+                return distance < (fish.size === 'small' ? 20 : 30);
+            });
+            
+            if (caughtFish) {
+                const bait = baitTypes[currentBait];
+                const sizeBonus = caughtFish.size === 'large' ? 1.2 : 1;
+                const catchChance = bait.catchRate * sizeBonus;
+                
+                if (Math.random() < catchChance) {
+                    catchFish(caughtFish);
+                    return;
+                } else {
+                    showToast('The fish got away...', 'error');
+                }
+            } else {
+                showToast('No fish near your hook!', 'info');
+            }
+            
+            resetLine();
+        }
+        
+        function catchFish(fish) {
+            const fishEl = document.getElementById(fish.id);
+            const fishValue = fish.size === 'large' ? 2 : 1;
+            
+            // Fighting animation
+            fishEl.classList.add('caught');
+            fishEl.style.left = lineX + '%';
+            fishEl.style.top = lineY + '%';
+            updateInstructions('Fish is fighting back!');
+            
+            setTimeout(() => {
+                // Show cat phrase
+                const phrase = catPhrases[Math.floor(Math.random() * catPhrases.length)];
+                const speech = document.getElementById('cat-speech');
+                speech.textContent = phrase;
+                speech.classList.add('show');
+                
+                const fishType = fish.size === 'large' ? 'big fish' : 'small fish';
+                showToast(`Caught a ${fishType}! 🐟`, 'success');
+                
+                // Reeling animation
+                setTimeout(() => {
+                    fishEl.classList.remove('caught');
+                    fishEl.classList.add('reeling');
+                    fishEl.style.top = '8%';
+                    updateInstructions('Reeling in your catch!');
+                    
+                    setTimeout(() => {
+                        // Complete catch
+                        fishCount += fishValue;
+                        saveState();
+                        updateDisplay();
+                        
+                        // Respawn fish
+                        const fishIndex = allFish.findIndex(f => f.id === fish.id);
+                        allFish[fishIndex] = {
+                            ...fish,
+                            x: Math.random() * 80 + 10,
+                            y: Math.random() * 40 + 55,
+                            direction: Math.random() * 360
+                        };
+                        
+                        fishEl.classList.remove('reeling');
+                        fishEl.style.left = allFish[fishIndex].x + '%';
+                        fishEl.style.top = allFish[fishIndex].y + '%';
+                        
+                        speech.classList.remove('show');
+                        
+                        // Celebration
+                        if (fishCount % 5 === 0) {
+                            createConfetti();
+                        }
+                        
+                        resetLine();
+                    }, 1000);
+                }, 1000);
+            }, 1500);
+        }
+        
+        function resetLine() {
+            isLineCast = false;
+            const line = document.getElementById('fishing-line');
+            line.classList.remove('cast');
+            updateInstructions('Click to cast your line');
+        }
+        
+        function updateInstructions(text) {
+            document.getElementById('instructions').textContent = text;
+        }
+        
+        function updateDisplay() {
+            document.getElementById('fish-count').textContent = fishCount;
+            document.getElementById('money').textContent = money;
+            
+            const inventory = document.getElementById('inventory-content');
+            if (fishCount > 0) {
+                inventory.innerHTML = `
+                    <div class="fish-count">
+                        <div class="number">${fishCount}</div>
+                        <div class="label">Fish Caught</div>
+                    </div>
+                    <button class="sell-btn" onclick="sellAllFish()">
+                        Sell All (${fishCount * 5} coins)
+                    </button>
+                `;
+            } else {
+                inventory.innerHTML = '<div class="empty-inventory">No fish caught yet.<br>Cast your line!</div>';
+            }
+        }
+        
+        function sellAllFish() {
+            if (fishCount > 0) {
+                const earnings = fishCount * 5;
+                money += earnings;
+                fishCount = 0;
+                saveState();
+                updateDisplay();
+                updateBaitButtons();
+                showToast(`Sold all fish for ${earnings} coins!`, 'success');
+                createConfetti();
+            }
+        }
+        
+        function buyBait(baitId, price) {
+            if (money >= price) {
+                money -= price;
+                currentBait = baitId;
+                saveState();
+                updateDisplay();
+                updateBaitButtons();
+                showToast(`Purchased ${baitTypes[baitId].name}!`, 'success');
+            } else {
+                showToast('Not enough coins!', 'error');
+            }
+        }
+        
+        function selectBait(baitId) {
+            currentBait = baitId;
+            localStorage.setItem('fishing_bait', baitId);
+            updateBaitButtons();
+        }
+        
+        function updateBaitButtons() {
+            document.querySelectorAll('.bait-item').forEach(item => {
+                const baitId = item.dataset.bait;
+                const btn = item.querySelector('.bait-btn');
+                const bait = baitTypes[baitId];
+                
+                if (baitId === currentBait) {
+                    btn.textContent = 'Using';
+                    btn.className = 'bait-btn active';
+                    btn.onclick = () => selectBait(baitId);
+                } else if (bait.price === 0) {
+                    btn.textContent = 'Free';
+                    btn.className = 'bait-btn';
+                    btn.onclick = () => selectBait(baitId);
+                } else {
+                    btn.textContent = `${bait.price} coins`;
+                    btn.className = 'bait-btn';
+                    btn.disabled = money < bait.price;
+                    btn.onclick = () => buyBait(baitId, bait.price);
+                }
+            });
+            
+            document.getElementById('bait-badge').textContent = `Current Bait: ${baitTypes[currentBait].name}`;
+        }
+        
+        function saveState() {
+            localStorage.setItem('fishing_fishCount', fishCount);
+            localStorage.setItem('fishing_money', money);
+            localStorage.setItem('fishing_bait', currentBait);
+        }
+        
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        function createConfetti() {
+            const container = document.createElement('div');
+            container.className = 'confetti-container';
+            document.body.appendChild(container);
+            
+            const colors = ['#f72585', '#4361ee', '#06d6a0', '#ffd166', '#7209b7'];
+            const emojis = ['🎉', '⭐', '🐟', '✨', '🎊', '🐱'];
+            
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti';
+                const isEmoji = Math.random() > 0.6;
+                
+                if (isEmoji) {
+                    piece.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    piece.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                } else {
+                    piece.style.width = (Math.random() * 10 + 5) + 'px';
+                    piece.style.height = (Math.random() * 10 + 5) + 'px';
+                    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                }
+                
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = '-20px';
+                piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                
+                container.appendChild(piece);
+            }
+            
+            setTimeout(() => container.remove(), 4000);
+        }
+    </script>
+</body>
+</html>

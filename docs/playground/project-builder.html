@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Project Builder - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: #1a1a2e;
+            min-height: 100vh;
+        }
+        
+        .playground-header {
+            background: linear-gradient(135deg, #4361ee, #7209b7, #f72585);
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .playground-header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.5rem;
+        }
+        
+        .project-name-input {
+            padding: 8px 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 10px;
+            font-size: 1rem;
+            width: 200px;
+        }
+        
+        .project-name-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .project-name-input:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .header-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .header-btn.save {
+            background: #06d6a0;
+            color: white;
+        }
+        
+        .header-btn.share {
+            background: #f72585;
+            color: white;
+        }
+        
+        .header-btn.gallery {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        
+        .header-btn.home {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        
+        .header-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .save-indicator {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+            margin-left: 10px;
+        }
+        
+        .builder-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: calc(100vh - 60px);
+        }
+        
+        @media (max-width: 1000px) {
+            .builder-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .editor-panel {
+            display: flex;
+            flex-direction: column;
+            background: #1e1e1e;
+            overflow: hidden;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #2d2d2d;
+        }
+        
+        .tab {
+            padding: 12px 25px;
+            background: #252525;
+            border: none;
+            color: #888;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tab.active {
+            background: #1e1e1e;
+            color: white;
+            border-bottom-color: #4361ee;
+        }
+        
+        .tab:hover:not(.active) {
+            color: #ccc;
+        }
+        
+        .tab-content {
+            display: none;
+            flex: 1;
+        }
+        
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .code-editor {
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+            border: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            resize: none;
+            outline: none;
+        }
+        
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #2d2d2d;
+            border-top: 1px solid #444;
+        }
+        
+        .toolbar-left {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .toolbar-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .toolbar-btn.templates {
+            background: #7209b7;
+            color: white;
+        }
+        
+        .toolbar-btn.run {
+            background: #06d6a0;
+            color: white;
+        }
+        
+        .toolbar-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .preview-header {
+            padding: 12px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .preview-header h3 {
+            color: #333;
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .preview-url {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        #preview-frame {
+            flex: 1;
+            border: none;
+            width: 100%;
+        }
+        
+        /* Templates Modal */
+        .templates-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .templates-modal.open {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 700px;
+            width: 95%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-content h2 {
+            color: #3a0ca3;
+            margin-bottom: 10px;
+            font-family: 'Comic Neue', cursive;
+        }
+        
+        .modal-subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        
+        .template-item {
+            padding: 25px 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+            text-align: center;
+        }
+        
+        .template-item:hover {
+            border-color: #4361ee;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .template-item .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .template-item h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .template-item p {
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: #f72585;
+        }
+        
+        /* Shared project banner */
+        .shared-banner {
+            background: linear-gradient(135deg, #06d6a0, #00b894);
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .shared-banner p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .shared-banner button {
+            padding: 8px 20px;
+            background: white;
+            color: #00b894;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        /* Auto-save indicator */
+        .autosave-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .autosave-toast.show {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: toastSlide 0.3s ease;
+        }
+        
+        @keyframes toastSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Shared project banner (hidden by default) -->
+    <div class="shared-banner" id="shared-banner" style="display: none;">
+        <p><i class="fas fa-share-alt"></i> You're viewing a shared project!</p>
+        <button onclick="saveSharedProject()">Save to My Projects</button>
+    </div>
+
+    <header class="playground-header">
+        <div class="header-left">
+            <h1>🚀 Project Builder</h1>
+            <input type="text" class="project-name-input" id="project-name" placeholder="My Awesome Project" maxlength="40">
+            <span class="save-indicator" id="save-indicator"></span>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn save" onclick="saveProject()">
+                <i class="fas fa-save"></i> Save
+            </button>
+            <button class="header-btn share" onclick="shareProject()">
+                <i class="fas fa-share-alt"></i> Share
+            </button>
+            <a href="../gallery/index.html" class="header-btn gallery">
+                <i class="fas fa-images"></i> Gallery
+            </a>
+            <a href="../index.html" class="header-btn home">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+    </header>
+
+    <main class="builder-layout">
+        <div class="editor-panel">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('html')">
+                    <i class="fab fa-html5" style="color: #e34f26;"></i> HTML
+                </button>
+                <button class="tab" onclick="switchTab('css')">
+                    <i class="fab fa-css3-alt" style="color: #264de4;"></i> CSS
+                </button>
+                <button class="tab" onclick="switchTab('js')">
+                    <i class="fab fa-js-square" style="color: #f7df1e;"></i> JavaScript
+                </button>
+            </div>
+            
+            <div id="html-tab" class="tab-content active">
+                <textarea id="html-editor" class="code-editor"><!DOCTYPE html>
+<html>
+<head>
+    <title>My Awesome Project</title>
+</head>
+<body>
+    <h1>🚀 Welcome to My Project!</h1>
+    <p>This is a complete website with HTML, CSS, and JavaScript!</p>
+    
+    <div class="card">
+        <h2>✨ Interactive Card</h2>
+        <p>Click the button below!</p>
+        <button onclick="sayHello()">Click Me!</button>
+    </div>
+    
+    <div class="counter-box">
+        <h2>🔢 Click Counter</h2>
+        <p id="count">0</p>
+        <button onclick="addCount()">Add +1</button>
+        <button onclick="resetCount()">Reset</button>
+    </div>
+</body>
+</html></textarea>
+            </div>
+            
+            <div id="css-tab" class="tab-content">
+                <textarea id="css-editor" class="code-editor">/* 🎨 Style your project here! */
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    padding: 20px;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.card, .counter-box {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+button {
+    background: #06d6a0;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(6, 214, 160, 0.4);
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(6, 214, 160, 0.6);
+}
+
+#count {
+    font-size: 5rem;
+    font-weight: bold;
+    margin: 15px 0;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+}</textarea>
+            </div>
+            
+            <div id="js-tab" class="tab-content">
+                <textarea id="js-editor" class="code-editor">// ⚡ Add interactivity here!
+
+// Greeting function
+function sayHello() {
+    alert("Hello, Tech Explorer! 🚀\n\nYou're building something amazing!");
+}
+
+// Counter variables and functions
+let count = 0;
+
+function addCount() {
+    count = count + 1;
+    document.getElementById("count").textContent = count;
+    
+    // Celebrate at milestones!
+    if (count === 10) {
+        alert("🎉 You reached 10! Keep going!");
+    }
+    if (count === 50) {
+        alert("🌟 Wow! 50 clicks! You're a clicking champion!");
+    }
+}
+
+function resetCount() {
+    count = 0;
+    document.getElementById("count").textContent = count;
+}
+
+// This runs when the page loads
+console.log("✨ Project loaded successfully!");</textarea>
+            </div>
+            
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <button class="toolbar-btn templates" onclick="openTemplates()">
+                        <i class="fas fa-magic"></i> Templates
+                    </button>
+                </div>
+                <button class="toolbar-btn run" onclick="updatePreview()">
+                    <i class="fas fa-play"></i> Run Project
+                </button>
+            </div>
+        </div>
+        
+        <div class="preview-panel">
+            <div class="preview-header">
+                <h3><i class="fas fa-eye"></i> Live Preview</h3>
+                <span class="preview-url">🌐 my-project.html</span>
+            </div>
+            <iframe id="preview-frame"></iframe>
+        </div>
+    </main>
+
+    <!-- Templates Modal -->
+    <div class="templates-modal" id="templates-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeTemplates()">×</button>
+            <h2>🎨 Project Templates</h2>
+            <p class="modal-subtitle">Choose a template to get started quickly!</p>
+            
+            <div class="template-grid">
+                <div class="template-item" onclick="loadTemplate('portfolio')">
+                    <div class="icon">👤</div>
+                    <h4>Portfolio</h4>
+                    <p>Personal website</p>
+                </div>
+                <div class="template-item" onclick="loadTemplate('game')">
+                    <div class="icon">🎮</div>
+                    <h4>Cookie Game</h4>
+                    <p>Click & earn</p>
+                </div>
+                <div class="template-item" onclick="loadTemplate('quiz')">
+                    <div class="icon">❓</div>
+                    <h4>Quiz App</h4>
+                    <p>Test your friends</p>
+                </div>
+                <div class="template-item" onclick="loadTemplate('calculator')">
+                    <div class="icon">🧮</div>
+                    <h4>Calculator</h4>
+                    <p>Do math!</p>
+                </div>
+                <div class="template-item" onclick="loadTemplate('story')">
+                    <div class="icon">📖</div>
+                    <h4>Story Book</h4>
+                    <p>Interactive tale</p>
+                </div>
+                <div class="template-item" onclick="loadTemplate('blank')">
+                    <div class="icon">📝</div>
+                    <h4>Blank</h4>
+                    <p>Start fresh</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-save toast -->
+    <div class="autosave-toast" id="autosave-toast">
+        <i class="fas fa-check-circle"></i>
+        <span>Project saved!</span>
+    </div>
+
+    <script src="../assets/js/project-storage.js"></script>
+    <script>
+        // Current project state
+        let currentProject = {
+            id: null,
+            name: 'My Awesome Project',
+            type: 'full',
+            html: '',
+            css: '',
+            js: ''
+        };
+        
+        let autoSaveTimeout = null;
+        let hasUnsavedChanges = false;
+        
+        // Templates collection
+        const templates = {
+            portfolio: {
+                html: `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Portfolio</title>
+</head>
+<body>
+    <header>
+        <h1>👋 Hi, I'm [Your Name]!</h1>
+        <p class="subtitle">Young Coder & Tech Explorer</p>
+    </header>
+    
+    <section class="about">
+        <h2>🌟 About Me</h2>
+        <p>I'm learning to code and build awesome things!</p>
+    </section>
+    
+    <section class="skills">
+        <h2>💪 My Skills</h2>
+        <div class="skill-badges">
+            <span class="badge html">HTML</span>
+            <span class="badge css">CSS</span>
+            <span class="badge js">JavaScript</span>
+        </div>
+    </section>
+    
+    <footer>
+        <p>Made with ❤️ at Tech Explorers</p>
+    </footer>
+</body>
+</html>`,
+                css: `body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: white;
+    min-height: 100vh;
+    margin: 0;
+    padding-bottom: 50px;
+}
+
+header {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #4361ee, #7209b7);
+}
+
+header h1 { font-size: 3rem; margin-bottom: 10px; }
+.subtitle { font-size: 1.3rem; opacity: 0.9; }
+
+section {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+h2 { color: #06d6a0; margin-bottom: 20px; }
+
+.skill-badges { display: flex; gap: 15px; flex-wrap: wrap; }
+.badge { padding: 10px 25px; border-radius: 25px; font-weight: bold; }
+.badge.html { background: #e34f26; }
+.badge.css { background: #264de4; }
+.badge.js { background: #f7df1e; color: #333; }
+
+footer { text-align: center; padding: 30px; opacity: 0.7; }`,
+                js: `console.log("🎨 Portfolio loaded!");`
+            },
+            game: {
+                html: `<!DOCTYPE html>
+<html>
+<head>
+    <title>Cookie Clicker</title>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🍪 Cookie Clicker!</h1>
+        <p>Click the cookie to earn cookies!</p>
+        
+        <div class="cookie" onclick="clickCookie()">🍪</div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number" id="cookies">0</div>
+                <div>Cookies</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="cps">0</div>
+                <div>Per Second</div>
+            </div>
+        </div>
+        
+        <div class="shop">
+            <h2>🛒 Shop</h2>
+            <button onclick="buyGrandma()">👵 Grandma (10 cookies)</button>
+            <button onclick="buyFactory()">🏭 Factory (50 cookies)</button>
+        </div>
+    </div>
+</body>
+</html>`,
+                css: `body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #8B4513, #D2691E);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin: 0;
+}
+
+.game-container { text-align: center; color: white; max-width: 500px; }
+h1 { font-size: 3rem; text-shadow: 3px 3px 6px rgba(0,0,0,0.5); }
+
+.cookie {
+    font-size: 150px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    user-select: none;
+}
+.cookie:hover { transform: scale(1.1); }
+.cookie:active { transform: scale(0.95); }
+
+.stats { display: flex; justify-content: center; gap: 30px; margin: 30px 0; }
+.stat-box { background: rgba(0,0,0,0.3); padding: 20px 40px; border-radius: 15px; }
+.stat-number { font-size: 2.5rem; font-weight: bold; color: #ffd166; }
+
+.shop { background: rgba(0,0,0,0.3); padding: 25px; border-radius: 20px; }
+.shop button {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    background: #06d6a0;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+.shop button:hover { transform: scale(1.02); background: #00b894; }`,
+                js: `let cookies = 0;
+let cps = 0;
+
+function clickCookie() {
+    cookies++;
+    updateDisplay();
+}
+
+function buyGrandma() {
+    if (cookies >= 10) {
+        cookies -= 10;
+        cps += 1;
+        updateDisplay();
+    } else {
+        alert("Not enough cookies!");
+    }
+}
+
+function buyFactory() {
+    if (cookies >= 50) {
+        cookies -= 50;
+        cps += 5;
+        updateDisplay();
+    } else {
+        alert("Not enough cookies!");
+    }
+}
+
+function updateDisplay() {
+    document.getElementById("cookies").textContent = Math.floor(cookies);
+    document.getElementById("cps").textContent = cps;
+}
+
+setInterval(function() {
+    cookies += cps;
+    updateDisplay();
+}, 1000);`
+            },
+            quiz: {
+                html: `<!DOCTYPE html>
+<html>
+<head><title>Quiz Game</title></head>
+<body>
+    <div class="quiz-container">
+        <h1>🧠 Quiz Time!</h1>
+        <div class="score">Score: <span id="score">0</span></div>
+        
+        <div id="quiz-box">
+            <h2 id="question">Loading...</h2>
+            <div id="options"></div>
+            <p id="feedback"></p>
+        </div>
+        
+        <button id="next-btn" onclick="nextQuestion()" style="display:none;">Next →</button>
+    </div>
+</body>
+</html>`,
+                css: `body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #4361ee, #7209b7);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.quiz-container {
+    background: white;
+    border-radius: 30px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+h1 { text-align: center; color: #3a0ca3; }
+.score { text-align: center; color: #666; margin-bottom: 25px; }
+.score span { font-weight: bold; color: #4361ee; font-size: 1.5rem; }
+
+#quiz-box { background: #f8f9fa; padding: 30px; border-radius: 20px; }
+#question { color: #333; margin-bottom: 25px; }
+
+#options { display: flex; flex-direction: column; gap: 12px; }
+.option-btn {
+    padding: 15px;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+.option-btn:hover { border-color: #4361ee; }
+.option-btn.correct { background: #06d6a0; color: white; border-color: #06d6a0; }
+.option-btn.wrong { background: #ef476f; color: white; border-color: #ef476f; }
+
+#feedback { text-align: center; font-weight: bold; margin-top: 20px; }
+
+#next-btn, button {
+    width: 100%;
+    padding: 18px;
+    background: #4361ee;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+}`,
+                js: `const questions = [
+    { q: "What does HTML stand for?", opts: ["Hyper Text Markup Language", "High Tech Language", "Home Tool Language"], a: 0 },
+    { q: "What is 7 × 8?", opts: ["54", "56", "58"], a: 1 },
+    { q: "What makes websites pretty?", opts: ["HTML", "CSS", "JavaScript"], a: 1 }
+];
+
+let current = 0, score = 0, answered = false;
+
+function showQuestion() {
+    const q = questions[current];
+    document.getElementById("question").textContent = q.q;
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("next-btn").style.display = "none";
+    answered = false;
+    
+    document.getElementById("options").innerHTML = q.opts.map((opt, i) => 
+        \`<button class="option-btn" onclick="check(\${i})">\${opt}</button>\`
+    ).join("");
+}
+
+function check(i) {
+    if (answered) return;
+    answered = true;
+    const correct = questions[current].a;
+    const btns = document.querySelectorAll(".option-btn");
+    btns[correct].classList.add("correct");
+    if (i !== correct) btns[i].classList.add("wrong");
+    else { score++; document.getElementById("score").textContent = score; }
+    document.getElementById("feedback").textContent = i === correct ? "✅ Correct!" : "❌ Not quite!";
+    if (current < questions.length - 1) document.getElementById("next-btn").style.display = "block";
+}
+
+function nextQuestion() { current++; showQuestion(); }
+showQuestion();`
+            },
+            calculator: {
+                html: `<!DOCTYPE html>
+<html>
+<head><title>Calculator</title></head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('*')">×</button>
+            <button onclick="backspace()">⌫</button>
+            
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('+')">+</button>
+            
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="calculate()" class="equals">=</button>
+            
+            <button onclick="appendToDisplay('0')" class="zero">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+        </div>
+    </div>
+</body>
+</html>`,
+                css: `body {
+    font-family: Arial;
+    background: linear-gradient(135deg, #2d3436, #636e72);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.calculator {
+    background: #1a1a1a;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.display {
+    background: #2d2d2d;
+    color: white;
+    font-size: 2.5rem;
+    padding: 20px;
+    text-align: right;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    font-family: monospace;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    padding: 20px;
+    font-size: 1.3rem;
+    border: none;
+    border-radius: 12px;
+    background: #3d3d3d;
+    color: white;
+    cursor: pointer;
+}
+button:hover { background: #4a4a4a; }
+.equals { background: #06d6a0; grid-row: span 2; }
+.zero { grid-column: span 2; }`,
+                js: `let displayValue = "0";
+
+function updateDisplay() {
+    document.getElementById("display").textContent = displayValue;
+}
+
+function appendToDisplay(val) {
+    if (displayValue === "0" && val !== ".") displayValue = val;
+    else displayValue += val;
+    updateDisplay();
+}
+
+function clearDisplay() {
+    displayValue = "0";
+    updateDisplay();
+}
+
+function backspace() {
+    displayValue = displayValue.slice(0, -1) || "0";
+    updateDisplay();
+}
+
+function calculate() {
+    try {
+        displayValue = String(eval(displayValue));
+        updateDisplay();
+    } catch (e) {
+        displayValue = "Error";
+        updateDisplay();
+        setTimeout(() => { displayValue = "0"; updateDisplay(); }, 1500);
+    }
+}`
+            },
+            story: {
+                html: `<!DOCTYPE html>
+<html>
+<head><title>Adventure Story</title></head>
+<body>
+    <div class="story-container">
+        <h1>🏰 The Magic Castle</h1>
+        <div id="story-panel">
+            <div class="scene-image" id="scene-image">🏰</div>
+            <p id="story-text">You stand before a magical castle...</p>
+            <div id="choices"></div>
+        </div>
+    </div>
+</body>
+</html>`,
+                css: `body {
+    font-family: Georgia, serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.story-container {
+    background: linear-gradient(135deg, #2d2d44, #1a1a2e);
+    border: 3px solid #ffd166;
+    border-radius: 25px;
+    padding: 40px;
+    max-width: 600px;
+    color: white;
+}
+
+h1 { text-align: center; color: #ffd166; }
+.scene-image { font-size: 100px; text-align: center; margin: 25px 0; }
+#story-text { font-size: 1.2rem; line-height: 1.8; text-align: center; margin-bottom: 30px; }
+#choices { display: flex; flex-direction: column; gap: 15px; }
+
+.choice-btn {
+    padding: 18px;
+    background: linear-gradient(135deg, #4361ee, #7209b7);
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+.choice-btn:hover { transform: translateX(10px); }
+.restart-btn { background: linear-gradient(135deg, #06d6a0, #00b894); }`,
+                js: `const story = {
+    start: {
+        image: "🏰",
+        text: "You stand before a magical castle. What do you do?",
+        choices: [
+            { text: "🚪 Knock on the door", next: "knock" },
+            { text: "🔍 Look for another way", next: "search" }
+        ]
+    },
+    knock: {
+        image: "👸",
+        text: "A princess opens the door! 'Welcome, brave explorer!'",
+        choices: [
+            { text: "🤝 'I'll help you!'", next: "win" }
+        ]
+    },
+    search: {
+        image: "🐉",
+        text: "You find a friendly dragon! It wants to be your friend!",
+        choices: [
+            { text: "🐉 Become dragon friends", next: "win" }
+        ]
+    },
+    win: {
+        image: "🏆",
+        text: "Congratulations! You won! THE END 🎉",
+        choices: [
+            { text: "🔄 Play Again", next: "start", restart: true }
+        ]
+    }
+};
+
+function showScene(id) {
+    const scene = story[id];
+    document.getElementById("scene-image").textContent = scene.image;
+    document.getElementById("story-text").textContent = scene.text;
+    document.getElementById("choices").innerHTML = scene.choices.map(c => 
+        \`<button class="choice-btn \${c.restart ? 'restart-btn' : ''}" onclick="showScene('\${c.next}')">\${c.text}</button>\`
+    ).join("");
+}
+
+showScene("start");`
+            },
+            blank: {
+                html: `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Project</title>
+</head>
+<body>
+    <h1>Hello World!</h1>
+    <p>Start building something amazing!</p>
+</body>
+</html>`,
+                css: `body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}`,
+                js: `console.log("Hello World!");`
+            }
+        };
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for shared project in URL
+            const sharedProject = TechExplorers.checkSharedProject();
+            if (sharedProject) {
+                loadSharedProject(sharedProject);
+            }
+            
+            // Check for editing existing project
+            const params = new URLSearchParams(window.location.search);
+            const editId = params.get('edit');
+            if (editId) {
+                loadProjectForEditing(editId);
+            }
+            
+            // Set up auto-save
+            ['html-editor', 'css-editor', 'js-editor'].forEach(id => {
+                document.getElementById(id).addEventListener('input', () => {
+                    hasUnsavedChanges = true;
+                    updateSaveIndicator('unsaved');
+                    scheduleAutoSave();
+                    schedulePreviewUpdate();
+                });
+            });
+            
+            document.getElementById('project-name').addEventListener('input', () => {
+                hasUnsavedChanges = true;
+                updateSaveIndicator('unsaved');
+            });
+            
+            // Initial preview
+            updatePreview();
+        });
+        
+        function loadSharedProject(project) {
+            document.getElementById('shared-banner').style.display = 'flex';
+            document.getElementById('project-name').value = project.name || 'Shared Project';
+            document.getElementById('html-editor').value = project.html || '';
+            document.getElementById('css-editor').value = project.css || '';
+            document.getElementById('js-editor').value = project.js || '';
+            updatePreview();
+        }
+        
+        function saveSharedProject() {
+            const project = getCurrentProject();
+            project.id = null;
+            const saved = TechExplorers.storage.saveProject(project);
+            currentProject = saved;
+            
+            window.history.replaceState({}, '', window.location.pathname);
+            document.getElementById('shared-banner').style.display = 'none';
+            
+            showToast('Project saved to your gallery!');
+            TechExplorers.celebration.confetti();
+            
+            if (TechExplorers.storage.addAchievement({
+                id: 'first-project',
+                name: 'First Creation',
+                icon: '🎨'
+            })) {
+                setTimeout(() => TechExplorers.celebration.badge('First Creation', '🎨'), 1000);
+            }
+        }
+        
+        function loadProjectForEditing(id) {
+            const project = TechExplorers.storage.getProject(id);
+            if (project) {
+                currentProject = project;
+                document.getElementById('project-name').value = project.name || '';
+                document.getElementById('html-editor').value = project.html || '';
+                document.getElementById('css-editor').value = project.css || '';
+                document.getElementById('js-editor').value = project.js || '';
+                updatePreview();
+            }
+        }
+        
+        function getCurrentProject() {
+            return {
+                id: currentProject.id,
+                name: document.getElementById('project-name').value || 'Untitled Project',
+                type: 'full',
+                html: document.getElementById('html-editor').value,
+                css: document.getElementById('css-editor').value,
+                js: document.getElementById('js-editor').value
+            };
+        }
+        
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.closest('.tab').classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tab + '-tab').classList.add('active');
+        }
+        
+        function updatePreview() {
+            const html = document.getElementById('html-editor').value;
+            const css = document.getElementById('css-editor').value;
+            const js = document.getElementById('js-editor').value;
+            
+            const fullHTML = html.replace('</head>', `<style>${css}</style></head>`)
+                                 .replace('</body>', `<script>${js}<\/script></body>`);
+            
+            document.getElementById('preview-frame').srcdoc = fullHTML;
+        }
+        
+        let previewTimeout;
+        function schedulePreviewUpdate() {
+            clearTimeout(previewTimeout);
+            previewTimeout = setTimeout(updatePreview, 500);
+        }
+        
+        function scheduleAutoSave() {
+            clearTimeout(autoSaveTimeout);
+            autoSaveTimeout = setTimeout(() => {
+                if (hasUnsavedChanges) {
+                    saveProject(true);
+                }
+            }, 3000);
+        }
+        
+        function saveProject(silent = false) {
+            const project = getCurrentProject();
+            const saved = TechExplorers.storage.saveProject(project);
+            currentProject = saved;
+            hasUnsavedChanges = false;
+            updateSaveIndicator('saved');
+            
+            if (!silent) {
+                showToast('Project saved!');
+                
+                const allProjects = TechExplorers.storage.getAllProjects();
+                
+                if (allProjects.length === 1) {
+                    if (TechExplorers.storage.addAchievement({
+                        id: 'first-project',
+                        name: 'First Creation',
+                        icon: '🎨'
+                    })) {
+                        TechExplorers.celebration.confetti();
+                        setTimeout(() => TechExplorers.celebration.badge('First Creation', '🎨'), 500);
+                    }
+                }
+                
+                if (allProjects.length === 5) {
+                    if (TechExplorers.storage.addAchievement({
+                        id: 'five-projects',
+                        name: 'Prolific Creator',
+                        icon: '🌟'
+                    })) {
+                        TechExplorers.celebration.confetti();
+                        setTimeout(() => TechExplorers.celebration.badge('Prolific Creator', '🌟'), 500);
+                    }
+                }
+            }
+        }
+        
+        function updateSaveIndicator(status) {
+            const indicator = document.getElementById('save-indicator');
+            if (status === 'saved') {
+                indicator.textContent = '✓ Saved';
+                indicator.style.color = '#06d6a0';
+            } else {
+                indicator.textContent = '● Unsaved';
+                indicator.style.color = '#ffd166';
+            }
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('autosave-toast');
+            toast.querySelector('span').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        function shareProject() {
+            if (hasUnsavedChanges) {
+                saveProject(true);
+            }
+            
+            const project = getCurrentProject();
+            
+            TechExplorers.share(project, () => {
+                const html = document.getElementById('html-editor').value;
+                const css = document.getElementById('css-editor').value;
+                const js = document.getElementById('js-editor').value;
+                
+                const fullHTML = html.replace('</head>', `<style>${css}</style></head>`)
+                                     .replace('</body>', `<script>${js}<\/script></body>`);
+                
+                const blob = new Blob([fullHTML], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = (project.name || 'my-project').replace(/[^a-z0-9]/gi, '-') + '.html';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+            
+            if (TechExplorers.storage.addAchievement({
+                id: 'shared-project',
+                name: 'Social Coder',
+                icon: '🔗'
+            })) {
+                setTimeout(() => TechExplorers.celebration.badge('Social Coder', '🔗'), 500);
+            }
+        }
+        
+        function openTemplates() {
+            document.getElementById('templates-modal').classList.add('open');
+        }
+        
+        function closeTemplates() {
+            document.getElementById('templates-modal').classList.remove('open');
+        }
+        
+        function loadTemplate(name) {
+            const t = templates[name];
+            currentProject = { id: null };
+            
+            document.getElementById('html-editor').value = t.html;
+            document.getElementById('css-editor').value = t.css;
+            document.getElementById('js-editor').value = t.js;
+            
+            const names = {
+                portfolio: 'My Portfolio',
+                game: 'Cookie Clicker',
+                quiz: 'Quiz Game',
+                calculator: 'My Calculator',
+                story: 'Adventure Story',
+                blank: 'New Project'
+            };
+            document.getElementById('project-name').value = names[name] || 'My Project';
+            
+            closeTemplates();
+            updatePreview();
+            hasUnsavedChanges = true;
+            updateSaveIndicator('unsaved');
+        }
+    </script>
+</body>
+</html>
