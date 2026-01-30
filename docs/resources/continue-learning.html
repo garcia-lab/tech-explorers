@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Continue Learning - Tech Explorers</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #4361ee 0%, #7209b7 50%, #f72585 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .page-header p { 
+            font-size: 1.2rem; 
+            opacity: 0.95; 
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-bar a {
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-bar a:hover { background: white; color: #4361ee; }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
+        }
+        
+        .intro-section {
+            background: white;
+            border-radius: 25px;
+            padding: 35px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .intro-section h2 {
+            color: #3a0ca3;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .intro-section p {
+            color: #666;
+            font-size: 1.15rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        .category-section {
+            margin-bottom: 50px;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+        }
+        
+        .category-header .emoji {
+            font-size: 2.5rem;
+        }
+        
+        .category-header h2 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+        
+        .category-header p {
+            color: #666;
+            margin-left: auto;
+            font-size: 1rem;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+        }
+        
+        .resource-card.featured {
+            border-color: #ffd166;
+            background: linear-gradient(135deg, #fffbeb, white);
+        }
+        
+        .resource-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+        
+        .resource-title h3 {
+            font-size: 1.4rem;
+            color: #3a0ca3;
+            margin-bottom: 5px;
+        }
+        
+        .resource-title .age-badge {
+            display: inline-block;
+            background: rgba(67, 97, 238, 0.1);
+            color: #4361ee;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .resource-card p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+        
+        .resource-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .tag {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .tag.free { background: #d4edda; color: #155724; }
+        .tag.games { background: #fff3cd; color: #856404; }
+        .tag.courses { background: #cce5ff; color: #004085; }
+        .tag.projects { background: #f8d7da; color: #721c24; }
+        .tag.blocks { background: #e2d5f1; color: #5a3d7a; }
+        .tag.text { background: #d1ecf1; color: #0c5460; }
+        
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            justify-content: center;
+        }
+        
+        .resource-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+        
+        .resource-link i {
+            font-size: 0.9rem;
+        }
+        
+        /* Category colors */
+        .category-coding .category-header { border-color: #4361ee; }
+        .category-coding .category-header h2 { color: #4361ee; }
+        
+        .category-games .category-header { border-color: #f72585; }
+        .category-games .category-header h2 { color: #f72585; }
+        
+        .category-web .category-header { border-color: #06d6a0; }
+        .category-web .category-header h2 { color: #06d6a0; }
+        
+        .category-ai .category-header { border-color: #7209b7; }
+        .category-ai .category-header h2 { color: #7209b7; }
+        
+        .category-typing .category-header { border-color: #ffd166; }
+        .category-typing .category-header h2 { color: #b8860b; }
+        
+        .category-advanced .category-header { border-color: #3a0ca3; }
+        .category-advanced .category-header h2 { color: #3a0ca3; }
+        
+        /* Parent tips section */
+        .parent-tips {
+            background: linear-gradient(135deg, #e8f4f8, #f3e8ff);
+            border-radius: 25px;
+            padding: 35px;
+            margin-top: 50px;
+        }
+        
+        .parent-tips h2 {
+            color: #3a0ca3;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .tip-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .tip-card h3 {
+            color: #7209b7;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tip-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            background: #3a0ca3;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+        
+        footer a {
+            color: #ffd166;
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2rem; }
+            .resources-grid { grid-template-columns: 1fr; }
+            .category-header { flex-direction: column; align-items: flex-start; }
+            .category-header p { margin-left: 0; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <h1>🚀 Keep Learning After Class!</h1>
+        <p>You've completed Tech Explorers - amazing job! Here are awesome FREE resources to continue your coding journey at home.</p>
+        
+        <nav class="nav-bar">
+            <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="../activities/all-activities.html"><i class="fas fa-gamepad"></i> Activities</a>
+            <a href="../gallery/index.html"><i class="fas fa-images"></i> My Projects</a>
+            <a href="../teacher/guide.html"><i class="fas fa-chalkboard-teacher"></i> Teacher Guide</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <!-- Intro -->
+        <section class="intro-section">
+            <h2>🌟 You're Just Getting Started!</h2>
+            <p>
+                Great job finishing Tech Explorers! The best way to become a great coder is to keep practicing. 
+                Below are websites and tools that are <strong>100% FREE</strong> and perfect for young learners like you. 
+                Ask a parent or guardian to help you explore these awesome resources!
+            </p>
+        </section>
+
+        <!-- Block-Based Coding Platforms -->
+        <section class="category-section category-coding">
+            <div class="category-header">
+                <span class="emoji">🧩</span>
+                <h2>Block-Based Coding</h2>
+                <p>Drag-and-drop coding - no typing needed!</p>
+            </div>
+            
+            <div class="resources-grid">
+                <div class="resource-card featured">
+                    <div class="resource-header">
+                        <span class="resource-icon">🐱</span>
+                        <div class="resource-title">
+                            <h3>Scratch</h3>
+                            <span class="age-badge">Ages 8-16</span>
+                        </div>
+                    </div>
+                    <p>Created by MIT! Make games, animations, and interactive stories by snapping colorful blocks together. Share your creations with millions of other kids worldwide!</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag games">Games</span>
+                        <span class="tag blocks">Block Coding</span>
+                    </div>
+                    <a href="https://scratch.mit.edu" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Scratch
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🐾</span>
+                        <div class="resource-title">
+                            <h3>ScratchJr</h3>
+                            <span class="age-badge">Ages 5-7</span>
+                        </div>
+                    </div>
+                    <p>Perfect for younger siblings! A simplified version of Scratch designed for the littlest coders. Create animated stories and games on tablets.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag blocks">Block Coding</span>
+                    </div>
+                    <a href="https://www.scratchjr.org" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit ScratchJr
+                    </a>
+                </div>
+                
+                <div class="resource-card featured">
+                    <div class="resource-header">
+                        <span class="resource-icon">📟</span>
+                        <div class="resource-title">
+                            <h3>Microsoft MakeCode</h3>
+                            <span class="age-badge">Ages 8-14</span>
+                        </div>
+                    </div>
+                    <p>Make retro arcade games, program micro:bit robots, and even create Minecraft mods! Switch between blocks and real JavaScript code.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag games">Games</span>
+                        <span class="tag blocks">Block Coding</span>
+                    </div>
+                    <a href="https://www.microsoft.com/en-us/makecode" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit MakeCode
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🎮</span>
+                        <div class="resource-title">
+                            <h3>MakeCode Arcade</h3>
+                            <span class="age-badge">Ages 9-14</span>
+                        </div>
+                    </div>
+                    <p>Create your own retro video games that you can play in your browser or download to handheld gaming devices!</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag games">Games</span>
+                        <span class="tag blocks">Block Coding</span>
+                    </div>
+                    <a href="https://arcade.makecode.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit MakeCode Arcade
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">⛏️</span>
+                        <div class="resource-title">
+                            <h3>Minecraft Education</h3>
+                            <span class="age-badge">Ages 8-16</span>
+                        </div>
+                    </div>
+                    <p>Learn to code inside Minecraft! Build amazing worlds while learning programming concepts. Ask your school if they have access!</p>
+                    <div class="resource-tags">
+                        <span class="tag courses">School Access</span>
+                        <span class="tag games">Games</span>
+                        <span class="tag blocks">Block Coding</span>
+                    </div>
+                    <a href="https://education.minecraft.net" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Minecraft Education
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🤖</span>
+                        <div class="resource-title">
+                            <h3>Blockly Games</h3>
+                            <span class="age-badge">Ages 6-12</span>
+                        </div>
+                    </div>
+                    <p>A series of fun educational games that teach programming concepts. Made by Google! Perfect stepping stone before learning text-based coding.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag games">Games</span>
+                        <span class="tag blocks">Block Coding</span>
+                    </div>
+                    <a href="https://blockly.games" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Blockly Games
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Coding Courses -->
+        <section class="category-section category-games">
+            <div class="category-header">
+                <span class="emoji">🎓</span>
+                <h2>Interactive Coding Courses</h2>
+                <p>Structured lessons to level up your skills</p>
+            </div>
+            
+            <div class="resources-grid">
+                <div class="resource-card featured">
+                    <div class="resource-header">
+                        <span class="resource-icon">💻</span>
+                        <div class="resource-title">
+                            <h3>Code.org</h3>
+                            <span class="age-badge">Ages 4-18</span>
+                        </div>
+                    </div>
+                    <p>The most popular coding education platform! Hour of Code activities with Minecraft, Star Wars, Frozen, and more. Full courses for every grade level.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Full Courses</span>
+                        <span class="tag blocks">Block Coding</span>
+                    </div>
+                    <a href="https://code.org" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Code.org
+                    </a>
+                </div>
+                
+                <div class="resource-card featured">
+                    <div class="resource-header">
+                        <span class="resource-icon">🎯</span>
+                        <div class="resource-title">
+                            <h3>Khan Academy</h3>
+                            <span class="age-badge">Ages 8+</span>
+                        </div>
+                    </div>
+                    <p>Learn HTML, CSS, JavaScript, and more with interactive lessons. Watch videos, then practice coding right away. Track your progress with badges!</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Full Courses</span>
+                        <span class="tag text">Text Coding</span>
+                    </div>
+                    <a href="https://www.khanacademy.org/computing" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Khan Academy
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🌐</span>
+                        <div class="resource-title">
+                            <h3>freeCodeCamp</h3>
+                            <span class="age-badge">Ages 12+</span>
+                        </div>
+                    </div>
+                    <p>Learn to build real websites and apps! Free certifications in web development, JavaScript, Python, and more. Used by millions of learners worldwide.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Certificates</span>
+                        <span class="tag text">Text Coding</span>
+                    </div>
+                    <a href="https://www.freecodecamp.org" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit freeCodeCamp
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🎪</span>
+                        <div class="resource-title">
+                            <h3>Codecademy</h3>
+                            <span class="age-badge">Ages 10+</span>
+                        </div>
+                    </div>
+                    <p>Interactive lessons in many programming languages. The free tier offers great intro courses in Python, JavaScript, HTML/CSS, and more!</p>
+                    <div class="resource-tags">
+                        <span class="tag free">Free Tier</span>
+                        <span class="tag courses">Full Courses</span>
+                        <span class="tag text">Text Coding</span>
+                    </div>
+                    <a href="https://www.codecademy.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Codecademy
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🏔️</span>
+                        <div class="resource-title">
+                            <h3>Grasshopper</h3>
+                            <span class="age-badge">Ages 10+</span>
+                        </div>
+                    </div>
+                    <p>Made by Google! Learn JavaScript on your phone or computer with fun, quick lessons. Perfect for learning coding on the go!</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Mobile App</span>
+                        <span class="tag text">JavaScript</span>
+                    </div>
+                    <a href="https://grasshopper.app" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Grasshopper
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">📚</span>
+                        <div class="resource-title">
+                            <h3>Sololearn</h3>
+                            <span class="age-badge">Ages 12+</span>
+                        </div>
+                    </div>
+                    <p>Learn any programming language with bite-sized lessons. Compete with other learners and earn certificates. Great mobile app!</p>
+                    <div class="resource-tags">
+                        <span class="tag free">Free Tier</span>
+                        <span class="tag courses">Certificates</span>
+                        <span class="tag text">Many Languages</span>
+                    </div>
+                    <a href="https://www.sololearn.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Sololearn
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Coding Games -->
+        <section class="category-section category-web">
+            <div class="category-header">
+                <span class="emoji">🎮</span>
+                <h2>Coding Games</h2>
+                <p>Learn while having fun!</p>
+            </div>
+            
+            <div class="resources-grid">
+                <div class="resource-card featured">
+                    <div class="resource-header">
+                        <span class="resource-icon">🥷</span>
+                        <div class="resource-title">
+                            <h3>CodeCombat</h3>
+                            <span class="age-badge">Ages 9+</span>
+                        </div>
+                    </div>
+                    <p>Play through an epic adventure game while learning real Python or JavaScript! Battle enemies and save the world with code.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">Free Levels</span>
+                        <span class="tag games">Adventure Game</span>
+                        <span class="tag text">Python/JS</span>
+                    </div>
+                    <a href="https://codecombat.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit CodeCombat
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🏰</span>
+                        <div class="resource-title">
+                            <h3>CodeMonkey</h3>
+                            <span class="age-badge">Ages 8-14</span>
+                        </div>
+                    </div>
+                    <p>Help a cute monkey catch bananas by writing code! Learn Python and other languages through fun game-based challenges.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">Free Levels</span>
+                        <span class="tag games">Adventure Game</span>
+                        <span class="tag text">Text Coding</span>
+                    </div>
+                    <a href="https://www.codemonkey.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit CodeMonkey
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🐢</span>
+                        <div class="resource-title">
+                            <h3>Tynker</h3>
+                            <span class="age-badge">Ages 5-17</span>
+                        </div>
+                    </div>
+                    <p>Create games, mod Minecraft, and program drones and robots! Starts with visual blocks and progresses to real code.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">Free Activities</span>
+                        <span class="tag games">Games</span>
+                        <span class="tag blocks">Blocks → Text</span>
+                    </div>
+                    <a href="https://www.tynker.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Tynker
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🎲</span>
+                        <div class="resource-title">
+                            <h3>CSS Diner</h3>
+                            <span class="age-badge">Ages 10+</span>
+                        </div>
+                    </div>
+                    <p>A fun game to learn CSS selectors! Help serve the right food by selecting HTML elements. Great for practicing what you learned here!</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag games">Puzzle Game</span>
+                        <span class="tag text">CSS</span>
+                    </div>
+                    <a href="https://flukeout.github.io" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Play CSS Diner
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🐸</span>
+                        <div class="resource-title">
+                            <h3>Flexbox Froggy</h3>
+                            <span class="age-badge">Ages 10+</span>
+                        </div>
+                    </div>
+                    <p>Help Froggy reach the lily pads by learning CSS Flexbox! A cute game to learn how to position elements on web pages.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag games">Puzzle Game</span>
+                        <span class="tag text">CSS</span>
+                    </div>
+                    <a href="https://flexboxfroggy.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Play Flexbox Froggy
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🌿</span>
+                        <div class="resource-title">
+                            <h3>Grid Garden</h3>
+                            <span class="age-badge">Ages 10+</span>
+                        </div>
+                    </div>
+                    <p>Water your garden using CSS Grid! Learn this powerful layout tool by helping your carrots grow in the right spots.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag games">Puzzle Game</span>
+                        <span class="tag text">CSS</span>
+                    </div>
+                    <a href="https://cssgridgarden.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Play Grid Garden
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Web Development -->
+        <section class="category-section category-ai">
+            <div class="category-header">
+                <span class="emoji">🌐</span>
+                <h2>Web Development Practice</h2>
+                <p>Build real websites like the pros</p>
+            </div>
+            
+            <div class="resources-grid">
+                <div class="resource-card featured">
+                    <div class="resource-header">
+                        <span class="resource-icon">✏️</span>
+                        <div class="resource-title">
+                            <h3>CodePen</h3>
+                            <span class="age-badge">Ages 10+</span>
+                        </div>
+                    </div>
+                    <p>An online code playground where you can write HTML, CSS, and JavaScript and see the results instantly! Explore millions of cool projects by others.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag projects">Playground</span>
+                        <span class="tag text">HTML/CSS/JS</span>
+                    </div>
+                    <a href="https://codepen.io" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit CodePen
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">⚡</span>
+                        <div class="resource-title">
+                            <h3>Glitch</h3>
+                            <span class="age-badge">Ages 10+</span>
+                        </div>
+                    </div>
+                    <p>Build and host real websites for free! Remix cool projects, collaborate with friends, and share your creations with the world.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag projects">Full Sites</span>
+                        <span class="tag text">HTML/CSS/JS</span>
+                    </div>
+                    <a href="https://glitch.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Glitch
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🔧</span>
+                        <div class="resource-title">
+                            <h3>Replit</h3>
+                            <span class="age-badge">Ages 10+</span>
+                        </div>
+                    </div>
+                    <p>Code in any programming language right in your browser! Build websites, games, apps, and more. Great for learning new languages.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">Free Tier</span>
+                        <span class="tag projects">Playground</span>
+                        <span class="tag text">Many Languages</span>
+                    </div>
+                    <a href="https://replit.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Replit
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">📝</span>
+                        <div class="resource-title">
+                            <h3>W3Schools</h3>
+                            <span class="age-badge">Ages 10+</span>
+                        </div>
+                    </div>
+                    <p>The world's largest web development reference! Tutorials for HTML, CSS, JavaScript, Python, and more with "Try it Yourself" editors.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Reference</span>
+                        <span class="tag text">All Web Tech</span>
+                    </div>
+                    <a href="https://www.w3schools.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit W3Schools
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🦊</span>
+                        <div class="resource-title">
+                            <h3>MDN Web Docs</h3>
+                            <span class="age-badge">Ages 12+</span>
+                        </div>
+                    </div>
+                    <p>The official reference for web technologies! Made by Mozilla (Firefox). Great for looking up how things work when you get stuck.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Reference</span>
+                        <span class="tag text">All Web Tech</span>
+                    </div>
+                    <a href="https://developer.mozilla.org/en-US/docs/Learn" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit MDN Learn
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typing Practice -->
+        <section class="category-section category-typing">
+            <div class="category-header">
+                <span class="emoji">⌨️</span>
+                <h2>Typing & Keyboard Skills</h2>
+                <p>Type faster to code faster!</p>
+            </div>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🦖</span>
+                        <div class="resource-title">
+                            <h3>TypingClub</h3>
+                            <span class="age-badge">All Ages</span>
+                        </div>
+                    </div>
+                    <p>Fun typing lessons with games and stories! Track your speed and accuracy as you become a typing master.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag games">Games</span>
+                    </div>
+                    <a href="https://www.typingclub.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit TypingClub
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🐒</span>
+                        <div class="resource-title">
+                            <h3>Typing.com</h3>
+                            <span class="age-badge">All Ages</span>
+                        </div>
+                    </div>
+                    <p>Learn to type with free lessons and games. Includes coding-specific typing practice to learn special characters!</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Lessons</span>
+                    </div>
+                    <a href="https://www.typing.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Typing.com
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🏎️</span>
+                        <div class="resource-title">
+                            <h3>Nitro Type</h3>
+                            <span class="age-badge">All Ages</span>
+                        </div>
+                    </div>
+                    <p>Race cars by typing! Compete against other players in real-time typing races. Earn money to buy cool cars!</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag games">Racing Game</span>
+                    </div>
+                    <a href="https://www.nitrotype.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Nitro Type
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🎯</span>
+                        <div class="resource-title">
+                            <h3>Keybr</h3>
+                            <span class="age-badge">Ages 8+</span>
+                        </div>
+                    </div>
+                    <p>Smart typing tutor that adapts to your weak spots! Practice the keys you struggle with most.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Adaptive</span>
+                    </div>
+                    <a href="https://www.keybr.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Keybr
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advanced / Older Kids -->
+        <section class="category-section category-advanced">
+            <div class="category-header">
+                <span class="emoji">🚀</span>
+                <h2>Ready for More? (Advanced)</h2>
+                <p>For students who want bigger challenges</p>
+            </div>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🐍</span>
+                        <div class="resource-title">
+                            <h3>Python for Kids</h3>
+                            <span class="age-badge">Ages 10+</span>
+                        </div>
+                    </div>
+                    <p>Python.org has free resources specifically for young learners! Python is great for games, AI, and automation.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Resources</span>
+                        <span class="tag text">Python</span>
+                    </div>
+                    <a href="https://www.python.org/about/gettingstarted/" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Learn Python
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🐙</span>
+                        <div class="resource-title">
+                            <h3>GitHub</h3>
+                            <span class="age-badge">Ages 13+</span>
+                        </div>
+                    </div>
+                    <p>Where professional developers store and share code! Learn to collaborate on projects and build your portfolio.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag projects">Portfolio</span>
+                        <span class="tag text">All Languages</span>
+                    </div>
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit GitHub
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🏆</span>
+                        <div class="resource-title">
+                            <h3>CS First by Google</h3>
+                            <span class="age-badge">Ages 9-14</span>
+                        </div>
+                    </div>
+                    <p>Free computer science curriculum from Google! Video tutorials and projects in game design, art, storytelling, and more.</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Full Courses</span>
+                        <span class="tag blocks">Scratch-based</span>
+                    </div>
+                    <a href="https://csfirst.withgoogle.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Visit CS First
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span class="resource-icon">🎬</span>
+                        <div class="resource-title">
+                            <h3>YouTube Channels</h3>
+                            <span class="age-badge">All Ages</span>
+                        </div>
+                    </div>
+                    <p>Great coding YouTube channels: Fireship, CS Dojo, Brackeys (game dev), and The Coding Train for creative coding!</p>
+                    <div class="resource-tags">
+                        <span class="tag free">100% Free</span>
+                        <span class="tag courses">Videos</span>
+                    </div>
+                    <a href="https://www.youtube.com/results?search_query=coding+for+kids+beginners" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <i class="fas fa-external-link-alt"></i> Find Channels
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tips for Parents -->
+        <section class="parent-tips">
+            <h2>👨‍👩‍👧 Tips for Parents & Guardians</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h3>🔒 Stay Safe Online</h3>
+                    <p>Most of these sites are designed for kids, but it's always good to supervise, especially when creating accounts. Look for sites with parent controls.</p>
+                </div>
+                <div class="tip-card">
+                    <h3>⏰ Set Time Limits</h3>
+                    <p>Screen time matters! 30-60 minutes of coding practice a few times a week is better than marathon sessions. Quality over quantity!</p>
+                </div>
+                <div class="tip-card">
+                    <h3>🎉 Celebrate Progress</h3>
+                    <p>Ask to see what they've built! Showing genuine interest in their creations keeps them motivated to learn more.</p>
+                </div>
+                <div class="tip-card">
+                    <h3>🤝 Code Together</h3>
+                    <p>You don't need to be an expert! Learning alongside your child can be a great bonding experience. Try a Code.org course together!</p>
+                </div>
+                <div class="tip-card">
+                    <h3>🎯 Start with Interests</h3>
+                    <p>Love Minecraft? Try Minecraft Education. Like art? Try Scratch or pixel art coding. Connecting coding to their interests helps motivation.</p>
+                </div>
+                <div class="tip-card">
+                    <h3>📱 Mobile Options</h3>
+                    <p>Apps like Grasshopper, ScratchJr, and Swift Playgrounds work great on tablets for on-the-go learning!</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>
+            Made with ❤️ for young coders everywhere!
+            <br>
+            <a href="../index.html">← Back to Tech Explorers Home</a>
+        </p>
+        <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
+            All linked resources are free or offer substantial free content. Links may change over time.
+        </p>
+    </footer>
+
+</body>
+</html>
