@@ -564,7 +564,7 @@
                 title: "Add an Image",
                 description: "Add an image to your page using the img tag. You can use any image URL!",
                 points: 100,
-                hint: "Use: &lt;img src=\"https://placekitten.com/200/200\" alt=\"A cute kitten\"&gt;",
+                hint: "Use: &lt;img src=\"https://placehold.co/200x200?text=🐱\" alt=\"A cute kitten\"&gt;",
                 check: (html, css) => html.includes('<img') && html.includes('src='),
                 starterHTML: '<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n\n<!-- Add an image below -->\n\n<ul>\n  <li>Coding</li>\n  <li>Games</li>\n  <li>Music</li>\n</ul>',
                 starterCSS: 'body {\n  background-color: lightblue;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}'
@@ -576,7 +576,7 @@
                 points: 100,
                 hint: "Use: &lt;a href=\"https://example.com\"&gt;Click here&lt;/a&gt;",
                 check: (html, css) => html.includes('<a') && html.includes('href='),
-                starterHTML: '<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n<img src="https://placekitten.com/200/200" alt="A cute kitten">\n\n<!-- Add a link below -->\n',
+                starterHTML: '<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n<img src="https://placehold.co/200x200?text=🐱" alt="A cute kitten">\n\n<!-- Add a link below -->\n',
                 starterCSS: 'body {\n  background-color: lightblue;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}'
             },
             {
@@ -614,7 +614,7 @@
                 title: "Add a Footer",
                 description: "Create a footer at the bottom with your name and the year.",
                 points: 100,
-                hint: "Use: &lt;footer&gt;Made by Your Name - 2024&lt;/footer&gt;",
+                hint: "Use: &lt;footer&gt;Made by Your Name - 2025&lt;/footer&gt;",
                 check: (html, css) => html.includes('<footer>'),
                 starterHTML: '<div class="container">\n  <h1>Welcome to My Website</h1>\n  <p>Hello! I am learning to code.</p>\n  <button>Click Me!</button>\n</div>\n\n<!-- Add a footer below -->\n',
                 starterCSS: 'body {\n  background-color: lightblue;\n  padding: 20px;\n}\n\n.container {\n  padding: 30px;\n  background: white;\n  border-radius: 15px;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}'
@@ -626,7 +626,7 @@
                 points: 125,
                 hint: "Use: footer { text-align: center; padding: 20px; margin-top: 20px; background: #333; color: white; border-radius: 10px; }",
                 check: (html, css) => css.includes('footer') && css.includes('text-align'),
-                starterHTML: '<div class="container">\n  <h1>Welcome to My Website</h1>\n  <p>Hello! I am learning to code.</p>\n  <button>Click Me!</button>\n</div>\n<footer>Made by Me - 2024</footer>',
+                starterHTML: '<div class="container">\n  <h1>Welcome to My Website</h1>\n  <p>Hello! I am learning to code.</p>\n  <button>Click Me!</button>\n</div>\n<footer>Made by Me - 2025</footer>',
                 starterCSS: 'body {\n  background-color: lightblue;\n  padding: 20px;\n}\n\n.container {\n  padding: 30px;\n  background: white;\n  border-radius: 15px;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}\n\n/* Style your footer below */\n'
             }
         ];
