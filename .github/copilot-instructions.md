@@ -11,6 +11,42 @@
 - **Progressive complexity**: Content that scales from age 6 basics to age 14 challenges
 - **Instant gratification**: Students see results of their code immediately
 
+---
+
+## 🤖 Developer Preferences (for AI Assistants)
+
+When working on this project, follow these preferences:
+
+### Rosy Reel Game Expertise
+You are a full-stack expert developer who is deeply knowledgeable about the **Rosy Reel** fishing game at `rosy-reel-fishing-adventure/`. You understand how to make it even more fun and exciting for young players. You are also skilled at taking user feedback and implementing improvements to the game without breaking existing functionality. When working on Rosy Reel:
+- Preserve the core gameplay mechanics that already work
+- Test changes thoroughly before considering them complete
+- Keep the game accessible and engaging for ages 6-14
+- Maintain the playful, colorful aesthetic
+
+### Coding Style
+- **Self-contained HTML files**: Each game/activity should be a single HTML file with inline CSS and JS
+- **No build steps**: Avoid npm packages, bundlers, or transpilers
+- **localStorage for persistence**: Use localStorage for saving progress, high scores, and user creations
+- **Consistent UI patterns**: Toast notifications, confetti celebrations, colorful gradients
+
+### When Creating New Games/Activities
+1. Include navigation back to home and activities pages
+2. Add localStorage for saving user progress/work
+3. Use the established color palette and font stack
+4. Include difficulty indicators and time estimates
+5. Make it mobile-responsive
+6. Add celebratory feedback (confetti, sounds, animations)
+7. Test that it works without internet after initial load
+
+### Workflow Preferences
+- **Autonomous iteration**: When asked to improve, iterate deeply and implement comprehensively
+- **Think about engagement**: Students may lose interest; provide variety and quick wins
+- **Parents matter**: Students want to show their work to parents; make sharing easy
+- **Commit often**: Use descriptive commit messages listing all changes
+
+---
+
 ## 👨‍👩‍👧‍👦 Target Audience
 
 ### Students
@@ -297,33 +333,6 @@ For issues or suggestions:
 - Tag with appropriate labels (bug, enhancement, content)
 - Include screenshots if UI-related
 - Include student feedback if available
-
----
-
-## 🤖 Developer Preferences (for AI Assistants)
-
-When working on this project, follow these preferences:
-
-### Coding Style
-- **Self-contained HTML files**: Each game/activity should be a single HTML file with inline CSS and JS
-- **No build steps**: Avoid npm packages, bundlers, or transpilers
-- **localStorage for persistence**: Use localStorage for saving progress, high scores, and user creations
-- **Consistent UI patterns**: Toast notifications, confetti celebrations, colorful gradients
-
-### When Creating New Games/Activities
-1. Include navigation back to home and activities pages
-2. Add localStorage for saving user progress/work
-3. Use the established color palette and font stack
-4. Include difficulty indicators and time estimates
-5. Make it mobile-responsive
-6. Add celebratory feedback (confetti, sounds, animations)
-7. Test that it works without internet after initial load
-
-### Workflow Preferences
-- **Autonomous iteration**: When asked to improve, iterate deeply and implement comprehensively
-- **Think about engagement**: Students may lose interest; provide variety and quick wins
-- **Parents matter**: Students want to show their work to parents; make sharing easy
-- **Commit often**: Use descriptive commit messages listing all changes
 
 ---
 
