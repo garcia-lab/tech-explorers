@@ -296,6 +296,173 @@
                 </div>
             </section>
 
+            <!-- Step 4: NEW - Input/Output Challenge -->
+            <section class="lesson-step" id="step4">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <h2>⭐ Input & Output Challenge!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        Computers take <strong>INPUT</strong> (what you give them) and produce <strong>OUTPUT</strong> (what they show you)!
+                    </p>
+
+                    <div class="interactive-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 20px; padding: 25px;">
+                        <h3 style="color: white;">🎮 Input → Output Game</h3>
+                        <p>Match the INPUT to the correct OUTPUT! Drag and drop or click to match!</p>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;">
+                            <div>
+                                <h4 style="color: #ffd166; margin-bottom: 15px;">📥 INPUTS</h4>
+                                <div class="io-item input-item" data-pair="1" onclick="selectIO(this, 'input')" style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 10px 0; cursor: pointer; transition: all 0.3s;">
+                                    ⌨️ Type your name
+                                </div>
+                                <div class="io-item input-item" data-pair="2" onclick="selectIO(this, 'input')" style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 10px 0; cursor: pointer; transition: all 0.3s;">
+                                    🖱️ Click "Play" button
+                                </div>
+                                <div class="io-item input-item" data-pair="3" onclick="selectIO(this, 'input')" style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 10px 0; cursor: pointer; transition: all 0.3s;">
+                                    🎤 Say "Hey Siri"
+                                </div>
+                            </div>
+                            <div>
+                                <h4 style="color: #06d6a0; margin-bottom: 15px;">📤 OUTPUTS</h4>
+                                <div class="io-item output-item" data-pair="2" onclick="selectIO(this, 'output')" style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 10px 0; cursor: pointer; transition: all 0.3s;">
+                                    🎮 Game starts playing
+                                </div>
+                                <div class="io-item output-item" data-pair="3" onclick="selectIO(this, 'output')" style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 10px 0; cursor: pointer; transition: all 0.3s;">
+                                    🗣️ Siri responds to you
+                                </div>
+                                <div class="io-item output-item" data-pair="1" onclick="selectIO(this, 'output')" style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 10px 0; cursor: pointer; transition: all 0.3s;">
+                                    👋 "Hello, [Your Name]!"
+                                </div>
+                            </div>
+                        </div>
+                        <div id="io-result" style="text-align: center; margin-top: 20px; font-size: 1.2rem;"></div>
+                        <div style="text-align: center; margin-top: 15px;">
+                            <button onclick="resetIOGame()" style="background: rgba(255,255,255,0.3); color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer;">🔄 Reset Game</button>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check4" class="checkpoint-check">
+                        <label for="check4">
+                            <i class="fas fa-check-circle"></i>
+                            I understand input and output!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 5: NEW - Speed Typing Mini-Game -->
+            <section class="lesson-step" id="step5">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <h2>⚡ Keyboard Speed Challenge!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">⌨️</div>
+                        <div class="fun-fact-content">
+                            <strong>Keyboards are how we TALK to computers!</strong>
+                            <p>The faster you type, the faster you can create amazing things!</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-box" style="background: linear-gradient(135deg, #f72585, #7209b7); color: white; border-radius: 20px; padding: 25px; text-align: center;">
+                        <h3 style="color: white;">⚡ Quick Type Challenge!</h3>
+                        <p>Type the word that appears as fast as you can!</p>
+                        
+                        <div id="typing-word" style="font-size: 3rem; font-weight: bold; margin: 30px 0; letter-spacing: 5px; color: #ffd166;">READY?</div>
+                        
+                        <input type="text" id="typing-input" placeholder="Type here..." disabled style="padding: 15px 25px; font-size: 1.5rem; border: none; border-radius: 15px; width: 80%; max-width: 400px; text-align: center;">
+                        
+                        <div style="margin-top: 20px;">
+                            <button id="start-typing-btn" onclick="startTypingGame()" style="background: #ffd166; color: #333; border: none; padding: 15px 40px; border-radius: 25px; font-size: 1.2rem; font-weight: bold; cursor: pointer;">▶️ Start Game!</button>
+                        </div>
+                        
+                        <div id="typing-stats" style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                                <div style="font-size: 2rem;" id="words-typed">0</div>
+                                <div style="font-size: 0.9rem; opacity: 0.8;">Words</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                                <div style="font-size: 2rem;" id="time-left">30</div>
+                                <div style="font-size: 0.9rem; opacity: 0.8;">Seconds</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                                <div style="font-size: 2rem;" id="typing-streak">0</div>
+                                <div style="font-size: 0.9rem; opacity: 0.8;">Streak 🔥</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check5" class="checkpoint-check">
+                        <label for="check5">
+                            <i class="fas fa-check-circle"></i>
+                            I completed the typing challenge!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 6: NEW - Build a Computer Activity -->
+            <section class="lesson-step" id="step6">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <h2>🔧 Build Your Own Computer!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        Every computer has important parts. Can you put them together?
+                    </p>
+
+                    <div class="interactive-box">
+                        <h3>🖥️ Click each part to add it to your computer!</h3>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 20px 0;">
+                            <button class="computer-part-btn" data-part="cpu" onclick="addPart(this)" style="background: linear-gradient(135deg, #4361ee, #3a0ca3); color: white; border: none; padding: 15px 25px; border-radius: 15px; cursor: pointer; transition: all 0.3s; font-weight: bold;">
+                                🧠 CPU (Brain)
+                            </button>
+                            <button class="computer-part-btn" data-part="ram" onclick="addPart(this)" style="background: linear-gradient(135deg, #06d6a0, #00b894); color: white; border: none; padding: 15px 25px; border-radius: 15px; cursor: pointer; transition: all 0.3s; font-weight: bold;">
+                                💭 Memory (RAM)
+                            </button>
+                            <button class="computer-part-btn" data-part="storage" onclick="addPart(this)" style="background: linear-gradient(135deg, #f72585, #b5179e); color: white; border: none; padding: 15px 25px; border-radius: 15px; cursor: pointer; transition: all 0.3s; font-weight: bold;">
+                                💾 Storage
+                            </button>
+                            <button class="computer-part-btn" data-part="screen" onclick="addPart(this)" style="background: linear-gradient(135deg, #ffd166, #f7a325); color: #333; border: none; padding: 15px 25px; border-radius: 15px; cursor: pointer; transition: all 0.3s; font-weight: bold;">
+                                🖥️ Screen
+                            </button>
+                            <button class="computer-part-btn" data-part="keyboard" onclick="addPart(this)" style="background: linear-gradient(135deg, #7209b7, #560bad); color: white; border: none; padding: 15px 25px; border-radius: 15px; cursor: pointer; transition: all 0.3s; font-weight: bold;">
+                                ⌨️ Keyboard
+                            </button>
+                        </div>
+                        
+                        <div id="computer-builder" style="background: linear-gradient(135deg, #1e1e1e, #2d2d2d); border-radius: 20px; padding: 30px; min-height: 200px; margin: 20px 0;">
+                            <div style="text-align: center; color: #666; font-size: 1.2rem;" id="computer-status">
+                                👆 Click parts above to build your computer!
+                            </div>
+                            <div id="computer-parts-display" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px;"></div>
+                        </div>
+                        
+                        <div id="computer-complete" style="display: none; text-align: center; background: linear-gradient(135deg, #06d6a0, #00b894); color: white; padding: 20px; border-radius: 15px; margin-top: 15px;">
+                            🎉 <strong>AMAZING!</strong> You built a complete computer! 🎉
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check6" class="checkpoint-check">
+                        <label for="check6">
+                            <i class="fas fa-check-circle"></i>
+                            I built my own computer!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
             <!-- Celebration -->
             <section class="celebration-section" id="celebration">
                 <div class="celebration-content">
@@ -308,6 +475,24 @@
                         <div class="badge-info">
                             <strong>Badge Earned:</strong>
                             <span>Computer Expert</span>
+                        </div>
+                    </div>
+
+                    <div id="adventure1-stats" style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin: 20px 0;">
+                        <h3 style="margin-bottom: 15px;">📊 Your Adventure Stats</h3>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center;">
+                            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+                                <div style="font-size: 2rem;" id="final-checkpoints">0</div>
+                                <div style="opacity: 0.8;">Checkpoints ✓</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+                                <div style="font-size: 2rem;" id="final-words">0</div>
+                                <div style="opacity: 0.8;">Words Typed ⌨️</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+                                <div style="font-size: 2rem;" id="final-matches">0</div>
+                                <div style="opacity: 0.8;">Matches Made 🎯</div>
+                            </div>
                         </div>
                     </div>
 
@@ -335,11 +520,16 @@
     </footer>
 
     <script>
+        // Stats tracking
+        let totalWordsTyped = 0;
+        let totalMatches = 0;
+        
         // Computer matching game
         function checkAnswer(element, isComputer) {
             if (element.classList.contains('answered')) return;
             
             element.classList.add('answered');
+            totalMatches++;
             
             if (isComputer) {
                 element.classList.add('correct');
@@ -358,6 +548,189 @@
                     '<div class="success-message">🎉 Great job! You identified all the computers!</div>';
             }
         }
+        
+        // Input/Output matching game
+        let selectedInput = null;
+        let selectedOutput = null;
+        let ioMatches = 0;
+        
+        function selectIO(element, type) {
+            if (element.classList.contains('matched')) return;
+            
+            if (type === 'input') {
+                if (selectedInput) selectedInput.style.border = 'none';
+                selectedInput = element;
+                element.style.border = '3px solid #ffd166';
+            } else {
+                if (selectedOutput) selectedOutput.style.border = 'none';
+                selectedOutput = element;
+                element.style.border = '3px solid #06d6a0';
+            }
+            
+            if (selectedInput && selectedOutput) {
+                checkIOMatch();
+            }
+        }
+        
+        function checkIOMatch() {
+            const inputPair = selectedInput.dataset.pair;
+            const outputPair = selectedOutput.dataset.pair;
+            
+            if (inputPair === outputPair) {
+                selectedInput.classList.add('matched');
+                selectedOutput.classList.add('matched');
+                selectedInput.style.background = 'rgba(6, 214, 160, 0.5)';
+                selectedOutput.style.background = 'rgba(6, 214, 160, 0.5)';
+                selectedInput.style.border = '3px solid #06d6a0';
+                selectedOutput.style.border = '3px solid #06d6a0';
+                ioMatches++;
+                totalMatches++;
+                
+                if (ioMatches === 3) {
+                    document.getElementById('io-result').innerHTML = '🎉 Perfect! You matched all inputs and outputs!';
+                }
+            } else {
+                selectedInput.style.border = 'none';
+                selectedOutput.style.border = 'none';
+                document.getElementById('io-result').innerHTML = '❌ Try again! That doesn\'t match.';
+                setTimeout(() => {
+                    document.getElementById('io-result').innerHTML = '';
+                }, 1500);
+            }
+            
+            selectedInput = null;
+            selectedOutput = null;
+        }
+        
+        function resetIOGame() {
+            ioMatches = 0;
+            selectedInput = null;
+            selectedOutput = null;
+            document.querySelectorAll('.io-item').forEach(item => {
+                item.classList.remove('matched');
+                item.style.background = 'rgba(255,255,255,0.2)';
+                item.style.border = 'none';
+            });
+            document.getElementById('io-result').innerHTML = '';
+        }
+        
+        // Typing game
+        const typingWords = ['CODE', 'COMPUTER', 'HTML', 'WEB', 'LEARN', 'TECH', 'GAME', 'FUN', 'ROBOT', 'APP', 'DATA', 'CLICK', 'TYPE', 'SCREEN', 'MOUSE'];
+        let typingInterval = null;
+        let timeLeft = 30;
+        let wordsTyped = 0;
+        let typingStreak = 0;
+        let currentWord = '';
+        
+        function startTypingGame() {
+            wordsTyped = 0;
+            typingStreak = 0;
+            timeLeft = 30;
+            document.getElementById('words-typed').textContent = '0';
+            document.getElementById('time-left').textContent = '30';
+            document.getElementById('typing-streak').textContent = '0';
+            document.getElementById('typing-input').disabled = false;
+            document.getElementById('typing-input').value = '';
+            document.getElementById('typing-input').focus();
+            document.getElementById('start-typing-btn').style.display = 'none';
+            
+            nextWord();
+            
+            typingInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('time-left').textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    endTypingGame();
+                }
+            }, 1000);
+        }
+        
+        function nextWord() {
+            currentWord = typingWords[Math.floor(Math.random() * typingWords.length)];
+            document.getElementById('typing-word').textContent = currentWord;
+            document.getElementById('typing-word').style.animation = 'none';
+            setTimeout(() => {
+                document.getElementById('typing-word').style.animation = 'pulse 0.5s';
+            }, 10);
+        }
+        
+        function endTypingGame() {
+            clearInterval(typingInterval);
+            document.getElementById('typing-input').disabled = true;
+            document.getElementById('typing-word').textContent = '🎉 DONE!';
+            document.getElementById('start-typing-btn').style.display = 'inline-block';
+            document.getElementById('start-typing-btn').textContent = '🔄 Play Again!';
+            totalWordsTyped += wordsTyped;
+        }
+        
+        document.getElementById('typing-input').addEventListener('input', function(e) {
+            const typed = e.target.value.toUpperCase();
+            if (typed === currentWord) {
+                wordsTyped++;
+                typingStreak++;
+                document.getElementById('words-typed').textContent = wordsTyped;
+                document.getElementById('typing-streak').textContent = typingStreak;
+                e.target.value = '';
+                nextWord();
+            }
+        });
+        
+        // Computer builder
+        let addedParts = [];
+        const allParts = ['cpu', 'ram', 'storage', 'screen', 'keyboard'];
+        
+        function addPart(button) {
+            const part = button.dataset.part;
+            if (addedParts.includes(part)) return;
+            
+            addedParts.push(part);
+            button.style.opacity = '0.5';
+            button.style.transform = 'scale(0.95)';
+            
+            const partEmojis = {
+                cpu: '🧠',
+                ram: '💭',
+                storage: '💾',
+                screen: '🖥️',
+                keyboard: '⌨️'
+            };
+            
+            document.getElementById('computer-status').style.display = 'none';
+            
+            const partDiv = document.createElement('div');
+            partDiv.innerHTML = partEmojis[part];
+            partDiv.style.cssText = 'font-size: 3rem; animation: bounceIn 0.5s;';
+            document.getElementById('computer-parts-display').appendChild(partDiv);
+            
+            if (addedParts.length === allParts.length) {
+                document.getElementById('computer-complete').style.display = 'block';
+                // Celebration effect
+                confetti();
+            }
+        }
+        
+        // Simple confetti effect
+        function confetti() {
+            const colors = ['#f72585', '#7209b7', '#4361ee', '#06d6a0', '#ffd166'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.innerHTML = '🎉';
+                    confetti.style.cssText = `
+                        position: fixed;
+                        top: -20px;
+                        left: ${Math.random() * 100}vw;
+                        font-size: ${Math.random() * 20 + 15}px;
+                        z-index: 9999;
+                        pointer-events: none;
+                        animation: fall ${Math.random() * 2 + 2}s linear forwards;
+                    `;
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+        }
 
         // Progress tracking with local storage
         document.querySelectorAll('.checkpoint-check').forEach(checkbox => {
@@ -365,11 +738,38 @@
                 const completed = document.querySelectorAll('.checkpoint-check:checked').length;
                 const total = document.querySelectorAll('.checkpoint-check').length;
                 
+                // Update final stats
+                document.getElementById('final-checkpoints').textContent = completed;
+                document.getElementById('final-words').textContent = totalWordsTyped;
+                document.getElementById('final-matches').textContent = totalMatches;
+                
                 if (completed === total) {
                     document.getElementById('celebration').scrollIntoView({ behavior: 'smooth' });
+                    confetti();
                 }
             });
         });
+        
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+            @keyframes bounceIn {
+                0% { transform: scale(0); }
+                50% { transform: scale(1.2); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>

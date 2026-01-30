@@ -450,6 +450,226 @@
                 </div>
             </section>
 
+            <!-- Step 5: NEW - Variable Explorer -->
+            <section class="lesson-step" id="step5">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <h2>📦 Variable Adventure!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">📦</div>
+                        <div class="fun-fact-content">
+                            <strong>Variables are like labeled boxes!</strong>
+                            <p>They store information that your program can use later.</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-box" style="background: linear-gradient(135deg, #4361ee, #7209b7); color: white; border-radius: 20px; padding: 25px;">
+                        <h3 style="color: white;">📦 Create Your Own Variables!</h3>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Variable Name:</label>
+                                <input type="text" id="var-name" value="myAge" oninput="updateVariable()" style="width: 100%; padding: 12px; border: none; border-radius: 10px; font-family: 'Fira Code', monospace;">
+                                
+                                <label style="display: block; margin: 15px 0 8px; font-weight: bold;">Variable Value:</label>
+                                <input type="text" id="var-value" value="10" oninput="updateVariable()" style="width: 100%; padding: 12px; border: none; border-radius: 10px; font-family: 'Fira Code', monospace;">
+                            </div>
+                            
+                            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px;">
+                                <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 10px;">Your JavaScript Code:</p>
+                                <code id="var-code" style="font-family: 'Fira Code', monospace; font-size: 1.1rem; color: #06d6a0;">let myAge = 10;</code>
+                                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
+                                    <p style="font-size: 0.9rem; opacity: 0.8;">The box contains:</p>
+                                    <div id="var-box" style="background: #ffd166; color: #333; padding: 15px; border-radius: 10px; font-size: 1.5rem; font-weight: bold; text-align: center; margin-top: 10px;">10</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 15px;">
+                            <p style="font-size: 0.9rem; opacity: 0.8;">Quick examples:</p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                                <button onclick="setVariable('playerName', '&quot;Alex&quot;')" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 15px; cursor: pointer;">playerName = "Alex"</button>
+                                <button onclick="setVariable('score', '100')" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 15px; cursor: pointer;">score = 100</button>
+                                <button onclick="setVariable('isWinner', 'true')" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 15px; cursor: pointer;">isWinner = true</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check5" class="checkpoint-check">
+                        <label for="check5">
+                            <i class="fas fa-check-circle"></i>
+                            I understand variables!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 6: NEW - Event Detector Game -->
+            <section class="lesson-step" id="step6">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <h2>🎯 Event Detector Challenge!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        JavaScript listens for <strong>events</strong> - things that happen on a webpage!
+                    </p>
+
+                    <div class="interactive-box" style="background: linear-gradient(135deg, #f72585, #7209b7); color: white; border-radius: 20px; padding: 25px;">
+                        <h3 style="color: white;">🎮 Trigger Different Events!</h3>
+                        <p>Perform the actions below to score points!</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0;">
+                            <div id="event-click" class="event-box" style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s;">
+                                <div style="font-size: 2rem;">🖱️</div>
+                                <div style="font-weight: bold; margin: 10px 0;">Click Event</div>
+                                <div style="font-size: 0.9rem; opacity: 0.8;">Click this box!</div>
+                                <div class="event-status" style="margin-top: 10px;">⬜ Not triggered</div>
+                            </div>
+                            
+                            <div id="event-double" class="event-box" style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s;">
+                                <div style="font-size: 2rem;">👆👆</div>
+                                <div style="font-weight: bold; margin: 10px 0;">Double Click</div>
+                                <div style="font-size: 0.9rem; opacity: 0.8;">Double-click this!</div>
+                                <div class="event-status" style="margin-top: 10px;">⬜ Not triggered</div>
+                            </div>
+                            
+                            <div id="event-hover" class="event-box" style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s;">
+                                <div style="font-size: 2rem;">🎯</div>
+                                <div style="font-weight: bold; margin: 10px 0;">Hover Event</div>
+                                <div style="font-size: 0.9rem; opacity: 0.8;">Move your mouse here!</div>
+                                <div class="event-status" style="margin-top: 10px;">⬜ Not triggered</div>
+                            </div>
+                            
+                            <div id="event-key" class="event-box" style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s;">
+                                <div style="font-size: 2rem;">⌨️</div>
+                                <div style="font-weight: bold; margin: 10px 0;">Key Press</div>
+                                <div style="font-size: 0.9rem; opacity: 0.8;">Press any key!</div>
+                                <div class="event-status" style="margin-top: 10px;">⬜ Not triggered</div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <div style="font-size: 1.5rem;">Events Triggered: <strong id="events-count">0</strong> / 4</div>
+                            <div id="events-complete" style="display: none; margin-top: 15px; font-size: 1.2rem;">🎉 You triggered all events! You're an event master!</div>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check6" class="checkpoint-check">
+                        <label for="check6">
+                            <i class="fas fa-check-circle"></i>
+                            I triggered all events!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 7: NEW - Condition Builder -->
+            <section class="lesson-step" id="step7">
+                <div class="step-header">
+                    <div class="step-number">7</div>
+                    <h2>🔀 If/Else Decision Maker!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">🤔</div>
+                        <div class="fun-fact-content">
+                            <strong>Computers can make decisions!</strong>
+                            <p>Using IF and ELSE, programs choose what to do based on conditions.</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-box">
+                        <h3>🎮 Build Your Own Decision!</h3>
+                        
+                        <div style="background: #2d2d2d; border-radius: 15px; padding: 25px; color: #f8f8f2; font-family: 'Fira Code', monospace;">
+                            <div style="margin-bottom: 15px;">
+                                <span style="color: #66d9ef;">let</span> age = 
+                                <input type="number" id="decision-age" value="12" oninput="runDecision()" style="width: 60px; padding: 5px 10px; border: none; border-radius: 5px; font-family: inherit; text-align: center;">
+                                ;
+                            </div>
+                            
+                            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+                                <div><span style="color: #f72585;">if</span> (age >= 13) {</div>
+                                <div style="padding-left: 20px; color: #06d6a0;">🎮 "You can play teen games!"</div>
+                                <div>} <span style="color: #f72585;">else if</span> (age >= 7) {</div>
+                                <div style="padding-left: 20px; color: #ffd166;">🧩 "You can play kid games!"</div>
+                                <div>} <span style="color: #f72585;">else</span> {</div>
+                                <div style="padding-left: 20px; color: #4361ee;">👶 "You can play toddler games!"</div>
+                                <div>}</div>
+                            </div>
+                        </div>
+                        
+                        <div id="decision-result" style="background: linear-gradient(135deg, #4361ee, #7209b7); color: white; padding: 25px; border-radius: 15px; text-align: center; margin-top: 20px; font-size: 1.5rem;">
+                            🧩 "You can play kid games!"
+                        </div>
+                        
+                        <div style="margin-top: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            <button onclick="setAge(5)" style="background: #4361ee; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer;">Try age 5</button>
+                            <button onclick="setAge(10)" style="background: #ffd166; color: #333; border: none; padding: 12px; border-radius: 10px; cursor: pointer;">Try age 10</button>
+                            <button onclick="setAge(15)" style="background: #06d6a0; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer;">Try age 15</button>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check7" class="checkpoint-check">
+                        <label for="check7">
+                            <i class="fas fa-check-circle"></i>
+                            I understand if/else!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 8: NEW - Mini Reaction Game -->
+            <section class="lesson-step" id="step8">
+                <div class="step-header">
+                    <div class="step-number">8</div>
+                    <h2>⚡ Reaction Time Challenge!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        This game tests your reaction speed - and it's built with JavaScript!
+                    </p>
+
+                    <div class="interactive-box" style="background: #1e1e1e; border-radius: 20px; padding: 25px; text-align: center;">
+                        <h3 style="color: white;">⚡ How Fast Are You?</h3>
+                        <p style="color: #888;">Click the box when it turns GREEN!</p>
+                        
+                        <div id="reaction-box" style="width: 250px; height: 250px; background: #ef476f; border-radius: 20px; margin: 30px auto; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.1s; color: white; font-size: 1.3rem; font-weight: bold;">
+                            Click to Start!
+                        </div>
+                        
+                        <div id="reaction-result" style="color: white; font-size: 1.5rem; margin-top: 20px;"></div>
+                        
+                        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                            <div style="background: rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 15px; color: white;">
+                                Best: <strong id="best-time">---</strong> ms
+                            </div>
+                            <div style="background: rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 15px; color: white;">
+                                Attempts: <strong id="reaction-attempts">0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check8" class="checkpoint-check">
+                        <label for="check8">
+                            <i class="fas fa-check-circle"></i>
+                            I played the reaction game!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
             <!-- Celebration -->
             <section class="celebration-section" id="celebration">
                 <div class="celebration-content">
@@ -650,7 +870,176 @@
         // Initialize quiz on load
         window.onload = function() {
             generateQuestion();
+            initEvents();
+            initReactionGame();
         };
+        
+        // ====== NEW: Variable Explorer ======
+        function updateVariable() {
+            const name = document.getElementById('var-name').value || 'myVar';
+            const value = document.getElementById('var-value').value || '0';
+            
+            document.getElementById('var-code').innerHTML = 
+                `<span style="color: #66d9ef;">let</span> ${escapeHtml(name)} = ${escapeHtml(value)};`;
+            document.getElementById('var-box').textContent = value;
+        }
+        
+        function setVariable(name, value) {
+            document.getElementById('var-name').value = name;
+            document.getElementById('var-value').value = value;
+            updateVariable();
+        }
+        
+        // ====== NEW: Event Detector ======
+        let triggeredEvents = new Set();
+        
+        function initEvents() {
+            // Click event
+            document.getElementById('event-click').addEventListener('click', function() {
+                triggerEvent('click', this);
+            });
+            
+            // Double click event
+            document.getElementById('event-double').addEventListener('dblclick', function() {
+                triggerEvent('double', this);
+            });
+            
+            // Hover event
+            document.getElementById('event-hover').addEventListener('mouseenter', function() {
+                triggerEvent('hover', this);
+            });
+            
+            // Key press event
+            document.addEventListener('keydown', function() {
+                const box = document.getElementById('event-key');
+                triggerEvent('key', box);
+            });
+        }
+        
+        function triggerEvent(eventType, element) {
+            if (triggeredEvents.has(eventType)) return;
+            
+            triggeredEvents.add(eventType);
+            element.style.background = 'rgba(6, 214, 160, 0.5)';
+            element.querySelector('.event-status').innerHTML = '✅ Triggered!';
+            
+            document.getElementById('events-count').textContent = triggeredEvents.size;
+            
+            if (triggeredEvents.size === 4) {
+                document.getElementById('events-complete').style.display = 'block';
+                confetti();
+            }
+        }
+        
+        // ====== NEW: Decision Maker ======
+        function runDecision() {
+            const age = parseInt(document.getElementById('decision-age').value) || 0;
+            const result = document.getElementById('decision-result');
+            
+            if (age >= 13) {
+                result.innerHTML = '🎮 "You can play teen games!"';
+                result.style.background = 'linear-gradient(135deg, #06d6a0, #00b894)';
+            } else if (age >= 7) {
+                result.innerHTML = '🧩 "You can play kid games!"';
+                result.style.background = 'linear-gradient(135deg, #ffd166, #f7a325)';
+            } else {
+                result.innerHTML = '👶 "You can play toddler games!"';
+                result.style.background = 'linear-gradient(135deg, #4361ee, #3a0ca3)';
+            }
+        }
+        
+        function setAge(age) {
+            document.getElementById('decision-age').value = age;
+            runDecision();
+        }
+        
+        // ====== NEW: Reaction Game ======
+        let reactionState = 'waiting'; // waiting, ready, go, done
+        let reactionStart = 0;
+        let reactionTimeout = null;
+        let bestTime = Infinity;
+        let attempts = 0;
+        
+        function initReactionGame() {
+            const box = document.getElementById('reaction-box');
+            box.addEventListener('click', handleReactionClick);
+        }
+        
+        function handleReactionClick() {
+            const box = document.getElementById('reaction-box');
+            const result = document.getElementById('reaction-result');
+            
+            if (reactionState === 'waiting') {
+                // Start the game
+                reactionState = 'ready';
+                box.style.background = '#f72585';
+                box.textContent = 'Wait for GREEN...';
+                result.textContent = '';
+                
+                // Random delay between 1-4 seconds
+                const delay = Math.random() * 3000 + 1000;
+                reactionTimeout = setTimeout(() => {
+                    reactionState = 'go';
+                    reactionStart = Date.now();
+                    box.style.background = '#06d6a0';
+                    box.textContent = 'CLICK NOW!';
+                }, delay);
+                
+            } else if (reactionState === 'ready') {
+                // Clicked too early
+                clearTimeout(reactionTimeout);
+                reactionState = 'waiting';
+                box.style.background = '#ef476f';
+                box.textContent = 'Too early! Click to retry';
+                result.textContent = '❌ Too early! Wait for green!';
+                result.style.color = '#ef476f';
+                
+            } else if (reactionState === 'go') {
+                // Success!
+                const time = Date.now() - reactionStart;
+                attempts++;
+                document.getElementById('reaction-attempts').textContent = attempts;
+                
+                if (time < bestTime) {
+                    bestTime = time;
+                    document.getElementById('best-time').textContent = time;
+                }
+                
+                reactionState = 'waiting';
+                box.style.background = '#4361ee';
+                box.textContent = 'Click to play again!';
+                
+                result.style.color = '#06d6a0';
+                if (time < 250) {
+                    result.textContent = `⚡ ${time}ms - LIGHTNING FAST!`;
+                    confetti();
+                } else if (time < 350) {
+                    result.textContent = `🚀 ${time}ms - Super quick!`;
+                } else if (time < 500) {
+                    result.textContent = `👍 ${time}ms - Good job!`;
+                } else {
+                    result.textContent = `🐢 ${time}ms - Keep practicing!`;
+                }
+            }
+        }
+        
+        // Confetti
+        function confetti() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const c = document.createElement('div');
+                    c.innerHTML = ['⚡', '⭐', '🎉', '✨'][Math.floor(Math.random() * 4)];
+                    c.style.cssText = `position: fixed; top: -20px; left: ${Math.random() * 100}vw; font-size: ${Math.random() * 20 + 15}px; z-index: 9999; pointer-events: none; animation: confettiFall ${Math.random() * 2 + 2}s linear forwards;`;
+                    document.body.appendChild(c);
+                    setTimeout(() => c.remove(), 4000);
+                }, i * 50);
+            }
+        }
+        
+        // Add confetti animation
+        const confettiStyle = document.createElement('style');
+        confettiStyle.textContent = `@keyframes confettiFall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }`;
+        document.head.appendChild(confettiStyle);
     </script>
 </body>
 </html>

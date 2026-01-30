@@ -544,6 +544,164 @@
                 </div>
             </section>
 
+            <!-- Step 5: NEW - Tag Sorting Game -->
+            <section class="lesson-step" id="step5">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <h2>🎮 HTML Tag Puzzle Game!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        Put the HTML code in the correct order to build a webpage!
+                    </p>
+
+                    <div class="interactive-box" style="background: linear-gradient(135deg, #e34f26, #f72585); color: white; border-radius: 20px; padding: 25px;">
+                        <h3 style="color: white;">🧩 Drag the tags into the right order!</h3>
+                        
+                        <div id="tag-puzzle" style="margin: 20px 0;">
+                            <div id="puzzle-pieces" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px;">
+                                <!-- Pieces will be added by JS -->
+                            </div>
+                            
+                            <div id="puzzle-slots" style="background: rgba(0,0,0,0.3); border-radius: 15px; padding: 20px; min-height: 200px;">
+                                <p style="text-align: center; opacity: 0.7;">👆 Click tags above in the correct order!</p>
+                                <div id="puzzle-answer" style="font-family: 'Fira Code', monospace; font-size: 1rem;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; justify-content: center;">
+                            <button onclick="resetPuzzle()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold;">🔄 Reset</button>
+                            <button onclick="checkPuzzle()" style="background: #ffd166; color: #333; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold;">✓ Check Answer</button>
+                        </div>
+                        
+                        <div id="puzzle-result" style="text-align: center; margin-top: 15px; font-size: 1.2rem;"></div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check5" class="checkpoint-check">
+                        <label for="check5">
+                            <i class="fas fa-check-circle"></i>
+                            I solved the tag puzzle!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 6: NEW - Quick Tag Quiz -->
+            <section class="lesson-step" id="step6">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <h2>⚡ Speed Tag Quiz!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">🎯</div>
+                        <div class="fun-fact-content">
+                            <strong>Test your HTML knowledge!</strong>
+                            <p>How fast can you match the tags to their purpose?</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-box" style="background: linear-gradient(135deg, #4361ee, #7209b7); color: white; border-radius: 20px; padding: 25px; text-align: center;">
+                        <h3 style="color: white;">🏷️ What does this tag do?</h3>
+                        
+                        <div id="tag-quiz-question" style="font-size: 2.5rem; font-family: 'Fira Code', monospace; margin: 30px 0; color: #ffd166;">
+                            &lt;h1&gt;
+                        </div>
+                        
+                        <div id="tag-quiz-options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 500px; margin: 0 auto;">
+                            <!-- Options added by JS -->
+                        </div>
+                        
+                        <div id="tag-quiz-score" style="margin-top: 20px;">
+                            <span style="background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 20px;">
+                                Score: <strong id="tag-score">0</strong> / <span id="tag-total">5</span>
+                            </span>
+                        </div>
+                        
+                        <div id="tag-quiz-result" style="margin-top: 15px; font-size: 1.2rem;"></div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check6" class="checkpoint-check">
+                        <label for="check6">
+                            <i class="fas fa-check-circle"></i>
+                            I completed the tag quiz!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 7: NEW - Build Your Profile Card -->
+            <section class="lesson-step" id="step7">
+                <div class="step-header">
+                    <div class="step-number">7</div>
+                    <h2>🎨 Build Your Profile Card!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        Create a cool profile card about YOU using what you learned!
+                    </p>
+
+                    <div class="interactive-box">
+                        <h3>📝 Fill in your info and watch your card build!</h3>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                            <div style="background: #f8f9fa; padding: 20px; border-radius: 15px;">
+                                <label style="display: block; font-weight: bold; margin-bottom: 8px;">Your Name:</label>
+                                <input type="text" id="profile-name" placeholder="Enter your name" oninput="updateProfileCard()" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem;">
+                                
+                                <label style="display: block; font-weight: bold; margin: 15px 0 8px;">Your Age:</label>
+                                <input type="number" id="profile-age" placeholder="Your age" oninput="updateProfileCard()" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem;">
+                                
+                                <label style="display: block; font-weight: bold; margin: 15px 0 8px;">Favorite Color:</label>
+                                <input type="color" id="profile-color" value="#4361ee" oninput="updateProfileCard()" style="width: 100%; height: 50px; border: none; border-radius: 10px; cursor: pointer;">
+                                
+                                <label style="display: block; font-weight: bold; margin: 15px 0 8px;">Your Emoji:</label>
+                                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                    <button onclick="setProfileEmoji('😎')" class="emoji-btn" style="font-size: 2rem; background: white; border: 2px solid #ddd; border-radius: 10px; padding: 10px; cursor: pointer;">😎</button>
+                                    <button onclick="setProfileEmoji('🚀')" class="emoji-btn" style="font-size: 2rem; background: white; border: 2px solid #ddd; border-radius: 10px; padding: 10px; cursor: pointer;">🚀</button>
+                                    <button onclick="setProfileEmoji('🎮')" class="emoji-btn" style="font-size: 2rem; background: white; border: 2px solid #ddd; border-radius: 10px; padding: 10px; cursor: pointer;">🎮</button>
+                                    <button onclick="setProfileEmoji('⭐')" class="emoji-btn" style="font-size: 2rem; background: white; border: 2px solid #ddd; border-radius: 10px; padding: 10px; cursor: pointer;">⭐</button>
+                                    <button onclick="setProfileEmoji('🦄')" class="emoji-btn" style="font-size: 2rem; background: white; border: 2px solid #ddd; border-radius: 10px; padding: 10px; cursor: pointer;">🦄</button>
+                                    <button onclick="setProfileEmoji('🎨')" class="emoji-btn" style="font-size: 2rem; background: white; border: 2px solid #ddd; border-radius: 10px; padding: 10px; cursor: pointer;">🎨</button>
+                                </div>
+                                
+                                <label style="display: block; font-weight: bold; margin: 15px 0 8px;">Fun Fact About You:</label>
+                                <input type="text" id="profile-fact" placeholder="I love to..." oninput="updateProfileCard()" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem;">
+                            </div>
+                            
+                            <div>
+                                <h4 style="margin-bottom: 10px;">👀 Your Profile Card Preview:</h4>
+                                <div id="profile-preview" style="background: linear-gradient(135deg, #4361ee, #7209b7); color: white; border-radius: 20px; padding: 30px; text-align: center; min-height: 250px;">
+                                    <div id="profile-emoji-display" style="font-size: 4rem;">😎</div>
+                                    <h2 id="profile-name-display" style="color: white; margin: 10px 0;">Your Name</h2>
+                                    <p id="profile-age-display" style="opacity: 0.8;">Age: ?</p>
+                                    <p id="profile-fact-display" style="margin-top: 15px; font-style: italic;">"Your fun fact here!"</p>
+                                    <div style="margin-top: 15px; font-size: 0.8rem; opacity: 0.6;">Made with HTML! 🏗️</div>
+                                </div>
+                                
+                                <div style="margin-top: 15px; background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 10px; font-family: 'Fira Code', monospace; font-size: 0.8rem; text-align: left;">
+                                    <div style="color: #888; margin-bottom: 10px;"><!-- Your HTML code --></div>
+                                    <div id="profile-code-display"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check7" class="checkpoint-check">
+                        <label for="check7">
+                            <i class="fas fa-check-circle"></i>
+                            I created my profile card!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
             <!-- Celebration -->
             <section class="celebration-section" id="celebration">
                 <div class="celebration-content">
@@ -634,6 +792,205 @@
             clearTimeout(timeout);
             timeout = setTimeout(updatePreview, 500);
         });
+        
+        // ====== NEW: Tag Puzzle Game ======
+        const puzzlePieces = [
+            { text: '&lt;html&gt;', order: 1 },
+            { text: '&lt;head&gt;', order: 2 },
+            { text: '&lt;title&gt;My Page&lt;/title&gt;', order: 3 },
+            { text: '&lt;/head&gt;', order: 4 },
+            { text: '&lt;body&gt;', order: 5 },
+            { text: '&lt;h1&gt;Hello!&lt;/h1&gt;', order: 6 },
+            { text: '&lt;/body&gt;', order: 7 },
+            { text: '&lt;/html&gt;', order: 8 }
+        ];
+        let puzzleAnswer = [];
+        
+        function initPuzzle() {
+            const container = document.getElementById('puzzle-pieces');
+            container.innerHTML = '';
+            puzzleAnswer = [];
+            document.getElementById('puzzle-answer').innerHTML = '';
+            document.getElementById('puzzle-result').textContent = '';
+            
+            // Shuffle pieces
+            const shuffled = [...puzzlePieces].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach((piece, index) => {
+                const btn = document.createElement('button');
+                btn.innerHTML = piece.text;
+                btn.dataset.order = piece.order;
+                btn.onclick = () => selectPuzzlePiece(btn, piece);
+                btn.style.cssText = 'background: rgba(255,255,255,0.9); color: #333; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-family: Fira Code, monospace; font-size: 0.9rem; transition: all 0.3s;';
+                container.appendChild(btn);
+            });
+        }
+        
+        function selectPuzzlePiece(btn, piece) {
+            if (btn.classList.contains('used')) return;
+            
+            btn.classList.add('used');
+            btn.style.opacity = '0.4';
+            puzzleAnswer.push(piece);
+            
+            // Update answer display
+            const answerDiv = document.getElementById('puzzle-answer');
+            answerDiv.innerHTML = puzzleAnswer.map(p => `<div style="color: #06d6a0;">${p.text}</div>`).join('');
+        }
+        
+        function resetPuzzle() {
+            initPuzzle();
+        }
+        
+        function checkPuzzle() {
+            const isCorrect = puzzleAnswer.every((piece, index) => piece.order === index + 1) && puzzleAnswer.length === puzzlePieces.length;
+            
+            if (isCorrect) {
+                document.getElementById('puzzle-result').innerHTML = '🎉 Perfect! You built valid HTML!';
+                confetti();
+            } else if (puzzleAnswer.length < puzzlePieces.length) {
+                document.getElementById('puzzle-result').innerHTML = '⚠️ Add more tags! You need all 8 pieces.';
+            } else {
+                document.getElementById('puzzle-result').innerHTML = '❌ Not quite right. Try again!';
+            }
+        }
+        
+        // Init puzzle on page load
+        setTimeout(initPuzzle, 100);
+        
+        // ====== NEW: Tag Quiz ======
+        const tagQuiz = [
+            { tag: '&lt;h1&gt;', answer: 'Big heading', options: ['Big heading', 'Paragraph', 'Image', 'Link'] },
+            { tag: '&lt;p&gt;', answer: 'Paragraph text', options: ['Image', 'Paragraph text', 'Button', 'Video'] },
+            { tag: '&lt;img&gt;', answer: 'Show an image', options: ['Show an image', 'Play sound', 'Make bold', 'Create list'] },
+            { tag: '&lt;a&gt;', answer: 'Create a link', options: ['Add audio', 'Create a link', 'Make italic', 'Add heading'] },
+            { tag: '&lt;ul&gt;', answer: 'Make a list', options: ['Underline text', 'Make a list', 'Upload file', 'Unite divs'] }
+        ];
+        let tagQuizIndex = 0;
+        let tagQuizScore = 0;
+        
+        function initTagQuiz() {
+            tagQuizIndex = 0;
+            tagQuizScore = 0;
+            document.getElementById('tag-score').textContent = '0';
+            showTagQuestion();
+        }
+        
+        function showTagQuestion() {
+            if (tagQuizIndex >= tagQuiz.length) {
+                showTagQuizComplete();
+                return;
+            }
+            
+            const q = tagQuiz[tagQuizIndex];
+            document.getElementById('tag-quiz-question').innerHTML = q.tag;
+            document.getElementById('tag-quiz-result').textContent = '';
+            
+            const optionsDiv = document.getElementById('tag-quiz-options');
+            optionsDiv.innerHTML = '';
+            
+            const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+            shuffledOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.textContent = opt;
+                btn.onclick = () => checkTagAnswer(opt, q.answer);
+                btn.style.cssText = 'background: rgba(255,255,255,0.2); color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 1rem; transition: all 0.3s;';
+                btn.onmouseover = () => btn.style.background = 'rgba(255,255,255,0.3)';
+                btn.onmouseout = () => btn.style.background = 'rgba(255,255,255,0.2)';
+                optionsDiv.appendChild(btn);
+            });
+        }
+        
+        function checkTagAnswer(selected, correct) {
+            const buttons = document.querySelectorAll('#tag-quiz-options button');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === correct) {
+                    btn.style.background = '#06d6a0';
+                } else if (btn.textContent === selected && selected !== correct) {
+                    btn.style.background = '#ef476f';
+                }
+            });
+            
+            if (selected === correct) {
+                tagQuizScore++;
+                document.getElementById('tag-score').textContent = tagQuizScore;
+                document.getElementById('tag-quiz-result').textContent = '✓ Correct!';
+            } else {
+                document.getElementById('tag-quiz-result').textContent = '✗ The answer was: ' + correct;
+            }
+            
+            tagQuizIndex++;
+            setTimeout(showTagQuestion, 1500);
+        }
+        
+        function showTagQuizComplete() {
+            document.getElementById('tag-quiz-question').innerHTML = '🎉';
+            document.getElementById('tag-quiz-options').innerHTML = '';
+            document.getElementById('tag-quiz-result').innerHTML = `Quiz Complete! You got ${tagQuizScore}/${tagQuiz.length} correct!<br><button onclick="initTagQuiz()" style="margin-top: 15px; background: #ffd166; color: #333; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-weight: bold;">🔄 Play Again</button>`;
+            if (tagQuizScore >= 4) confetti();
+        }
+        
+        setTimeout(initTagQuiz, 200);
+        
+        // ====== NEW: Profile Card Builder ======
+        let profileEmoji = '😎';
+        
+        function setProfileEmoji(emoji) {
+            profileEmoji = emoji;
+            document.querySelectorAll('.emoji-btn').forEach(btn => {
+                btn.style.border = btn.textContent.includes(emoji) ? '3px solid #4361ee' : '2px solid #ddd';
+            });
+            updateProfileCard();
+        }
+        
+        function updateProfileCard() {
+            const name = document.getElementById('profile-name').value || 'Your Name';
+            const age = document.getElementById('profile-age').value || '?';
+            const color = document.getElementById('profile-color').value;
+            const fact = document.getElementById('profile-fact').value || 'Your fun fact here!';
+            
+            document.getElementById('profile-emoji-display').textContent = profileEmoji;
+            document.getElementById('profile-name-display').textContent = name;
+            document.getElementById('profile-age-display').textContent = 'Age: ' + age;
+            document.getElementById('profile-fact-display').textContent = '"' + fact + '"';
+            document.getElementById('profile-preview').style.background = `linear-gradient(135deg, ${color}, #7209b7)`;
+            
+            // Show the HTML code
+            const htmlCode = `&lt;div class="profile"&gt;
+  &lt;h1&gt;${profileEmoji} ${escapeHtml(name)}&lt;/h1&gt;
+  &lt;p&gt;Age: ${escapeHtml(age)}&lt;/p&gt;
+  &lt;p&gt;"${escapeHtml(fact)}"&lt;/p&gt;
+&lt;/div&gt;`;
+            document.getElementById('profile-code-display').innerHTML = htmlCode;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Init profile card
+        setTimeout(updateProfileCard, 100);
+        
+        // Simple confetti
+        function confetti() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const c = document.createElement('div');
+                    c.innerHTML = ['🎉', '⭐', '🎊', '✨'][Math.floor(Math.random() * 4)];
+                    c.style.cssText = `position: fixed; top: -20px; left: ${Math.random() * 100}vw; font-size: ${Math.random() * 20 + 15}px; z-index: 9999; pointer-events: none; animation: fall ${Math.random() * 2 + 2}s linear forwards;`;
+                    document.body.appendChild(c);
+                    setTimeout(() => c.remove(), 4000);
+                }, i * 50);
+            }
+        }
+        
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `@keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }`;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>

@@ -629,6 +629,213 @@
                 </div>
             </section>
 
+            <!-- Step 5: NEW - Pattern Recognition Game -->
+            <section class="lesson-step" id="step5">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <h2>🧩 Think Like AI: Pattern Game!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        AI learns by finding <strong>patterns</strong>. Can you find patterns like an AI?
+                    </p>
+
+                    <div class="interactive-box" style="background: linear-gradient(135deg, #7209b7, #4361ee); color: white; border-radius: 20px; padding: 25px; text-align: center;">
+                        <h3 style="color: white;">🔍 What Comes Next?</h3>
+                        <p>Look at the pattern and choose what comes next!</p>
+                        
+                        <div id="pattern-display" style="font-size: 3rem; margin: 30px 0; letter-spacing: 10px;">
+                            🔴 🔵 🔴 🔵 🔴 ❓
+                        </div>
+                        
+                        <div id="pattern-options" style="display: flex; gap: 20px; justify-content: center; margin: 20px 0;">
+                            <!-- Options added by JS -->
+                        </div>
+                        
+                        <div id="pattern-result" style="margin-top: 20px; font-size: 1.3rem;"></div>
+                        
+                        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                            <div style="background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 15px;">
+                                Level: <strong id="pattern-level">1</strong>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 15px;">
+                                Score: <strong id="pattern-score">0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check5" class="checkpoint-check">
+                        <label for="check5">
+                            <i class="fas fa-check-circle"></i>
+                            I can find patterns like AI!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 6: NEW - AI Guessing Game -->
+            <section class="lesson-step" id="step6">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <h2>🎯 AI Guessing Game!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <div class="fun-fact">
+                        <div class="fun-fact-icon">🔮</div>
+                        <div class="fun-fact-content">
+                            <strong>AI tries to predict things!</strong>
+                            <p>The more data AI has, the better it can guess.</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-box" style="background: linear-gradient(135deg, #f72585, #7209b7); color: white; border-radius: 20px; padding: 25px; text-align: center;">
+                        <h3 style="color: white;">🎮 Higher or Lower?</h3>
+                        <p>I'm thinking of a number between 1 and 100. Can you guess it?</p>
+                        
+                        <div id="guess-feedback" style="font-size: 1.5rem; margin: 20px 0; min-height: 50px;">
+                            Make your first guess!
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                            <input type="number" id="guess-input" min="1" max="100" placeholder="1-100" style="width: 120px; padding: 15px; font-size: 1.5rem; border: none; border-radius: 15px; text-align: center;">
+                            <button onclick="makeGuess()" style="background: #ffd166; color: #333; border: none; padding: 15px 30px; border-radius: 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer;">Guess!</button>
+                        </div>
+                        
+                        <div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
+                            <div style="background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 15px;">
+                                Guesses: <strong id="guess-count">0</strong>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 15px;">
+                                Best: <strong id="best-guesses">-</strong>
+                            </div>
+                        </div>
+                        
+                        <button onclick="newGuessingGame()" style="margin-top: 20px; background: rgba(255,255,255,0.2); color: white; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer;">🔄 New Game</button>
+                        
+                        <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
+                            💡 Tip: AI would use "binary search" - always guess the middle to minimize guesses!
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check6" class="checkpoint-check">
+                        <label for="check6">
+                            <i class="fas fa-check-circle"></i>
+                            I played the guessing game!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 7: NEW - AI Image Classifier Simulator -->
+            <section class="lesson-step" id="step7">
+                <div class="step-header">
+                    <div class="step-number">7</div>
+                    <h2>📷 Be an AI Image Classifier!</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        AI can recognize images! Let's pretend to be an AI and classify things.
+                    </p>
+
+                    <div class="interactive-box" style="background: linear-gradient(135deg, #06d6a0, #4361ee); color: white; border-radius: 20px; padding: 25px; text-align: center;">
+                        <h3 style="color: white;">🤖 Classify This Image!</h3>
+                        <p>What category does this belong to?</p>
+                        
+                        <div id="classify-image" style="font-size: 8rem; margin: 20px 0;">🐕</div>
+                        
+                        <div id="classify-options" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; max-width: 400px; margin: 0 auto;">
+                            <!-- Options added by JS -->
+                        </div>
+                        
+                        <div id="classify-result" style="margin-top: 20px; font-size: 1.3rem; min-height: 40px;"></div>
+                        
+                        <div style="margin-top: 20px;">
+                            <span style="background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 15px;">
+                                Classified: <strong id="classify-score">0</strong> / 5
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check7" class="checkpoint-check">
+                        <label for="check7">
+                            <i class="fas fa-check-circle"></i>
+                            I can classify like AI!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 8: NEW - AI Ethics Discussion -->
+            <section class="lesson-step" id="step8">
+                <div class="step-header">
+                    <div class="step-number">8</div>
+                    <h2>🤔 Thinking About AI Responsibly</h2>
+                </div>
+                
+                <div class="step-content">
+                    <p class="big-text">
+                        AI is powerful, so we need to use it responsibly!
+                    </p>
+
+                    <div class="interactive-box">
+                        <h3>📋 AI Responsibility Checklist</h3>
+                        <p>Check the boxes when you understand each point!</p>
+                        
+                        <div style="display: grid; gap: 15px; margin: 20px 0;">
+                            <label style="display: flex; align-items: center; gap: 15px; background: linear-gradient(135deg, #4361ee, #7209b7); color: white; padding: 20px; border-radius: 15px; cursor: pointer;">
+                                <input type="checkbox" id="ethics1" style="width: 25px; height: 25px;">
+                                <div>
+                                    <strong>🎯 AI isn't always right!</strong>
+                                    <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 5px;">AI can make mistakes. Always double-check important information.</p>
+                                </div>
+                            </label>
+                            
+                            <label style="display: flex; align-items: center; gap: 15px; background: linear-gradient(135deg, #f72585, #7209b7); color: white; padding: 20px; border-radius: 15px; cursor: pointer;">
+                                <input type="checkbox" id="ethics2" style="width: 25px; height: 25px;">
+                                <div>
+                                    <strong>🤝 AI learns from people!</strong>
+                                    <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 5px;">AI is trained on data made by humans, so it can have biases.</p>
+                                </div>
+                            </label>
+                            
+                            <label style="display: flex; align-items: center; gap: 15px; background: linear-gradient(135deg, #06d6a0, #4361ee); color: white; padding: 20px; border-radius: 15px; cursor: pointer;">
+                                <input type="checkbox" id="ethics3" style="width: 25px; height: 25px;">
+                                <div>
+                                    <strong>🛡️ Be safe online!</strong>
+                                    <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 5px;">Don't share personal info with AI chatbots. Be careful what you trust!</p>
+                                </div>
+                            </label>
+                            
+                            <label style="display: flex; align-items: center; gap: 15px; background: linear-gradient(135deg, #ffd166, #f72585); color: white; padding: 20px; border-radius: 15px; cursor: pointer;">
+                                <input type="checkbox" id="ethics4" style="width: 25px; height: 25px;">
+                                <div>
+                                    <strong>💡 Use AI to help, not replace!</strong>
+                                    <p style="font-size: 0.9rem; opacity: 0.9; margin-top: 5px;">AI should help you learn and create, not do your thinking for you.</p>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div id="ethics-complete" style="display: none; background: #06d6a0; color: white; padding: 20px; border-radius: 15px; text-align: center; margin-top: 15px;">
+                            🌟 <strong>You're a Responsible AI User!</strong> You understand how to use AI wisely! 🌟
+                        </div>
+                    </div>
+
+                    <div class="checkpoint">
+                        <input type="checkbox" id="check8" class="checkpoint-check">
+                        <label for="check8">
+                            <i class="fas fa-check-circle"></i>
+                            I understand AI responsibility!
+                        </label>
+                    </div>
+                </div>
+            </section>
+
             <!-- Final Celebration -->
             <section class="celebration-section" id="celebration" style="background: linear-gradient(135deg, #ffd166, #f72585, #7209b7, #4361ee);">
                 <div class="celebration-content">
@@ -1134,6 +1341,214 @@
         function showIdea(idea) {
             document.getElementById('imagination-output').innerHTML = ideas[idea];
         }
+        
+        // ====== NEW: Pattern Recognition Game ======
+        const patterns = [
+            { pattern: '🔴 🔵 🔴 🔵 🔴', answer: '🔵', options: ['🔴', '🔵', '🟢', '🟡'] },
+            { pattern: '⭐ ⭐ 🌙 ⭐ ⭐ 🌙 ⭐ ⭐', answer: '🌙', options: ['⭐', '🌙', '☀️', '🌟'] },
+            { pattern: '1 2 3 1 2 3 1 2', answer: '3', options: ['1', '2', '3', '4'] },
+            { pattern: '🐶 🐱 🐶 🐱 🐶', answer: '🐱', options: ['🐶', '🐱', '🐰', '🐻'] },
+            { pattern: 'A B C A B C A B', answer: 'C', options: ['A', 'B', 'C', 'D'] },
+            { pattern: '🔺 🔺 🔻 🔺 🔺 🔻 🔺 🔺', answer: '🔻', options: ['🔺', '🔻', '⬜', '⬛'] },
+            { pattern: '🍎 🍊 🍋 🍎 🍊 🍋 🍎 🍊', answer: '🍋', options: ['🍎', '🍊', '🍋', '🍇'] },
+        ];
+        let patternLevel = 0;
+        let patternScore = 0;
+        
+        function initPatternGame() {
+            patternLevel = 0;
+            patternScore = 0;
+            document.getElementById('pattern-level').textContent = '1';
+            document.getElementById('pattern-score').textContent = '0';
+            showPattern();
+        }
+        
+        function showPattern() {
+            if (patternLevel >= patterns.length) {
+                document.getElementById('pattern-display').textContent = '🎉 You completed all patterns!';
+                document.getElementById('pattern-options').innerHTML = '<button onclick="initPatternGame()" style="background: #ffd166; color: #333; border: none; padding: 15px 30px; border-radius: 15px; cursor: pointer; font-weight: bold;">🔄 Play Again</button>';
+                document.getElementById('pattern-result').textContent = 'Amazing! You think like AI!';
+                confetti();
+                return;
+            }
+            
+            const p = patterns[patternLevel];
+            document.getElementById('pattern-display').textContent = p.pattern + ' ❓';
+            document.getElementById('pattern-result').textContent = '';
+            
+            const optionsDiv = document.getElementById('pattern-options');
+            optionsDiv.innerHTML = '';
+            
+            const shuffledOptions = [...p.options].sort(() => Math.random() - 0.5);
+            shuffledOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.textContent = opt;
+                btn.onclick = () => checkPatternAnswer(opt);
+                btn.style.cssText = 'background: rgba(255,255,255,0.2); color: white; border: none; padding: 20px 40px; border-radius: 15px; font-size: 2rem; cursor: pointer; transition: all 0.3s;';
+                btn.onmouseover = () => btn.style.background = 'rgba(255,255,255,0.3)';
+                btn.onmouseout = () => btn.style.background = 'rgba(255,255,255,0.2)';
+                optionsDiv.appendChild(btn);
+            });
+        }
+        
+        function checkPatternAnswer(selected) {
+            const p = patterns[patternLevel];
+            
+            if (selected === p.answer) {
+                patternScore++;
+                patternLevel++;
+                document.getElementById('pattern-score').textContent = patternScore;
+                document.getElementById('pattern-level').textContent = patternLevel + 1;
+                document.getElementById('pattern-result').textContent = '✓ Correct!';
+                setTimeout(showPattern, 1000);
+            } else {
+                document.getElementById('pattern-result').textContent = '✗ Try again! The answer was ' + p.answer;
+                setTimeout(showPattern, 2000);
+            }
+        }
+        
+        // ====== NEW: Guessing Game ======
+        let secretNumber = 0;
+        let guessCount = 0;
+        let bestGuesses = Infinity;
+        
+        function newGuessingGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            guessCount = 0;
+            document.getElementById('guess-count').textContent = '0';
+            document.getElementById('guess-feedback').textContent = 'Make your first guess!';
+            document.getElementById('guess-input').value = '';
+            document.getElementById('guess-input').focus();
+        }
+        
+        function makeGuess() {
+            const guess = parseInt(document.getElementById('guess-input').value);
+            
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                document.getElementById('guess-feedback').textContent = '⚠️ Please enter a number between 1 and 100!';
+                return;
+            }
+            
+            guessCount++;
+            document.getElementById('guess-count').textContent = guessCount;
+            
+            if (guess === secretNumber) {
+                document.getElementById('guess-feedback').innerHTML = `🎉 You got it in ${guessCount} guesses!`;
+                if (guessCount < bestGuesses) {
+                    bestGuesses = guessCount;
+                    document.getElementById('best-guesses').textContent = guessCount;
+                }
+                if (guessCount <= 7) confetti();
+            } else if (guess < secretNumber) {
+                document.getElementById('guess-feedback').textContent = '⬆️ Higher! Try a bigger number.';
+            } else {
+                document.getElementById('guess-feedback').textContent = '⬇️ Lower! Try a smaller number.';
+            }
+            
+            document.getElementById('guess-input').value = '';
+            document.getElementById('guess-input').focus();
+        }
+        
+        // Enter key for guessing
+        document.getElementById('guess-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') makeGuess();
+        });
+        
+        // ====== NEW: Image Classifier ======
+        const classifyItems = [
+            { emoji: '🐕', answer: 'Animal', options: ['Animal', 'Food', 'Vehicle', 'Plant'] },
+            { emoji: '🚗', answer: 'Vehicle', options: ['Animal', 'Building', 'Vehicle', 'Tool'] },
+            { emoji: '🍕', answer: 'Food', options: ['Toy', 'Food', 'Animal', 'Clothing'] },
+            { emoji: '🌳', answer: 'Plant', options: ['Animal', 'Plant', 'Building', 'Weather'] },
+            { emoji: '✈️', answer: 'Vehicle', options: ['Bird', 'Vehicle', 'Toy', 'Building'] }
+        ];
+        let classifyIndex = 0;
+        let classifyScore = 0;
+        
+        function initClassifier() {
+            classifyIndex = 0;
+            classifyScore = 0;
+            document.getElementById('classify-score').textContent = '0';
+            showClassifyItem();
+        }
+        
+        function showClassifyItem() {
+            if (classifyIndex >= classifyItems.length) {
+                document.getElementById('classify-image').textContent = '🎓';
+                document.getElementById('classify-options').innerHTML = '<button onclick="initClassifier()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 15px 30px; border-radius: 15px; cursor: pointer; font-weight: bold; grid-column: span 2;">🔄 Play Again</button>';
+                document.getElementById('classify-result').textContent = 'Great job classifying like AI!';
+                if (classifyScore >= 4) confetti();
+                return;
+            }
+            
+            const item = classifyItems[classifyIndex];
+            document.getElementById('classify-image').textContent = item.emoji;
+            document.getElementById('classify-result').textContent = '';
+            
+            const optionsDiv = document.getElementById('classify-options');
+            optionsDiv.innerHTML = '';
+            
+            item.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.textContent = opt;
+                btn.onclick = () => checkClassify(opt);
+                btn.style.cssText = 'background: rgba(255,255,255,0.2); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s;';
+                btn.onmouseover = () => btn.style.background = 'rgba(255,255,255,0.3)';
+                btn.onmouseout = () => btn.style.background = 'rgba(255,255,255,0.2)';
+                optionsDiv.appendChild(btn);
+            });
+        }
+        
+        function checkClassify(selected) {
+            const item = classifyItems[classifyIndex];
+            
+            if (selected === item.answer) {
+                classifyScore++;
+                document.getElementById('classify-score').textContent = classifyScore;
+                document.getElementById('classify-result').textContent = '✓ Correct! It\'s ' + item.answer;
+            } else {
+                document.getElementById('classify-result').textContent = '✗ Not quite. It\'s ' + item.answer;
+            }
+            
+            classifyIndex++;
+            setTimeout(showClassifyItem, 1500);
+        }
+        
+        // ====== Ethics Checkboxes ======
+        document.querySelectorAll('[id^="ethics"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const allChecked = Array.from(document.querySelectorAll('[id^="ethics"]')).every(cb => cb.checked);
+                if (allChecked) {
+                    document.getElementById('ethics-complete').style.display = 'block';
+                    confetti();
+                }
+            });
+        });
+        
+        // ====== Confetti ======
+        function confetti() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const c = document.createElement('div');
+                    c.innerHTML = ['🤖', '⭐', '🎉', '✨', '🧠'][Math.floor(Math.random() * 5)];
+                    c.style.cssText = `position: fixed; top: -20px; left: ${Math.random() * 100}vw; font-size: ${Math.random() * 20 + 15}px; z-index: 9999; pointer-events: none; animation: confettiFall ${Math.random() * 2 + 2}s linear forwards;`;
+                    document.body.appendChild(c);
+                    setTimeout(() => c.remove(), 4000);
+                }, i * 50);
+            }
+        }
+        
+        // Add confetti animation
+        const confettiStyle = document.createElement('style');
+        confettiStyle.textContent = `@keyframes confettiFall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }`;
+        document.head.appendChild(confettiStyle);
+        
+        // Initialize all games
+        setTimeout(() => {
+            initPatternGame();
+            newGuessingGame();
+            initClassifier();
+        }, 100);
     </script>
 </body>
 </html>
