@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Robot Commander - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #232526, #414345);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container { max-width: 1100px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: rgba(255,255,255,0.2); }
+        
+        .game-container {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px;
+        }
+        
+        @media (max-width: 900px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .arena-section {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 20px;
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        
+        .stat {
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00b4db;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        .arena {
+            display: grid;
+            gap: 3px;
+            background: #1a1a2a;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 0 auto;
+            max-width: fit-content;
+        }
+        
+        .cell {
+            width: 50px;
+            height: 50px;
+            background: #2a2a4a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .cell.robot {
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            font-size: 2rem;
+            animation: robotPulse 1s infinite;
+        }
+        
+        @keyframes robotPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .cell.goal {
+            background: linear-gradient(135deg, #ffd166, #ffb347);
+        }
+        
+        .cell.wall {
+            background: #1a1a2a;
+        }
+        
+        .cell.coin {
+            background: #2a2a4a;
+        }
+        
+        .cell.gem {
+            background: #2a2a4a;
+        }
+        
+        .cell.hazard {
+            background: rgba(247, 37, 133, 0.3);
+        }
+        
+        .cell.trail {
+            background: rgba(0, 180, 219, 0.2);
+        }
+        
+        .controls-section {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 20px;
+        }
+        
+        .controls-section h3 {
+            color: #00b4db;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .command-palette {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .cmd-btn {
+            padding: 12px 8px;
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cmd-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .cmd-btn.movement {
+            background: linear-gradient(135deg, #06d6a0, #00c896);
+        }
+        
+        .cmd-btn.action {
+            background: linear-gradient(135deg, #f72585, #ff6b9d);
+        }
+        
+        .cmd-btn.loop {
+            background: linear-gradient(135deg, #ffd166, #ffb347);
+            color: #333;
+        }
+        
+        .program-area {
+            background: #1a1a2a;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            min-height: 200px;
+        }
+        
+        .program-area h4 {
+            color: #60efff;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .program-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .program-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+        }
+        
+        .program-item .num {
+            background: #4361ee;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .program-item .delete {
+            margin-left: auto;
+            color: #f72585;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .program-item.executing {
+            background: rgba(0, 180, 219, 0.3);
+            border-left: 3px solid #00b4db;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .run-btn {
+            background: linear-gradient(135deg, #06d6a0, #00c896);
+            color: white;
+        }
+        
+        .clear-btn {
+            background: linear-gradient(135deg, #f72585, #e91e7a);
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .level-info {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .level-info h4 {
+            color: #ffd166;
+            margin-bottom: 8px;
+        }
+        
+        .level-info p {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .level-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .level-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .level-btn:hover { background: rgba(255,255,255,0.2); }
+        .level-btn.active { border-color: #00b4db; background: rgba(0, 180, 219, 0.3); }
+        .level-btn.completed { background: #06d6a0; }
+        
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            z-index: 1000;
+            display: none;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        
+        .message-box.show { display: block; }
+        
+        .message-box h2 {
+            color: #06d6a0;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .message-box.fail h2 {
+            color: #f72585;
+        }
+        
+        .message-box p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .message-box button {
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+            display: none;
+        }
+        
+        .overlay.show { display: block; }
+        
+        /* Robot facing directions */
+        .robot-up { transform: rotate(-90deg); }
+        .robot-down { transform: rotate(90deg); }
+        .robot-left { transform: rotate(180deg); }
+        .robot-right { transform: rotate(0deg); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Robot Commander</h1>
+            <p>Program the robot to complete missions!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-gamepad"></i> All Activities</a>
+                <a href="maze-runner.html"><i class="fas fa-map"></i> Maze Runner</a>
+            </div>
+        </header>
+        
+        <div class="level-selector" id="level-selector">
+            <!-- Generated by JS -->
+        </div>
+        
+        <div class="game-container">
+            <div class="arena-section">
+                <div class="stats-bar">
+                    <div class="stat">
+                        <div class="stat-value" id="level-display">1</div>
+                        <div class="stat-label">Level</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="coins-display">0</div>
+                        <div class="stat-label">Coins</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="commands-display">0</div>
+                        <div class="stat-label">Commands</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="stars-display">⭐⭐⭐</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                </div>
+                
+                <div class="arena" id="arena">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+            
+            <div class="controls-section">
+                <div class="level-info">
+                    <h4 id="mission-title">Mission 1: First Steps</h4>
+                    <p id="mission-desc">Move the robot to the goal!</p>
+                </div>
+                
+                <h3>🎮 Commands</h3>
+                
+                <div class="command-palette">
+                    <button class="cmd-btn movement" onclick="addCommand('moveForward')">⬆️ Forward</button>
+                    <button class="cmd-btn movement" onclick="addCommand('moveBack')">⬇️ Back</button>
+                    <button class="cmd-btn movement" onclick="addCommand('turnLeft')">↩️ Turn Left</button>
+                    <button class="cmd-btn movement" onclick="addCommand('turnRight')">↪️ Turn Right</button>
+                    <button class="cmd-btn action" onclick="addCommand('collect')">🎁 Collect</button>
+                    <button class="cmd-btn action" onclick="addCommand('jump')">🦘 Jump</button>
+                    <button class="cmd-btn loop" onclick="addLoop()">🔄 Repeat x3</button>
+                    <button class="cmd-btn loop" onclick="addLoop5()">🔄 Repeat x5</button>
+                </div>
+                
+                <div class="program-area">
+                    <h4>📝 Your Program</h4>
+                    <div class="program-list" id="program-list">
+                        <div style="color: #666; font-style: italic; font-size: 0.9rem;">
+                            Click commands to add them here...
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn run-btn" id="run-btn" onclick="runProgram()">
+                        <i class="fas fa-play"></i> Run
+                    </button>
+                    <button class="action-btn clear-btn" onclick="clearProgram()">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    <div class="message-box" id="message-box">
+        <h2 id="msg-title">🎉 Level Complete!</h2>
+        <p id="msg-text">Great job programming the robot!</p>
+        <button onclick="closeMessage()">Continue</button>
+        <button onclick="nextLevel()">Next Level →</button>
+    </div>
+    
+    <script>
+        // Game state
+        let currentLevel = 1;
+        let robot = { x: 0, y: 0, dir: 'right' };
+        let program = [];
+        let executing = false;
+        let completedLevels = new Set();
+        let collectedCoins = 0;
+        
+        // Load saved progress
+        const saved = localStorage.getItem('robotCommander_completed');
+        if (saved) {
+            completedLevels = new Set(JSON.parse(saved));
+        }
+        
+        // Levels definition
+        const levels = [
+            {
+                title: "First Steps",
+                desc: "Move the robot forward to reach the goal!",
+                grid: [
+                    [0, 0, 0, 0, 0],
+                    [0, 'R', 0, 0, 0],
+                    [0, 0, 0, 0, 0],
+                    [0, 'G', 0, 0, 0],
+                    [0, 0, 0, 0, 0]
+                ],
+                startDir: 'down',
+                optimalCommands: 2
+            },
+            {
+                title: "Turn and Move",
+                desc: "Turn right, then move to the goal.",
+                grid: [
+                    [0, 0, 0, 0, 0],
+                    [0, 'R', 0, 0, 0],
+                    [0, 0, 0, 0, 0],
+                    [0, 0, 0, 'G', 0],
+                    [0, 0, 0, 0, 0]
+                ],
+                startDir: 'down',
+                optimalCommands: 4
+            },
+            {
+                title: "Collect the Coin",
+                desc: "Move to the coin and collect it, then go to the goal!",
+                grid: [
+                    [0, 0, 0, 0, 0],
+                    [0, 'R', 0, 'C', 0],
+                    [0, 0, 0, 0, 0],
+                    [0, 0, 0, 'G', 0],
+                    [0, 0, 0, 0, 0]
+                ],
+                startDir: 'right',
+                optimalCommands: 5
+            },
+            {
+                title: "Avoid the Wall",
+                desc: "Navigate around the wall to reach the goal.",
+                grid: [
+                    [0, 0, 0, 0, 0, 0],
+                    [0, 'R', 0, 1, 0, 0],
+                    [0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 'G'],
+                    [0, 0, 0, 0, 0, 0]
+                ],
+                startDir: 'down',
+                optimalCommands: 8
+            },
+            {
+                title: "Use Repeat",
+                desc: "Use the repeat command to move efficiently!",
+                grid: [
+                    [0, 0, 0, 0, 0, 0, 0],
+                    [0, 'R', 0, 0, 0, 0, 'G'],
+                    [0, 0, 0, 0, 0, 0, 0]
+                ],
+                startDir: 'right',
+                optimalCommands: 2
+            },
+            {
+                title: "Coin Collector",
+                desc: "Collect all coins before reaching the goal!",
+                grid: [
+                    [0, 0, 0, 0, 0, 0],
+                    [0, 'R', 'C', 0, 'C', 0],
+                    [0, 0, 0, 0, 0, 0],
+                    [0, 'C', 0, 0, 'C', 0],
+                    [0, 0, 0, 0, 0, 'G']
+                ],
+                startDir: 'right',
+                optimalCommands: 12
+            },
+            {
+                title: "Jump the Gap",
+                desc: "Use jump to cross the hazard!",
+                grid: [
+                    [0, 0, 0, 0, 0],
+                    [0, 'R', 0, 'H', 0],
+                    [0, 0, 0, 0, 'G'],
+                    [0, 0, 0, 0, 0]
+                ],
+                startDir: 'right',
+                optimalCommands: 4
+            },
+            {
+                title: "The Maze",
+                desc: "Navigate through the maze to reach the treasure!",
+                grid: [
+                    [1, 1, 1, 1, 1, 1, 1],
+                    [0, 'R', 0, 0, 0, 'C', 1],
+                    [1, 0, 1, 1, 0, 0, 1],
+                    [1, 0, 0, 0, 0, 1, 1],
+                    [1, 1, 0, 1, 0, 0, 0],
+                    [1, 0, 0, 1, 1, 1, 'G'],
+                    [1, 1, 1, 1, 1, 1, 1]
+                ],
+                startDir: 'down',
+                optimalCommands: 15
+            },
+            {
+                title: "Complex Path",
+                desc: "Plan your route carefully!",
+                grid: [
+                    [0, 0, 0, 1, 0, 0, 0],
+                    [0, 'R', 0, 1, 0, 'C', 0],
+                    [0, 0, 0, 0, 0, 0, 0],
+                    [1, 1, 0, 1, 1, 1, 0],
+                    [0, 0, 0, 'C', 0, 0, 0],
+                    [0, 1, 1, 1, 0, 1, 0],
+                    [0, 0, 0, 0, 0, 0, 'G']
+                ],
+                startDir: 'down',
+                optimalCommands: 18
+            },
+            {
+                title: "Master Challenge",
+                desc: "Collect all gems and reach the goal with minimum commands!",
+                grid: [
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 'R', 0, 0, 1, 'C', 0, 1],
+                    [1, 0, 1, 0, 1, 0, 0, 1],
+                    [1, 0, 'C', 0, 0, 0, 1, 1],
+                    [1, 0, 1, 1, 1, 0, 0, 1],
+                    [1, 0, 0, 0, 0, 0, 'H', 1],
+                    [1, 1, 1, 0, 1, 0, 0, 1],
+                    [1, 'C', 0, 0, 1, 0, 'G', 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1]
+                ],
+                startDir: 'right',
+                optimalCommands: 25
+            }
+        ];
+        
+        function init() {
+            renderLevelSelector();
+            loadLevel(1);
+        }
+        
+        function renderLevelSelector() {
+            const selector = document.getElementById('level-selector');
+            selector.innerHTML = '';
+            
+            for (let i = 1; i <= levels.length; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'level-btn';
+                if (i === currentLevel) btn.classList.add('active');
+                if (completedLevels.has(i)) btn.classList.add('completed');
+                btn.textContent = i;
+                btn.onclick = () => loadLevel(i);
+                selector.appendChild(btn);
+            }
+        }
+        
+        function loadLevel(levelNum) {
+            currentLevel = levelNum;
+            const level = levels[levelNum - 1];
+            
+            document.getElementById('level-display').textContent = levelNum;
+            document.getElementById('mission-title').textContent = `Mission ${levelNum}: ${level.title}`;
+            document.getElementById('mission-desc').textContent = level.desc;
+            
+            collectedCoins = 0;
+            document.getElementById('coins-display').textContent = 0;
+            
+            clearProgram();
+            renderGrid();
+            renderLevelSelector();
+        }
+        
+        function renderGrid() {
+            const level = levels[currentLevel - 1];
+            const grid = level.grid;
+            const arena = document.getElementById('arena');
+            arena.innerHTML = '';
+            arena.style.gridTemplateColumns = `repeat(${grid[0].length}, 50px)`;
+            
+            for (let y = 0; y < grid.length; y++) {
+                for (let x = 0; x < grid[y].length; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.id = `cell-${x}-${y}`;
+                    
+                    const val = grid[y][x];
+                    if (val === 'R') {
+                        robot = { x, y, dir: level.startDir };
+                        cell.classList.add('robot');
+                        cell.innerHTML = `<span class="robot-${level.startDir}">🤖</span>`;
+                    } else if (val === 'G') {
+                        cell.classList.add('goal');
+                        cell.textContent = '🏆';
+                    } else if (val === 1) {
+                        cell.classList.add('wall');
+                    } else if (val === 'C') {
+                        cell.classList.add('coin');
+                        cell.textContent = '💰';
+                    } else if (val === 'H') {
+                        cell.classList.add('hazard');
+                        cell.textContent = '⚠️';
+                    }
+                    
+                    arena.appendChild(cell);
+                }
+            }
+        }
+        
+        function addCommand(cmd) {
+            if (executing) return;
+            
+            const cmdNames = {
+                moveForward: '⬆️ Forward',
+                moveBack: '⬇️ Back',
+                turnLeft: '↩️ Turn Left',
+                turnRight: '↪️ Turn Right',
+                collect: '🎁 Collect',
+                jump: '🦘 Jump'
+            };
+            
+            program.push({ type: 'command', cmd, display: cmdNames[cmd] });
+            renderProgram();
+        }
+        
+        function addLoop() {
+            if (executing) return;
+            program.push({ type: 'loop', times: 3, commands: [], display: '🔄 Repeat 3x' });
+            renderProgram();
+        }
+        
+        function addLoop5() {
+            if (executing) return;
+            program.push({ type: 'loop', times: 5, commands: [], display: '🔄 Repeat 5x' });
+            renderProgram();
+        }
+        
+        function renderProgram() {
+            const list = document.getElementById('program-list');
+            
+            if (program.length === 0) {
+                list.innerHTML = `<div style="color: #666; font-style: italic; font-size: 0.9rem;">
+                    Click commands to add them here...
+                </div>`;
+                document.getElementById('commands-display').textContent = 0;
+                return;
+            }
+            
+            list.innerHTML = '';
+            let num = 1;
+            
+            program.forEach((item, index) => {
+                const el = document.createElement('div');
+                el.className = 'program-item';
+                el.id = `prog-${index}`;
+                el.innerHTML = `
+                    <span class="num">${num}</span>
+                    <span>${item.display}</span>
+                    <span class="delete" onclick="removeCommand(${index})">✕</span>
+                `;
+                list.appendChild(el);
+                num++;
+            });
+            
+            document.getElementById('commands-display').textContent = program.length;
+            updateStars();
+        }
+        
+        function removeCommand(index) {
+            if (executing) return;
+            program.splice(index, 1);
+            renderProgram();
+        }
+        
+        function clearProgram() {
+            if (executing) return;
+            program = [];
+            renderProgram();
+        }
+        
+        function updateStars() {
+            const level = levels[currentLevel - 1];
+            const optimal = level.optimalCommands;
+            const used = program.length;
+            
+            let stars = '⭐';
+            if (used <= optimal + 2) stars = '⭐⭐⭐';
+            else if (used <= optimal + 5) stars = '⭐⭐';
+            
+            document.getElementById('stars-display').textContent = stars;
+        }
+        
+        async function runProgram() {
+            if (executing || program.length === 0) return;
+            
+            executing = true;
+            document.getElementById('run-btn').disabled = true;
+            
+            // Reset robot position
+            loadLevel(currentLevel);
+            await sleep(300);
+            
+            // Execute program
+            for (let i = 0; i < program.length; i++) {
+                const item = program[i];
+                document.getElementById(`prog-${i}`).classList.add('executing');
+                
+                if (item.type === 'loop') {
+                    // Get the next command and repeat it
+                    if (i + 1 < program.length) {
+                        const nextCmd = program[i + 1];
+                        for (let j = 0; j < item.times; j++) {
+                            const success = await executeCommand(nextCmd.cmd);
+                            if (!success) {
+                                showMessage(false, 'The robot hit an obstacle!');
+                                endExecution();
+                                return;
+                            }
+                            await sleep(300);
+                        }
+                        i++; // Skip the next command since we already executed it
+                    }
+                } else {
+                    const success = await executeCommand(item.cmd);
+                    if (!success) {
+                        showMessage(false, 'The robot hit an obstacle!');
+                        endExecution();
+                        return;
+                    }
+                }
+                
+                document.getElementById(`prog-${i}`).classList.remove('executing');
+                await sleep(300);
+                
+                // Check for win
+                if (checkWin()) {
+                    completedLevels.add(currentLevel);
+                    localStorage.setItem('robotCommander_completed', JSON.stringify([...completedLevels]));
+                    renderLevelSelector();
+                    showMessage(true, `You completed the mission with ${program.length} commands!`);
+                    endExecution();
+                    return;
+                }
+            }
+            
+            // Didn't reach goal
+            showMessage(false, "The robot didn't reach the goal!");
+            endExecution();
+        }
+        
+        async function executeCommand(cmd) {
+            const level = levels[currentLevel - 1];
+            const grid = level.grid;
+            
+            // Mark current cell as trail
+            const currentCell = document.getElementById(`cell-${robot.x}-${robot.y}`);
+            currentCell.classList.add('trail');
+            
+            if (cmd === 'turnLeft') {
+                const dirs = ['up', 'left', 'down', 'right'];
+                const idx = dirs.indexOf(robot.dir);
+                robot.dir = dirs[(idx + 1) % 4];
+                updateRobotDisplay();
+                return true;
+            }
+            
+            if (cmd === 'turnRight') {
+                const dirs = ['up', 'right', 'down', 'left'];
+                const idx = dirs.indexOf(robot.dir);
+                robot.dir = dirs[(idx + 1) % 4];
+                updateRobotDisplay();
+                return true;
+            }
+            
+            if (cmd === 'collect') {
+                const cellVal = grid[robot.y][robot.x];
+                if (cellVal === 'C') {
+                    grid[robot.y][robot.x] = 0;
+                    collectedCoins++;
+                    document.getElementById('coins-display').textContent = collectedCoins;
+                    const cell = document.getElementById(`cell-${robot.x}-${robot.y}`);
+                    cell.textContent = '';
+                    cell.classList.remove('coin');
+                }
+                return true;
+            }
+            
+            // Movement
+            let dx = 0, dy = 0;
+            const forward = cmd === 'moveForward' || cmd === 'jump';
+            const multiplier = forward ? 1 : -1;
+            
+            switch (robot.dir) {
+                case 'up': dy = -1 * multiplier; break;
+                case 'down': dy = 1 * multiplier; break;
+                case 'left': dx = -1 * multiplier; break;
+                case 'right': dx = 1 * multiplier; break;
+            }
+            
+            if (cmd === 'jump') {
+                dx *= 2;
+                dy *= 2;
+            }
+            
+            const newX = robot.x + dx;
+            const newY = robot.y + dy;
+            
+            // Check bounds
+            if (newX < 0 || newX >= grid[0].length || newY < 0 || newY >= grid.length) {
+                return false;
+            }
+            
+            // Check wall (can't jump over walls in non-jump mode)
+            if (cmd !== 'jump' && grid[newY][newX] === 1) {
+                return false;
+            }
+            
+            // Check hazard (unless jumping)
+            if (cmd !== 'jump' && grid[newY][newX] === 'H') {
+                return false;
+            }
+            
+            // Move robot
+            const oldCell = document.getElementById(`cell-${robot.x}-${robot.y}`);
+            oldCell.classList.remove('robot');
+            oldCell.innerHTML = '';
+            
+            robot.x = newX;
+            robot.y = newY;
+            
+            updateRobotDisplay();
+            return true;
+        }
+        
+        function updateRobotDisplay() {
+            // Remove robot from all cells first
+            document.querySelectorAll('.cell.robot').forEach(c => {
+                c.classList.remove('robot');
+                if (!c.classList.contains('goal') && !c.classList.contains('coin')) {
+                    c.innerHTML = '';
+                }
+            });
+            
+            const cell = document.getElementById(`cell-${robot.x}-${robot.y}`);
+            cell.classList.add('robot');
+            cell.innerHTML = `<span class="robot-${robot.dir}">🤖</span>`;
+        }
+        
+        function checkWin() {
+            const level = levels[currentLevel - 1];
+            const grid = level.grid;
+            
+            // Check if at goal
+            if (grid[robot.y][robot.x] === 'G') {
+                // Check all coins collected
+                for (let y = 0; y < grid.length; y++) {
+                    for (let x = 0; x < grid[y].length; x++) {
+                        if (grid[y][x] === 'C') return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        
+        function endExecution() {
+            executing = false;
+            document.getElementById('run-btn').disabled = false;
+            document.querySelectorAll('.program-item').forEach(p => p.classList.remove('executing'));
+        }
+        
+        function showMessage(success, text) {
+            document.getElementById('overlay').classList.add('show');
+            const box = document.getElementById('message-box');
+            box.classList.add('show');
+            box.classList.toggle('fail', !success);
+            
+            document.getElementById('msg-title').textContent = success ? '🎉 Level Complete!' : '❌ Try Again!';
+            document.getElementById('msg-text').textContent = text;
+        }
+        
+        function closeMessage() {
+            document.getElementById('overlay').classList.remove('show');
+            document.getElementById('message-box').classList.remove('show');
+        }
+        
+        function nextLevel() {
+            closeMessage();
+            if (currentLevel < levels.length) {
+                loadLevel(currentLevel + 1);
+            } else {
+                alert('🏆 Congratulations! You completed ALL levels! You are a Robot Commander Master!');
+            }
+        }
+        
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        init();
+    </script>
+</body>
+</html>

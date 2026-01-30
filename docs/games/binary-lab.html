@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔢 Binary Code Lab - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container { max-width: 1000px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00ff87, #60efff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        header p { color: #aaa; }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: rgba(255,255,255,0.2); }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn:hover { background: rgba(255,255,255,0.2); }
+        .tab-btn.active { background: linear-gradient(135deg, #4361ee, #7209b7); border-color: #00ff87; }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .card h2 {
+            color: #00ff87;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Binary Counter Section */
+        .binary-display {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .bit-container {
+            text-align: center;
+        }
+        
+        .bit-value {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        
+        .bit {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            font-family: 'Fira Code', monospace;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        
+        .bit.off {
+            background: #1a1a3a;
+            color: #444;
+        }
+        
+        .bit.on {
+            background: linear-gradient(135deg, #00ff87, #06d6a0);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 135, 0.5);
+        }
+        
+        .bit:hover {
+            transform: scale(1.1);
+            border-color: #00ff87;
+        }
+        
+        .decimal-display {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .decimal-value {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ffd166;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .decimal-label {
+            color: #888;
+            font-size: 1.2rem;
+        }
+        
+        /* Text Translator Section */
+        .translator-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 700px) {
+            .translator-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .translator-box {
+            background: #1a1a3a;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .translator-box h3 {
+            color: #60efff;
+            margin-bottom: 15px;
+        }
+        
+        .translator-box textarea {
+            width: 100%;
+            height: 120px;
+            background: #0d0d1a;
+            border: 2px solid #333;
+            border-radius: 10px;
+            color: #00ff87;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            padding: 15px;
+            resize: none;
+        }
+        
+        .translator-box textarea:focus {
+            outline: none;
+            border-color: #00ff87;
+        }
+        
+        .convert-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .convert-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+        }
+        
+        /* Quiz Section */
+        .quiz-card {
+            background: linear-gradient(135deg, #1a1a3a, #2a2a4a);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .quiz-question {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-binary {
+            font-size: 3rem;
+            font-family: 'Fira Code', monospace;
+            color: #00ff87;
+            margin: 20px 0;
+            letter-spacing: 8px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+        
+        .quiz-option {
+            padding: 15px 30px;
+            background: rgba(255,255,255,0.1);
+            border: 3px solid transparent;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 80px;
+        }
+        
+        .quiz-option:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: #60efff;
+        }
+        
+        .quiz-option.correct {
+            background: rgba(6, 214, 160, 0.3);
+            border-color: #06d6a0;
+        }
+        
+        .quiz-option.wrong {
+            background: rgba(247, 37, 133, 0.3);
+            border-color: #f72585;
+        }
+        
+        .quiz-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff87;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .next-btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #06d6a0, #00c896);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .next-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(6, 214, 160, 0.4);
+        }
+        
+        .next-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Learning Section */
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .learn-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .learn-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .learn-card .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffd166;
+        }
+        
+        .learn-card .binary {
+            font-family: 'Fira Code', monospace;
+            color: #00ff87;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+        
+        .explanation {
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid #60efff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .explanation p {
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
+        /* Secret Message Game */
+        .secret-message-area {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .binary-message {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #00ff87;
+            background: #0d0d1a;
+            padding: 20px;
+            border-radius: 10px;
+            word-break: break-all;
+            line-height: 2;
+            margin: 20px 0;
+        }
+        
+        .decoded-message {
+            font-size: 2rem;
+            color: #ffd166;
+            margin: 20px 0;
+            min-height: 50px;
+        }
+        
+        .message-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .msg-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #7209b7, #a855f7);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .msg-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(114, 9, 183, 0.4);
+        }
+        
+        /* Animation */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+        
+        /* High Score */
+        .high-score {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.5);
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .high-score-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd166;
+        }
+        
+        .high-score-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔢 Binary Code Lab</h1>
+            <p>Learn how computers think with 0s and 1s!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-gamepad"></i> All Activities</a>
+                <a href="maze-runner.html"><i class="fas fa-map"></i> Maze Runner</a>
+            </div>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('learn')">📚 Learn</button>
+            <button class="tab-btn" onclick="showTab('counter')">🔢 Binary Counter</button>
+            <button class="tab-btn" onclick="showTab('translator')">💬 Translator</button>
+            <button class="tab-btn" onclick="showTab('quiz')">🎯 Quiz Game</button>
+            <button class="tab-btn" onclick="showTab('secret')">🔐 Secret Messages</button>
+        </div>
+        
+        <!-- Learn Tab -->
+        <div id="learn" class="tab-content active">
+            <div class="card">
+                <h2><i class="fas fa-lightbulb"></i> What is Binary?</h2>
+                
+                <div class="explanation">
+                    <p>🤔 <strong>Binary</strong> is the language computers understand. It only uses two digits: <strong style="color: #00ff87;">0</strong> and <strong style="color: #00ff87;">1</strong>.</p>
+                    <p>Think of it like a light switch - it's either OFF (0) or ON (1)!</p>
+                    <p>Computers use billions of tiny switches called transistors. Each one can be on or off, creating all the games, videos, and websites you love!</p>
+                </div>
+                
+                <h3 style="color: #60efff; margin: 25px 0 15px;">How to Count in Binary</h3>
+                <p style="color: #aaa; margin-bottom: 20px;">Each position is worth double the one before it (from right to left):</p>
+                
+                <div class="binary-display">
+                    <div class="bit-container">
+                        <div class="bit-value">128</div>
+                        <div class="bit off">0</div>
+                    </div>
+                    <div class="bit-container">
+                        <div class="bit-value">64</div>
+                        <div class="bit off">0</div>
+                    </div>
+                    <div class="bit-container">
+                        <div class="bit-value">32</div>
+                        <div class="bit off">0</div>
+                    </div>
+                    <div class="bit-container">
+                        <div class="bit-value">16</div>
+                        <div class="bit off">0</div>
+                    </div>
+                    <div class="bit-container">
+                        <div class="bit-value">8</div>
+                        <div class="bit off">0</div>
+                    </div>
+                    <div class="bit-container">
+                        <div class="bit-value">4</div>
+                        <div class="bit off">0</div>
+                    </div>
+                    <div class="bit-container">
+                        <div class="bit-value">2</div>
+                        <div class="bit off">0</div>
+                    </div>
+                    <div class="bit-container">
+                        <div class="bit-value">1</div>
+                        <div class="bit off">0</div>
+                    </div>
+                </div>
+                
+                <h3 style="color: #60efff; margin: 25px 0 15px;">Examples</h3>
+                <div class="learn-grid">
+                    <div class="learn-card">
+                        <div class="number">0</div>
+                        <div class="binary">00000000</div>
+                    </div>
+                    <div class="learn-card">
+                        <div class="number">1</div>
+                        <div class="binary">00000001</div>
+                    </div>
+                    <div class="learn-card">
+                        <div class="number">2</div>
+                        <div class="binary">00000010</div>
+                    </div>
+                    <div class="learn-card">
+                        <div class="number">3</div>
+                        <div class="binary">00000011</div>
+                    </div>
+                    <div class="learn-card">
+                        <div class="number">5</div>
+                        <div class="binary">00000101</div>
+                    </div>
+                    <div class="learn-card">
+                        <div class="number">10</div>
+                        <div class="binary">00001010</div>
+                    </div>
+                    <div class="learn-card">
+                        <div class="number">42</div>
+                        <div class="binary">00101010</div>
+                    </div>
+                    <div class="learn-card">
+                        <div class="number">255</div>
+                        <div class="binary">11111111</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Binary Counter Tab -->
+        <div id="counter" class="tab-content">
+            <div class="card">
+                <h2><i class="fas fa-toggle-on"></i> Interactive Binary Counter</h2>
+                <p style="color: #aaa; margin-bottom: 20px;">Click the bits to toggle them on (1) or off (0). Watch the decimal number change!</p>
+                
+                <div class="binary-display" id="interactive-bits">
+                    <!-- Generated by JS -->
+                </div>
+                
+                <div class="decimal-display">
+                    <div class="decimal-label">Decimal Value:</div>
+                    <div class="decimal-value" id="decimal-value">0</div>
+                </div>
+                
+                <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                    <button class="convert-btn" style="width: auto;" onclick="setCounterValue(0)">Reset to 0</button>
+                    <button class="convert-btn" style="width: auto;" onclick="setCounterValue(Math.floor(Math.random() * 256))">Random Number</button>
+                    <button class="convert-btn" style="width: auto;" onclick="incrementCounter()">+1</button>
+                </div>
+                
+                <div class="explanation" style="margin-top: 30px;">
+                    <p>💡 <strong>Challenge:</strong> Can you make these numbers?</p>
+                    <p>• Your age • Today's date • 100 • 200 • 255 (maximum!)</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Translator Tab -->
+        <div id="translator" class="tab-content">
+            <div class="card">
+                <h2><i class="fas fa-language"></i> Binary Translator</h2>
+                
+                <div class="translator-section">
+                    <div class="translator-box">
+                        <h3>📝 Text to Binary</h3>
+                        <textarea id="text-input" placeholder="Type your message here..."></textarea>
+                        <button class="convert-btn" onclick="textToBinary()">Convert to Binary →</button>
+                        <textarea id="binary-output" readonly placeholder="Binary will appear here..." style="margin-top: 15px; color: #00ff87;"></textarea>
+                    </div>
+                    
+                    <div class="translator-box">
+                        <h3>🔢 Binary to Text</h3>
+                        <textarea id="binary-input" placeholder="Enter binary (8 bits per character, separated by spaces)..."></textarea>
+                        <button class="convert-btn" onclick="binaryToText()">← Convert to Text</button>
+                        <textarea id="text-output" readonly placeholder="Text will appear here..." style="margin-top: 15px; color: #ffd166;"></textarea>
+                    </div>
+                </div>
+                
+                <div class="explanation" style="margin-top: 20px;">
+                    <p>💡 <strong>How it works:</strong> Each letter has a number (A=65, B=66, a=97, etc.). That number is converted to binary!</p>
+                    <p>Try typing your name and see it in binary! Then copy the binary and convert it back.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quiz Tab -->
+        <div id="quiz" class="tab-content">
+            <div class="quiz-card">
+                <div class="quiz-question" id="quiz-question">What number is this in binary?</div>
+                <div class="quiz-binary" id="quiz-binary">00000000</div>
+                
+                <div class="quiz-options" id="quiz-options">
+                    <!-- Generated by JS -->
+                </div>
+                
+                <button class="next-btn" id="next-btn" onclick="nextQuestion()" disabled>Next Question →</button>
+                
+                <div class="quiz-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="correct-count">0</div>
+                        <div class="stat-label">Correct</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="streak-count">0</div>
+                        <div class="stat-label">Streak 🔥</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="total-count">0</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="msg-btn" onclick="resetQuiz()">Reset Quiz</button>
+            </div>
+        </div>
+        
+        <!-- Secret Messages Tab -->
+        <div id="secret" class="tab-content">
+            <div class="card">
+                <h2><i class="fas fa-user-secret"></i> Secret Binary Messages</h2>
+                
+                <div class="secret-message-area">
+                    <p style="color: #aaa; margin-bottom: 20px;">Decode the secret message! Click "Decode" to reveal it.</p>
+                    
+                    <div class="binary-message" id="secret-binary">
+                        01001000 01100101 01101100 01101100 01101111 00100001
+                    </div>
+                    
+                    <div class="decoded-message" id="decoded-message">???</div>
+                    
+                    <div class="message-buttons">
+                        <button class="msg-btn" onclick="decodeSecret()">🔓 Decode Message</button>
+                        <button class="msg-btn" onclick="newSecretMessage()">🎲 New Secret</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h3 style="color: #60efff; margin-bottom: 15px;">Create Your Own Secret Message!</h3>
+                    <textarea id="create-secret" placeholder="Type a secret message..." style="width: 100%; height: 80px; background: #0d0d1a; border: 2px solid #333; border-radius: 10px; color: white; font-size: 1rem; padding: 15px;"></textarea>
+                    <button class="msg-btn" style="margin-top: 15px; width: 100%;" onclick="createSecretMessage()">🔐 Encode My Message</button>
+                    <div class="binary-message" id="my-secret-binary" style="margin-top: 15px; min-height: 60px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="high-score">
+        <div class="high-score-value" id="high-score">0</div>
+        <div class="high-score-label">Best Streak</div>
+    </div>
+    
+    <script>
+        // Tab switching
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Binary Counter
+        let bits = [0, 0, 0, 0, 0, 0, 0, 0];
+        const bitValues = [128, 64, 32, 16, 8, 4, 2, 1];
+        
+        function initCounter() {
+            const container = document.getElementById('interactive-bits');
+            container.innerHTML = '';
+            
+            bits.forEach((bit, i) => {
+                const bitContainer = document.createElement('div');
+                bitContainer.className = 'bit-container';
+                bitContainer.innerHTML = `
+                    <div class="bit-value">${bitValues[i]}</div>
+                    <div class="bit ${bit ? 'on' : 'off'}" onclick="toggleBit(${i})">${bit}</div>
+                `;
+                container.appendChild(bitContainer);
+            });
+            
+            updateDecimal();
+        }
+        
+        function toggleBit(index) {
+            bits[index] = bits[index] ? 0 : 1;
+            initCounter();
+        }
+        
+        function updateDecimal() {
+            let value = 0;
+            bits.forEach((bit, i) => {
+                if (bit) value += bitValues[i];
+            });
+            const display = document.getElementById('decimal-value');
+            display.textContent = value;
+            display.classList.add('pulse');
+            setTimeout(() => display.classList.remove('pulse'), 500);
+        }
+        
+        function setCounterValue(value) {
+            value = Math.max(0, Math.min(255, value));
+            bits = [];
+            for (let i = 7; i >= 0; i--) {
+                bits.unshift((value >> i) & 1);
+            }
+            initCounter();
+        }
+        
+        function incrementCounter() {
+            let value = 0;
+            bits.forEach((bit, i) => {
+                if (bit) value += bitValues[i];
+            });
+            setCounterValue((value + 1) % 256);
+        }
+        
+        // Translator
+        function textToBinary() {
+            const text = document.getElementById('text-input').value;
+            const binary = text.split('').map(char => {
+                return char.charCodeAt(0).toString(2).padStart(8, '0');
+            }).join(' ');
+            document.getElementById('binary-output').value = binary;
+        }
+        
+        function binaryToText() {
+            const binary = document.getElementById('binary-input').value;
+            try {
+                const text = binary.split(' ').filter(b => b.length === 8).map(byte => {
+                    return String.fromCharCode(parseInt(byte, 2));
+                }).join('');
+                document.getElementById('text-output').value = text;
+            } catch (e) {
+                document.getElementById('text-output').value = 'Invalid binary input';
+            }
+        }
+        
+        // Quiz
+        let correctAnswer = 0;
+        let correctCount = 0;
+        let totalCount = 0;
+        let streak = 0;
+        let highScore = parseInt(localStorage.getItem('binaryLab_highScore') || '0');
+        
+        document.getElementById('high-score').textContent = highScore;
+        
+        function generateQuestion() {
+            correctAnswer = Math.floor(Math.random() * 64); // 0-63 for easier questions
+            const binary = correctAnswer.toString(2).padStart(8, '0');
+            document.getElementById('quiz-binary').textContent = binary;
+            
+            // Generate wrong answers
+            let options = [correctAnswer];
+            while (options.length < 4) {
+                let wrong = correctAnswer + Math.floor(Math.random() * 20) - 10;
+                if (wrong >= 0 && wrong <= 255 && !options.includes(wrong)) {
+                    options.push(wrong);
+                }
+            }
+            
+            // Shuffle
+            options.sort(() => Math.random() - 0.5);
+            
+            const container = document.getElementById('quiz-options');
+            container.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(opt, btn);
+                container.appendChild(btn);
+            });
+            
+            document.getElementById('next-btn').disabled = true;
+        }
+        
+        function checkAnswer(answer, button) {
+            const buttons = document.querySelectorAll('.quiz-option');
+            buttons.forEach(b => b.onclick = null);
+            
+            totalCount++;
+            
+            if (answer === correctAnswer) {
+                button.classList.add('correct');
+                correctCount++;
+                streak++;
+                
+                if (streak > highScore) {
+                    highScore = streak;
+                    localStorage.setItem('binaryLab_highScore', highScore.toString());
+                    document.getElementById('high-score').textContent = highScore;
+                }
+            } else {
+                button.classList.add('wrong');
+                buttons.forEach(b => {
+                    if (parseInt(b.textContent) === correctAnswer) {
+                        b.classList.add('correct');
+                    }
+                });
+                streak = 0;
+            }
+            
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('streak-count').textContent = streak;
+            document.getElementById('total-count').textContent = totalCount;
+            document.getElementById('next-btn').disabled = false;
+        }
+        
+        function nextQuestion() {
+            generateQuestion();
+        }
+        
+        function resetQuiz() {
+            correctCount = 0;
+            totalCount = 0;
+            streak = 0;
+            document.getElementById('correct-count').textContent = 0;
+            document.getElementById('streak-count').textContent = 0;
+            document.getElementById('total-count').textContent = 0;
+            generateQuestion();
+        }
+        
+        // Secret Messages
+        const secretMessages = [
+            "Hello!",
+            "You are awesome!",
+            "Code is cool!",
+            "Keep learning!",
+            "Binary rocks!",
+            "Great job!",
+            "Tech Explorer!",
+            "You got this!",
+            "Computers rule!",
+            "01 is fun!",
+            "Never give up!",
+            "Dream big!",
+            "You are smart!",
+            "Code on!",
+            "Stay curious!"
+        ];
+        
+        let currentSecret = "";
+        let isDecoded = false;
+        
+        function newSecretMessage() {
+            currentSecret = secretMessages[Math.floor(Math.random() * secretMessages.length)];
+            const binary = currentSecret.split('').map(c => 
+                c.charCodeAt(0).toString(2).padStart(8, '0')
+            ).join(' ');
+            document.getElementById('secret-binary').textContent = binary;
+            document.getElementById('decoded-message').textContent = '???';
+            isDecoded = false;
+        }
+        
+        function decodeSecret() {
+            if (!isDecoded) {
+                document.getElementById('decoded-message').textContent = currentSecret;
+                isDecoded = true;
+            }
+        }
+        
+        function createSecretMessage() {
+            const text = document.getElementById('create-secret').value;
+            if (!text) return;
+            
+            const binary = text.split('').map(c => 
+                c.charCodeAt(0).toString(2).padStart(8, '0')
+            ).join(' ');
+            document.getElementById('my-secret-binary').textContent = binary;
+        }
+        
+        // Initialize
+        initCounter();
+        generateQuestion();
+        newSecretMessage();
+    </script>
+</body>
+</html>

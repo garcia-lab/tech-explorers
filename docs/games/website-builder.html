@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌐 Website Builder Challenge - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: rgba(255,255,255,0.3); }
+        
+        .game-container {
+            display: grid;
+            grid-template-columns: 350px 1fr 350px;
+            gap: 20px;
+            height: calc(100vh - 160px);
+            min-height: 600px;
+        }
+        
+        @media (max-width: 1200px) {
+            .game-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-header {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        
+        /* Challenge Panel */
+        .challenge-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4361ee;
+        }
+        
+        .challenge-number {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .challenge-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .challenge-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .challenge-points {
+            display: inline-block;
+            background: #ffd166;
+            color: #333;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .challenge-card.completed {
+            border-left-color: #06d6a0;
+            background: #e8f8f3;
+        }
+        
+        .challenge-card.completed .challenge-number {
+            background: #06d6a0;
+        }
+        
+        .challenge-card.active {
+            border-left-color: #f72585;
+            box-shadow: 0 5px 20px rgba(247, 37, 133, 0.2);
+        }
+        
+        .check-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #06d6a0, #00c896);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(6, 214, 160, 0.4);
+        }
+        
+        /* Editor Panel */
+        .editor-tabs {
+            display: flex;
+            background: #1e1e3f;
+            padding: 10px 10px 0;
+        }
+        
+        .editor-tab {
+            padding: 10px 20px;
+            background: #2d2d5a;
+            border: none;
+            color: #aaa;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            margin-right: 5px;
+            transition: all 0.3s;
+        }
+        
+        .editor-tab:hover { color: white; }
+        .editor-tab.active { background: #0d0d1a; color: #00ff87; }
+        
+        .code-area {
+            flex: 1;
+            display: none;
+            background: #0d0d1a;
+        }
+        
+        .code-area.active { display: flex; flex-direction: column; }
+        
+        .code-area textarea {
+            flex: 1;
+            background: #0d0d1a;
+            border: none;
+            color: #00ff87;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            padding: 15px;
+            resize: none;
+            line-height: 1.6;
+        }
+        
+        .code-area textarea:focus { outline: none; }
+        
+        /* Preview Panel */
+        .preview-frame {
+            flex: 1;
+            background: white;
+            border: none;
+        }
+        
+        .preview-controls {
+            display: flex;
+            gap: 10px;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .preview-btn {
+            padding: 8px 15px;
+            background: #4361ee;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        
+        .preview-btn:hover { background: #3451de; }
+        
+        .preview-btn.secondary {
+            background: #e9ecef;
+            color: #333;
+        }
+        
+        .preview-btn.secondary:hover { background: #dee2e6; }
+        
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd166;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        /* Hints */
+        .hint-box {
+            background: #fff3cd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #ffd166;
+        }
+        
+        .hint-box h4 {
+            color: #856404;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .hint-box p {
+            color: #856404;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        .hint-box code {
+            background: rgba(0,0,0,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        /* Success message */
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .success-overlay.show { display: flex; }
+        
+        .success-card {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            animation: bounceIn 0.5s;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .success-card h2 {
+            color: #06d6a0;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .success-card .points {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffd166;
+        }
+        
+        .success-card .message {
+            color: #666;
+            margin: 15px 0;
+        }
+        
+        .success-card button {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        /* Progress indicator */
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .progress-step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 5px;
+            font-size: 0.85rem;
+        }
+        
+        .progress-step.completed { background: #06d6a0; }
+        .progress-step.active { background: #f72585; animation: pulse 1s infinite; }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Templates */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .template-btn {
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .template-btn:hover {
+            border-color: #4361ee;
+            background: #e8f4ff;
+        }
+        
+        .template-btn .icon { font-size: 2rem; margin-bottom: 5px; }
+        .template-btn .label { font-size: 0.85rem; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 Website Builder Challenge</h1>
+            <p>Complete coding challenges to build an amazing website!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-gamepad"></i> All Activities</a>
+                <a href="../playground/html-playground.html"><i class="fas fa-code"></i> Playground</a>
+            </div>
+        </header>
+        
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value" id="total-score">0</div>
+                <div class="stat-label">Total Score</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="challenges-done">0</div>
+                <div class="stat-label">Challenges Done</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="current-level">Beginner</div>
+                <div class="stat-label">Level</div>
+            </div>
+        </div>
+        
+        <div class="progress-steps" id="progress-steps">
+            <!-- Generated by JS -->
+        </div>
+        
+        <div class="game-container">
+            <!-- Challenges Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <i class="fas fa-tasks"></i> Challenges
+                </div>
+                <div class="panel-content" id="challenges-list">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+            
+            <!-- Editor Panel -->
+            <div class="panel">
+                <div class="editor-tabs">
+                    <button class="editor-tab active" onclick="switchTab('html')">
+                        <i class="fab fa-html5"></i> HTML
+                    </button>
+                    <button class="editor-tab" onclick="switchTab('css')">
+                        <i class="fab fa-css3-alt"></i> CSS
+                    </button>
+                </div>
+                <div id="html-editor" class="code-area active">
+                    <textarea id="html-code" oninput="updatePreview()" placeholder="Write your HTML here..."></textarea>
+                </div>
+                <div id="css-editor" class="code-area">
+                    <textarea id="css-code" oninput="updatePreview()" placeholder="Write your CSS here..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Preview Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <i class="fas fa-eye"></i> Live Preview
+                </div>
+                <div class="preview-controls">
+                    <button class="preview-btn" onclick="checkChallenge()">
+                        <i class="fas fa-check"></i> Check Challenge
+                    </button>
+                    <button class="preview-btn secondary" onclick="resetCode()">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+                <iframe id="preview" class="preview-frame"></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Overlay -->
+    <div class="success-overlay" id="success-overlay">
+        <div class="success-card">
+            <h2>🎉 Challenge Complete!</h2>
+            <div class="points" id="points-earned">+50</div>
+            <p class="message" id="success-message">Great job! You completed the challenge.</p>
+            <button onclick="nextChallenge()">Next Challenge →</button>
+        </div>
+    </div>
+    
+    <script>
+        const challenges = [
+            {
+                id: 1,
+                title: "Create Your First Heading",
+                description: "Add an h1 heading that says 'Welcome to My Website'",
+                points: 50,
+                hint: "Use &lt;h1&gt;Your text here&lt;/h1&gt; to create a main heading.",
+                check: (html, css) => html.toLowerCase().includes('<h1>') && html.toLowerCase().includes('welcome'),
+                starterHTML: '',
+                starterCSS: ''
+            },
+            {
+                id: 2,
+                title: "Add a Paragraph",
+                description: "Add a paragraph below your heading that introduces yourself.",
+                points: 50,
+                hint: "Use &lt;p&gt;Your paragraph text&lt;/p&gt; to add a paragraph.",
+                check: (html, css) => html.toLowerCase().includes('<p>') && html.toLowerCase().includes('</p>'),
+                starterHTML: '<h1>Welcome to My Website</h1>\n\n<!-- Add your paragraph below -->\n',
+                starterCSS: ''
+            },
+            {
+                id: 3,
+                title: "Create a List",
+                description: "Add an unordered list with at least 3 of your favorite things.",
+                points: 75,
+                hint: "Use &lt;ul&gt; for the list and &lt;li&gt; for each item. Example: &lt;ul&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/ul&gt;",
+                check: (html, css) => {
+                    const liCount = (html.match(/<li>/gi) || []).length;
+                    return html.includes('<ul>') && liCount >= 3;
+                },
+                starterHTML: '<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n\n<!-- Add your list of favorites below -->\n',
+                starterCSS: ''
+            },
+            {
+                id: 4,
+                title: "Add a Colorful Background",
+                description: "Use CSS to give the page a colorful background. Try 'lightblue', 'pink', or any color!",
+                points: 75,
+                hint: "In CSS, use: body { background-color: lightblue; }",
+                check: (html, css) => css.includes('background') && css.includes('body'),
+                starterHTML: '<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n<ul>\n  <li>Coding</li>\n  <li>Games</li>\n  <li>Music</li>\n</ul>',
+                starterCSS: '/* Add your CSS below */\n'
+            },
+            {
+                id: 5,
+                title: "Style Your Heading",
+                description: "Make your h1 heading a different color and center it on the page.",
+                points: 100,
+                hint: "Use: h1 { color: purple; text-align: center; }",
+                check: (html, css) => css.includes('h1') && css.includes('color') && css.includes('text-align'),
+                starterHTML: '<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n<ul>\n  <li>Coding</li>\n  <li>Games</li>\n  <li>Music</li>\n</ul>',
+                starterCSS: 'body {\n  background-color: lightblue;\n}\n\n/* Style your h1 below */\n'
+            },
+            {
+                id: 6,
+                title: "Add an Image",
+                description: "Add an image to your page using the img tag. You can use any image URL!",
+                points: 100,
+                hint: "Use: &lt;img src=\"https://placekitten.com/200/200\" alt=\"A cute kitten\"&gt;",
+                check: (html, css) => html.includes('<img') && html.includes('src='),
+                starterHTML: '<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n\n<!-- Add an image below -->\n\n<ul>\n  <li>Coding</li>\n  <li>Games</li>\n  <li>Music</li>\n</ul>',
+                starterCSS: 'body {\n  background-color: lightblue;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}'
+            },
+            {
+                id: 7,
+                title: "Create a Link",
+                description: "Add a link to your favorite website using the <a> tag.",
+                points: 100,
+                hint: "Use: &lt;a href=\"https://example.com\"&gt;Click here&lt;/a&gt;",
+                check: (html, css) => html.includes('<a') && html.includes('href='),
+                starterHTML: '<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n<img src="https://placekitten.com/200/200" alt="A cute kitten">\n\n<!-- Add a link below -->\n',
+                starterCSS: 'body {\n  background-color: lightblue;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}'
+            },
+            {
+                id: 8,
+                title: "Add a Button",
+                description: "Create a button element that says 'Click Me!'",
+                points: 75,
+                hint: "Use: &lt;button&gt;Click Me!&lt;/button&gt;",
+                check: (html, css) => html.includes('<button') && html.toLowerCase().includes('click'),
+                starterHTML: '<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n\n<!-- Add a button below -->\n',
+                starterCSS: 'body {\n  background-color: lightblue;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}'
+            },
+            {
+                id: 9,
+                title: "Style the Button",
+                description: "Make your button look amazing! Add padding, a background color, and rounded corners.",
+                points: 125,
+                hint: "Use: button { padding: 15px 30px; background-color: purple; color: white; border-radius: 10px; border: none; }",
+                check: (html, css) => css.includes('button') && css.includes('padding') && css.includes('background'),
+                starterHTML: '<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n<button>Click Me!</button>',
+                starterCSS: 'body {\n  background-color: lightblue;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}\n\n/* Style your button below */\n'
+            },
+            {
+                id: 10,
+                title: "Create a Container",
+                description: "Wrap your content in a div with class 'container' and add padding and a background.",
+                points: 150,
+                hint: "Add: &lt;div class=\"container\"&gt;...your content...&lt;/div&gt; and in CSS: .container { padding: 30px; background: white; border-radius: 15px; }",
+                check: (html, css) => html.includes('class="container"') && css.includes('.container'),
+                starterHTML: '<!-- Wrap everything in a container div -->\n\n<h1>Welcome to My Website</h1>\n<p>Hello! I am learning to code.</p>\n<button>Click Me!</button>',
+                starterCSS: 'body {\n  background-color: lightblue;\n  padding: 20px;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}\n\nbutton {\n  padding: 15px 30px;\n  background-color: purple;\n  color: white;\n  border-radius: 10px;\n  border: none;\n}\n\n/* Add container styles below */\n'
+            },
+            {
+                id: 11,
+                title: "Add a Footer",
+                description: "Create a footer at the bottom with your name and the year.",
+                points: 100,
+                hint: "Use: &lt;footer&gt;Made by Your Name - 2024&lt;/footer&gt;",
+                check: (html, css) => html.includes('<footer>'),
+                starterHTML: '<div class="container">\n  <h1>Welcome to My Website</h1>\n  <p>Hello! I am learning to code.</p>\n  <button>Click Me!</button>\n</div>\n\n<!-- Add a footer below -->\n',
+                starterCSS: 'body {\n  background-color: lightblue;\n  padding: 20px;\n}\n\n.container {\n  padding: 30px;\n  background: white;\n  border-radius: 15px;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}'
+            },
+            {
+                id: 12,
+                title: "Style the Footer",
+                description: "Center the footer text and add some styling to make it look professional.",
+                points: 125,
+                hint: "Use: footer { text-align: center; padding: 20px; margin-top: 20px; background: #333; color: white; border-radius: 10px; }",
+                check: (html, css) => css.includes('footer') && css.includes('text-align'),
+                starterHTML: '<div class="container">\n  <h1>Welcome to My Website</h1>\n  <p>Hello! I am learning to code.</p>\n  <button>Click Me!</button>\n</div>\n<footer>Made by Me - 2024</footer>',
+                starterCSS: 'body {\n  background-color: lightblue;\n  padding: 20px;\n}\n\n.container {\n  padding: 30px;\n  background: white;\n  border-radius: 15px;\n}\n\nh1 {\n  color: purple;\n  text-align: center;\n}\n\n/* Style your footer below */\n'
+            }
+        ];
+        
+        let currentChallenge = 0;
+        let totalScore = 0;
+        let completedChallenges = new Set();
+        
+        // Load saved progress
+        const savedProgress = JSON.parse(localStorage.getItem('websiteBuilder_progress') || '{}');
+        if (savedProgress.completed) {
+            completedChallenges = new Set(savedProgress.completed);
+            totalScore = savedProgress.score || 0;
+            currentChallenge = savedProgress.current || 0;
+        }
+        
+        function init() {
+            updateStats();
+            renderChallenges();
+            renderProgress();
+            loadChallenge(currentChallenge);
+            updatePreview();
+        }
+        
+        function renderChallenges() {
+            const list = document.getElementById('challenges-list');
+            list.innerHTML = '';
+            
+            challenges.forEach((c, i) => {
+                const isCompleted = completedChallenges.has(c.id);
+                const isActive = i === currentChallenge;
+                
+                const card = document.createElement('div');
+                card.className = `challenge-card ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`;
+                card.innerHTML = `
+                    <div class="challenge-title">
+                        <span class="challenge-number">${isCompleted ? '✓' : c.id}</span>
+                        ${c.title}
+                    </div>
+                    <div class="challenge-description">${c.description}</div>
+                    <span class="challenge-points">+${c.points} points</span>
+                    ${isActive ? `
+                        <div class="hint-box">
+                            <h4>💡 Hint</h4>
+                            <p>${c.hint}</p>
+                        </div>
+                        <button class="check-btn" onclick="checkChallenge()">
+                            <i class="fas fa-check"></i> Check My Work
+                        </button>
+                    ` : ''}
+                `;
+                
+                if (!isActive && !isCompleted) {
+                    card.style.opacity = '0.6';
+                }
+                
+                card.onclick = () => {
+                    if (isCompleted || i <= currentChallenge) {
+                        loadChallenge(i);
+                    }
+                };
+                
+                list.appendChild(card);
+            });
+        }
+        
+        function renderProgress() {
+            const steps = document.getElementById('progress-steps');
+            steps.innerHTML = '';
+            
+            challenges.forEach((c, i) => {
+                const step = document.createElement('div');
+                step.className = 'progress-step';
+                if (completedChallenges.has(c.id)) {
+                    step.classList.add('completed');
+                    step.innerHTML = '✓';
+                } else if (i === currentChallenge) {
+                    step.classList.add('active');
+                    step.textContent = c.id;
+                } else {
+                    step.textContent = c.id;
+                }
+                steps.appendChild(step);
+            });
+        }
+        
+        function loadChallenge(index) {
+            currentChallenge = index;
+            const challenge = challenges[index];
+            
+            if (!completedChallenges.has(challenge.id)) {
+                document.getElementById('html-code').value = challenge.starterHTML;
+                document.getElementById('css-code').value = challenge.starterCSS;
+            }
+            
+            updatePreview();
+            renderChallenges();
+            renderProgress();
+            saveProgress();
+        }
+        
+        function switchTab(tab) {
+            document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.code-area').forEach(a => a.classList.remove('active'));
+            
+            document.querySelector(`.editor-tab:nth-child(${tab === 'html' ? 1 : 2})`).classList.add('active');
+            document.getElementById(`${tab}-editor`).classList.add('active');
+        }
+        
+        function updatePreview() {
+            const html = document.getElementById('html-code').value;
+            const css = document.getElementById('css-code').value;
+            
+            const fullHTML = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        * { box-sizing: border-box; margin: 0; padding: 0; }
+                        body { font-family: 'Varela Round', Arial, sans-serif; padding: 20px; }
+                        ${css}
+                    </style>
+                </head>
+                <body>
+                    ${html}
+                </body>
+                </html>
+            `;
+            
+            const preview = document.getElementById('preview');
+            preview.srcdoc = fullHTML;
+        }
+        
+        function checkChallenge() {
+            const html = document.getElementById('html-code').value;
+            const css = document.getElementById('css-code').value;
+            const challenge = challenges[currentChallenge];
+            
+            if (challenge.check(html, css)) {
+                // Success!
+                const points = challenge.points;
+                totalScore += points;
+                completedChallenges.add(challenge.id);
+                
+                document.getElementById('points-earned').textContent = `+${points}`;
+                document.getElementById('success-message').textContent = getSuccessMessage();
+                document.getElementById('success-overlay').classList.add('show');
+                
+                updateStats();
+                saveProgress();
+                createConfetti();
+            } else {
+                // Show hint more prominently
+                alert('Not quite right yet! Check the hint and try again. 💪');
+            }
+        }
+        
+        function getSuccessMessage() {
+            const messages = [
+                "Amazing work! You're becoming a coding pro!",
+                "Fantastic! You nailed it!",
+                "Great job! Keep up the excellent work!",
+                "Brilliant! You're a natural coder!",
+                "Perfect! You're making great progress!",
+                "Wonderful! That was spot on!",
+                "Excellent! You're on fire! 🔥"
+            ];
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
+        
+        function nextChallenge() {
+            document.getElementById('success-overlay').classList.remove('show');
+            
+            if (currentChallenge < challenges.length - 1) {
+                loadChallenge(currentChallenge + 1);
+            } else {
+                alert('🎉 Congratulations! You completed ALL challenges! You are a Website Building Champion!');
+            }
+        }
+        
+        function resetCode() {
+            const challenge = challenges[currentChallenge];
+            document.getElementById('html-code').value = challenge.starterHTML;
+            document.getElementById('css-code').value = challenge.starterCSS;
+            updatePreview();
+        }
+        
+        function updateStats() {
+            document.getElementById('total-score').textContent = totalScore;
+            document.getElementById('challenges-done').textContent = completedChallenges.size;
+            
+            let level = 'Beginner';
+            if (completedChallenges.size >= 10) level = 'Expert';
+            else if (completedChallenges.size >= 6) level = 'Advanced';
+            else if (completedChallenges.size >= 3) level = 'Intermediate';
+            document.getElementById('current-level').textContent = level;
+        }
+        
+        function saveProgress() {
+            localStorage.setItem('websiteBuilder_progress', JSON.stringify({
+                completed: [...completedChallenges],
+                score: totalScore,
+                current: currentChallenge
+            }));
+        }
+        
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#ffd166', '#06d6a0', '#4361ee', '#f72585'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.cssText = `
+                    position: fixed;
+                    width: 10px;
+                    height: 10px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    left: ${Math.random() * 100}vw;
+                    top: -10px;
+                    border-radius: 50%;
+                    z-index: 1001;
+                    animation: fall ${2 + Math.random() * 2}s linear forwards;
+                `;
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }
+            
+            const style = document.createElement('style');
+            style.textContent = '@keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }';
+            document.head.appendChild(style);
+        }
+        
+        init();
+    </script>
+</body>
+</html>

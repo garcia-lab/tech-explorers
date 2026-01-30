@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⌨️ Keyboard Ninja - Tech Explorers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ffd166);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        header p { color: #aaa; }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover { background: rgba(255,255,255,0.2); }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd166;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .game-modes {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .mode-btn {
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn:hover { background: rgba(255,255,255,0.2); }
+        .mode-btn.active { background: linear-gradient(135deg, #f72585, #7209b7); border-color: #ffd166; }
+        
+        .game-area {
+            background: rgba(0,0,0,0.3);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .shortcut-display {
+            margin: 30px 0;
+        }
+        
+        .shortcut-task {
+            font-size: 1.3rem;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+        
+        .shortcut-keys {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .key {
+            min-width: 60px;
+            height: 60px;
+            padding: 10px 20px;
+            background: linear-gradient(180deg, #444, #333);
+            border: 3px solid #555;
+            border-bottom: 5px solid #222;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            transition: all 0.1s;
+        }
+        
+        .key.pressed {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+            background: linear-gradient(180deg, #00ff87, #06d6a0);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 135, 0.5);
+        }
+        
+        .key.waiting {
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { border-color: #555; }
+            50% { border-color: #ffd166; box-shadow: 0 0 15px rgba(255, 209, 102, 0.3); }
+        }
+        
+        .plus-sign {
+            font-size: 2rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feedback {
+            font-size: 2rem;
+            margin: 20px 0;
+            min-height: 50px;
+        }
+        
+        .feedback.success { color: #06d6a0; }
+        .feedback.error { color: #f72585; }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4361ee, #7209b7, #f72585);
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+        
+        .hint-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+            border-left: 4px solid #60efff;
+        }
+        
+        .hint-box h4 {
+            color: #60efff;
+            margin-bottom: 10px;
+        }
+        
+        .hint-box p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .action-btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #06d6a0, #00c896);
+            color: white;
+        }
+        
+        .skip-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        /* Keyboard visualization */
+        .keyboard-visual {
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .keyboard-visual.show {
+            display: block;
+        }
+        
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin: 5px 0;
+        }
+        
+        .kb-key {
+            width: 40px;
+            height: 40px;
+            background: #333;
+            border: 2px solid #444;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #888;
+            transition: all 0.2s;
+        }
+        
+        .kb-key.wide { width: 60px; }
+        .kb-key.wider { width: 80px; }
+        .kb-key.widest { width: 100px; }
+        .kb-key.space { width: 200px; }
+        
+        .kb-key.highlight {
+            background: linear-gradient(135deg, #f72585, #7209b7);
+            border-color: #fff;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(247, 37, 133, 0.5);
+        }
+        
+        /* Leaderboard */
+        .leaderboard {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+        
+        .leaderboard h3 {
+            color: #ffd166;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .leaderboard-entry.current {
+            background: rgba(6, 214, 160, 0.2);
+            border: 2px solid #06d6a0;
+        }
+        
+        /* Level badges */
+        .level-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .level-badge.beginner { background: #06d6a0; color: #000; }
+        .level-badge.intermediate { background: #ffd166; color: #000; }
+        .level-badge.advanced { background: #f72585; color: #fff; }
+        .level-badge.master { background: linear-gradient(135deg, #7209b7, #3a0ca3); color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⌨️ Keyboard Ninja</h1>
+            <p>Master keyboard shortcuts like a pro coder!</p>
+            <div class="nav-links">
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../activities/all-activities.html"><i class="fas fa-gamepad"></i> All Activities</a>
+                <a href="typing-race.html"><i class="fas fa-keyboard"></i> Typing Race</a>
+            </div>
+        </header>
+        
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value" id="score">0</div>
+                <div class="stat-label">Score</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="streak">0</div>
+                <div class="stat-label">Streak 🔥</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="level">1</div>
+                <div class="stat-label">Level</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="mastered">0</div>
+                <div class="stat-label">Mastered</div>
+            </div>
+        </div>
+        
+        <div class="game-modes">
+            <button class="mode-btn active" onclick="setMode('essential')">🌟 Essential</button>
+            <button class="mode-btn" onclick="setMode('text')">📝 Text Editing</button>
+            <button class="mode-btn" onclick="setMode('browser')">🌐 Browser</button>
+            <button class="mode-btn" onclick="setMode('coding')">💻 Coding</button>
+            <button class="mode-btn" onclick="setMode('all')">🎯 All Shortcuts</button>
+        </div>
+        
+        <div class="game-area">
+            <div id="game-content">
+                <span class="level-badge beginner">Beginner</span>
+                <div class="shortcut-display">
+                    <div class="shortcut-task" id="task">Press the shortcut to:</div>
+                    <h2 id="action" style="color: #ffd166; font-size: 2rem; margin: 15px 0;">Copy</h2>
+                    
+                    <div class="shortcut-keys" id="keys">
+                        <div class="key waiting">Ctrl</div>
+                        <div class="plus-sign">+</div>
+                        <div class="key waiting">C</div>
+                    </div>
+                </div>
+                
+                <div class="feedback" id="feedback"></div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%"></div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn start-btn" id="start-btn" onclick="startGame()">
+                        <i class="fas fa-play"></i> Start Practice
+                    </button>
+                    <button class="action-btn skip-btn" onclick="skipShortcut()" style="display: none;" id="skip-btn">
+                        Skip (costs 5 points)
+                    </button>
+                </div>
+                
+                <div class="hint-box" id="hint-box">
+                    <h4>💡 Hint</h4>
+                    <p id="hint-text">Press Start to begin practicing keyboard shortcuts!</p>
+                </div>
+            </div>
+            
+            <div class="keyboard-visual" id="keyboard">
+                <div class="keyboard-row">
+                    <div class="kb-key">Esc</div>
+                    <div class="kb-key">F1</div>
+                    <div class="kb-key">F2</div>
+                    <div class="kb-key">F3</div>
+                    <div class="kb-key">F4</div>
+                    <div class="kb-key">F5</div>
+                    <div class="kb-key">F6</div>
+                    <div class="kb-key">F7</div>
+                    <div class="kb-key">F8</div>
+                    <div class="kb-key">F9</div>
+                    <div class="kb-key">F10</div>
+                    <div class="kb-key">F11</div>
+                    <div class="kb-key">F12</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="kb-key">`</div>
+                    <div class="kb-key">1</div>
+                    <div class="kb-key">2</div>
+                    <div class="kb-key">3</div>
+                    <div class="kb-key">4</div>
+                    <div class="kb-key">5</div>
+                    <div class="kb-key">6</div>
+                    <div class="kb-key">7</div>
+                    <div class="kb-key">8</div>
+                    <div class="kb-key">9</div>
+                    <div class="kb-key">0</div>
+                    <div class="kb-key">-</div>
+                    <div class="kb-key">=</div>
+                    <div class="kb-key wider">←</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="kb-key wide">Tab</div>
+                    <div class="kb-key">Q</div>
+                    <div class="kb-key">W</div>
+                    <div class="kb-key">E</div>
+                    <div class="kb-key">R</div>
+                    <div class="kb-key">T</div>
+                    <div class="kb-key">Y</div>
+                    <div class="kb-key">U</div>
+                    <div class="kb-key">I</div>
+                    <div class="kb-key">O</div>
+                    <div class="kb-key">P</div>
+                    <div class="kb-key">[</div>
+                    <div class="kb-key">]</div>
+                    <div class="kb-key wide">\</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="kb-key wider">Caps</div>
+                    <div class="kb-key">A</div>
+                    <div class="kb-key">S</div>
+                    <div class="kb-key">D</div>
+                    <div class="kb-key">F</div>
+                    <div class="kb-key">G</div>
+                    <div class="kb-key">H</div>
+                    <div class="kb-key">J</div>
+                    <div class="kb-key">K</div>
+                    <div class="kb-key">L</div>
+                    <div class="kb-key">;</div>
+                    <div class="kb-key">'</div>
+                    <div class="kb-key widest">Enter</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="kb-key widest">Shift</div>
+                    <div class="kb-key">Z</div>
+                    <div class="kb-key">X</div>
+                    <div class="kb-key">C</div>
+                    <div class="kb-key">V</div>
+                    <div class="kb-key">B</div>
+                    <div class="kb-key">N</div>
+                    <div class="kb-key">M</div>
+                    <div class="kb-key">,</div>
+                    <div class="kb-key">.</div>
+                    <div class="kb-key">/</div>
+                    <div class="kb-key widest">Shift</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="kb-key wide">Ctrl</div>
+                    <div class="kb-key">Win</div>
+                    <div class="kb-key wide">Alt</div>
+                    <div class="kb-key space">Space</div>
+                    <div class="kb-key wide">Alt</div>
+                    <div class="kb-key">Fn</div>
+                    <div class="kb-key wide">Ctrl</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="leaderboard">
+            <h3>🏆 Your Best Scores</h3>
+            <div id="leaderboard-entries">
+                <div class="leaderboard-entry">
+                    <span>Essential Mode</span>
+                    <span id="best-essential">0</span>
+                </div>
+                <div class="leaderboard-entry">
+                    <span>Text Editing</span>
+                    <span id="best-text">0</span>
+                </div>
+                <div class="leaderboard-entry">
+                    <span>Browser</span>
+                    <span id="best-browser">0</span>
+                </div>
+                <div class="leaderboard-entry">
+                    <span>Coding</span>
+                    <span id="best-coding">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Shortcut definitions
+        const shortcuts = {
+            essential: [
+                { keys: ['Ctrl', 'C'], action: 'Copy', hint: 'C for Copy! Hold Ctrl and press C.' },
+                { keys: ['Ctrl', 'V'], action: 'Paste', hint: 'V for paste (it\'s next to C on the keyboard!)' },
+                { keys: ['Ctrl', 'X'], action: 'Cut', hint: 'X looks like scissors cutting!' },
+                { keys: ['Ctrl', 'Z'], action: 'Undo', hint: 'Z is at the bottom left - easy to reach for quick undo!' },
+                { keys: ['Ctrl', 'S'], action: 'Save', hint: 'S for Save! Use this often to save your work.' },
+                { keys: ['Ctrl', 'A'], action: 'Select All', hint: 'A for All! Selects everything.' },
+                { keys: ['Ctrl', 'F'], action: 'Find', hint: 'F for Find! Search for text.' },
+                { keys: ['Ctrl', 'P'], action: 'Print', hint: 'P for Print!' },
+                { keys: ['Ctrl', 'N'], action: 'New Document', hint: 'N for New!' },
+                { keys: ['Ctrl', 'O'], action: 'Open File', hint: 'O for Open!' },
+            ],
+            text: [
+                { keys: ['Ctrl', 'B'], action: 'Bold Text', hint: 'B for Bold!' },
+                { keys: ['Ctrl', 'I'], action: 'Italic Text', hint: 'I for Italic!' },
+                { keys: ['Ctrl', 'U'], action: 'Underline Text', hint: 'U for Underline!' },
+                { keys: ['Ctrl', 'Shift', 'Z'], action: 'Redo', hint: 'Shift + Undo = Redo!' },
+                { keys: ['Ctrl', 'Home'], action: 'Go to Beginning', hint: 'Home is where the heart (and document start) is!' },
+                { keys: ['Ctrl', 'End'], action: 'Go to End', hint: 'Jump to the End of your document.' },
+                { keys: ['Ctrl', 'Left'], action: 'Jump Word Left', hint: 'Move faster through text!' },
+                { keys: ['Ctrl', 'Right'], action: 'Jump Word Right', hint: 'Skip through words quickly.' },
+                { keys: ['Ctrl', 'Backspace'], action: 'Delete Word', hint: 'Delete a whole word at once!' },
+                { keys: ['Shift', 'Home'], action: 'Select to Line Start', hint: 'Select from cursor to line start.' },
+            ],
+            browser: [
+                { keys: ['Ctrl', 'T'], action: 'New Tab', hint: 'T for Tab! Opens a new browser tab.' },
+                { keys: ['Ctrl', 'W'], action: 'Close Tab', hint: 'W closes the current tab.' },
+                { keys: ['Ctrl', 'Shift', 'T'], action: 'Reopen Closed Tab', hint: 'Accidentally closed a tab? Bring it back!' },
+                { keys: ['Ctrl', 'L'], action: 'Focus Address Bar', hint: 'L for Location bar!' },
+                { keys: ['Ctrl', 'R'], action: 'Refresh Page', hint: 'R for Refresh! Or just press F5.' },
+                { keys: ['Ctrl', 'D'], action: 'Bookmark Page', hint: 'D for... uh... Dookmark? 😄' },
+                { keys: ['Ctrl', 'H'], action: 'View History', hint: 'H for History!' },
+                { keys: ['Ctrl', 'J'], action: 'View Downloads', hint: 'J shows your downloads.' },
+                { keys: ['Alt', 'Left'], action: 'Go Back', hint: 'Navigate back in history.' },
+                { keys: ['Alt', 'Right'], action: 'Go Forward', hint: 'Navigate forward in history.' },
+            ],
+            coding: [
+                { keys: ['Ctrl', '/'], action: 'Toggle Comment', hint: 'Quickly comment/uncomment code!' },
+                { keys: ['Ctrl', 'D'], action: 'Duplicate Line', hint: 'Copy the current line instantly.' },
+                { keys: ['Ctrl', 'Shift', 'K'], action: 'Delete Line', hint: 'Remove the entire line.' },
+                { keys: ['Alt', 'Up'], action: 'Move Line Up', hint: 'Rearrange your code!' },
+                { keys: ['Alt', 'Down'], action: 'Move Line Down', hint: 'Move code down.' },
+                { keys: ['Ctrl', 'G'], action: 'Go to Line', hint: 'Jump to a specific line number.' },
+                { keys: ['Ctrl', 'Shift', 'F'], action: 'Find in Files', hint: 'Search across all files!' },
+                { keys: ['Ctrl', '`'], action: 'Toggle Terminal', hint: 'Open/close the terminal.' },
+                { keys: ['Ctrl', 'Shift', 'P'], action: 'Command Palette', hint: 'Access all commands!' },
+                { keys: ['F12'], action: 'Go to Definition', hint: 'Jump to where code is defined.' },
+            ]
+        };
+        
+        let currentMode = 'essential';
+        let currentShortcut = null;
+        let score = 0;
+        let streak = 0;
+        let level = 1;
+        let mastered = 0;
+        let pressedKeys = new Set();
+        let gameActive = false;
+        let shortcutQueue = [];
+        let masteredShortcuts = new Set();
+        
+        // Load saved data
+        const savedData = JSON.parse(localStorage.getItem('keyboardNinja_data') || '{}');
+        if (savedData.mastered) {
+            masteredShortcuts = new Set(savedData.mastered);
+            mastered = masteredShortcuts.size;
+            document.getElementById('mastered').textContent = mastered;
+        }
+        
+        // Load best scores
+        ['essential', 'text', 'browser', 'coding'].forEach(mode => {
+            const best = localStorage.getItem(`keyboardNinja_best_${mode}`) || '0';
+            document.getElementById(`best-${mode}`).textContent = best;
+        });
+        
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Reset for new mode
+            if (gameActive) {
+                score = 0;
+                streak = 0;
+                document.getElementById('score').textContent = 0;
+                document.getElementById('streak').textContent = 0;
+                startGame();
+            }
+        }
+        
+        function startGame() {
+            gameActive = true;
+            score = 0;
+            streak = 0;
+            
+            document.getElementById('score').textContent = 0;
+            document.getElementById('streak').textContent = 0;
+            document.getElementById('start-btn').style.display = 'none';
+            document.getElementById('skip-btn').style.display = 'inline-block';
+            document.getElementById('keyboard').classList.add('show');
+            
+            // Create shuffled queue
+            if (currentMode === 'all') {
+                shortcutQueue = [...shortcuts.essential, ...shortcuts.text, ...shortcuts.browser, ...shortcuts.coding];
+            } else {
+                shortcutQueue = [...shortcuts[currentMode]];
+            }
+            shortcutQueue.sort(() => Math.random() - 0.5);
+            
+            nextShortcut();
+        }
+        
+        function nextShortcut() {
+            if (shortcutQueue.length === 0) {
+                endGame();
+                return;
+            }
+            
+            currentShortcut = shortcutQueue.shift();
+            displayShortcut();
+            highlightKeyboard();
+        }
+        
+        function displayShortcut() {
+            document.getElementById('action').textContent = currentShortcut.action;
+            document.getElementById('hint-text').textContent = currentShortcut.hint;
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
+            
+            const keysContainer = document.getElementById('keys');
+            keysContainer.innerHTML = '';
+            
+            currentShortcut.keys.forEach((key, i) => {
+                if (i > 0) {
+                    const plus = document.createElement('div');
+                    plus.className = 'plus-sign';
+                    plus.textContent = '+';
+                    keysContainer.appendChild(plus);
+                }
+                
+                const keyEl = document.createElement('div');
+                keyEl.className = 'key waiting';
+                keyEl.textContent = key;
+                keyEl.id = `key-${key.toLowerCase().replace(' ', '')}`;
+                keysContainer.appendChild(keyEl);
+            });
+            
+            // Update level badge
+            const total = masteredShortcuts.size;
+            let levelText = 'Beginner';
+            let levelClass = 'beginner';
+            if (total >= 30) { levelText = 'Master'; levelClass = 'master'; level = 4; }
+            else if (total >= 20) { levelText = 'Advanced'; levelClass = 'advanced'; level = 3; }
+            else if (total >= 10) { levelText = 'Intermediate'; levelClass = 'intermediate'; level = 2; }
+            
+            const badge = document.querySelector('.level-badge');
+            badge.textContent = levelText;
+            badge.className = `level-badge ${levelClass}`;
+            document.getElementById('level').textContent = level;
+            
+            // Update progress
+            const progress = (shortcuts[currentMode === 'all' ? 'essential' : currentMode].length - shortcutQueue.length - 1) / shortcuts[currentMode === 'all' ? 'essential' : currentMode].length * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+        
+        function highlightKeyboard() {
+            // Reset highlights
+            document.querySelectorAll('.kb-key').forEach(k => k.classList.remove('highlight'));
+            
+            // Highlight needed keys
+            currentShortcut.keys.forEach(key => {
+                const keyText = key.toLowerCase();
+                document.querySelectorAll('.kb-key').forEach(k => {
+                    if (k.textContent.toLowerCase() === keyText || 
+                        (keyText === 'ctrl' && k.textContent.toLowerCase() === 'ctrl') ||
+                        (keyText === 'alt' && k.textContent.toLowerCase() === 'alt') ||
+                        (keyText === 'shift' && k.textContent.toLowerCase() === 'shift')) {
+                        k.classList.add('highlight');
+                    }
+                });
+            });
+        }
+        
+        function skipShortcut() {
+            if (score >= 5) {
+                score -= 5;
+                document.getElementById('score').textContent = score;
+                streak = 0;
+                document.getElementById('streak').textContent = 0;
+                showFeedback('Skipped! -5 points', 'error');
+                setTimeout(nextShortcut, 500);
+            } else {
+                showFeedback('Not enough points to skip!', 'error');
+            }
+        }
+        
+        function showFeedback(text, type) {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = text;
+            feedback.className = `feedback ${type}`;
+        }
+        
+        function checkShortcut() {
+            const requiredKeys = currentShortcut.keys.map(k => k.toLowerCase());
+            const pressed = [...pressedKeys];
+            
+            // Check if all required keys are pressed
+            const allPressed = requiredKeys.every(k => pressed.includes(k));
+            const noExtra = pressed.length === requiredKeys.length;
+            
+            if (allPressed && noExtra) {
+                // Success!
+                const points = 10 + (streak * 2);
+                score += points;
+                streak++;
+                
+                // Mark as mastered
+                const shortcutId = currentShortcut.keys.join('+');
+                if (!masteredShortcuts.has(shortcutId)) {
+                    masteredShortcuts.add(shortcutId);
+                    mastered = masteredShortcuts.size;
+                    document.getElementById('mastered').textContent = mastered;
+                    
+                    // Save
+                    localStorage.setItem('keyboardNinja_data', JSON.stringify({
+                        mastered: [...masteredShortcuts]
+                    }));
+                }
+                
+                document.getElementById('score').textContent = score;
+                document.getElementById('streak').textContent = streak;
+                
+                // Visual feedback
+                document.querySelectorAll('.key').forEach(k => k.classList.add('pressed'));
+                showFeedback(`✓ Perfect! +${points} points`, 'success');
+                
+                setTimeout(nextShortcut, 800);
+                return true;
+            }
+            
+            return false;
+        }
+        
+        function endGame() {
+            gameActive = false;
+            
+            // Save best score
+            const bestKey = `keyboardNinja_best_${currentMode}`;
+            const currentBest = parseInt(localStorage.getItem(bestKey) || '0');
+            if (score > currentBest) {
+                localStorage.setItem(bestKey, score.toString());
+                document.getElementById(`best-${currentMode}`).textContent = score;
+                showFeedback(`🎉 New High Score: ${score}!`, 'success');
+            } else {
+                showFeedback(`Round complete! Score: ${score}`, 'success');
+            }
+            
+            document.getElementById('action').textContent = 'Round Complete!';
+            document.getElementById('keys').innerHTML = '<div style="font-size: 3rem;">🏆</div>';
+            document.getElementById('start-btn').textContent = 'Play Again';
+            document.getElementById('start-btn').style.display = 'inline-block';
+            document.getElementById('skip-btn').style.display = 'none';
+            document.getElementById('keyboard').classList.remove('show');
+        }
+        
+        // Keyboard event listeners
+        document.addEventListener('keydown', (e) => {
+            if (!gameActive) return;
+            
+            e.preventDefault();
+            
+            let key = e.key.toLowerCase();
+            if (e.ctrlKey && key !== 'control') pressedKeys.add('ctrl');
+            if (e.shiftKey && key !== 'shift') pressedKeys.add('shift');
+            if (e.altKey && key !== 'alt') pressedKeys.add('alt');
+            
+            // Normalize key names
+            if (key === 'control') key = 'ctrl';
+            if (key === 'arrowup') key = 'up';
+            if (key === 'arrowdown') key = 'down';
+            if (key === 'arrowleft') key = 'left';
+            if (key === 'arrowright') key = 'right';
+            if (key === ' ') key = 'space';
+            
+            pressedKeys.add(key);
+            
+            checkShortcut();
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            let key = e.key.toLowerCase();
+            if (key === 'control') key = 'ctrl';
+            if (key === 'arrowup') key = 'up';
+            if (key === 'arrowdown') key = 'down';
+            if (key === 'arrowleft') key = 'left';
+            if (key === 'arrowright') key = 'right';
+            if (key === ' ') key = 'space';
+            
+            pressedKeys.delete(key);
+            if (!e.ctrlKey) pressedKeys.delete('ctrl');
+            if (!e.shiftKey) pressedKeys.delete('shift');
+            if (!e.altKey) pressedKeys.delete('alt');
+        });
+        
+        // Prevent browser shortcuts from triggering
+        window.addEventListener('beforeunload', (e) => {
+            if (gameActive) {
+                e.preventDefault();
+                return '';
+            }
+        });
+    </script>
+</body>
+</html>
