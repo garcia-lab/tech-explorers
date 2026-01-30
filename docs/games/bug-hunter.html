@@ -407,7 +407,10 @@
                     { content: '  </head>', buggy: false },
                     { content: '  <body>', buggy: false },
                     { content: '    <h1>Hello World', buggy: true, fix: '    <h1>Hello World</h1>' },
-                    { content: '  </body>', buggy: false },
+                    { content: '      <footer style="background: #1a1a2e; color: white; padding: 20px; text-align: center; margin-top: 40px;">
+        <p style="margin: 0; opacity: 0.8;">Made with ❤️ by Tech Explorers | <a href="../index.html" style="color: #06d6a0;">Home</a> | <a href="../activities/all-activities.html" style="color: #06d6a0;">More Activities</a></p>
+    </footer>
+</body>', buggy: false },
                     { content: '</html>', buggy: false }
                 ],
                 hint: "Look for a tag that doesn't have a matching closing tag (</...>)",
