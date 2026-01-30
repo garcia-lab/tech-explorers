@@ -20,11 +20,34 @@ interface BaitType {
   catchRate: number
 }
 
+interface ReelType {
+  id: string
+  name: string
+  price: number
+  reelSpeed: number // Faster reeling = less escape chance
+  strength: number // Better for big fish/sharks
+}
+
+interface SpearType {
+  id: string
+  name: string
+  price: number
+  accuracy: number // Larger hit radius
+  power: number // Better catch rate
+}
+
+interface CaughtFishDisplay {
+  id: string
+  size: 'small' | 'large' | 'shark'
+  color: string
+  x: number // Position on beach
+}
+
 interface FishType {
   id: string
   x: number
   y: number
-  size: 'small' | 'large'
+  size: 'small' | 'large' | 'shark'
   color: string
   speed: number
   direction: number
@@ -32,7 +55,7 @@ interface FishType {
 
 type FishingTool = 'rod' | 'spear'
 
-type EnvironmentType = 'beach' | 'lake' | 'arctic' | 'tropical' | 'sunset' | 'night'
+type EnvironmentType = 'beach' | 'lake' | 'arctic' | 'tropical' | 'sunset' | 'night' | 'deep' | 'coral' | 'storm'
 
 interface Environment {
   id: EnvironmentType
@@ -102,22 +125,70 @@ const environments: Environment[] = [
     sunColor: '#fef9c3',
     hasMoon: true,
     hasStars: true
+  },
+  {
+    id: 'deep',
+    name: 'Deep Ocean',
+    emoji: '🐙',
+    sky: { from: '#0f172a', to: '#1e293b' },
+    land: { from: '#334155', via: '#1e293b', to: '#0f172a' },
+    water: { from: '#0c4a6e', via: '#082f49', to: '#020617' },
+    sunColor: '#94a3b8',
+    hasStars: true
+  },
+  {
+    id: 'coral',
+    name: 'Coral Reef',
+    emoji: '🐠',
+    sky: { from: '#e0f2fe', to: '#7dd3fc' },
+    land: { from: '#fef08a', via: '#fde047', to: '#facc15' },
+    water: { from: '#22d3ee', via: '#06b6d4', to: '#0e7490' },
+    sunColor: '#fbbf24'
+  },
+  {
+    id: 'storm',
+    name: 'Stormy Seas',
+    emoji: '⛈️',
+    sky: { from: '#374151', to: '#1f2937' },
+    land: { from: '#4b5563', via: '#374151', to: '#1f2937' },
+    water: { from: '#475569', via: '#334155', to: '#1e293b' },
+    sunColor: '#9ca3af'
   }
 ]
 
 const baitTypes: BaitType[] = [
-  { id: 'worm', name: '🪱 Worm', price: 0, size: 1, catchRate: 0.3 },
-  { id: 'minnow', name: '🐟 Minnow', price: 10, size: 1.2, catchRate: 0.4 },
-  { id: 'cricket', name: '🦗 Cricket', price: 15, size: 1, catchRate: 0.45 },
-  { id: 'shrimp', name: '🦐 Shrimp', price: 20, size: 1.3, catchRate: 0.5 },
-  { id: 'grub', name: '🐛 Grub', price: 25, size: 1.1, catchRate: 0.55 },
-  { id: 'spinner', name: '✨ Spinner', price: 35, size: 1.5, catchRate: 0.6 },
-  { id: 'fly', name: '🪰 Fly Lure', price: 40, size: 0.8, catchRate: 0.55 },
-  { id: 'jig', name: '🎣 Jig', price: 50, size: 1.4, catchRate: 0.65 },
-  { id: 'crankbait', name: '🐠 Crankbait', price: 60, size: 1.6, catchRate: 0.7 },
-  { id: 'spoon', name: '🥄 Spoon Lure', price: 75, size: 1.7, catchRate: 0.75 },
-  { id: 'golden', name: '🌟 Golden Lure', price: 100, size: 2, catchRate: 0.85 },
-  { id: 'magic', name: '🔮 Magic Bait', price: 150, size: 2.5, catchRate: 0.95 }
+  { id: 'worm', name: '🪱 Worm', price: 0, size: 1, catchRate: 0.5 },
+  { id: 'minnow', name: '🐟 Minnow', price: 10, size: 1.2, catchRate: 0.55 },
+  { id: 'cricket', name: '🦗 Cricket', price: 15, size: 1, catchRate: 0.6 },
+  { id: 'shrimp', name: '🦐 Shrimp', price: 20, size: 1.3, catchRate: 0.65 },
+  { id: 'grub', name: '🐛 Grub', price: 25, size: 1.1, catchRate: 0.7 },
+  { id: 'spinner', name: '✨ Spinner', price: 35, size: 1.5, catchRate: 0.75 },
+  { id: 'fly', name: '🪰 Fly Lure', price: 40, size: 0.8, catchRate: 0.72 },
+  { id: 'jig', name: '🎣 Jig', price: 50, size: 1.4, catchRate: 0.78 },
+  { id: 'crankbait', name: '🐠 Crankbait', price: 60, size: 1.6, catchRate: 0.82 },
+  { id: 'spoon', name: '🥄 Spoon Lure', price: 75, size: 1.7, catchRate: 0.86 },
+  { id: 'golden', name: '🌟 Golden Lure', price: 100, size: 2, catchRate: 0.92 },
+  { id: 'magic', name: '🔮 Magic Bait', price: 150, size: 2.5, catchRate: 0.98 }
+]
+
+const reelTypes: ReelType[] = [
+  { id: 'basic', name: '⚙️ Basic Reel', price: 0, reelSpeed: 1, strength: 1 },
+  { id: 'spinner', name: '🔄 Spinner Reel', price: 30, reelSpeed: 1.2, strength: 1.1 },
+  { id: 'baitcaster', name: '🎯 Baitcaster', price: 75, reelSpeed: 1.3, strength: 1.3 },
+  { id: 'spinning', name: '💫 Spinning Reel', price: 120, reelSpeed: 1.5, strength: 1.4 },
+  { id: 'fly', name: '🪶 Fly Reel', price: 200, reelSpeed: 1.4, strength: 1.2 },
+  { id: 'trolling', name: '⚓ Trolling Reel', price: 350, reelSpeed: 1.2, strength: 1.8 },
+  { id: 'electric', name: '⚡ Electric Reel', price: 500, reelSpeed: 2.0, strength: 1.6 },
+  { id: 'golden', name: '👑 Golden Reel', price: 1000, reelSpeed: 2.0, strength: 2.0 }
+]
+
+const spearTypes: SpearType[] = [
+  { id: 'wooden', name: '🪵 Wooden Spear', price: 50, accuracy: 1, power: 1 },
+  { id: 'bamboo', name: '🎋 Bamboo Spear', price: 100, accuracy: 1.2, power: 1.1 },
+  { id: 'metal', name: '🔩 Metal Spear', price: 200, accuracy: 1.3, power: 1.3 },
+  { id: 'trident', name: '🔱 Trident', price: 400, accuracy: 1.5, power: 1.5 },
+  { id: 'harpoon', name: '🎯 Harpoon', price: 700, accuracy: 1.4, power: 1.8 },
+  { id: 'golden', name: '✨ Golden Spear', price: 1500, accuracy: 2.0, power: 2.0 }
 ]
 
 const sillyCatPhrases = [
@@ -141,10 +212,28 @@ const sillyCatPhrases = [
   "Pawsome catch! High-five? Oh wait... 🐾"
 ]
 
+const sharkCatchPhrases = [
+  "SHARK! I caught a SHARK! 🦈😱",
+  "This shark is almost as fierce as ME! 🦈😼",
+  "Who's the apex predator NOW?! 🦈🐱",
+  "Shark vs Cat... Cat wins! 🏆",
+  "I'm JAW-some at this! 🦈",
+  "Nine lives came in handy! 🦈😸",
+  "Shark-tastic catch! Meow! 🦈🐾",
+  "Even sharks can't escape my paws! 🦈",
+  "This is FIN-credible! A SHARK! 🦈✨",
+  "Baby shark doo doo... is MINE now! 🦈🎶"
+]
+
 function App() {
   const [fishCount, setFishCount] = useKV<number>('fishCount', 0)
   const [money, setMoney] = useKV<number>('money', 50)
   const [currentBait, setCurrentBait] = useKV<BaitType>('currentBait', baitTypes[0])
+  const [hasSpeedBoat, setHasSpeedBoat] = useKV<boolean>('hasSpeedBoat', false)
+  const [currentReel, setCurrentReel] = useKV<ReelType>('currentReel', reelTypes[0])
+  const [currentSpear, setCurrentSpear] = useKV<SpearType | null>('currentSpear', null)
+  const [beachFish, setBeachFish] = useKV<CaughtFishDisplay[]>('beachFish', [])
+  const [showInstructions, setShowInstructions] = useState(false)
   
   const [isLineCast, setIsLineCast] = useState(false)
   const [boatPosition, setBoatPosition] = useState(50) // Boat X position (percentage)
@@ -174,9 +263,10 @@ function App() {
   // Keyboard controls for boat movement - using document level for reliable capture
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (fishFightStage) return // Don't move boat while catching fish
+      // Don't move boat while catching fish or viewing instructions
+      if (fishFightStage || showInstructions) return
       
-      const moveSpeed = 5
+      const moveSpeed = (hasSpeedBoat === true) ? 10 : 5 // Speed boat is twice as fast!
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
         e.preventDefault()
         setBoatPosition(prev => Math.max(15, prev - moveSpeed))
@@ -196,23 +286,27 @@ function App() {
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [isLineCast, fishFightStage])
+  }, [isLineCast, fishFightStage, hasSpeedBoat, showInstructions])
 
-  // Initialize all fish
+  // Initialize all fish with shallow (50-70%) and deep (70-95%) water zones
   useEffect(() => {
     const initialFish: FishType[] = [
-      // Main pink fish - keep in water area (bottom half)
-      { id: 'pink-main', x: 50, y: 70, size: 'large', color: '#ff69b4', speed: 1, direction: 0 },
-      // 4 small fish - all in water area (bottom half of screen)
-      { id: 'small-1', x: 25, y: 60, size: 'small', color: '#87ceeb', speed: 1.5, direction: 45 },
-      { id: 'small-2', x: 60, y: 80, size: 'small', color: '#98fb98', speed: 1.2, direction: 135 },
-      { id: 'small-3', x: 40, y: 85, size: 'small', color: '#dda0dd', speed: 1.8, direction: 225 },
-      { id: 'small-4', x: 75, y: 65, size: 'small', color: '#f0e68c', speed: 1.3, direction: 315 },
-      // 4 large fish - all in water area (bottom half)
-      { id: 'large-1', x: 20, y: 75, size: 'large', color: '#ff7f50', speed: 0.8, direction: 90 },
-      { id: 'large-2', x: 80, y: 85, size: 'large', color: '#20b2aa', speed: 0.6, direction: 180 },
-      { id: 'large-3', x: 35, y: 55, size: 'large', color: '#daa520', speed: 0.9, direction: 270 },
-      { id: 'large-4', x: 65, y: 90, size: 'large', color: '#9370db', speed: 0.7, direction: 0 }
+      // 🌊 SHALLOW WATER (50-70%) - Small fish hang out here, easier to catch!
+      { id: 'small-1', x: 25, y: 55, size: 'small', color: '#87ceeb', speed: 1.5, direction: 45 },
+      { id: 'small-2', x: 60, y: 58, size: 'small', color: '#98fb98', speed: 1.2, direction: 135 },
+      { id: 'small-3', x: 40, y: 62, size: 'small', color: '#dda0dd', speed: 1.8, direction: 225 },
+      { id: 'small-4', x: 75, y: 56, size: 'small', color: '#f0e68c', speed: 1.3, direction: 315 },
+      { id: 'small-5', x: 50, y: 65, size: 'small', color: '#ffa07a', speed: 1.4, direction: 90 },
+      { id: 'small-6', x: 85, y: 60, size: 'small', color: '#add8e6', speed: 1.6, direction: 180 },
+      // 🌊 DEEP WATER (70-95%) - Large fish and sharks lurk in the depths!
+      { id: 'pink-main', x: 50, y: 78, size: 'large', color: '#ff69b4', speed: 1, direction: 0 },
+      { id: 'large-1', x: 20, y: 82, size: 'large', color: '#ff7f50', speed: 0.8, direction: 90 },
+      { id: 'large-2', x: 80, y: 88, size: 'large', color: '#20b2aa', speed: 0.6, direction: 180 },
+      { id: 'large-3', x: 35, y: 75, size: 'large', color: '#daa520', speed: 0.9, direction: 270 },
+      { id: 'large-4', x: 65, y: 92, size: 'large', color: '#9370db', speed: 0.7, direction: 0 },
+      // 🦈 SHARKS - fast, rare, and worth BIG coins! Deep water only!
+      { id: 'shark-1', x: 15, y: 85, size: 'shark', color: '#4a5568', speed: 2.2, direction: 45 },
+      { id: 'shark-2', x: 85, y: 90, size: 'shark', color: '#2d3748', speed: 2.5, direction: 200 }
     ]
     setAllFish(initialFish)
   }, [])
@@ -225,14 +319,18 @@ function App() {
           let newY = fish.y + Math.sin(fish.direction * Math.PI / 180) * fish.speed
           let newDirection = fish.direction
           
-          // Bounce off walls - fish stay within water area (bottom half of screen)
-          if (newX <= 10 || newX >= 90) {
+          // Bounce off walls - fish stay in their depth zones!
+          // Small fish: shallow water (50-75%), Large fish & sharks: deep water (65-95%)
+          // Overlap zone (65-75%) allows for variety
+          if (newX <= 8 || newX >= 92) {
             newDirection = 180 - fish.direction
-            newX = Math.max(10, Math.min(90, newX))
+            newX = Math.max(8, Math.min(92, newX))
           }
-          if (newY <= 50 || newY >= 95) {
+          const minY = fish.size === 'small' ? 50 : 65
+          const maxY = fish.size === 'small' ? 75 : 95
+          if (newY <= minY || newY >= maxY) {
             newDirection = -fish.direction
-            newY = Math.max(50, Math.min(95, newY))
+            newY = Math.max(minY, Math.min(maxY, newY))
           }
           
           // Random direction changes
@@ -261,23 +359,49 @@ function App() {
 
   // Helper function to catch a fish
   const attemptCatch = useCallback((targetX: number, targetY: number, isSpear: boolean = false) => {
-    // Check if we caught any fish
-    const catchRadius = isSpear ? 10 : 15 // Spear is more precise
+    // Check if spear is owned when using spear
+    if (isSpear && !currentSpear) {
+      toast.error('You need to buy a spear first! Check the shop.')
+      return false
+    }
+    
+    // Check if we caught any fish - use generous catch radius for better UX
+    const spearAccuracy = currentSpear?.accuracy || 1
+    const baseCatchRadius = isSpear ? 12 * spearAccuracy : 20 // Increased for easier clicking
     const caughtFish = allFish.find(fish => {
       const distance = Math.abs(fish.x - targetX) + Math.abs(fish.y - targetY)
-      const baseRadius = fish.size === 'small' ? catchRadius : catchRadius + 10
-      return distance < baseRadius
+      // All fish have generous hit boxes - sharks biggest, then large, then small
+      const sizeRadius = fish.size === 'shark' ? baseCatchRadius + 18 : fish.size === 'large' ? baseCatchRadius + 12 : baseCatchRadius + 5
+      return distance < sizeRadius
     })
     
     if (caughtFish) {
       const bait = currentBait || baitTypes[0]
-      const sizeBonus = caughtFish.size === 'large' ? 1.5 : 1
-      // Spear has higher catch rate but requires more skill (smaller target)
-      const toolBonus = isSpear ? 1.3 : 1
-      const catchChance = bait.catchRate * sizeBonus * toolBonus
+      const reel = currentReel || reelTypes[0]
+      
+      // NEW CATCH FORMULA: More intuitive and forgiving
+      // Small fish = EASIEST (1.3x bonus), Large fish = MEDIUM (1.0x), Sharks = HARDEST (0.7x)
+      const sizeBonus = caughtFish.size === 'small' ? 1.3 : caughtFish.size === 'large' ? 1.0 : 0.7
+      
+      // Tool bonus: spear power or reel strength (both start at 1.0, upgrades give real benefits)
+      const toolBonus = isSpear ? (currentSpear?.power || 1) * 1.2 : 0.9 + (reel.strength * 0.2)
+      
+      // Final catch chance = bait rate * size bonus * tool bonus (capped at 98%)
+      const catchChance = Math.min(0.98, bait.catchRate * sizeBonus * toolBonus)
       
       if (Math.random() < catchChance) {
-        const fishValue = caughtFish.size === 'large' ? 2 : 1
+        // Sharks worth 25 coins, large worth 10, small worth 5
+        const fishValue = caughtFish.size === 'shark' ? 25 : caughtFish.size === 'large' ? 10 : 5
+        const isShark = caughtFish.size === 'shark'
+        
+        // Add fish to beach display
+        const newBeachFish: CaughtFishDisplay = {
+          id: `beach-${Date.now()}-${Math.random()}`,
+          size: caughtFish.size,
+          color: caughtFish.color,
+          x: 10 + Math.random() * 80 // Random position on beach
+        }
+        setBeachFish(current => [...(current || []).slice(-19), newBeachFish]) // Keep max 20 fish on beach
         setCaughtFishId(caughtFish.id)
         setLinePosition({ x: targetX, y: targetY })
         
@@ -286,16 +410,18 @@ function App() {
           setFishFightStage('caught')
           setCatchAnimation(true)
           
-          const randomPhrase = sillyCatPhrases[Math.floor(Math.random() * sillyCatPhrases.length)]
+          const phrases = isShark ? sharkCatchPhrases : sillyCatPhrases
+          const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)]
           setCatSpeech(randomPhrase)
           setShowSpeech(true)
           
-          const fishType = caughtFish.size === 'large' ? 'big fish' : 'small fish'
-          toast.success(`Speared a ${fishType}! 🎯🐟`)
+          const fishType = isShark ? 'SHARK' : caughtFish.size === 'large' ? 'big fish' : 'small fish'
+          const emoji = isShark ? '🦈🎯' : '🎯🐟'
+          toast.success(`Speared a ${fishType}! ${emoji}`)
           
           setTimeout(() => {
             setFishFightStage('reeling')
-          }, 1000)
+          }, isShark ? 1500 : 1000) // Sharks take longer to reel
           
           setTimeout(() => {
             setFishCount(current => (current || 0) + fishValue)
@@ -305,7 +431,7 @@ function App() {
             setFishFightStage(null)
             setIsSpearThrown(false)
             setSpearPosition(null)
-          }, 2500)
+          }, isShark ? 3500 : 2500)
         } else {
           // Normal rod fishing animation sequence
           setFishFightStage('fighting')
@@ -314,17 +440,19 @@ function App() {
             setFishFightStage('caught')
             setCatchAnimation(true)
             
-            const randomPhrase = sillyCatPhrases[Math.floor(Math.random() * sillyCatPhrases.length)]
+            const phrases = isShark ? sharkCatchPhrases : sillyCatPhrases
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)]
             setCatSpeech(randomPhrase)
             setShowSpeech(true)
             
-            const fishType = caughtFish.size === 'large' ? 'big fish' : 'small fish'
-            toast.success(`Caught a ${fishType}! 🐟`)
-          }, 1500)
+            const fishType = isShark ? 'SHARK' : caughtFish.size === 'large' ? 'big fish' : 'small fish'
+            const emoji = isShark ? '🦈' : '🐟'
+            toast.success(`Caught a ${fishType}! ${emoji}`)
+          }, isShark ? 2500 : 1500) // Sharks fight longer
           
           setTimeout(() => {
             setFishFightStage('reeling')
-          }, 2500)
+          }, isShark ? 4000 : 2500)
           
           setTimeout(() => {
             setFishCount(current => (current || 0) + fishValue)
@@ -332,18 +460,19 @@ function App() {
             setShowSpeech(false)
             setCaughtFishId(null)
             setFishFightStage(null)
-          }, 4000)
+          }, isShark ? 6000 : 4000)
         }
         return true
       } else {
-        toast('The fish got away...')
+        const escapeMsg = caughtFish.size === 'shark' ? 'The shark escaped! It was too strong! 🦈💨' : 'The fish got away...'
+        toast(escapeMsg)
         return false
       }
     } else {
       toast(isSpear ? 'Missed! Try again!' : 'No fish near your hook!')
       return false
     }
-  }, [allFish, currentBait, setFishCount])
+  }, [allFish, currentBait, currentReel, currentSpear, setFishCount, setBeachFish])
 
   const handleFishingClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (fishFightStage) return // Don't allow new casts while catching
@@ -428,9 +557,10 @@ function App() {
 
   // Fish rendering component
   const renderFish = (fish: FishType) => {
-    const scale = fish.size === 'small' ? 0.6 : 1.2
-    const width = fish.size === 'small' ? 32 : 56
-    const height = fish.size === 'small' ? 24 : 42
+    const isShark = fish.size === 'shark'
+    const scale = isShark ? 1.8 : fish.size === 'small' ? 0.6 : 1.2
+    const width = isShark ? 80 : fish.size === 'small' ? 32 : 56
+    const height = isShark ? 50 : fish.size === 'small' ? 24 : 42
     
     // Special positioning and animation for caught fish
     let fishStyle: React.CSSProperties = { 
@@ -468,29 +598,68 @@ function App() {
         className={fishClasses}
         style={fishStyle}
         onClick={(e) => handleFishClick(fish, e)}
-        title="Click to catch!"
+        title={isShark ? "🦈 Catch the shark for BIG rewards!" : "Click to catch!"}
       >
-        <svg width={width} height={height} viewBox="0 0 48 36" className="cute-fish">
-          <g>
-            <ellipse cx="24" cy="18" rx="15" ry="10.5" fill={fish.color} />
-            <ellipse cx="24" cy="18" rx="12" ry="8.25" fill={fish.color} fillOpacity="0.8" />
-            
-            <path d="M9 18 L3 12 L6 18 L3 24 Z" fill={fish.color} fillOpacity="0.9" />
-            
-            <path d="M36 12 L42 9 L45 15 L39 18 Z" fill={fish.color} fillOpacity="0.9" />
-            <path d="M36 24 L42 27 L45 21 L39 18 Z" fill={fish.color} fillOpacity="0.9" />
-            
-            <circle cx="30" cy="13.5" r="3.75" fill="white" />
-            <circle cx="30.75" cy="12.75" r="2.25" fill="black" />
-            <circle cx="31.5" cy="12" r="0.75" fill="white" />
-            
-            <path d="M18 22.5 Q24 24 30 22.5" stroke={fish.color} strokeWidth="1.5" fill="none" strokeLinecap="round" fillOpacity="0.9" />
-            
-            <ellipse cx="12" cy="15" rx="2.25" ry="1.5" fill={fish.color} opacity="0.4" />
-            <ellipse cx="15" cy="21" rx="1.5" ry="1.05" fill={fish.color} opacity="0.4" />
-            <ellipse cx="27" cy="22.5" rx="1.8" ry="1.2" fill={fish.color} opacity="0.4" />
-          </g>
-        </svg>
+        {isShark ? (
+          /* Shark SVG - menacing but still cute! */
+          <svg width={width} height={height} viewBox="0 0 80 50" className="shark-swim">
+            <g>
+              {/* Shark body - sleek and streamlined */}
+              <ellipse cx="40" cy="28" rx="28" ry="14" fill={fish.color} />
+              <ellipse cx="40" cy="28" rx="24" ry="11" fill={fish.color} fillOpacity="0.9" />
+              {/* Lighter belly */}
+              <ellipse cx="42" cy="32" rx="20" ry="8" fill="#e2e8f0" fillOpacity="0.6" />
+              
+              {/* Dorsal fin - the iconic shark fin! */}
+              <path d="M35 14 L40 2 L45 14 Z" fill={fish.color} stroke="#1a202c" strokeWidth="0.5" />
+              
+              {/* Tail fin */}
+              <path d="M12 28 L2 18 L6 28 L2 38 Z" fill={fish.color} fillOpacity="0.95" />
+              
+              {/* Pectoral fins */}
+              <path d="M50 32 L60 42 L55 32 Z" fill={fish.color} fillOpacity="0.9" />
+              <path d="M30 32 L20 42 L25 32 Z" fill={fish.color} fillOpacity="0.9" />
+              
+              {/* Shark snout - pointed */}
+              <path d="M68 28 L78 28 L68 24 Z" fill={fish.color} />
+              
+              {/* Eye - intense but cartoony */}
+              <circle cx="60" cy="24" r="5" fill="white" />
+              <circle cx="61" cy="23" r="3" fill="black" />
+              <circle cx="62" cy="22" r="1" fill="white" />
+              
+              {/* Gills */}
+              <line x1="52" y1="24" x2="52" y2="32" stroke="#1a202c" strokeWidth="1" strokeLinecap="round" />
+              <line x1="55" y1="24" x2="55" y2="31" stroke="#1a202c" strokeWidth="1" strokeLinecap="round" />
+              <line x1="58" y1="25" x2="58" y2="30" stroke="#1a202c" strokeWidth="1" strokeLinecap="round" />
+              
+              {/* Teeth - friendly but fierce */}
+              <path d="M68 30 L70 32 L72 30 L74 32 L76 30" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" />
+            </g>
+          </svg>
+        ) : (
+          <svg width={width} height={height} viewBox="0 0 48 36" className="cute-fish">
+            <g>
+              <ellipse cx="24" cy="18" rx="15" ry="10.5" fill={fish.color} />
+              <ellipse cx="24" cy="18" rx="12" ry="8.25" fill={fish.color} fillOpacity="0.8" />
+              
+              <path d="M9 18 L3 12 L6 18 L3 24 Z" fill={fish.color} fillOpacity="0.9" />
+              
+              <path d="M36 12 L42 9 L45 15 L39 18 Z" fill={fish.color} fillOpacity="0.9" />
+              <path d="M36 24 L42 27 L45 21 L39 18 Z" fill={fish.color} fillOpacity="0.9" />
+              
+              <circle cx="30" cy="13.5" r="3.75" fill="white" />
+              <circle cx="30.75" cy="12.75" r="2.25" fill="black" />
+              <circle cx="31.5" cy="12" r="0.75" fill="white" />
+              
+              <path d="M18 22.5 Q24 24 30 22.5" stroke={fish.color} strokeWidth="1.5" fill="none" strokeLinecap="round" fillOpacity="0.9" />
+              
+              <ellipse cx="12" cy="15" rx="2.25" ry="1.5" fill={fish.color} opacity="0.4" />
+              <ellipse cx="15" cy="21" rx="1.5" ry="1.05" fill={fish.color} opacity="0.4" />
+              <ellipse cx="27" cy="22.5" rx="1.8" ry="1.2" fill={fish.color} opacity="0.4" />
+            </g>
+          </svg>
+        )}
         
         {/* Enhanced bubble effects during fighting */}
         {caughtFishId === fish.id && fishFightStage === 'fighting' && (
@@ -498,6 +667,13 @@ function App() {
             <div className="absolute -top-2 -left-2 w-2 h-2 bg-blue-200 rounded-full opacity-70 animate-ping"></div>
             <div className="absolute -top-1 left-3 w-1.5 h-1.5 bg-blue-100 rounded-full opacity-60 animate-bounce" style={{animationDelay: '0.2s'}}></div>
             <div className="absolute top-1 -left-1 w-1 h-1 bg-blue-300 rounded-full opacity-80 animate-pulse" style={{animationDelay: '0.4s'}}></div>
+            {/* Extra dramatic bubbles for sharks! */}
+            {isShark && (
+              <>
+                <div className="absolute -top-4 left-6 w-3 h-3 bg-blue-300 rounded-full opacity-60 animate-ping" style={{animationDelay: '0.1s'}}></div>
+                <div className="absolute -top-3 -left-3 w-2.5 h-2.5 bg-blue-200 rounded-full opacity-70 animate-ping" style={{animationDelay: '0.3s'}}></div>
+              </>
+            )}
           </>
         )}
         
@@ -512,16 +688,39 @@ function App() {
             <div className="absolute -top-4 left-4 w-1 h-1 bg-blue-200 rounded-full opacity-50 animate-bounce" style={{animationDelay: '1s', animationDuration: '3s'}}></div>
           </>
         )}
+        
+        {/* Shark bubbles - more dramatic! */}
+        {isShark && caughtFishId !== fish.id && (
+          <>
+            <div className="absolute -top-3 -left-2 w-2 h-2 bg-blue-200 rounded-full opacity-60 animate-bounce" style={{animationDelay: '0s', animationDuration: '1.5s'}}></div>
+            <div className="absolute -top-5 left-4 w-2.5 h-2.5 bg-blue-100 rounded-full opacity-50 animate-bounce" style={{animationDelay: '0.3s', animationDuration: '2s'}}></div>
+            <div className="absolute -top-4 left-10 w-1.5 h-1.5 bg-blue-300 rounded-full opacity-70 animate-bounce" style={{animationDelay: '0.6s', animationDuration: '1.8s'}}></div>
+            <div className="absolute -top-6 left-6 w-1 h-1 bg-blue-200 rounded-full opacity-40 animate-bounce" style={{animationDelay: '0.9s', animationDuration: '2.2s'}}></div>
+          </>
+        )}
       </div>
     )
   }
 
   const sellAllFish = () => {
     if ((fishCount || 0) > 0) {
-      const earnings = (fishCount || 0) * 5
-      setMoney(current => (current || 0) + earnings)
+      // fishCount now represents coins earned directly
+      setMoney(current => (current || 0) + (fishCount || 0))
+      const coinsEarned = fishCount || 0
       setFishCount(0)
-      toast.success(`Sold ${fishCount} fish for ${earnings} coins!`)
+      toast.success(`Cashed in ${coinsEarned} coins! 💰`)
+    }
+  }
+
+  const buySpeedBoat = () => {
+    if ((money || 0) >= 10000 && !hasSpeedBoat) {
+      setMoney(current => (current || 0) - 10000)
+      setHasSpeedBoat(true)
+      toast.success('⚡ Speed Boat unlocked! You\'re lightning fast now! ⚡')
+    } else if (hasSpeedBoat) {
+      toast('You already own the Speed Boat! ⚡')
+    } else {
+      toast.error('Need 10,000 coins for the Speed Boat!')
     }
   }
 
@@ -532,6 +731,36 @@ function App() {
       toast.success(`Purchased ${bait.name}!`)
     } else {
       toast.error('Not enough coins!')
+    }
+  }
+
+  const buyReel = (reel: ReelType) => {
+    if (reel.price === 0) {
+      setCurrentReel(reel)
+      toast.success(`Equipped ${reel.name}!`)
+    } else if ((money || 0) >= reel.price) {
+      setMoney(current => (current || 0) - reel.price)
+      setCurrentReel(reel)
+      toast.success(`Purchased ${reel.name}! 🎣`)
+    } else {
+      toast.error('Not enough coins!')
+    }
+  }
+
+  const buySpear = (spear: SpearType) => {
+    if ((money || 0) >= spear.price) {
+      setMoney(current => (current || 0) - spear.price)
+      setCurrentSpear(spear)
+      toast.success(`Purchased ${spear.name}! 🔱`)
+    } else {
+      toast.error('Not enough coins!')
+    }
+  }
+
+  const clearBeachFish = () => {
+    if ((beachFish || []).length > 0) {
+      setBeachFish([])
+      toast.success('Beach cleaned! The cats ate all the fish! 😻🐟')
     }
   }
 
@@ -1010,16 +1239,148 @@ function App() {
                           <path d="M15 15 Q16 13 17 7" stroke="#9ACD32" strokeWidth="0.8" fill="none" />
                         </svg>
                       </div>
+                      
+                      {/* 🐟 Fish pile on beach - caught fish displayed! */}
+                      {(beachFish || []).length > 0 && (
+                        <div className="absolute bottom-2 left-0 right-0 z-25 pointer-events-none">
+                          {(beachFish || []).map((fish, index) => {
+                            const fishSize = fish.size === 'shark' ? 28 : fish.size === 'large' ? 18 : 12
+                            const rotation = (index * 37) % 60 - 30 // Scattered rotation
+                            const yOffset = Math.sin(index * 0.7) * 8
+                            return (
+                              <div 
+                                key={fish.id}
+                                className="absolute"
+                                style={{
+                                  left: `${fish.x}%`,
+                                  bottom: `${4 + yOffset}px`,
+                                  transform: `rotate(${rotation}deg)`,
+                                }}
+                              >
+                                {fish.size === 'shark' ? (
+                                  <svg width={fishSize} height={fishSize * 0.6} viewBox="0 0 80 50">
+                                    <ellipse cx="40" cy="28" rx="28" ry="14" fill={fish.color} />
+                                    <path d="M35 14 L40 2 L45 14 Z" fill={fish.color} />
+                                    <path d="M12 28 L2 18 L6 28 L2 38 Z" fill={fish.color} />
+                                    <circle cx="60" cy="24" r="3" fill="white" />
+                                    <circle cx="61" cy="23" r="1.5" fill="black" />
+                                  </svg>
+                                ) : (
+                                  <svg width={fishSize} height={fishSize * 0.7} viewBox="0 0 48 36">
+                                    <ellipse cx="24" cy="18" rx="15" ry="10.5" fill={fish.color} />
+                                    <path d="M9 18 L3 12 L6 18 L3 24 Z" fill={fish.color} />
+                                    <circle cx="30" cy="14" r="3" fill="white" />
+                                    <circle cx="31" cy="13" r="1.5" fill="black" />
+                                  </svg>
+                                )}
+                              </div>
+                            )
+                          })}
+                          
+                          {/* Eating cat - appears when there are fish! */}
+                          {(beachFish || []).length >= 3 && (
+                            <div className="absolute right-12 bottom-4 z-30">
+                              <svg width="50" height="55" viewBox="0 0 50 55">
+                                {/* Cat body - sitting and eating */}
+                                <ellipse cx="25" cy="45" rx="14" ry="10" fill="#f97316" />
+                                
+                                {/* Cat head - lowered to eat */}
+                                <circle cx="25" cy="28" r="12" fill="#f97316" />
+                                
+                                {/* Cat ears */}
+                                <path d="M16 18 L12 6 L24 16 Z" fill="#f97316" />
+                                <path d="M34 18 L38 6 L26 16 Z" fill="#f97316" />
+                                <path d="M16 16 L14 8 L22 14 Z" fill="#fbbf24" />
+                                <path d="M34 16 L36 8 L28 14 Z" fill="#fbbf24" />
+                                
+                                {/* Happy closed eyes (eating) */}
+                                <path d="M19 24 Q21 22 23 24" stroke="black" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                                <path d="M27 24 Q29 22 31 24" stroke="black" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                                
+                                {/* Munching mouth */}
+                                <ellipse cx="25" cy="33" rx="4" ry="3" fill="#dc2626" className="animate-pulse" />
+                                
+                                {/* Fish in mouth! */}
+                                <ellipse cx="25" cy="38" rx="8" ry="4" fill="#ff69b4" />
+                                <circle cx="19" cy="37" r="1.5" fill="white" />
+                                <circle cx="19.5" cy="36.5" r="0.7" fill="black" />
+                                
+                                {/* Cat whiskers */}
+                                <line x1="10" y1="26" x2="18" y2="25" stroke="black" strokeWidth="0.8" />
+                                <line x1="10" y1="30" x2="18" y2="29" stroke="black" strokeWidth="0.8" />
+                                <line x1="32" y1="25" x2="40" y2="26" stroke="black" strokeWidth="0.8" />
+                                <line x1="32" y1="29" x2="40" y2="30" stroke="black" strokeWidth="0.8" />
+                                
+                                {/* Happy tail */}
+                                <ellipse cx="38" cy="42" rx="6" ry="3" fill="#f97316" className="tail-wiggle" />
+                              </svg>
+                              
+                              {/* Yum speech */}
+                              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-2 py-0.5 shadow-sm text-xs font-bold text-orange-500 whitespace-nowrap animate-bounce">
+                                Yum! 😻
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Second eating cat - appears with more fish */}
+                          {(beachFish || []).length >= 8 && (
+                            <div className="absolute left-16 bottom-6 z-30">
+                              <svg width="45" height="50" viewBox="0 0 50 55">
+                                {/* Gray tabby cat eating */}
+                                <ellipse cx="25" cy="45" rx="12" ry="9" fill="#708090" />
+                                <circle cx="25" cy="28" r="11" fill="#708090" />
+                                
+                                {/* Ears */}
+                                <path d="M16 18 L12 6 L24 16 Z" fill="#708090" />
+                                <path d="M34 18 L38 6 L26 16 Z" fill="#708090" />
+                                <path d="M16 16 L14 8 L22 14 Z" fill="#FFB6C1" />
+                                <path d="M34 16 L36 8 L28 14 Z" fill="#FFB6C1" />
+                                
+                                {/* Tabby stripes */}
+                                <path d="M17 22 L20 28" stroke="#4a5568" strokeWidth="1" />
+                                <path d="M33 22 L30 28" stroke="#4a5568" strokeWidth="1" />
+                                
+                                {/* Happy closed eyes */}
+                                <path d="M19 24 Q21 22 23 24" stroke="black" strokeWidth="1.5" fill="none" />
+                                <path d="M27 24 Q29 22 31 24" stroke="black" strokeWidth="1.5" fill="none" />
+                                
+                                {/* Fish tail sticking out of mouth */}
+                                <path d="M18 34 L12 30 L14 34 L12 38 Z" fill="#20b2aa" />
+                                <ellipse cx="25" cy="33" rx="3" ry="2" fill="#dc2626" />
+                                
+                                {/* Tail wagging */}
+                                <ellipse cx="10" cy="42" rx="5" ry="2.5" fill="#708090" className="tail-wiggle" style={{animationDelay: '0.5s'}} />
+                              </svg>
+                              
+                              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-white rounded-lg px-1.5 py-0.5 shadow-sm text-xs font-bold text-gray-600 whitespace-nowrap animate-pulse">
+                                *munch* 🐟
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
-                    {/* Water area - bottom half of screen */}
+                    {/* Water area - bottom half of screen with shallow/deep zones */}
                     <div 
                       className="absolute inset-0 w-full rounded-b-lg z-10" 
                       style={{
                         top: '50%', 
                         height: '50%',
-                        background: `linear-gradient(to bottom, ${currentEnvironment.water.from}, ${currentEnvironment.water.via}, ${currentEnvironment.water.to})`
+                        background: `linear-gradient(to bottom, 
+                          ${currentEnvironment.water.from} 0%, 
+                          ${currentEnvironment.water.from} 35%, 
+                          ${currentEnvironment.water.via} 40%, 
+                          ${currentEnvironment.water.to} 100%)`
                       }}
                     >
+                      {/* Subtle depth zone divider line */}
+                      <div 
+                        className="absolute w-full h-px opacity-30" 
+                        style={{
+                          top: '40%', 
+                          background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 20%, rgba(255,255,255,0.5) 80%, transparent 100%)'
+                        }}
+                      ></div>
                     </div>
                     
                     {/* Water surface line - horizontal line separating beach and water */}
@@ -1048,95 +1409,161 @@ function App() {
                         </div>
                       )}
                       
-                      {/* Realistic fishing boat */}
-                      <svg width="160" height="100" viewBox="0 0 160 100" className="absolute -translate-x-1/2 boat-bob" style={{top: '0px', left: '50%'}}>
-                        {/* Water reflection/shadow */}
-                        <ellipse cx="80" cy="92" rx="60" ry="6" fill="rgba(0,50,100,0.3)" />
-                        
-                        {/* Boat hull - realistic wooden design */}
-                        <defs>
-                          <linearGradient id="hullGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#A0522D" />
-                            <stop offset="50%" stopColor="#8B4513" />
-                            <stop offset="100%" stopColor="#654321" />
-                          </linearGradient>
-                          <linearGradient id="deckGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#DEB887" />
-                            <stop offset="100%" stopColor="#D2691E" />
-                          </linearGradient>
-                        </defs>
-                        
-                        {/* Main hull with curved bow */}
-                        <path d="M18 68 Q12 68 15 75 L22 85 Q25 88 35 88 L125 88 Q135 88 138 85 L145 75 Q148 68 142 68 L18 68" 
-                              fill="url(#hullGradient)" stroke="#4a3728" strokeWidth="1.5"/>
-                        
-                        {/* Hull planks (horizontal lines for wood texture) */}
-                        <path d="M20 72 L140 72" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
-                        <path d="M19 76 L141 76" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
-                        <path d="M22 80 L138 80" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
-                        <path d="M26 84 L134 84" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
-                        
-                        {/* Deck surface */}
-                        <path d="M22 68 L138 68 L140 64 Q140 60 135 60 L25 60 Q20 60 20 64 Z" 
-                              fill="url(#deckGradient)" stroke="#8B4513" strokeWidth="1"/>
-                        
-                        {/* Deck planks (vertical wood grain) */}
-                        <line x1="40" y1="60" x2="40" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
-                        <line x1="60" y1="60" x2="60" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
-                        <line x1="80" y1="60" x2="80" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
-                        <line x1="100" y1="60" x2="100" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
-                        <line x1="120" y1="60" x2="120" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
-                        
-                        {/* Gunwale (top edge trim) */}
-                        <path d="M22 60 Q20 58 25 58 L135 58 Q140 58 138 60" 
-                              fill="none" stroke="#5D4037" strokeWidth="2" strokeLinecap="round"/>
-                        
-                        {/* Bow decoration */}
-                        <path d="M138 64 Q145 64 148 70 Q145 76 138 76" fill="#6D4C41" stroke="#4a3728" strokeWidth="1"/>
-                        <circle cx="143" cy="70" r="2" fill="#FFD700" stroke="#DAA520" strokeWidth="0.5"/>
-                        
-                        {/* Stern decoration */}
-                        <path d="M22 64 Q15 64 12 70 Q15 76 22 76" fill="#6D4C41" stroke="#4a3728" strokeWidth="1"/>
-                        
-                        {/* Wooden mast */}
-                        <rect x="77" y="20" width="6" height="40" fill="#8B4513" stroke="#654321" strokeWidth="1" rx="1"/>
-                        
-                        {/* Mast top cap */}
-                        <circle cx="80" cy="18" r="4" fill="#A0522D" stroke="#654321" strokeWidth="1"/>
-                        
-                        {/* Sail with cloth texture */}
-                        <defs>
-                          <linearGradient id="sailGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#FFFAF0" />
-                            <stop offset="50%" stopColor="#FFF8DC" />
-                            <stop offset="100%" stopColor="#FAF0E6" />
-                          </linearGradient>
-                        </defs>
-                        <path d="M83 20 L83 52 Q95 48 110 38 Q115 34 112 28 L83 20" 
-                              fill="url(#sailGradient)" stroke="#DDD" strokeWidth="1"/>
-                        
-                        {/* Sail stitching lines */}
-                        <line x1="85" y1="25" x2="105" y2="32" stroke="#E0E0E0" strokeWidth="0.5"/>
-                        <line x1="85" y1="35" x2="108" y2="40" stroke="#E0E0E0" strokeWidth="0.5"/>
-                        <line x1="85" y1="45" x2="100" y2="46" stroke="#E0E0E0" strokeWidth="0.5"/>
-                        
-                        {/* Red pennant flag */}
-                        <polygon points="80,14 90,17 80,20" fill="#DC143C" stroke="#B22222" strokeWidth="0.5"/>
-                        
-                        {/* Rope details */}
-                        <path d="M83 52 L90 58" stroke="#8B7355" strokeWidth="1" strokeLinecap="round"/>
-                        <path d="M112 28 L125 58" stroke="#8B7355" strokeWidth="1" strokeLinecap="round"/>
-                        
-                        {/* Small anchor on side */}
-                        <g transform="translate(30, 62)">
-                          <path d="M0 0 L0 6 M-3 6 L3 6 M0 6 L-2 10 M0 6 L2 10" 
-                                stroke="#696969" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-                          <circle cx="0" cy="-1" r="1.5" fill="none" stroke="#696969" strokeWidth="1"/>
-                        </g>
-                        
-                        {/* Fishing equipment box */}
-                        <rect x="42" y="60" width="12" height="6" fill="#8B7355" stroke="#654321" strokeWidth="0.5" rx="1"/>
-                      </svg>
+                      {/* Realistic fishing boat OR Speed Boat */}
+                      {hasSpeedBoat ? (
+                        /* ⚡ SPEED BOAT - Sleek, fast, with lightning bolt! */
+                        <svg width="160" height="100" viewBox="0 0 160 100" className="absolute -translate-x-1/2 boat-bob" style={{top: '0px', left: '50%'}}>
+                          {/* Water wake/spray effect for speed */}
+                          <ellipse cx="80" cy="92" rx="70" ry="6" fill="rgba(255,255,255,0.4)" />
+                          <ellipse cx="80" cy="90" rx="55" ry="4" fill="rgba(135,206,250,0.5)" />
+                          
+                          {/* Speed boat hull - sleek metallic design */}
+                          <defs>
+                            <linearGradient id="speedHullGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor="#E5E7EB" />
+                              <stop offset="50%" stopColor="#9CA3AF" />
+                              <stop offset="100%" stopColor="#4B5563" />
+                            </linearGradient>
+                            <linearGradient id="speedDeckGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor="#FBBF24" />
+                              <stop offset="100%" stopColor="#F59E0B" />
+                            </linearGradient>
+                            <linearGradient id="lightningGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stopColor="#FDE047" />
+                              <stop offset="50%" stopColor="#FBBF24" />
+                              <stop offset="100%" stopColor="#F59E0B" />
+                            </linearGradient>
+                          </defs>
+                          
+                          {/* Sleek hull - pointed bow */}
+                          <path d="M15 70 L5 75 L8 82 L25 86 L135 86 Q145 86 150 80 L155 70 Q155 66 150 66 L20 66 Q15 66 15 70" 
+                                fill="url(#speedHullGradient)" stroke="#374151" strokeWidth="1.5"/>
+                          
+                          {/* Racing stripe */}
+                          <path d="M20 72 L150 72" stroke="#EF4444" strokeWidth="3"/>
+                          <path d="M22 78 L148 78" stroke="#1F2937" strokeWidth="1"/>
+                          
+                          {/* Deck surface - yellow/gold */}
+                          <path d="M25 66 L150 66 L152 62 Q152 58 147 58 L28 58 Q23 58 23 62 Z" 
+                                fill="url(#speedDeckGradient)" stroke="#D97706" strokeWidth="1"/>
+                          
+                          {/* ⚡ LIGHTNING BOLT on side! */}
+                          <path d="M70 68 L80 68 L75 75 L85 75 L68 88 L73 80 L63 80 Z" 
+                                fill="url(#lightningGradient)" stroke="#B45309" strokeWidth="1"/>
+                          
+                          {/* Windshield */}
+                          <path d="M95 58 Q100 45 115 50 L120 58" fill="rgba(147,197,253,0.6)" stroke="#60A5FA" strokeWidth="1"/>
+                          
+                          {/* Steering wheel hint */}
+                          <circle cx="105" cy="56" r="4" fill="none" stroke="#374151" strokeWidth="1.5"/>
+                          
+                          {/* Motor at back */}
+                          <rect x="12" y="72" width="12" height="10" fill="#374151" stroke="#1F2937" strokeWidth="1" rx="1"/>
+                          <rect x="8" y="74" width="4" height="6" fill="#6B7280" stroke="#4B5563" strokeWidth="0.5"/>
+                          
+                          {/* Speed lines behind boat */}
+                          <line x1="2" y1="75" x2="-5" y2="75" stroke="#87CEEB" strokeWidth="2" opacity="0.6"/>
+                          <line x1="3" y1="80" x2="-4" y2="81" stroke="#87CEEB" strokeWidth="1.5" opacity="0.5"/>
+                          <line x1="4" y1="70" x2="-3" y2="69" stroke="#87CEEB" strokeWidth="1.5" opacity="0.5"/>
+                          
+                          {/* Racing flag */}
+                          <rect x="130" y="40" width="3" height="20" fill="#374151"/>
+                          <rect x="133" y="40" width="15" height="10" fill="#1F2937"/>
+                          <rect x="133" y="40" width="5" height="5" fill="white"/>
+                          <rect x="143" y="40" width="5" height="5" fill="white"/>
+                          <rect x="138" y="45" width="5" height="5" fill="white"/>
+                        </svg>
+                      ) : (
+                        /* Regular wooden fishing boat */
+                        <svg width="160" height="100" viewBox="0 0 160 100" className="absolute -translate-x-1/2 boat-bob" style={{top: '0px', left: '50%'}}>
+                          {/* Water reflection/shadow */}
+                          <ellipse cx="80" cy="92" rx="60" ry="6" fill="rgba(0,50,100,0.3)" />
+                          
+                          {/* Boat hull - realistic wooden design */}
+                          <defs>
+                            <linearGradient id="hullGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor="#A0522D" />
+                              <stop offset="50%" stopColor="#8B4513" />
+                              <stop offset="100%" stopColor="#654321" />
+                            </linearGradient>
+                            <linearGradient id="deckGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor="#DEB887" />
+                              <stop offset="100%" stopColor="#D2691E" />
+                            </linearGradient>
+                          </defs>
+                          
+                          {/* Main hull with curved bow */}
+                          <path d="M18 68 Q12 68 15 75 L22 85 Q25 88 35 88 L125 88 Q135 88 138 85 L145 75 Q148 68 142 68 L18 68" 
+                                fill="url(#hullGradient)" stroke="#4a3728" strokeWidth="1.5"/>
+                          
+                          {/* Hull planks (horizontal lines for wood texture) */}
+                          <path d="M20 72 L140 72" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
+                          <path d="M19 76 L141 76" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
+                          <path d="M22 80 L138 80" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
+                          <path d="M26 84 L134 84" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
+                          
+                          {/* Deck surface */}
+                          <path d="M22 68 L138 68 L140 64 Q140 60 135 60 L25 60 Q20 60 20 64 Z" 
+                                fill="url(#deckGradient)" stroke="#8B4513" strokeWidth="1"/>
+                          
+                          {/* Deck planks (vertical wood grain) */}
+                          <line x1="40" y1="60" x2="40" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
+                          <line x1="60" y1="60" x2="60" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
+                          <line x1="80" y1="60" x2="80" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
+                          <line x1="100" y1="60" x2="100" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
+                          <line x1="120" y1="60" x2="120" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
+                          
+                          {/* Gunwale (top edge trim) */}
+                          <path d="M22 60 Q20 58 25 58 L135 58 Q140 58 138 60" 
+                                fill="none" stroke="#5D4037" strokeWidth="2" strokeLinecap="round"/>
+                          
+                          {/* Bow decoration */}
+                          <path d="M138 64 Q145 64 148 70 Q145 76 138 76" fill="#6D4C41" stroke="#4a3728" strokeWidth="1"/>
+                          <circle cx="143" cy="70" r="2" fill="#FFD700" stroke="#DAA520" strokeWidth="0.5"/>
+                          
+                          {/* Stern decoration */}
+                          <path d="M22 64 Q15 64 12 70 Q15 76 22 76" fill="#6D4C41" stroke="#4a3728" strokeWidth="1"/>
+                          
+                          {/* Wooden mast */}
+                          <rect x="77" y="20" width="6" height="40" fill="#8B4513" stroke="#654321" strokeWidth="1" rx="1"/>
+                          
+                          {/* Mast top cap */}
+                          <circle cx="80" cy="18" r="4" fill="#A0522D" stroke="#654321" strokeWidth="1"/>
+                          
+                          {/* Sail with cloth texture */}
+                          <defs>
+                            <linearGradient id="sailGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stopColor="#FFFAF0" />
+                              <stop offset="50%" stopColor="#FFF8DC" />
+                              <stop offset="100%" stopColor="#FAF0E6" />
+                            </linearGradient>
+                          </defs>
+                          <path d="M83 20 L83 52 Q95 48 110 38 Q115 34 112 28 L83 20" 
+                                fill="url(#sailGradient)" stroke="#DDD" strokeWidth="1"/>
+                          
+                          {/* Sail stitching lines */}
+                          <line x1="85" y1="25" x2="105" y2="32" stroke="#E0E0E0" strokeWidth="0.5"/>
+                          <line x1="85" y1="35" x2="108" y2="40" stroke="#E0E0E0" strokeWidth="0.5"/>
+                          <line x1="85" y1="45" x2="100" y2="46" stroke="#E0E0E0" strokeWidth="0.5"/>
+                          
+                          {/* Red pennant flag */}
+                          <polygon points="80,14 90,17 80,20" fill="#DC143C" stroke="#B22222" strokeWidth="0.5"/>
+                          
+                          {/* Rope details */}
+                          <path d="M83 52 L90 58" stroke="#8B7355" strokeWidth="1" strokeLinecap="round"/>
+                          <path d="M112 28 L125 58" stroke="#8B7355" strokeWidth="1" strokeLinecap="round"/>
+                          
+                          {/* Small anchor on side */}
+                          <g transform="translate(30, 62)">
+                            <path d="M0 0 L0 6 M-3 6 L3 6 M0 6 L-2 10 M0 6 L2 10" 
+                                  stroke="#696969" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+                            <circle cx="0" cy="-1" r="1.5" fill="none" stroke="#696969" strokeWidth="1"/>
+                          </g>
+                          
+                          {/* Fishing equipment box */}
+                          <rect x="42" y="60" width="12" height="6" fill="#8B7355" stroke="#654321" strokeWidth="0.5" rx="1"/>
+                        </svg>
+                      )}
                       
                       <svg width="80" height="80" viewBox="0 0 80 80" className={`transition-transform duration-300 relative ${isLineCast ? 'rotate-12' : ''} ${isWaitingToReel || fishFightStage ? 'cat-fishing' : ''} ${fishFightStage === 'fighting' ? 'scale-110' : ''}`} style={{top: '15px'}}>
                         {/* Cat body */}
@@ -1245,7 +1672,7 @@ function App() {
                     )}
                     
                     {/* Instructions and controls hint */}
-                    <div className="absolute bottom-4 left-4 text-white/90 text-sm bg-black/30 rounded-lg px-3 py-2">
+                    <div className="absolute bottom-4 left-4 text-white/90 text-sm bg-black/40 rounded-lg px-3 py-2 backdrop-blur-sm">
                       <div className="font-medium">
                         {!isLineCast && !isWaitingToReel && !isSpearThrown ? 
                           (fishingTool === 'rod' ? '🎣 Click water or fish to cast' : '🔱 Click on a fish to throw spear') : 
@@ -1254,9 +1681,105 @@ function App() {
                          fishFightStage === 'reeling' ? '✨ Reeling in your catch!' : 
                          isSpearThrown ? '🔱 Spear thrown!' : 'Reeling in...'}
                       </div>
-                      <div className="text-xs opacity-80 mt-1">← → Arrow keys to move boat</div>
+                      <div className="text-xs opacity-90 mt-1 flex items-center gap-2">
+                        <span className="bg-white/20 px-1.5 py-0.5 rounded font-mono">←</span>
+                        <span className="bg-white/20 px-1.5 py-0.5 rounded font-mono">→</span>
+                        <span>Move boat {hasSpeedBoat ? '⚡' : ''}</span>
+                      </div>
                     </div>
+                    
+                    {/* Water depth legend */}
+                    <div className="absolute bottom-4 right-4 text-white/90 text-xs bg-black/40 rounded-lg px-2 py-1.5 backdrop-blur-sm">
+                      <div className="font-semibold mb-1">🌊 Water Depth</div>
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-3 h-3 rounded-sm bg-cyan-300/70"></div>
+                        <span>Shallow: Small 🐟 (5💰)</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <div className="w-3 h-3 rounded-sm bg-blue-700/70"></div>
+                        <span>Deep: Large 🐠 (10💰) + 🦈 (25💰)</span>
+                      </div>
                     </div>
+                    
+                    {/* Help button */}
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setShowInstructions(true); }}
+                      className="absolute top-4 left-4 bg-white/90 hover:bg-white text-gray-700 rounded-full w-8 h-8 flex items-center justify-center shadow-md text-lg font-bold"
+                      title="How to Play"
+                    >
+                      ?
+                    </button>
+                    
+                    {/* Instructions Modal */}
+                    {showInstructions && (
+                      <div 
+                        className="absolute inset-0 bg-black/60 flex items-center justify-center z-50 backdrop-blur-sm"
+                        onClick={(e) => { e.stopPropagation(); setShowInstructions(false); }}
+                      >
+                        <div 
+                          className="bg-white rounded-xl p-5 max-w-sm mx-4 shadow-2xl"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <h3 className="text-xl font-bold text-gray-800 mb-3">🎣 How to Play</h3>
+                          
+                          <div className="space-y-2 text-sm text-gray-700">
+                            <div className="flex items-start gap-2">
+                              <span className="text-lg">⌨️</span>
+                              <div><strong>Arrow Keys</strong> or <strong>A/D</strong> - Move boat left/right</div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <span className="text-lg">🎣</span>
+                              <div><strong>Rod:</strong> Click to cast, click again to reel in</div>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <span className="text-lg">🔱</span>
+                              <div><strong>Spear:</strong> Buy one first (50+ coins), then click fish</div>
+                            </div>
+                            
+                            <hr className="my-2"/>
+                            
+                            <div className="font-semibold text-gray-800">💰 Fish Values:</div>
+                            <div className="grid grid-cols-3 gap-1 text-center">
+                              <div className="bg-cyan-100 rounded p-1">🐟 Small<br/><strong>5 coins</strong></div>
+                              <div className="bg-blue-100 rounded p-1">🐠 Large<br/><strong>10 coins</strong></div>
+                              <div className="bg-gray-200 rounded p-1">🦈 Shark<br/><strong>25 coins</strong></div>
+                            </div>
+                            
+                            <hr className="my-2"/>
+                            
+                            <div className="font-semibold text-gray-800">🛒 Shop Items:</div>
+                            <div className="text-xs">
+                              <div>• <strong>Bait</strong>: Better catch rates</div>
+                              <div>• <strong>Reels</strong>: Faster reeling, stronger for big fish</div>
+                              <div>• <strong>Spears</strong>: Unlock spear fishing (starts at 50 coins)</div>
+                            </div>
+                            
+                            <hr className="my-2"/>
+                            
+                            <div className="font-semibold text-gray-800">🌊 Water Zones:</div>
+                            <div className="text-xs">
+                              <div>• <strong>Shallow</strong> (top): Small fish - easier!</div>
+                              <div>• <strong>Deep</strong> (bottom): Large fish & sharks - big rewards!</div>
+                            </div>
+                            
+                            <hr className="my-2"/>
+                            
+                            <div className="text-xs text-gray-500">
+                              💡 Caught fish pile up on the beach!<br/>
+                              😻 Cats will come eat your fish!<br/>
+                              ⚡ Save 10,000 coins for the Speed Boat!
+                            </div>
+                          </div>
+                          
+                          <button
+                            onClick={() => setShowInstructions(false)}
+                            className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-medium"
+                          >
+                            Got it! Let's fish! 🐱
+                          </button>
+                        </div>
+                      </div>
+                    )}
                     
                     <div className="absolute top-4 right-4 flex flex-col gap-2">
                       {/* Fishing tool selector */}
@@ -1273,20 +1796,32 @@ function App() {
                           🎣 Rod
                         </button>
                         <button
-                          onClick={(e) => { e.stopPropagation(); setFishingTool('spear'); }}
+                          onClick={(e) => { 
+                            e.stopPropagation(); 
+                            if (currentSpear) {
+                              setFishingTool('spear');
+                            } else {
+                              toast.error('Buy a spear from the shop first! 🔱');
+                            }
+                          }}
                           className={`px-2 py-1 rounded text-xs font-medium transition-all ${
                             fishingTool === 'spear' 
                               ? 'bg-orange-500 text-white shadow-sm' 
-                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                              : currentSpear 
+                                ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                           }`}
-                          title="Spear - Quick and precise"
+                          title={currentSpear ? "Spear - Quick and precise" : "Buy a spear from the shop!"}
                         >
-                          🔱 Spear
+                          🔱 {currentSpear ? 'Spear' : '🔒 Spear'}
                         </button>
                       </div>
                       
-                      <Badge variant="secondary" className="bg-secondary/80">
-                        {fishingTool === 'rod' ? `Bait: ${currentBait?.name || 'Worm'}` : 'Direct strike!'}
+                      <Badge variant="secondary" className="bg-secondary/80 text-xs">
+                        {fishingTool === 'rod' 
+                          ? `🎣 ${currentReel?.name?.split(' ')[1] || 'Basic'} + ${currentBait?.name?.split(' ')[0] || '🪱'}`
+                          : `🔱 ${currentSpear?.name?.split(' ')[1] || 'Spear'}`
+                        }
                       </Badge>
                     </div>
                   </div>
@@ -1307,19 +1842,78 @@ function App() {
                     <>
                       <div className="text-center">
                         <div className="text-2xl font-bold text-card-foreground">{fishCount}</div>
-                        <div className="text-sm text-muted-foreground">Pink Fish</div>
+                        <div className="text-sm text-muted-foreground">Coins to cash in</div>
                       </div>
                       <Button 
                         onClick={sellAllFish}
                         className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
                       >
-                        Sell All ({(fishCount || 0) * 5} coins)
+                        Cash In ({fishCount || 0} coins) 💰
                       </Button>
                     </>
                   ) : (
-                    <div className="text-center text-muted-foreground py-8">
-                      No fish caught yet.<br />
-                      Cast your line!
+                    <div className="text-center text-muted-foreground py-4">
+                      No coins yet.<br />
+                      Catch some fish!
+                    </div>
+                  )}
+                  
+                  {/* Beach fish pile info */}
+                  {(beachFish || []).length > 0 && (
+                    <div className="mt-4 pt-4 border-t border-border">
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-card-foreground">
+                          🐟 Fish on beach: <span className="font-bold">{(beachFish || []).length}</span>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={clearBeachFish}
+                          className="text-xs"
+                        >
+                          Feed cats 😻
+                        </Button>
+                      </div>
+                      <div className="text-xs text-muted-foreground mt-1">
+                        {(beachFish || []).length >= 8 ? '🐱🐱 Two cats eating!' : 
+                         (beachFish || []).length >= 3 ? '🐱 Cat is eating!' : 
+                         'Catch more for cat feast!'}
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Speed Boat Upgrade */}
+              <Card className={`bg-card border-2 ${hasSpeedBoat ? 'border-yellow-400 bg-gradient-to-r from-yellow-50 to-orange-50' : 'border-border'}`}>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="text-3xl">{hasSpeedBoat ? '⚡' : '🚤'}</div>
+                    <div className="flex-1">
+                      <div className="font-bold text-card-foreground">
+                        {hasSpeedBoat ? '⚡ Speed Boat Active!' : '⚡ Speed Boat Upgrade'}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {hasSpeedBoat ? 'You move 2x faster!' : '2x boat speed • Lightning design'}
+                      </div>
+                    </div>
+                    {!hasSpeedBoat && (
+                      <Button
+                        size="sm"
+                        onClick={buySpeedBoat}
+                        disabled={(money || 0) < 10000}
+                        className={`flex-shrink-0 ${(money || 0) >= 10000 ? 'bg-yellow-500 hover:bg-yellow-600 animate-pulse' : ''}`}
+                      >
+                        10,000 🪙
+                      </Button>
+                    )}
+                  </div>
+                  {!hasSpeedBoat && (money || 0) < 10000 && (
+                    <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-yellow-500 h-2 rounded-full transition-all duration-300" 
+                        style={{width: `${Math.min(100, ((money || 0) / 10000) * 100)}%`}}
+                      ></div>
                     </div>
                   )}
                 </CardContent>
@@ -1370,6 +1964,102 @@ function App() {
                           {currentBait?.id === bait.id ? '✓ Using' : `${bait.price} 🪙`}
                         </Button>
                       )}
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
+              {/* Reel Shop */}
+              <Card className="bg-card border-border">
+                <CardHeader className="pb-2">
+                  <CardTitle className="flex items-center gap-2 text-card-foreground text-base">
+                    ⚙️ Reel Shop
+                  </CardTitle>
+                  <p className="text-xs text-muted-foreground">Better reels = stronger catches!</p>
+                </CardHeader>
+                <CardContent className="space-y-2 max-h-48 overflow-y-auto">
+                  {reelTypes.map((reel) => (
+                    <div 
+                      key={reel.id}
+                      className={`flex items-center justify-between p-2 rounded-lg border transition-all ${
+                        currentReel?.id === reel.id 
+                          ? 'bg-blue-100 border-blue-400' 
+                          : 'bg-secondary/20 border-border hover:bg-secondary/40'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <div className="text-sm flex-shrink-0">{reel.name.split(' ')[0]}</div>
+                        <div className="min-w-0">
+                          <div className="font-medium text-card-foreground text-xs truncate">
+                            {reel.name.split(' ').slice(1).join(' ')}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {reel.reelSpeed}x speed • {reel.strength}x str
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {reel.price === 0 ? (
+                        <Badge variant={currentReel?.id === reel.id ? 'default' : 'secondary'} className="flex-shrink-0 text-xs">
+                          {currentReel?.id === reel.id ? '✓' : 'Free'}
+                        </Badge>
+                      ) : (
+                        <Button
+                          size="sm"
+                          onClick={() => buyReel(reel)}
+                          disabled={(money || 0) < reel.price}
+                          variant={currentReel?.id === reel.id ? 'default' : 'outline'}
+                          className={`flex-shrink-0 text-xs px-2 ${currentReel?.id === reel.id ? 'bg-blue-500 text-white' : ''}`}
+                        >
+                          {currentReel?.id === reel.id ? '✓' : `${reel.price} 🪙`}
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
+              {/* Spear Shop */}
+              <Card className="bg-card border-border border-2 border-orange-200">
+                <CardHeader className="pb-2">
+                  <CardTitle className="flex items-center gap-2 text-card-foreground text-base">
+                    🔱 Spear Shop
+                  </CardTitle>
+                  <p className="text-xs text-muted-foreground">
+                    {currentSpear ? `Equipped: ${currentSpear.name}` : 'Buy a spear to unlock spear fishing!'}
+                  </p>
+                </CardHeader>
+                <CardContent className="space-y-2 max-h-48 overflow-y-auto">
+                  {spearTypes.map((spear) => (
+                    <div 
+                      key={spear.id}
+                      className={`flex items-center justify-between p-2 rounded-lg border transition-all ${
+                        currentSpear?.id === spear.id 
+                          ? 'bg-orange-100 border-orange-400' 
+                          : 'bg-secondary/20 border-border hover:bg-secondary/40'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <div className="text-sm flex-shrink-0">{spear.name.split(' ')[0]}</div>
+                        <div className="min-w-0">
+                          <div className="font-medium text-card-foreground text-xs truncate">
+                            {spear.name.split(' ').slice(1).join(' ')}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {spear.accuracy}x acc • {spear.power}x pwr
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <Button
+                        size="sm"
+                        onClick={() => buySpear(spear)}
+                        disabled={(money || 0) < spear.price}
+                        variant={currentSpear?.id === spear.id ? 'default' : 'outline'}
+                        className={`flex-shrink-0 text-xs px-2 ${currentSpear?.id === spear.id ? 'bg-orange-500 text-white' : ''}`}
+                      >
+                        {currentSpear?.id === spear.id ? '✓' : `${spear.price} 🪙`}
+                      </Button>
                     </div>
                   ))}
                 </CardContent>

@@ -708,6 +708,187 @@
         .fish:hover {
             filter: brightness(1.1);
         }
+        
+        /* Shark styles */
+        .fish.shark {
+            transform: scale(1.4);
+            z-index: 35;
+        }
+        
+        .fish.shark:hover {
+            filter: brightness(1.2) drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        }
+        
+        @keyframes sharkSwim {
+            0%, 100% { transform: scale(1.4) translateY(0); }
+            50% { transform: scale(1.4) translateY(-3px); }
+        }
+        
+        .fish.shark:not(.caught):not(.reeling) {
+            animation: sharkSwim 1.5s ease-in-out infinite;
+        }
+        
+        /* Speed boat styles */
+        .speed-boat-upgrade {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid #f59e0b;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .speed-boat-upgrade.owned {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-color: #10b981;
+        }
+        
+        .speed-boat-upgrade .lightning {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+        
+        .speed-boat-upgrade.owned .lightning {
+            opacity: 1;
+            animation: pulse 1s infinite;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+        
+        /* Beach fish pile */
+        .beach-fish-pile {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 17%;
+            top: 33%;
+            pointer-events: none;
+            z-index: 25;
+        }
+        
+        .pile-fish {
+            position: absolute;
+            bottom: 5px;
+            transition: all 0.3s;
+        }
+        
+        .eating-cat {
+            position: absolute;
+            bottom: 2px;
+            z-index: 26;
+        }
+        
+        @keyframes catEat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+        
+        .eating-cat svg {
+            animation: catEat 0.5s ease-in-out infinite;
+        }
+        
+        /* Spear shop styles */
+        .shop-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .shop-item.active {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+        
+        .shop-item.locked {
+            opacity: 0.6;
+        }
+        
+        /* Water depth indicator */
+        .depth-legend {
+            position: absolute;
+            bottom: 55px;
+            right: 15px;
+            background: rgba(0,0,0,0.5);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            color: white;
+            z-index: 60;
+        }
+        
+        .depth-legend div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 2px 0;
+        }
+        
+        .depth-box {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+        
+        /* Panel tabs */
+        .panel-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .panel-tab {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #e5e7eb;
+            color: #666;
+        }
+        
+        .panel-tab.active {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .panel-tab:hover:not(.active) {
+            background: #d1d5db;
+        }
+        
+        .shop-section {
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .shop-section.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -943,6 +1124,19 @@
                         </svg>
                     </div>
                     
+                    <!-- Beach fish pile -->
+                    <div class="beach-fish-pile" id="beach-fish-pile"></div>
+                    
+                    <!-- Eating cats container -->
+                    <div id="eating-cats-container"></div>
+                    
+                    <!-- Water depth legend -->
+                    <div class="depth-legend">
+                        <div style="font-weight: bold; margin-bottom: 3px;">🌊 Water Depth</div>
+                        <div><span class="depth-box" style="background: #4fc3f7;"></span> Shallow: 🐟 5💰</div>
+                        <div><span class="depth-box" style="background: #1565c0;"></span> Deep: 🐠 10💰 + 🦈 25💰</div>
+                    </div>
+                    
                     <!-- Instructions -->
                     <div class="instructions" id="instructions">
                         <div>Click water or fish to cast 🎣</div>
@@ -961,10 +1155,26 @@
                     </div>
                 </div>
                 
+                <!-- Speed Boat Upgrade -->
+                <div class="panel speed-boat-upgrade" id="speed-boat-panel">
+                    <div class="lightning">⚡</div>
+                    <h3 style="margin-bottom: 8px;">🚤 Speed Boat</h3>
+                    <p id="speed-boat-status" style="font-size: 0.85rem; color: #666;">2x boat speed + lightning design!</p>
+                    <button id="speed-boat-btn" class="sell-btn" style="margin-top: 10px; background: linear-gradient(135deg, #f59e0b, #d97706);" onclick="buySpeedBoat()">
+                        10,000 🪙
+                    </button>
+                    <div class="progress-bar" id="speed-boat-progress">
+                        <div class="progress-fill" id="speed-boat-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                
                 <div class="panel">
-                    <h3><i class="fas fa-store" style="color: #4361ee;"></i> Bait Shop</h3>
-                    <p style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">Better bait = higher catch rate!</p>
-                    <div id="bait-shop">
+                    <h3><i class="fas fa-store" style="color: #4361ee;"></i> Shop</h3>
+                    <div class="panel-tabs">
+                        <button class="panel-tab active" onclick="showShopTab('bait')">🪱 Bait</button>
+                        <button class="panel-tab" onclick="showShopTab('spear')">🔱 Spears</button>
+                    </div>
+                    <div id="bait-shop" class="shop-section active">
                         <div class="bait-item" data-bait="worm">
                             <div class="bait-info">
                                 <span class="bait-emoji">🪱</span>
@@ -1086,6 +1296,71 @@
                             <button class="bait-btn">150 🪙</button>
                         </div>
                     </div>
+                    
+                    <!-- Spear Shop -->
+                    <div id="spear-shop" class="shop-section">
+                        <p style="font-size: 0.75rem; color: #666; margin-bottom: 8px;">Buy a spear to unlock spear fishing! 🔱</p>
+                        <div class="shop-item" data-spear="wooden" id="spear-wooden">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🪵</span>
+                                <div>
+                                    <div class="bait-name">Wooden Spear</div>
+                                    <div class="bait-rate">1x accuracy</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn" onclick="buySpear('wooden', 50)">50 🪙</button>
+                        </div>
+                        <div class="shop-item" data-spear="iron" id="spear-iron">
+                            <div class="bait-info">
+                                <span class="bait-emoji">⚔️</span>
+                                <div>
+                                    <div class="bait-name">Iron Spear</div>
+                                    <div class="bait-rate">1.2x accuracy</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn" onclick="buySpear('iron', 150)">150 🪙</button>
+                        </div>
+                        <div class="shop-item" data-spear="steel" id="spear-steel">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🗡️</span>
+                                <div>
+                                    <div class="bait-name">Steel Spear</div>
+                                    <div class="bait-rate">1.4x accuracy</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn" onclick="buySpear('steel', 300)">300 🪙</button>
+                        </div>
+                        <div class="shop-item" data-spear="golden" id="spear-golden">
+                            <div class="bait-info">
+                                <span class="bait-emoji">✨</span>
+                                <div>
+                                    <div class="bait-name">Golden Spear</div>
+                                    <div class="bait-rate">1.6x accuracy</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn" onclick="buySpear('golden', 500)">500 🪙</button>
+                        </div>
+                        <div class="shop-item" data-spear="diamond" id="spear-diamond">
+                            <div class="bait-info">
+                                <span class="bait-emoji">💎</span>
+                                <div>
+                                    <div class="bait-name">Diamond Spear</div>
+                                    <div class="bait-rate">1.8x accuracy</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn" onclick="buySpear('diamond', 800)">800 🪙</button>
+                        </div>
+                        <div class="shop-item" data-spear="legendary" id="spear-legendary">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🔱</span>
+                                <div>
+                                    <div class="bait-name">Poseidon's Trident</div>
+                                    <div class="bait-rate">2x accuracy</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn" onclick="buySpear('legendary', 1500)">1500 🪙</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1112,6 +1387,29 @@
         let lineX = 50;
         let lineY = 80;
         let allFish = [];
+        let hasSpeedBoat = localStorage.getItem('fishing_speedBoat') === 'true';
+        let currentSpear = localStorage.getItem('fishing_spear') || null;
+        let beachFish = JSON.parse(localStorage.getItem('fishing_beachFish') || '[]');
+        
+        // Spear types
+        const spearTypes = {
+            wooden: { name: '🪵 Wooden Spear', price: 50, accuracy: 1.0 },
+            iron: { name: '⚔️ Iron Spear', price: 150, accuracy: 1.2 },
+            steel: { name: '🗡️ Steel Spear', price: 300, accuracy: 1.4 },
+            golden: { name: '✨ Golden Spear', price: 500, accuracy: 1.6 },
+            diamond: { name: '💎 Diamond Spear', price: 800, accuracy: 1.8 },
+            legendary: { name: '🔱 Poseidon\'s Trident', price: 1500, accuracy: 2.0 }
+        };
+        
+        // Shark catch phrases
+        const sharkPhrases = [
+            "JAWS-ome catch! 🦈",
+            "Shark attack... reversed! 😼",
+            "Who's the apex predator now?! 🐱",
+            "This shark met its match! 🎣",
+            "Fin-ally got the big one! 🦈",
+            "That's one less shark in the ocean! 😸"
+        ];
         
         const baitTypes = {
             worm: { name: '🪱 Worm', price: 0, catchRate: 0.3 },
@@ -1203,7 +1501,7 @@
             document.addEventListener('keydown', function(e) {
                 if (isLineCast && isWaitingToReel) return; // Don't move while fishing
                 
-                const moveSpeed = 5;
+                const moveSpeed = hasSpeedBoat ? 10 : 5; // Speed boat = 2x speed!
                 if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
                     e.preventDefault();
                     boatPosition = Math.max(15, boatPosition - moveSpeed);
@@ -1240,6 +1538,10 @@
         }
         
         function setTool(tool) {
+            if (tool === 'spear' && !currentSpear) {
+                showToast('Buy a spear from the shop first! 🔱', 'error');
+                return;
+            }
             currentTool = tool;
             document.querySelectorAll('.tool-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.tool === tool);
@@ -1257,37 +1559,87 @@
         
         function initializeFish() {
             allFish = [
-                { id: 'fish-1', x: 25, y: 60, size: 'small', color: '#87ceeb', speed: 1.5, direction: 45 },
-                { id: 'fish-2', x: 60, y: 75, size: 'large', color: '#ff69b4', speed: 1, direction: 135 },
-                { id: 'fish-3', x: 40, y: 85, size: 'small', color: '#98fb98', speed: 1.8, direction: 225 },
-                { id: 'fish-4', x: 75, y: 65, size: 'large', color: '#dda0dd', speed: 0.8, direction: 315 },
-                { id: 'fish-5', x: 20, y: 78, size: 'small', color: '#f0e68c', speed: 1.3, direction: 90 },
-                { id: 'fish-6', x: 80, y: 88, size: 'large', color: '#ff7f50', speed: 0.6, direction: 180 },
-                { id: 'fish-7', x: 50, y: 70, size: 'small', color: '#20b2aa', speed: 1.4, direction: 270 },
-                { id: 'fish-8', x: 35, y: 92, size: 'large', color: '#9370db', speed: 0.7, direction: 0 }
+                // Small fish (shallow water: 52-72%)
+                { id: 'fish-1', x: 25, y: 58, size: 'small', color: '#87ceeb', speed: 1.5, direction: 45 },
+                { id: 'fish-3', x: 40, y: 65, size: 'small', color: '#98fb98', speed: 1.8, direction: 225 },
+                { id: 'fish-5', x: 20, y: 62, size: 'small', color: '#f0e68c', speed: 1.3, direction: 90 },
+                { id: 'fish-7', x: 50, y: 68, size: 'small', color: '#20b2aa', speed: 1.4, direction: 270 },
+                // Large fish (deep water: 72-98%)
+                { id: 'fish-2', x: 60, y: 80, size: 'large', color: '#ff69b4', speed: 1, direction: 135 },
+                { id: 'fish-4', x: 75, y: 85, size: 'large', color: '#dda0dd', speed: 0.8, direction: 315 },
+                { id: 'fish-6', x: 80, y: 90, size: 'large', color: '#ff7f50', speed: 0.6, direction: 180 },
+                { id: 'fish-8', x: 35, y: 92, size: 'large', color: '#9370db', speed: 0.7, direction: 0 },
+                // SHARKS! (deep water only: 80-98%)
+                { id: 'shark-1', x: 45, y: 88, size: 'shark', color: '#64748b', speed: 0.9, direction: 180 },
+                { id: 'shark-2', x: 70, y: 94, size: 'shark', color: '#475569', speed: 0.7, direction: 45 }
             ];
             renderFish();
+            renderBeachFish();
+            updateSpeedBoatUI();
+            updateSpearShop();
         }
         
         function renderFish() {
             const container = document.getElementById('fish-container');
-            container.innerHTML = allFish.map(fish => `
-                <div class="fish ${fish.size}" id="${fish.id}" style="left: ${fish.x}%; top: ${fish.y}%;" onclick="handleFishClick(event, '${fish.id}')" title="Click to catch!">
-                    <svg width="${fish.size === 'small' ? 32 : 56}" height="${fish.size === 'small' ? 24 : 42}" viewBox="0 0 48 36">
-                        <g>
-                            <ellipse cx="24" cy="18" rx="15" ry="10.5" fill="${fish.color}" />
-                            <ellipse cx="24" cy="18" rx="12" ry="8.25" fill="${fish.color}" fill-opacity="0.8" />
-                            <path d="M9 18 L3 12 L6 18 L3 24 Z" fill="${fish.color}" fill-opacity="0.9" />
-                            <path d="M36 12 L42 9 L45 15 L39 18 Z" fill="${fish.color}" fill-opacity="0.9" />
-                            <path d="M36 24 L42 27 L45 21 L39 18 Z" fill="${fish.color}" fill-opacity="0.9" />
-                            <circle cx="30" cy="13.5" r="3.75" fill="white" />
-                            <circle cx="30.75" cy="12.75" r="2.25" fill="black" />
-                            <circle cx="31.5" cy="12" r="0.75" fill="white" />
-                            <path d="M18 22.5 Q24 24 30 22.5" stroke="${fish.color}" stroke-width="1.5" fill="none" fill-opacity="0.9" />
-                        </g>
-                    </svg>
-                </div>
-            `).join('');
+            container.innerHTML = allFish.map(fish => {
+                const isShark = fish.size === 'shark';
+                const width = isShark ? 70 : (fish.size === 'small' ? 32 : 56);
+                const height = isShark ? 45 : (fish.size === 'small' ? 24 : 42);
+                const fishValue = isShark ? 25 : (fish.size === 'large' ? 10 : 5);
+                
+                if (isShark) {
+                    return `
+                        <div class="fish shark" id="${fish.id}" style="left: ${fish.x}%; top: ${fish.y}%;" onclick="handleFishClick(event, '${fish.id}')" title="🦈 SHARK! Worth ${fishValue} coins!">
+                            <svg width="${width}" height="${height}" viewBox="0 0 80 50">
+                                <g>
+                                    <!-- Shark body -->
+                                    <ellipse cx="40" cy="28" rx="28" ry="14" fill="${fish.color}" />
+                                    <ellipse cx="40" cy="28" rx="24" ry="11" fill="${fish.color}" fill-opacity="0.9" />
+                                    <!-- Belly -->
+                                    <ellipse cx="42" cy="32" rx="20" ry="8" fill="#e2e8f0" fill-opacity="0.6" />
+                                    <!-- Dorsal fin -->
+                                    <path d="M35 14 L40 2 L45 14 Z" fill="${fish.color}" stroke="#1a202c" stroke-width="0.5" />
+                                    <!-- Tail fin -->
+                                    <path d="M12 28 L2 18 L6 28 L2 38 Z" fill="${fish.color}" fill-opacity="0.95" />
+                                    <!-- Pectoral fins -->
+                                    <path d="M50 32 L60 42 L55 32 Z" fill="${fish.color}" fill-opacity="0.9" />
+                                    <path d="M30 32 L20 42 L25 32 Z" fill="${fish.color}" fill-opacity="0.9" />
+                                    <!-- Snout -->
+                                    <path d="M68 28 L78 28 L68 24 Z" fill="${fish.color}" />
+                                    <!-- Eye -->
+                                    <circle cx="60" cy="24" r="5" fill="white" />
+                                    <circle cx="61" cy="23" r="3" fill="black" />
+                                    <circle cx="62" cy="22" r="1" fill="white" />
+                                    <!-- Gills -->
+                                    <line x1="52" y1="24" x2="52" y2="32" stroke="#1a202c" stroke-width="1" stroke-linecap="round" />
+                                    <line x1="55" y1="24" x2="55" y2="31" stroke="#1a202c" stroke-width="1" stroke-linecap="round" />
+                                    <line x1="58" y1="25" x2="58" y2="30" stroke="#1a202c" stroke-width="1" stroke-linecap="round" />
+                                    <!-- Teeth -->
+                                    <path d="M68 30 L70 32 L72 30 L74 32 L76 30" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" />
+                                </g>
+                            </svg>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <div class="fish ${fish.size}" id="${fish.id}" style="left: ${fish.x}%; top: ${fish.y}%;" onclick="handleFishClick(event, '${fish.id}')" title="${fish.size === 'large' ? '🐠 Large fish' : '🐟 Small fish'} - ${fishValue} coins">
+                            <svg width="${width}" height="${height}" viewBox="0 0 48 36">
+                                <g>
+                                    <ellipse cx="24" cy="18" rx="15" ry="10.5" fill="${fish.color}" />
+                                    <ellipse cx="24" cy="18" rx="12" ry="8.25" fill="${fish.color}" fill-opacity="0.8" />
+                                    <path d="M9 18 L3 12 L6 18 L3 24 Z" fill="${fish.color}" fill-opacity="0.9" />
+                                    <path d="M36 12 L42 9 L45 15 L39 18 Z" fill="${fish.color}" fill-opacity="0.9" />
+                                    <path d="M36 24 L42 27 L45 21 L39 18 Z" fill="${fish.color}" fill-opacity="0.9" />
+                                    <circle cx="30" cy="13.5" r="3.75" fill="white" />
+                                    <circle cx="30.75" cy="12.75" r="2.25" fill="black" />
+                                    <circle cx="31.5" cy="12" r="0.75" fill="white" />
+                                    <path d="M18 22.5 Q24 24 30 22.5" stroke="${fish.color}" stroke-width="1.5" fill="none" fill-opacity="0.9" />
+                                </g>
+                            </svg>
+                        </div>
+                    `;
+                }
+            }).join('');
         }
         
         function handleFishClick(event, fishId) {
@@ -1310,6 +1662,11 @@
         }
         
         function throwSpear(x, y, targetFish) {
+            if (!currentSpear) {
+                showToast('Buy a spear from the shop first! 🔱', 'error');
+                return;
+            }
+            
             const spear = document.getElementById('spear');
             spear.style.left = x + '%';
             spear.style.top = y + '%';
@@ -1318,8 +1675,10 @@
             updateInstructions('🔱 Spear thrown!');
             
             setTimeout(() => {
-                const bait = baitTypes[currentBait];
-                const catchChance = 0.7 * (targetFish.size === 'large' ? 1.2 : 1);
+                const spearData = spearTypes[currentSpear] || { accuracy: 1.0 };
+                const isShark = targetFish.size === 'shark';
+                const sizeBonus = isShark ? 0.7 : (targetFish.size === 'large' ? 0.9 : 1.2);
+                const catchChance = Math.min(0.95, 0.6 * sizeBonus * spearData.accuracy);
                 
                 if (Math.random() < catchChance) {
                     catchFishWithSpear(targetFish);
@@ -1333,20 +1692,36 @@
         
         function catchFishWithSpear(fish) {
             const fishEl = document.getElementById(fish.id);
-            const fishValue = fish.size === 'large' ? 2 : 1;
+            const isShark = fish.size === 'shark';
+            const fishValue = isShark ? 25 : (fish.size === 'large' ? 10 : 5);
             
             fishEl.classList.add('caught');
             
-            const phrase = catPhrases[Math.floor(Math.random() * catPhrases.length)];
+            // Use shark phrases for sharks
+            const phrases = isShark ? sharkPhrases : catPhrases;
+            const phrase = phrases[Math.floor(Math.random() * phrases.length)];
             showCatSpeech(phrase);
-            showToast(`Speared a ${fish.size} fish! 🎯🐟`, 'success');
+            
+            const fishType = isShark ? '🦈 SHARK' : (fish.size === 'large' ? 'big fish' : 'small fish');
+            showToast(`Speared a ${fishType}! +${fishValue} coins! 🎯🐟`, 'success');
+            
+            // Add to beach fish pile
+            addFishToBeach(fish);
             
             setTimeout(() => {
-                fishCount += fishValue;
-                money += fishValue * 2;
+                money += fishValue;
                 updateDisplay();
                 saveState();
                 createConfetti();
+                
+                // Reset
+                respawnFish(fish);
+                fishEl.classList.remove('caught');
+                document.getElementById('spear').classList.remove('thrown');
+                hideCatSpeech();
+                updateInstructions('Click on a fish to throw spear! 🔱');
+            }, 1500);
+        }
                 
                 // Reset
                 respawnFish(fish);
@@ -1369,9 +1744,15 @@
                         newDirection = 180 - fish.direction;
                         newX = Math.max(5, Math.min(95, newX));
                     }
-                    if (newY <= 52 || newY >= 98) {
+                    
+                    // Depth zones: small fish shallow (52-72%), large/sharks deep (70-98%)
+                    const isDeepFish = fish.size === 'large' || fish.size === 'shark';
+                    const minY = isDeepFish ? 70 : 52;
+                    const maxY = isDeepFish ? 98 : 75;
+                    
+                    if (newY <= minY || newY >= maxY) {
                         newDirection = -fish.direction;
-                        newY = Math.max(52, Math.min(98, newY));
+                        newY = Math.max(minY, Math.min(maxY, newY));
                     }
                     
                     // Random direction changes
@@ -1438,22 +1819,26 @@
         function reelIn() {
             isWaitingToReel = false;
             
-            // Check if we caught a fish
+            // Check if we caught a fish - sharks have bigger hitbox
             const caughtFish = allFish.find(fish => {
                 const distance = Math.abs(fish.x - lineX) + Math.abs(fish.y - lineY);
-                return distance < (fish.size === 'small' ? 20 : 30);
+                const catchRadius = fish.size === 'shark' ? 35 : (fish.size === 'large' ? 30 : 25);
+                return distance < catchRadius;
             });
             
             if (caughtFish) {
                 const bait = baitTypes[currentBait];
-                const sizeBonus = caughtFish.size === 'large' ? 1.2 : 1;
-                const catchChance = bait.catchRate * sizeBonus;
+                const isShark = caughtFish.size === 'shark';
+                // Sharks are harder to catch, small fish are easier
+                const sizeBonus = isShark ? 0.6 : (caughtFish.size === 'large' ? 0.9 : 1.3);
+                const catchChance = Math.min(0.95, bait.catchRate * sizeBonus);
                 
                 if (Math.random() < catchChance) {
                     catchFish(caughtFish);
                     return;
                 } else {
-                    showToast('The fish got away...', 'error');
+                    const fishName = isShark ? 'The shark' : 'The fish';
+                    showToast(`${fishName} got away...`, 'error');
                 }
             } else {
                 showToast('No fish near your hook!', 'info');
@@ -1464,23 +1849,25 @@
         
         function catchFish(fish) {
             const fishEl = document.getElementById(fish.id);
-            const fishValue = fish.size === 'large' ? 2 : 1;
+            const isShark = fish.size === 'shark';
+            const fishValue = isShark ? 25 : (fish.size === 'large' ? 10 : 5);
             
             // Fighting animation
             fishEl.classList.add('caught');
             fishEl.style.left = lineX + '%';
             fishEl.style.top = lineY + '%';
-            updateInstructions('Fish is fighting back!');
+            updateInstructions(isShark ? '🦈 SHARK is fighting hard!' : 'Fish is fighting back!');
             
             setTimeout(() => {
-                // Show cat phrase
-                const phrase = catPhrases[Math.floor(Math.random() * catPhrases.length)];
+                // Show cat phrase - use shark phrases for sharks
+                const phrases = isShark ? sharkPhrases : catPhrases;
+                const phrase = phrases[Math.floor(Math.random() * phrases.length)];
                 const speech = document.getElementById('cat-speech');
                 speech.textContent = phrase;
                 speech.classList.add('show');
                 
-                const fishType = fish.size === 'large' ? 'big fish' : 'small fish';
-                showToast(`Caught a ${fishType}! 🐟`, 'success');
+                const fishType = isShark ? '🦈 SHARK' : (fish.size === 'large' ? 'big fish' : 'small fish');
+                showToast(`Caught a ${fishType}! +${fishValue} coins! 🐟`, 'success');
                 
                 // Reeling animation
                 setTimeout(() => {
@@ -1490,17 +1877,19 @@
                     updateInstructions('Reeling in your catch!');
                     
                     setTimeout(() => {
-                        // Complete catch
-                        fishCount += fishValue;
+                        // Add to beach pile and add coins
+                        addFishToBeach(fish);
+                        money += fishValue;
                         saveState();
                         updateDisplay();
                         
-                        // Respawn fish
+                        // Respawn fish in appropriate zone
                         const fishIndex = allFish.findIndex(f => f.id === fish.id);
+                        const isDeepFish = fish.size === 'large' || fish.size === 'shark';
                         allFish[fishIndex] = {
                             ...fish,
                             x: Math.random() * 80 + 10,
-                            y: Math.random() * 40 + 55,
+                            y: isDeepFish ? (Math.random() * 25 + 73) : (Math.random() * 18 + 54),
                             direction: Math.random() * 360
                         };
                         
@@ -1531,14 +1920,31 @@
         function updateInstructions(text) {
             const instructions = document.getElementById('instructions');
             if (typeof text === 'string') {
-                instructions.innerHTML = `<div>${text}</div><div class="keyboard-hint">← → or A/D to move boat</div>`;
+                const speedHint = hasSpeedBoat ? ' ⚡' : '';
+                instructions.innerHTML = `<div>${text}</div><div class="keyboard-hint">← → or A/D to move boat${speedHint}</div>`;
+            }
+        }
+        
+        function showCatSpeech(phrase) {
+            const speech = document.getElementById('cat-speech');
+            if (speech) {
+                speech.textContent = phrase;
+                speech.classList.add('show');
+            }
+        }
+        
+        function hideCatSpeech() {
+            const speech = document.getElementById('cat-speech');
+            if (speech) {
+                speech.classList.remove('show');
             }
         }
         
         function respawnFish(fish) {
-            // Respawn fish at a new random location
+            // Respawn fish at appropriate depth zone
+            const isDeepFish = fish.size === 'large' || fish.size === 'shark';
             fish.x = 10 + Math.random() * 80;
-            fish.y = 55 + Math.random() * 40;
+            fish.y = isDeepFish ? (73 + Math.random() * 23) : (54 + Math.random() * 18);
             fish.direction = Math.random() * 360;
             renderFish();
         }
@@ -1548,19 +1954,29 @@
             document.getElementById('money').textContent = money;
             
             const inventory = document.getElementById('inventory-content');
-            if (fishCount > 0) {
-                inventory.innerHTML = `
+            const beachCount = beachFish.length;
+            
+            let inventoryHtml = '';
+            if (beachCount > 0) {
+                inventoryHtml = `
                     <div class="fish-count">
-                        <div class="number">${fishCount}</div>
-                        <div class="label">Fish Caught</div>
+                        <div class="number">${beachCount}</div>
+                        <div class="label">🐟 Fish on Beach</div>
                     </div>
-                    <button class="sell-btn" onclick="sellAllFish()">
-                        Sell All (${fishCount * 5} coins)
+                    ${beachCount >= 3 ? '<div style="text-align: center; color: #666; font-size: 0.85rem; margin-bottom: 10px;">' + (beachCount >= 8 ? '🐱🐱 Two cats eating!' : '🐱 Cat is eating!') + '</div>' : ''}
+                    <button class="sell-btn" onclick="clearBeachFish()" style="background: linear-gradient(135deg, #f97316, #ea580c);">
+                        Feed to Cats 😻
                     </button>
                 `;
             } else {
-                inventory.innerHTML = '<div class="empty-inventory">No fish caught yet.<br>Cast your line!</div>';
+                inventoryHtml = '<div class="empty-inventory">No fish on beach yet.<br>Catch some fish!</div>';
             }
+            inventory.innerHTML = inventoryHtml;
+            
+            // Update other UI elements
+            updateSpeedBoatUI();
+            updateSpearShop();
+            updateBaitButtons();
         }
         
         function sellAllFish() {
@@ -1631,6 +2047,205 @@
             localStorage.setItem('fishing_fishCount', fishCount);
             localStorage.setItem('fishing_money', money);
             localStorage.setItem('fishing_bait', currentBait);
+            localStorage.setItem('fishing_speedBoat', hasSpeedBoat);
+            localStorage.setItem('fishing_spear', currentSpear || '');
+            localStorage.setItem('fishing_beachFish', JSON.stringify(beachFish));
+        }
+        
+        // === SPEED BOAT FUNCTIONS ===
+        function buySpeedBoat() {
+            if (hasSpeedBoat) return;
+            if (money < 10000) {
+                showToast('Need 10,000 coins for the Speed Boat! ⚡', 'error');
+                return;
+            }
+            
+            money -= 10000;
+            hasSpeedBoat = true;
+            saveState();
+            updateDisplay();
+            updateSpeedBoatUI();
+            showToast('⚡ SPEED BOAT UNLOCKED! You move 2x faster! 🚤', 'success');
+            createConfetti();
+        }
+        
+        function updateSpeedBoatUI() {
+            const panel = document.getElementById('speed-boat-panel');
+            const btn = document.getElementById('speed-boat-btn');
+            const status = document.getElementById('speed-boat-status');
+            const progress = document.getElementById('speed-boat-progress');
+            const fill = document.getElementById('speed-boat-fill');
+            
+            if (hasSpeedBoat) {
+                panel.classList.add('owned');
+                btn.style.display = 'none';
+                progress.style.display = 'none';
+                status.innerHTML = '⚡ <strong>ACTIVE!</strong> You move 2x faster!';
+            } else {
+                panel.classList.remove('owned');
+                btn.style.display = 'block';
+                btn.disabled = money < 10000;
+                const progressPercent = Math.min(100, (money / 10000) * 100);
+                fill.style.width = progressPercent + '%';
+                status.textContent = `Save up! ${money.toLocaleString()} / 10,000 coins`;
+            }
+        }
+        
+        // === SPEAR SHOP FUNCTIONS ===
+        function showShopTab(tab) {
+            document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.shop-section').forEach(s => s.classList.remove('active'));
+            
+            document.querySelector(`.panel-tab[onclick*="${tab}"]`).classList.add('active');
+            document.getElementById(tab + '-shop').classList.add('active');
+        }
+        
+        function buySpear(spearId, price) {
+            if (currentSpear === spearId) {
+                showToast('You already have this spear equipped! 🔱', 'info');
+                return;
+            }
+            if (money < price) {
+                showToast('Not enough coins! 💰', 'error');
+                return;
+            }
+            
+            money -= price;
+            currentSpear = spearId;
+            saveState();
+            updateDisplay();
+            updateSpearShop();
+            showToast(`Purchased ${spearTypes[spearId].name}! 🔱`, 'success');
+        }
+        
+        function updateSpearShop() {
+            Object.keys(spearTypes).forEach(spearId => {
+                const item = document.getElementById('spear-' + spearId);
+                if (!item) return;
+                
+                const spear = spearTypes[spearId];
+                const btn = item.querySelector('.bait-btn');
+                
+                if (currentSpear === spearId) {
+                    item.classList.add('active');
+                    btn.textContent = '✓ Equipped';
+                    btn.classList.add('active');
+                    btn.onclick = null;
+                } else {
+                    item.classList.remove('active');
+                    btn.textContent = spear.price + ' 🪙';
+                    btn.classList.remove('active');
+                    btn.disabled = money < spear.price;
+                    btn.onclick = () => buySpear(spearId, spear.price);
+                }
+            });
+            
+            // Update tool selector spear button
+            const spearBtn = document.querySelector('.tool-btn.spear');
+            if (spearBtn) {
+                if (currentSpear) {
+                    spearBtn.textContent = '🔱 Spear';
+                    spearBtn.style.opacity = '1';
+                } else {
+                    spearBtn.textContent = '🔒 Spear';
+                    spearBtn.style.opacity = '0.6';
+                }
+            }
+        }
+        
+        // === BEACH FISH PILE FUNCTIONS ===
+        function addFishToBeach(fish) {
+            const newFish = {
+                id: Date.now(),
+                size: fish.size,
+                color: fish.color,
+                x: 10 + Math.random() * 80
+            };
+            beachFish.push(newFish);
+            if (beachFish.length > 20) {
+                beachFish = beachFish.slice(-20); // Keep max 20 fish
+            }
+            saveState();
+            renderBeachFish();
+        }
+        
+        function renderBeachFish() {
+            const container = document.getElementById('beach-fish-pile');
+            const catsContainer = document.getElementById('eating-cats-container');
+            if (!container) return;
+            
+            // Render fish on beach
+            container.innerHTML = beachFish.map((fish, i) => {
+                const isShark = fish.size === 'shark';
+                const size = isShark ? 30 : (fish.size === 'large' ? 25 : 18);
+                const rotation = (Math.random() - 0.5) * 40;
+                return `
+                    <div class="pile-fish" style="left: ${fish.x}%; transform: rotate(${rotation}deg);">
+                        <svg width="${size}" height="${size * 0.7}" viewBox="0 0 48 36">
+                            ${isShark ? `
+                                <ellipse cx="24" cy="18" rx="18" ry="10" fill="${fish.color}" />
+                                <path d="M20 8 L24 0 L28 8 Z" fill="${fish.color}" />
+                                <path d="M6 18 L0 12 L3 18 L0 24 Z" fill="${fish.color}" />
+                                <circle cx="32" cy="14" r="3" fill="white" />
+                                <circle cx="33" cy="13" r="1.5" fill="black" />
+                            ` : `
+                                <ellipse cx="24" cy="18" rx="15" ry="10.5" fill="${fish.color}" />
+                                <path d="M9 18 L3 12 L6 18 L3 24 Z" fill="${fish.color}" />
+                                <circle cx="30" cy="13.5" r="3" fill="white" />
+                                <circle cx="31" cy="12.5" r="1.5" fill="black" />
+                            `}
+                        </svg>
+                    </div>
+                `;
+            }).join('');
+            
+            // Render eating cats if we have fish
+            if (beachFish.length >= 3) {
+                let catsHtml = '';
+                // First cat
+                catsHtml += `
+                    <div class="eating-cat" style="left: 25%;">
+                        <svg width="35" height="40" viewBox="0 0 40 50">
+                            <ellipse cx="20" cy="38" rx="10" ry="8" fill="#f97316" />
+                            <circle cx="20" cy="22" r="10" fill="#f97316" />
+                            <path d="M12 14 L8 4 L18 12 Z" fill="#f97316" />
+                            <path d="M28 14 L32 4 L22 12 Z" fill="#f97316" />
+                            <circle cx="16" cy="20" r="2" fill="black" />
+                            <circle cx="24" cy="20" r="2" fill="black" />
+                            <path d="M20 25 L18 28 L22 28 Z" fill="#dc2626" />
+                            <path d="M18 30 L14 33" stroke="black" stroke-width="1.5" fill="none" />
+                        </svg>
+                    </div>
+                `;
+                
+                // Second cat if lots of fish
+                if (beachFish.length >= 8) {
+                    catsHtml += `
+                        <div class="eating-cat" style="left: 65%;">
+                            <svg width="35" height="40" viewBox="0 0 40 50">
+                                <ellipse cx="20" cy="38" rx="10" ry="8" fill="#6b7280" />
+                                <circle cx="20" cy="22" r="10" fill="#6b7280" />
+                                <path d="M12 14 L8 4 L18 12 Z" fill="#6b7280" />
+                                <path d="M28 14 L32 4 L22 12 Z" fill="#6b7280" />
+                                <circle cx="16" cy="20" r="2" fill="#22c55e" />
+                                <circle cx="24" cy="20" r="2" fill="#22c55e" />
+                                <path d="M20 25 L18 28 L22 28 Z" fill="#ec4899" />
+                                <path d="M22 30 L26 33" stroke="black" stroke-width="1.5" fill="none" />
+                            </svg>
+                        </div>
+                    `;
+                }
+                catsContainer.innerHTML = catsHtml;
+            } else {
+                catsContainer.innerHTML = '';
+            }
+        }
+        
+        function clearBeachFish() {
+            beachFish = [];
+            saveState();
+            renderBeachFish();
+            showToast('The cats ate all the fish! 😻', 'success');
         }
         
         function showToast(message, type = 'info') {

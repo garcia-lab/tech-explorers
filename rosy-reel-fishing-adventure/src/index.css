@@ -117,6 +117,19 @@
   filter: drop-shadow(0 2px 4px rgba(255, 20, 147, 0.3));
 }
 
+/* Shark-specific animation - faster and more aggressive */
+@keyframes shark-swim {
+  0%, 100% { transform: translateX(0px) translateY(0px); }
+  25% { transform: translateX(2px) translateY(-2px); }
+  50% { transform: translateX(-2px) translateY(1px); }
+  75% { transform: translateX(1px) translateY(-1px); }
+}
+
+.shark-swim {
+  animation: shark-swim 1.5s ease-in-out infinite;
+  filter: drop-shadow(0 3px 6px rgba(45, 55, 72, 0.5));
+}
+
 .water-ripple {
   animation: ripple 1s ease-out;
 }
