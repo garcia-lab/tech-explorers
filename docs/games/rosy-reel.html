@@ -546,6 +546,168 @@
                 transform: rotate(720deg);
             }
         }
+        
+        /* Environment selector */
+        .environment-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .env-label {
+            font-weight: bold;
+            color: #333;
+            margin-right: 10px;
+        }
+        
+        .env-btn {
+            padding: 8px 14px;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.8);
+            color: #333;
+        }
+        
+        .env-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .env-btn.active {
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        /* Tool selector */
+        .tool-selector {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 5px;
+            background: rgba(255,255,255,0.95);
+            padding: 5px;
+            border-radius: 25px;
+            z-index: 60;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+        
+        .tool-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .tool-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .tool-btn.active {
+            background: #4361ee;
+            color: white;
+        }
+        
+        .tool-btn.spear.active {
+            background: #f97316;
+        }
+        
+        /* Improved bait badge */
+        .bait-badge {
+            position: absolute;
+            top: 55px;
+            right: 15px;
+            background: rgba(255,255,255,0.9);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 60;
+        }
+        
+        /* Scrollable bait shop */
+        #bait-shop {
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        
+        .bait-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .bait-item.active {
+            border-color: #4361ee;
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        .bait-emoji {
+            font-size: 1.5rem;
+            margin-right: 8px;
+        }
+        
+        /* Keyboard hint */
+        .keyboard-hint {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.8);
+            margin-top: 5px;
+        }
+        
+        /* Spear animation */
+        .spear {
+            position: absolute;
+            z-index: 45;
+            transition: all 0.3s ease-out;
+            display: none;
+        }
+        
+        .spear.thrown {
+            display: block;
+            animation: spearThrow 0.3s ease-out forwards;
+        }
+        
+        @keyframes spearThrow {
+            0% { opacity: 0; transform: translateY(-50px) rotate(10deg); }
+            100% { opacity: 1; transform: translateY(0) rotate(15deg); }
+        }
+        
+        /* Boat bobbing animation */
+        @keyframes boatBob {
+            0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+            25% { transform: translateX(-50%) translateY(-2px) rotate(0.5deg); }
+            75% { transform: translateX(-50%) translateY(1px) rotate(-0.3deg); }
+        }
+        
+        .boat-container {
+            animation: boatBob 3s ease-in-out infinite;
+        }
+        
+        /* Fish clickable cursor */
+        .fish {
+            cursor: pointer;
+        }
+        
+        .fish:hover {
+            filter: brightness(1.1);
+        }
     </style>
 </head>
 <body>
@@ -601,7 +763,18 @@
 
         <div class="game-layout">
             <div class="fishing-area">
-                <div class="pond" id="pond">
+                <!-- Environment Selector -->
+                <div class="environment-selector">
+                    <span class="env-label">🌍 Environment:</span>
+                    <button class="env-btn active" data-env="beach" onclick="setEnvironment('beach')">🏖️ Beach</button>
+                    <button class="env-btn" data-env="lake" onclick="setEnvironment('lake')">🌲 Lake</button>
+                    <button class="env-btn" data-env="arctic" onclick="setEnvironment('arctic')">🧊 Arctic</button>
+                    <button class="env-btn" data-env="tropical" onclick="setEnvironment('tropical')">🌴 Tropical</button>
+                    <button class="env-btn" data-env="sunset" onclick="setEnvironment('sunset')">🌅 Sunset</button>
+                    <button class="env-btn" data-env="night" onclick="setEnvironment('night')">🌙 Night</button>
+                </div>
+                
+                <div class="pond" id="pond" tabindex="0">
                     <!-- Sky -->
                     <div class="sky">
                         <!-- Sun -->
@@ -753,11 +926,28 @@
                     <!-- Fish container -->
                     <div id="fish-container"></div>
                     
-                    <!-- Instructions -->
-                    <div class="instructions" id="instructions">Click to cast your line</div>
+                    <!-- Tool selector -->
+                    <div class="tool-selector">
+                        <button class="tool-btn active" data-tool="rod" onclick="setTool('rod')">🎣 Rod</button>
+                        <button class="tool-btn spear" data-tool="spear" onclick="setTool('spear')">🔱 Spear</button>
+                    </div>
                     
                     <!-- Bait badge -->
-                    <div class="bait-badge" id="bait-badge">Current Bait: Worm</div>
+                    <div class="bait-badge" id="bait-badge">Bait: 🪱 Worm</div>
+                    
+                    <!-- Spear element -->
+                    <div class="spear" id="spear">
+                        <svg width="30" height="60" viewBox="0 0 30 60">
+                            <line x1="15" y1="10" x2="15" y2="55" stroke="#5D4037" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M15 10 L10 0 L15 -5 L20 0 Z" fill="#C0C0C0" stroke="#808080" stroke-width="0.5"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Instructions -->
+                    <div class="instructions" id="instructions">
+                        <div>Click water or fish to cast 🎣</div>
+                        <div class="keyboard-hint">← → or A/D to move boat</div>
+                    </div>
                 </div>
             </div>
             
@@ -773,36 +963,127 @@
                 
                 <div class="panel">
                     <h3><i class="fas fa-store" style="color: #4361ee;"></i> Bait Shop</h3>
+                    <p style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">Better bait = higher catch rate!</p>
                     <div id="bait-shop">
                         <div class="bait-item" data-bait="worm">
                             <div class="bait-info">
-                                <div class="bait-icon" style="transform: scale(0.6);"></div>
+                                <span class="bait-emoji">🪱</span>
                                 <div>
                                     <div class="bait-name">Worm</div>
-                                    <div class="bait-rate">30% catch rate</div>
+                                    <div class="bait-rate">30% catch</div>
                                 </div>
                             </div>
-                            <button class="bait-btn active" onclick="selectBait('worm')">Using</button>
+                            <button class="bait-btn active">Using</button>
                         </div>
                         <div class="bait-item" data-bait="minnow">
                             <div class="bait-info">
-                                <div class="bait-icon" style="transform: scale(0.8);"></div>
+                                <span class="bait-emoji">🐟</span>
                                 <div>
                                     <div class="bait-name">Minnow</div>
-                                    <div class="bait-rate">50% catch rate</div>
+                                    <div class="bait-rate">40% catch</div>
                                 </div>
                             </div>
-                            <button class="bait-btn" onclick="buyBait('minnow', 10)">10 coins</button>
+                            <button class="bait-btn">10 🪙</button>
                         </div>
-                        <div class="bait-item" data-bait="lure">
+                        <div class="bait-item" data-bait="cricket">
                             <div class="bait-info">
-                                <div class="bait-icon" style="transform: scale(1);"></div>
+                                <span class="bait-emoji">🦗</span>
                                 <div>
-                                    <div class="bait-name">Special Lure</div>
-                                    <div class="bait-rate">70% catch rate</div>
+                                    <div class="bait-name">Cricket</div>
+                                    <div class="bait-rate">45% catch</div>
                                 </div>
                             </div>
-                            <button class="bait-btn" onclick="buyBait('lure', 25)">25 coins</button>
+                            <button class="bait-btn">15 🪙</button>
+                        </div>
+                        <div class="bait-item" data-bait="shrimp">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🦐</span>
+                                <div>
+                                    <div class="bait-name">Shrimp</div>
+                                    <div class="bait-rate">50% catch</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn">20 🪙</button>
+                        </div>
+                        <div class="bait-item" data-bait="grub">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🐛</span>
+                                <div>
+                                    <div class="bait-name">Grub</div>
+                                    <div class="bait-rate">55% catch</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn">25 🪙</button>
+                        </div>
+                        <div class="bait-item" data-bait="spinner">
+                            <div class="bait-info">
+                                <span class="bait-emoji">✨</span>
+                                <div>
+                                    <div class="bait-name">Spinner</div>
+                                    <div class="bait-rate">60% catch</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn">35 🪙</button>
+                        </div>
+                        <div class="bait-item" data-bait="fly">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🪰</span>
+                                <div>
+                                    <div class="bait-name">Fly Lure</div>
+                                    <div class="bait-rate">55% catch</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn">40 🪙</button>
+                        </div>
+                        <div class="bait-item" data-bait="jig">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🎣</span>
+                                <div>
+                                    <div class="bait-name">Jig</div>
+                                    <div class="bait-rate">65% catch</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn">50 🪙</button>
+                        </div>
+                        <div class="bait-item" data-bait="crankbait">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🐠</span>
+                                <div>
+                                    <div class="bait-name">Crankbait</div>
+                                    <div class="bait-rate">70% catch</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn">60 🪙</button>
+                        </div>
+                        <div class="bait-item" data-bait="spoon">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🥄</span>
+                                <div>
+                                    <div class="bait-name">Spoon Lure</div>
+                                    <div class="bait-rate">75% catch</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn">75 🪙</button>
+                        </div>
+                        <div class="bait-item" data-bait="golden">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🌟</span>
+                                <div>
+                                    <div class="bait-name">Golden Lure</div>
+                                    <div class="bait-rate">85% catch</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn">100 🪙</button>
+                        </div>
+                        <div class="bait-item" data-bait="magic">
+                            <div class="bait-info">
+                                <span class="bait-emoji">🔮</span>
+                                <div>
+                                    <div class="bait-name">Magic Bait</div>
+                                    <div class="bait-rate">95% catch</div>
+                                </div>
+                            </div>
+                            <button class="bait-btn">150 🪙</button>
                         </div>
                     </div>
                 </div>
@@ -813,10 +1094,19 @@
     <div class="toast-container" id="toast-container"></div>
     
     <script>
+        // Build Info
+        const BUILD_INFO = {
+            commitHash: '6857906',
+            buildDate: '2026-01-30'
+        };
+        
         // Game State
         let fishCount = parseInt(localStorage.getItem('fishing_fishCount')) || 0;
         let money = parseInt(localStorage.getItem('fishing_money')) || 50;
         let currentBait = localStorage.getItem('fishing_bait') || 'worm';
+        let currentTool = 'rod';
+        let currentEnvironment = 'beach';
+        let boatPosition = 50;
         let isLineCast = false;
         let isWaitingToReel = false;
         let lineX = 50;
@@ -824,9 +1114,58 @@
         let allFish = [];
         
         const baitTypes = {
-            worm: { name: 'Worm', price: 0, catchRate: 0.3 },
-            minnow: { name: 'Minnow', price: 10, catchRate: 0.5 },
-            lure: { name: 'Special Lure', price: 25, catchRate: 0.7 }
+            worm: { name: '🪱 Worm', price: 0, catchRate: 0.3 },
+            minnow: { name: '🐟 Minnow', price: 10, catchRate: 0.4 },
+            cricket: { name: '🦗 Cricket', price: 15, catchRate: 0.45 },
+            shrimp: { name: '🦐 Shrimp', price: 20, catchRate: 0.5 },
+            grub: { name: '🐛 Grub', price: 25, catchRate: 0.55 },
+            spinner: { name: '✨ Spinner', price: 35, catchRate: 0.6 },
+            fly: { name: '🪰 Fly Lure', price: 40, catchRate: 0.55 },
+            jig: { name: '🎣 Jig', price: 50, catchRate: 0.65 },
+            crankbait: { name: '🐠 Crankbait', price: 60, catchRate: 0.7 },
+            spoon: { name: '🥄 Spoon Lure', price: 75, catchRate: 0.75 },
+            golden: { name: '🌟 Golden Lure', price: 100, catchRate: 0.85 },
+            magic: { name: '🔮 Magic Bait', price: 150, catchRate: 0.95 }
+        };
+        
+        const environments = {
+            beach: {
+                sky: 'linear-gradient(180deg, #87ceeb, #b0e0e6)',
+                land: 'linear-gradient(180deg, #f4d03f, #e9b44c)',
+                water: 'linear-gradient(180deg, #4fc3f7, #1976d2)',
+                sunColor: '#fbbf24'
+            },
+            lake: {
+                sky: 'linear-gradient(180deg, #d1fae5, #a7f3d0)',
+                land: 'linear-gradient(180deg, #86efac, #16a34a)',
+                water: 'linear-gradient(180deg, #67e8f9, #0891b2)',
+                sunColor: '#fcd34d'
+            },
+            arctic: {
+                sky: 'linear-gradient(180deg, #f0f9ff, #e0f2fe)',
+                land: 'linear-gradient(180deg, #f1f5f9, #cbd5e1)',
+                water: 'linear-gradient(180deg, #a5f3fc, #155e75)',
+                sunColor: '#fef3c7'
+            },
+            tropical: {
+                sky: 'linear-gradient(180deg, #fdf4ff, #f5d0fe)',
+                land: 'linear-gradient(180deg, #fef08a, #facc15)',
+                water: 'linear-gradient(180deg, #5eead4, #0f766e)',
+                sunColor: '#fb923c'
+            },
+            sunset: {
+                sky: 'linear-gradient(180deg, #fecaca, #fdba74)',
+                land: 'linear-gradient(180deg, #fed7aa, #c2410c)',
+                water: 'linear-gradient(180deg, #fb923c, #7c2d12)',
+                sunColor: '#f97316'
+            },
+            night: {
+                sky: 'linear-gradient(180deg, #1e1b4b, #312e81)',
+                land: 'linear-gradient(180deg, #3f3f46, #18181b)',
+                water: 'linear-gradient(180deg, #1e3a5f, #0c1929)',
+                sunColor: '#fef9c3',
+                isMoon: true
+            }
         };
         
         const catPhrases = [
@@ -851,9 +1190,70 @@
             initializeFish();
             startFishMovement();
             updateBaitButtons();
+            setupKeyboardControls();
             
             document.getElementById('pond').addEventListener('click', handlePondClick);
+            
+            // Focus pond for keyboard controls
+            document.getElementById('pond').focus();
         });
+        
+        // Keyboard controls for boat movement
+        function setupKeyboardControls() {
+            document.addEventListener('keydown', function(e) {
+                if (isLineCast && isWaitingToReel) return; // Don't move while fishing
+                
+                const moveSpeed = 5;
+                if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+                    e.preventDefault();
+                    boatPosition = Math.max(15, boatPosition - moveSpeed);
+                    updateBoatPosition();
+                } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+                    e.preventDefault();
+                    boatPosition = Math.max(15, Math.min(85, boatPosition + moveSpeed));
+                    updateBoatPosition();
+                }
+            });
+        }
+        
+        function updateBoatPosition() {
+            const boat = document.getElementById('boat');
+            if (boat) {
+                boat.style.left = boatPosition + '%';
+            }
+        }
+        
+        function setEnvironment(env) {
+            currentEnvironment = env;
+            const envData = environments[env];
+            
+            document.querySelector('.sky').style.background = envData.sky;
+            document.querySelector('.beach').style.background = envData.land;
+            document.querySelector('.water').style.background = envData.water;
+            
+            // Update buttons
+            document.querySelectorAll('.env-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.env === env);
+            });
+            
+            showToast(`Environment changed to ${env}!`, 'info');
+        }
+        
+        function setTool(tool) {
+            currentTool = tool;
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tool === tool);
+            });
+            
+            const baitBadge = document.getElementById('bait-badge');
+            if (tool === 'spear') {
+                baitBadge.textContent = '🔱 Direct strike!';
+            } else {
+                baitBadge.textContent = `Bait: ${baitTypes[currentBait].name}`;
+            }
+            
+            updateInstructions(tool === 'rod' ? 'Click water or fish to cast 🎣' : 'Click on a fish to throw spear! 🔱');
+        }
         
         function initializeFish() {
             allFish = [
@@ -872,7 +1272,7 @@
         function renderFish() {
             const container = document.getElementById('fish-container');
             container.innerHTML = allFish.map(fish => `
-                <div class="fish ${fish.size}" id="${fish.id}" style="left: ${fish.x}%; top: ${fish.y}%;">
+                <div class="fish ${fish.size}" id="${fish.id}" style="left: ${fish.x}%; top: ${fish.y}%;" onclick="handleFishClick(event, '${fish.id}')" title="Click to catch!">
                     <svg width="${fish.size === 'small' ? 32 : 56}" height="${fish.size === 'small' ? 24 : 42}" viewBox="0 0 48 36">
                         <g>
                             <ellipse cx="24" cy="18" rx="15" ry="10.5" fill="${fish.color}" />
@@ -888,6 +1288,73 @@
                     </svg>
                 </div>
             `).join('');
+        }
+        
+        function handleFishClick(event, fishId) {
+            event.stopPropagation();
+            if (isLineCast || isWaitingToReel) return;
+            
+            const fish = allFish.find(f => f.id === fishId);
+            if (!fish) return;
+            
+            if (currentTool === 'spear') {
+                throwSpear(fish.x, fish.y, fish);
+            } else {
+                // Auto-cast to fish location
+                castLine(fish.x, fish.y);
+                // Auto-reel after a short delay
+                setTimeout(() => {
+                    if (isWaitingToReel) reelIn();
+                }, 500);
+            }
+        }
+        
+        function throwSpear(x, y, targetFish) {
+            const spear = document.getElementById('spear');
+            spear.style.left = x + '%';
+            spear.style.top = y + '%';
+            spear.classList.add('thrown');
+            
+            updateInstructions('🔱 Spear thrown!');
+            
+            setTimeout(() => {
+                const bait = baitTypes[currentBait];
+                const catchChance = 0.7 * (targetFish.size === 'large' ? 1.2 : 1);
+                
+                if (Math.random() < catchChance) {
+                    catchFishWithSpear(targetFish);
+                } else {
+                    showToast('Missed! The fish got away...', 'error');
+                    spear.classList.remove('thrown');
+                    updateInstructions('Click on a fish to throw spear! 🔱');
+                }
+            }, 300);
+        }
+        
+        function catchFishWithSpear(fish) {
+            const fishEl = document.getElementById(fish.id);
+            const fishValue = fish.size === 'large' ? 2 : 1;
+            
+            fishEl.classList.add('caught');
+            
+            const phrase = catPhrases[Math.floor(Math.random() * catPhrases.length)];
+            showCatSpeech(phrase);
+            showToast(`Speared a ${fish.size} fish! 🎯🐟`, 'success');
+            
+            setTimeout(() => {
+                fishCount += fishValue;
+                money += fishValue * 2;
+                updateDisplay();
+                saveState();
+                createConfetti();
+                
+                // Reset
+                respawnFish(fish);
+                fishEl.classList.remove('caught');
+                document.getElementById('spear').classList.remove('thrown');
+                hideCatSpeech();
+                updateInstructions('Click on a fish to throw spear! 🔱');
+            }, 1500);
         }
         
         function startFishMovement() {
@@ -931,13 +1398,19 @@
             const x = ((event.clientX - rect.left) / rect.width) * 100;
             const y = ((event.clientY - rect.top) / rect.height) * 100;
             
+            // Can only fish in water (bottom half)
+            if (y < 50) {
+                showToast('You can only fish in the water!', 'info');
+                return;
+            }
+            
+            if (currentTool === 'spear') {
+                // Spear requires clicking on a fish directly
+                showToast('Click directly on a fish to throw your spear! 🔱', 'info');
+                return;
+            }
+            
             if (!isLineCast && !isWaitingToReel) {
-                // Can only fish in water (bottom half)
-                if (y < 50) {
-                    showToast('You can only fish in the water!', 'info');
-                    return;
-                }
-                
                 castLine(x, y);
             } else if (isWaitingToReel) {
                 reelIn();
@@ -1056,7 +1529,18 @@
         }
         
         function updateInstructions(text) {
-            document.getElementById('instructions').textContent = text;
+            const instructions = document.getElementById('instructions');
+            if (typeof text === 'string') {
+                instructions.innerHTML = `<div>${text}</div><div class="keyboard-hint">← → or A/D to move boat</div>`;
+            }
+        }
+        
+        function respawnFish(fish) {
+            // Respawn fish at a new random location
+            fish.x = 10 + Math.random() * 80;
+            fish.y = 55 + Math.random() * 40;
+            fish.direction = Math.random() * 360;
+            renderFish();
         }
         
         function updateDisplay() {
@@ -1117,8 +1601,13 @@
                 const btn = item.querySelector('.bait-btn');
                 const bait = baitTypes[baitId];
                 
+                if (!bait) return;
+                
+                // Update active state
+                item.classList.toggle('active', baitId === currentBait);
+                
                 if (baitId === currentBait) {
-                    btn.textContent = 'Using';
+                    btn.textContent = '✓ Using';
                     btn.className = 'bait-btn active';
                     btn.onclick = () => selectBait(baitId);
                 } else if (bait.price === 0) {
@@ -1126,14 +1615,16 @@
                     btn.className = 'bait-btn';
                     btn.onclick = () => selectBait(baitId);
                 } else {
-                    btn.textContent = `${bait.price} coins`;
+                    btn.textContent = `${bait.price} 🪙`;
                     btn.className = 'bait-btn';
                     btn.disabled = money < bait.price;
                     btn.onclick = () => buyBait(baitId, bait.price);
                 }
             });
             
-            document.getElementById('bait-badge').textContent = `Current Bait: ${baitTypes[currentBait].name}`;
+            if (currentTool === 'rod') {
+                document.getElementById('bait-badge').textContent = `Bait: ${baitTypes[currentBait].name}`;
+            }
         }
         
         function saveState() {
@@ -1186,7 +1677,20 @@
         }
     </script>
     <footer style="background: #1a1a2e; color: white; padding: 20px; text-align: center; margin-top: 40px;">
-        <p style="margin: 0; opacity: 0.8;">Made with ❤️ by Tech Explorers | <a href="../index.html" style="color: #06d6a0;">Home</a> | <a href="../activities/all-activities.html" style="color: #06d6a0;">More Activities</a></p>
+        <p style="margin: 0 0 10px 0; opacity: 0.8;">Made with ❤️ by Tech Explorers | <a href="../index.html" style="color: #06d6a0;">Home</a> | <a href="../activities/all-activities.html" style="color: #06d6a0;">More Activities</a></p>
+        <p style="margin: 0; font-size: 0.8rem; opacity: 0.6;">
+            <span style="font-family: monospace; background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 5px;">🐱 Purrfect Catch v<span id="commit-hash"></span></span>
+            <span style="margin: 0 10px;">•</span>
+            <span>Built <span id="build-date"></span></span>
+            <span style="margin: 0 10px;">•</span>
+            <a href="" id="github-link" target="_blank" rel="noopener noreferrer" style="color: #06d6a0;">View on GitHub</a>
+        </p>
     </footer>
+    <script>
+        // Populate build info
+        document.getElementById('commit-hash').textContent = BUILD_INFO.commitHash;
+        document.getElementById('build-date').textContent = BUILD_INFO.buildDate;
+        document.getElementById('github-link').href = `https://github.com/garcia-lab/tech-explorers/commit/${BUILD_INFO.commitHash}`;
+    </script>
 </body>
 </html>
