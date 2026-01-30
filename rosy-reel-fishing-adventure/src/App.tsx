@@ -6,6 +6,12 @@ import { Badge } from '@/components/ui/badge'
 import { Fish, Coins, ShoppingBag } from '@phosphor-icons/react'
 import { toast, Toaster } from 'sonner'
 
+// Build information - updated on each commit
+const BUILD_INFO = {
+  commitHash: 'c4d1254',
+  buildDate: '2026-01-30'
+}
+
 interface BaitType {
   id: string
   name: string
@@ -1370,6 +1376,24 @@ function App() {
               </Card>
             </div>
           </div>
+          
+          {/* Footer with build info */}
+          <footer className="text-center text-xs text-muted-foreground/60 py-4 border-t border-border/30">
+            <span className="font-mono bg-secondary/30 px-2 py-1 rounded">
+              🐱 Purrfect Catch v{BUILD_INFO.commitHash}
+            </span>
+            <span className="mx-2">•</span>
+            <span>Built {BUILD_INFO.buildDate}</span>
+            <span className="mx-2">•</span>
+            <a 
+              href={`https://github.com/garcia-lab/tech-explorers/commit/${BUILD_INFO.commitHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-accent underline"
+            >
+              View on GitHub
+            </a>
+          </footer>
         </div>
       </div>
       <Toaster />
