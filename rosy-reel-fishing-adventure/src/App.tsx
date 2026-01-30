@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,7 +14,7 @@ interface BaitType {
   catchRate: number
 }
 
-interface Fish {
+interface FishType {
   id: string
   x: number
   y: number
@@ -23,6 +23,8 @@ interface Fish {
   speed: number
   direction: number
 }
+
+type FishingTool = 'rod' | 'spear'
 
 const baitTypes: BaitType[] = [
   { id: 'worm', name: 'Worm', price: 0, size: 1, catchRate: 0.3 },
@@ -57,9 +59,10 @@ function App() {
   const [currentBait, setCurrentBait] = useKV<BaitType>('currentBait', baitTypes[0])
   
   const [isLineCast, setIsLineCast] = useState(false)
+  const [boatPosition, setBoatPosition] = useState(50) // Boat X position (percentage)
   const [linePosition, setLinePosition] = useState({ x: 50, y: 80 })
   const [fishPosition, setFishPosition] = useState({ x: 50, y: 70 })
-  const [allFish, setAllFish] = useState<Fish[]>([])
+  const [allFish, setAllFish] = useState<FishType[]>([])
   const [showShop, setShowShop] = useState(false)
   const [catchAnimation, setCatchAnimation] = useState(false)
   const [isWaitingToReel, setIsWaitingToReel] = useState(false)
@@ -67,10 +70,39 @@ function App() {
   const [showSpeech, setShowSpeech] = useState(false)
   const [caughtFishId, setCaughtFishId] = useState<string | null>(null)
   const [fishFightStage, setFishFightStage] = useState<'fighting' | 'caught' | 'reeling' | null>(null)
+  const [fishingTool, setFishingTool] = useState<FishingTool>('rod')
+  const [spearPosition, setSpearPosition] = useState<{ x: number; y: number } | null>(null)
+  const [isSpearThrown, setIsSpearThrown] = useState(false)
+  const gameAreaRef = useRef<HTMLDivElement>(null)
+
+  // Keyboard controls for boat movement
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (fishFightStage) return // Don't move boat while catching fish
+      
+      const moveSpeed = 3
+      if (e.key === 'ArrowLeft') {
+        setBoatPosition(prev => Math.max(10, prev - moveSpeed))
+        // Update line position to follow boat if not cast
+        if (!isLineCast) {
+          setLinePosition(prev => ({ ...prev, x: Math.max(10, prev.x - moveSpeed) }))
+        }
+      } else if (e.key === 'ArrowRight') {
+        setBoatPosition(prev => Math.min(90, prev + moveSpeed))
+        // Update line position to follow boat if not cast
+        if (!isLineCast) {
+          setLinePosition(prev => ({ ...prev, x: Math.min(90, prev.x + moveSpeed) }))
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isLineCast, fishFightStage])
 
   // Initialize all fish
   useEffect(() => {
-    const initialFish: Fish[] = [
+    const initialFish: FishType[] = [
       // Main pink fish - keep in water area (bottom half)
       { id: 'pink-main', x: 50, y: 70, size: 'large', color: '#ff69b4', speed: 1, direction: 0 },
       // 4 small fish - all in water area (bottom half of screen)
@@ -129,51 +161,61 @@ function App() {
     return () => clearInterval(moveAllFish)
   }, [allFish])
 
-  const handleFishingClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!isLineCast && !isWaitingToReel) {
-      // Cast the line to where the user clicked
-      const rect = event.currentTarget.getBoundingClientRect()
-      const x = ((event.clientX - rect.left) / rect.width) * 100
-      const y = ((event.clientY - rect.top) / rect.height) * 100
+  // Helper function to catch a fish
+  const attemptCatch = useCallback((targetX: number, targetY: number, isSpear: boolean = false) => {
+    // Check if we caught any fish
+    const catchRadius = isSpear ? 10 : 15 // Spear is more precise
+    const caughtFish = allFish.find(fish => {
+      const distance = Math.abs(fish.x - targetX) + Math.abs(fish.y - targetY)
+      const baseRadius = fish.size === 'small' ? catchRadius : catchRadius + 10
+      return distance < baseRadius
+    })
+    
+    if (caughtFish) {
+      const bait = currentBait || baitTypes[0]
+      const sizeBonus = caughtFish.size === 'large' ? 1.5 : 1
+      // Spear has higher catch rate but requires more skill (smaller target)
+      const toolBonus = isSpear ? 1.3 : 1
+      const catchChance = bait.catchRate * sizeBonus * toolBonus
       
-      // Only allow fishing in water area (bottom half of screen)
-      const isInWater = y >= 50
-      if (!isInWater) {
-        toast('You can only fish in the water!')
-        return
-      }
-      
-      setIsLineCast(true)
-      setLinePosition({ x, y })
-      setIsWaitingToReel(true)
-    } else if (isWaitingToReel) {
-      // Reel in the line
-      setIsWaitingToReel(false)
-      
-      // Check if we caught any fish
-      const caughtFish = allFish.find(fish => {
-        const distance = Math.abs(fish.x - linePosition.x) + Math.abs(fish.y - linePosition.y)
-        return distance < (fish.size === 'small' ? 15 : 25)
-      })
-      
-      if (caughtFish) {
-        const bait = currentBait || baitTypes[0]
-        const sizeBonus = caughtFish.size === 'large' ? 1.5 : 1
-        const catchChance = bait.catchRate * sizeBonus
+      if (Math.random() < catchChance) {
+        const fishValue = caughtFish.size === 'large' ? 2 : 1
+        setCaughtFishId(caughtFish.id)
+        setLinePosition({ x: targetX, y: targetY })
         
-        if (Math.random() < catchChance) {
-          const fishValue = caughtFish.size === 'large' ? 2 : 1
-          setCaughtFishId(caughtFish.id)
+        if (isSpear) {
+          // Spear catch is faster and more dramatic
+          setFishFightStage('caught')
+          setCatchAnimation(true)
           
-          // Start the fighting animation sequence
+          const randomPhrase = sillyCatPhrases[Math.floor(Math.random() * sillyCatPhrases.length)]
+          setCatSpeech(randomPhrase)
+          setShowSpeech(true)
+          
+          const fishType = caughtFish.size === 'large' ? 'big fish' : 'small fish'
+          toast.success(`Speared a ${fishType}! 🎯🐟`)
+          
+          setTimeout(() => {
+            setFishFightStage('reeling')
+          }, 1000)
+          
+          setTimeout(() => {
+            setFishCount(current => (current || 0) + fishValue)
+            setCatchAnimation(false)
+            setShowSpeech(false)
+            setCaughtFishId(null)
+            setFishFightStage(null)
+            setIsSpearThrown(false)
+            setSpearPosition(null)
+          }, 2500)
+        } else {
+          // Normal rod fishing animation sequence
           setFishFightStage('fighting')
           
-          // After 1.5 seconds of fighting, fish gets caught
           setTimeout(() => {
             setFishFightStage('caught')
             setCatchAnimation(true)
             
-            // Show cat speech
             const randomPhrase = sillyCatPhrases[Math.floor(Math.random() * sillyCatPhrases.length)]
             setCatSpeech(randomPhrase)
             setShowSpeech(true)
@@ -182,12 +224,10 @@ function App() {
             toast.success(`Caught a ${fishType}! 🐟`)
           }, 1500)
           
-          // After another 1 second, start reeling animation
           setTimeout(() => {
             setFishFightStage('reeling')
           }, 2500)
           
-          // Complete the catch after reeling animation
           setTimeout(() => {
             setFishCount(current => (current || 0) + fishValue)
             setCatchAnimation(false)
@@ -195,20 +235,101 @@ function App() {
             setCaughtFishId(null)
             setFishFightStage(null)
           }, 4000)
-        } else {
-          toast('The fish got away...')
         }
+        return true
       } else {
-        toast('No fish near your hook!')
+        toast('The fish got away...')
+        return false
       }
+    } else {
+      toast(isSpear ? 'Missed! Try again!' : 'No fish near your hook!')
+      return false
+    }
+  }, [allFish, currentBait, setFishCount])
+
+  const handleFishingClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (fishFightStage) return // Don't allow new casts while catching
+    
+    const rect = event.currentTarget.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / rect.width) * 100
+    const y = ((event.clientY - rect.top) / rect.height) * 100
+    
+    // Only allow fishing in water area (bottom half of screen)
+    const isInWater = y >= 50
+    if (!isInWater) {
+      toast('You can only fish in the water!')
+      return
+    }
+    
+    if (fishingTool === 'spear') {
+      // Spear fishing - instant action, throw spear at target
+      if (!isSpearThrown) {
+        setIsSpearThrown(true)
+        setSpearPosition({ x, y })
+        
+        // Animate spear throw and check for catch
+        setTimeout(() => {
+          attemptCatch(x, y, true)
+          if (!caughtFishId) {
+            // Reset spear if no catch
+            setTimeout(() => {
+              setIsSpearThrown(false)
+              setSpearPosition(null)
+            }, 500)
+          }
+        }, 300)
+      }
+    } else {
+      // Rod fishing - cast and reel
+      if (!isLineCast && !isWaitingToReel) {
+        // Cast the line to where the user clicked
+        setIsLineCast(true)
+        setLinePosition({ x, y })
+        setIsWaitingToReel(true)
+      } else if (isWaitingToReel) {
+        // Reel in the line
+        setIsWaitingToReel(false)
+        attemptCatch(linePosition.x, linePosition.y, false)
+        setIsLineCast(false)
+        setLinePosition({ x: boatPosition, y: 80 })
+      }
+    }
+  }
+
+  // Handle clicking directly on a fish for better UX
+  const handleFishClick = (fish: FishType, event: React.MouseEvent) => {
+    event.stopPropagation()
+    if (fishFightStage) return
+    
+    if (fishingTool === 'spear') {
+      setIsSpearThrown(true)
+      setSpearPosition({ x: fish.x, y: fish.y })
       
-      setIsLineCast(false)
-      setLinePosition({ x: 50, y: 80 })
+      setTimeout(() => {
+        attemptCatch(fish.x, fish.y, true)
+        if (!caughtFishId) {
+          setTimeout(() => {
+            setIsSpearThrown(false)
+            setSpearPosition(null)
+          }, 500)
+        }
+      }, 300)
+    } else {
+      // Auto-cast and catch when clicking directly on fish
+      setIsLineCast(true)
+      setLinePosition({ x: fish.x, y: fish.y })
+      
+      // Small delay to show the line going to fish, then auto-reel
+      setTimeout(() => {
+        attemptCatch(fish.x, fish.y, false)
+        setIsLineCast(false)
+        setLinePosition({ x: boatPosition, y: 80 })
+      }, 500)
     }
   }
 
   // Fish rendering component
-  const renderFish = (fish: Fish) => {
+  const renderFish = (fish: FishType) => {
     const scale = fish.size === 'small' ? 0.6 : 1.2
     const width = fish.size === 'small' ? 32 : 56
     const height = fish.size === 'small' ? 24 : 42
@@ -217,7 +338,8 @@ function App() {
     let fishStyle: React.CSSProperties = { 
       left: `${fish.x}%`, 
       top: `${fish.y}%`,
-      transform: `scale(${scale})`
+      transform: `scale(${scale})`,
+      cursor: fishFightStage ? 'default' : 'pointer'
     }
     
     let fishClasses = "absolute fish-float transition-all duration-300"
@@ -236,7 +358,7 @@ function App() {
       } else if (fishFightStage === 'reeling') {
         // Fish gets reeled up to the cat
         fishClasses += " transition-all duration-1000 ease-out"
-        fishStyle.left = `${linePosition.x}%`
+        fishStyle.left = `${boatPosition}%`
         fishStyle.top = "8%"
         fishStyle.transform = `scale(${scale * 0.8}) rotate(-10deg)`
       }
@@ -247,6 +369,8 @@ function App() {
         key={fish.id}
         className={fishClasses}
         style={fishStyle}
+        onClick={(e) => handleFishClick(fish, e)}
+        title="Click to catch!"
       >
         <svg width={width} height={height} viewBox="0 0 48 36" className="cute-fish">
           <g>
@@ -395,8 +519,15 @@ function App() {
               <Card className="bg-card border-border">
                 <CardContent className="p-6">
                   <div 
+                    ref={gameAreaRef}
                     className="relative w-full h-96 bg-gradient-to-b from-blue-200 via-blue-300 to-blue-700 rounded-lg cursor-pointer overflow-visible"
                     onClick={handleFishingClick}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                        e.preventDefault()
+                      }
+                    }}
                   >
                     {/* Sky with clouds - in the very back, covers top third */}
                     <div className="absolute top-0 left-0 w-full bg-gradient-to-b from-blue-100 to-blue-200 rounded-t-lg z-0" style={{height: '33.33%'}}>
@@ -687,9 +818,9 @@ function App() {
                     
                     {/* Cat fishing in boat on the water */}
                     <div 
-                      className="absolute transition-all duration-300 z-10"
+                      className="absolute transition-all duration-150 z-10"
                       style={{ 
-                        left: `${linePosition.x}%`,
+                        left: `${boatPosition}%`,
                         transform: 'translateX(-50%)',
                         top: '160px'
                       }}
@@ -708,37 +839,94 @@ function App() {
                         </div>
                       )}
                       
-                      {/* Larger fishing boat */}
-                      <svg width="160" height="100" viewBox="0 0 160 100" className="absolute -translate-x-1/2" style={{top: '0px', left: '50%'}}>
-                        {/* Boat shadow/reflection in water */}
-                        <ellipse cx="80" cy="90" rx="55" ry="8" fill="rgba(0,0,0,0.2)" />
+                      {/* Realistic fishing boat */}
+                      <svg width="160" height="100" viewBox="0 0 160 100" className="absolute -translate-x-1/2 boat-bob" style={{top: '0px', left: '50%'}}>
+                        {/* Water reflection/shadow */}
+                        <ellipse cx="80" cy="92" rx="60" ry="6" fill="rgba(0,50,100,0.3)" />
                         
-                        {/* Boat hull - larger and more detailed */}
-                        <path d="M15 70 Q15 58 28 58 L132 58 Q145 58 145 70 L140 82 Q140 88 132 88 L28 88 Q20 88 20 82 Z" fill="#8B4513" stroke="#654321" strokeWidth="2"/>
+                        {/* Boat hull - realistic wooden design */}
+                        <defs>
+                          <linearGradient id="hullGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#A0522D" />
+                            <stop offset="50%" stopColor="#8B4513" />
+                            <stop offset="100%" stopColor="#654321" />
+                          </linearGradient>
+                          <linearGradient id="deckGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#DEB887" />
+                            <stop offset="100%" stopColor="#D2691E" />
+                          </linearGradient>
+                        </defs>
                         
-                        {/* Boat interior */}
-                        <path d="M28 63 Q28 60 32 60 L128 60 Q132 60 132 63 L132 75 Q132 78 128 78 L32 78 Q28 78 28 75 Z" fill="#D2691E"/>
+                        {/* Main hull with curved bow */}
+                        <path d="M18 68 Q12 68 15 75 L22 85 Q25 88 35 88 L125 88 Q135 88 138 85 L145 75 Q148 68 142 68 L18 68" 
+                              fill="url(#hullGradient)" stroke="#4a3728" strokeWidth="1.5"/>
                         
-                        {/* Boat details */}
-                        <circle cx="35" cy="70" r="2.5" fill="#654321"/>
-                        <circle cx="125" cy="70" r="2.5" fill="#654321"/>
-                        <rect x="40" y="75" width="80" height="2" fill="#654321" rx="1"/>
+                        {/* Hull planks (horizontal lines for wood texture) */}
+                        <path d="M20 72 L140 72" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
+                        <path d="M19 76 L141 76" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
+                        <path d="M22 80 L138 80" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
+                        <path d="M26 84 L134 84" stroke="#654321" strokeWidth="0.5" opacity="0.6"/>
                         
-                        {/* Boat bow decoration */}
-                        <path d="M132 63 Q138 65 140 70 Q138 75 132 78" fill="#A0522D" stroke="#654321" strokeWidth="1"/>
+                        {/* Deck surface */}
+                        <path d="M22 68 L138 68 L140 64 Q140 60 135 60 L25 60 Q20 60 20 64 Z" 
+                              fill="url(#deckGradient)" stroke="#8B4513" strokeWidth="1"/>
                         
-                        {/* Mast - taller */}
-                        <line x1="80" y1="58" x2="80" y2="15" stroke="#8B4513" strokeWidth="4"/>
+                        {/* Deck planks (vertical wood grain) */}
+                        <line x1="40" y1="60" x2="40" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
+                        <line x1="60" y1="60" x2="60" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
+                        <line x1="80" y1="60" x2="80" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
+                        <line x1="100" y1="60" x2="100" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
+                        <line x1="120" y1="60" x2="120" y2="68" stroke="#A0522D" strokeWidth="0.5" opacity="0.5"/>
                         
-                        {/* Larger sail */}
-                        <path d="M82 15 L82 50 L115 35 Q118 32 115 28 L82 15" fill="#FFF8DC" stroke="#DDD" strokeWidth="1"/>
+                        {/* Gunwale (top edge trim) */}
+                        <path d="M22 60 Q20 58 25 58 L135 58 Q140 58 138 60" 
+                              fill="none" stroke="#5D4037" strokeWidth="2" strokeLinecap="round"/>
                         
-                        {/* Sail details */}
-                        <line x1="85" y1="20" x2="110" y2="30" stroke="#DDD" strokeWidth="0.5"/>
-                        <line x1="85" y1="30" x2="110" y2="40" stroke="#DDD" strokeWidth="0.5"/>
+                        {/* Bow decoration */}
+                        <path d="M138 64 Q145 64 148 70 Q145 76 138 76" fill="#6D4C41" stroke="#4a3728" strokeWidth="1"/>
+                        <circle cx="143" cy="70" r="2" fill="#FFD700" stroke="#DAA520" strokeWidth="0.5"/>
                         
-                        {/* Flag on mast */}
-                        <polygon points="80,15 85,18 80,21" fill="#ff4444"/>
+                        {/* Stern decoration */}
+                        <path d="M22 64 Q15 64 12 70 Q15 76 22 76" fill="#6D4C41" stroke="#4a3728" strokeWidth="1"/>
+                        
+                        {/* Wooden mast */}
+                        <rect x="77" y="20" width="6" height="40" fill="#8B4513" stroke="#654321" strokeWidth="1" rx="1"/>
+                        
+                        {/* Mast top cap */}
+                        <circle cx="80" cy="18" r="4" fill="#A0522D" stroke="#654321" strokeWidth="1"/>
+                        
+                        {/* Sail with cloth texture */}
+                        <defs>
+                          <linearGradient id="sailGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#FFFAF0" />
+                            <stop offset="50%" stopColor="#FFF8DC" />
+                            <stop offset="100%" stopColor="#FAF0E6" />
+                          </linearGradient>
+                        </defs>
+                        <path d="M83 20 L83 52 Q95 48 110 38 Q115 34 112 28 L83 20" 
+                              fill="url(#sailGradient)" stroke="#DDD" strokeWidth="1"/>
+                        
+                        {/* Sail stitching lines */}
+                        <line x1="85" y1="25" x2="105" y2="32" stroke="#E0E0E0" strokeWidth="0.5"/>
+                        <line x1="85" y1="35" x2="108" y2="40" stroke="#E0E0E0" strokeWidth="0.5"/>
+                        <line x1="85" y1="45" x2="100" y2="46" stroke="#E0E0E0" strokeWidth="0.5"/>
+                        
+                        {/* Red pennant flag */}
+                        <polygon points="80,14 90,17 80,20" fill="#DC143C" stroke="#B22222" strokeWidth="0.5"/>
+                        
+                        {/* Rope details */}
+                        <path d="M83 52 L90 58" stroke="#8B7355" strokeWidth="1" strokeLinecap="round"/>
+                        <path d="M112 28 L125 58" stroke="#8B7355" strokeWidth="1" strokeLinecap="round"/>
+                        
+                        {/* Small anchor on side */}
+                        <g transform="translate(30, 62)">
+                          <path d="M0 0 L0 6 M-3 6 L3 6 M0 6 L-2 10 M0 6 L2 10" 
+                                stroke="#696969" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+                          <circle cx="0" cy="-1" r="1.5" fill="none" stroke="#696969" strokeWidth="1"/>
+                        </g>
+                        
+                        {/* Fishing equipment box */}
+                        <rect x="42" y="60" width="12" height="6" fill="#8B7355" stroke="#654321" strokeWidth="0.5" rx="1"/>
                       </svg>
                       
                       <svg width="80" height="80" viewBox="0 0 80 80" className={`transition-transform duration-300 relative ${isLineCast ? 'rotate-12' : ''} ${isWaitingToReel || fishFightStage ? 'cat-fishing' : ''} ${fishFightStage === 'fighting' ? 'scale-110' : ''}`} style={{top: '15px'}}>
@@ -780,40 +968,116 @@ function App() {
                         {/* Cat tail with wagging animation */}
                         <ellipse cx="62" cy="50" rx="10" ry="5" fill="#f97316" className={isWaitingToReel || fishFightStage ? 'tail-wag' : ''} style={{transformOrigin: '52px 55px'}} />
                         
-                        {/* Fishing rod in paw */}
-                        <line x1="50" y1="60" x2="56" y2="42" stroke="#8b4513" strokeWidth="3" strokeLinecap="round" />
-                        <circle cx="56" cy="42" r="1.5" fill="#8b4513" />
+                        {/* Fishing tool - rod or spear based on selection */}
+                        {fishingTool === 'rod' ? (
+                          <>
+                            {/* Fishing rod in paw */}
+                            <line x1="50" y1="60" x2="56" y2="42" stroke="#8b4513" strokeWidth="3" strokeLinecap="round" />
+                            <circle cx="56" cy="42" r="1.5" fill="#8b4513" />
+                            {/* Reel */}
+                            <circle cx="52" cy="55" r="3" fill="#696969" stroke="#555" strokeWidth="0.5"/>
+                          </>
+                        ) : (
+                          <>
+                            {/* Spear in paw */}
+                            <line x1="50" y1="60" x2="62" y2="35" stroke="#5D4037" strokeWidth="3" strokeLinecap="round" />
+                            {/* Spear head */}
+                            <path d="M62 35 L58 28 L62 20 L66 28 Z" fill="#C0C0C0" stroke="#808080" strokeWidth="0.5"/>
+                            {/* Spear binding */}
+                            <rect x="60" y="32" width="4" height="4" fill="#8B4513" rx="1"/>
+                          </>
+                        )}
                       </svg>
+                      
+                      {/* Thrown spear animation */}
+                      {isSpearThrown && spearPosition && (
+                        <svg 
+                          width="30" 
+                          height="60" 
+                          viewBox="0 0 30 60" 
+                          className="absolute spear-throw z-30"
+                          style={{
+                            left: `${((spearPosition.x - boatPosition) / 100) * 400 + 80}px`,
+                            top: `${((spearPosition.y - 42) / 100) * 384}px`,
+                            transform: 'rotate(15deg)'
+                          }}
+                        >
+                          {/* Spear shaft */}
+                          <line x1="15" y1="10" x2="15" y2="55" stroke="#5D4037" strokeWidth="3" strokeLinecap="round" />
+                          {/* Spear head */}
+                          <path d="M15 10 L10 0 L15 -5 L20 0 Z" fill="#C0C0C0" stroke="#808080" strokeWidth="0.5"/>
+                          {/* Motion lines */}
+                          <line x1="8" y1="20" x2="5" y2="25" stroke="#87CEEB" strokeWidth="1" opacity="0.6"/>
+                          <line x1="22" y1="25" x2="25" y2="30" stroke="#87CEEB" strokeWidth="1" opacity="0.6"/>
+                          <line x1="8" y1="35" x2="5" y2="40" stroke="#87CEEB" strokeWidth="1" opacity="0.6"/>
+                        </svg>
+                      )}
                     </div>
                     
                     {/* Render all fish */}
                     {allFish.map(fish => renderFish(fish))}
                     
-                    <div className={`absolute top-0 w-1 bg-amber-800 transition-all duration-300 ${fishFightStage === 'fighting' ? 'animate-pulse bg-red-600' : ''}`} 
-                         style={{ 
-                           left: `${linePosition.x}%`,
-                           height: `${linePosition.y - 40}%`, 
-                           transform: 'translateX(-50%)',
-                           top: '215px'
-                         }}>
-                      {isLineCast && (
-                        <div 
-                          className={`absolute bottom-0 left-1/2 w-3 h-3 bg-gray-400 rounded-full ${fishFightStage === 'fighting' ? 'animate-ping' : ''}`}
-                          style={{ transform: 'translateX(-50%) translateY(50%)' }}
-                        ></div>
-                      )}
+                    {/* Fishing line - only show for rod fishing */}
+                    {fishingTool === 'rod' && (
+                      <div className={`absolute top-0 w-1 bg-amber-800 transition-all duration-300 ${fishFightStage === 'fighting' ? 'animate-pulse bg-red-600' : ''}`} 
+                           style={{ 
+                             left: `${isLineCast ? linePosition.x : boatPosition}%`,
+                             height: isLineCast ? `${linePosition.y - 40}%` : '10%', 
+                             transform: 'translateX(-50%)',
+                             top: '215px'
+                           }}>
+                        {isLineCast && (
+                          <div 
+                            className={`absolute bottom-0 left-1/2 w-3 h-3 bg-gray-400 rounded-full ${fishFightStage === 'fighting' ? 'animate-ping' : ''}`}
+                            style={{ transform: 'translateX(-50%) translateY(50%)' }}
+                          ></div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Instructions and controls hint */}
+                    <div className="absolute bottom-4 left-4 text-white/90 text-sm bg-black/30 rounded-lg px-3 py-2">
+                      <div className="font-medium">
+                        {!isLineCast && !isWaitingToReel && !isSpearThrown ? 
+                          (fishingTool === 'rod' ? '🎣 Click water or fish to cast' : '🔱 Click on a fish to throw spear') : 
+                         isWaitingToReel && !fishFightStage ? '🎣 Click again to reel in!' : 
+                         fishFightStage === 'fighting' ? '🐟 Fish is fighting back!' :
+                         fishFightStage === 'reeling' ? '✨ Reeling in your catch!' : 
+                         isSpearThrown ? '🔱 Spear thrown!' : 'Reeling in...'}
+                      </div>
+                      <div className="text-xs opacity-80 mt-1">← → Arrow keys to move boat</div>
+                    </div>
                     </div>
                     
-                    <div className="absolute bottom-4 left-4 text-white/80 text-sm">
-                      {!isLineCast && !isWaitingToReel ? 'Click to cast your line' : 
-                       isWaitingToReel && !fishFightStage ? 'Click again to reel in!' : 
-                       fishFightStage === 'fighting' ? 'Fish is fighting back!' :
-                       fishFightStage === 'reeling' ? 'Reeling in your catch!' : 'Reeling in...'}
-                    </div>
-                    
-                    <div className="absolute top-4 right-4">
+                    <div className="absolute top-4 right-4 flex flex-col gap-2">
+                      {/* Fishing tool selector */}
+                      <div className="flex gap-1 bg-white/90 rounded-lg p-1 shadow-md">
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setFishingTool('rod'); }}
+                          className={`px-2 py-1 rounded text-xs font-medium transition-all ${
+                            fishingTool === 'rod' 
+                              ? 'bg-blue-500 text-white shadow-sm' 
+                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          }`}
+                          title="Fishing Rod - Cast and reel"
+                        >
+                          🎣 Rod
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setFishingTool('spear'); }}
+                          className={`px-2 py-1 rounded text-xs font-medium transition-all ${
+                            fishingTool === 'spear' 
+                              ? 'bg-orange-500 text-white shadow-sm' 
+                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          }`}
+                          title="Spear - Quick and precise"
+                        >
+                          🔱 Spear
+                        </button>
+                      </div>
+                      
                       <Badge variant="secondary" className="bg-secondary/80">
-                        Current Bait: {currentBait?.name || 'Worm'}
+                        {fishingTool === 'rod' ? `Bait: ${currentBait?.name || 'Worm'}` : 'Direct strike!'}
                       </Badge>
                     </div>
                   </div>
