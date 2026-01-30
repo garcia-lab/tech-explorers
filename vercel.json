@@ -14,6 +14,193 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/01-meet-the-computer",
+      "destination": "/adventures/01-meet-the-computer",
+      "permanent": true
+    },
+    {
+      "source": "/02-html-hero",
+      "destination": "/adventures/02-html-hero",
+      "permanent": true
+    },
+    {
+      "source": "/03-css-artist",
+      "destination": "/adventures/03-css-artist",
+      "permanent": true
+    },
+    {
+      "source": "/04-javascript-wizard",
+      "destination": "/adventures/04-javascript-wizard",
+      "permanent": true
+    },
+    {
+      "source": "/05-ai-explorer",
+      "destination": "/adventures/05-ai-explorer",
+      "permanent": true
+    },
+    {
+      "source": "/meet-the-computer",
+      "destination": "/adventures/01-meet-the-computer",
+      "permanent": true
+    },
+    {
+      "source": "/html-hero",
+      "destination": "/adventures/02-html-hero",
+      "permanent": true
+    },
+    {
+      "source": "/css-artist",
+      "destination": "/adventures/03-css-artist",
+      "permanent": true
+    },
+    {
+      "source": "/javascript-wizard",
+      "destination": "/adventures/04-javascript-wizard",
+      "permanent": true
+    },
+    {
+      "source": "/ai-explorer",
+      "destination": "/adventures/05-ai-explorer",
+      "permanent": true
+    },
+    {
+      "source": "/html-playground",
+      "destination": "/playground/html-playground",
+      "permanent": true
+    },
+    {
+      "source": "/css-playground",
+      "destination": "/playground/css-playground",
+      "permanent": true
+    },
+    {
+      "source": "/js-playground",
+      "destination": "/playground/js-playground",
+      "permanent": true
+    },
+    {
+      "source": "/project-builder",
+      "destination": "/playground/project-builder",
+      "permanent": true
+    },
+    {
+      "source": "/pixel-art",
+      "destination": "/games/pixel-art",
+      "permanent": true
+    },
+    {
+      "source": "/memory-match",
+      "destination": "/games/memory-match",
+      "permanent": true
+    },
+    {
+      "source": "/typing-race",
+      "destination": "/games/typing-race",
+      "permanent": true
+    },
+    {
+      "source": "/rosy-reel",
+      "destination": "/games/rosy-reel",
+      "permanent": true
+    },
+    {
+      "source": "/avatar-builder",
+      "destination": "/games/avatar-builder",
+      "permanent": true
+    },
+    {
+      "source": "/animation-studio",
+      "destination": "/games/animation-studio",
+      "permanent": true
+    },
+    {
+      "source": "/code-puzzle",
+      "destination": "/games/code-puzzle",
+      "permanent": true
+    },
+    {
+      "source": "/bug-hunter",
+      "destination": "/games/bug-hunter",
+      "permanent": true
+    },
+    {
+      "source": "/story-creator",
+      "destination": "/games/story-creator",
+      "permanent": true
+    },
+    {
+      "source": "/game-maker",
+      "destination": "/games/game-maker",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio-builder",
+      "destination": "/games/portfolio-builder",
+      "permanent": true
+    },
+    {
+      "source": "/emoji-art",
+      "destination": "/games/emoji-art",
+      "permanent": true
+    },
+    {
+      "source": "/button-designer",
+      "destination": "/games/button-designer",
+      "permanent": true
+    },
+    {
+      "source": "/color-mixer",
+      "destination": "/games/color-mixer",
+      "permanent": true
+    },
+    {
+      "source": "/maze-runner",
+      "destination": "/games/maze-runner",
+      "permanent": true
+    },
+    {
+      "source": "/robot-commander",
+      "destination": "/games/robot-commander",
+      "permanent": true
+    },
+    {
+      "source": "/keyboard-ninja",
+      "destination": "/games/keyboard-ninja",
+      "permanent": true
+    },
+    {
+      "source": "/binary-lab",
+      "destination": "/games/binary-lab",
+      "permanent": true
+    },
+    {
+      "source": "/algorithm-adventure",
+      "destination": "/games/algorithm-adventure",
+      "permanent": true
+    },
+    {
+      "source": "/website-builder",
+      "destination": "/games/website-builder",
+      "permanent": true
+    },
+    {
+      "source": "/all-activities",
+      "destination": "/activities/all-activities",
+      "permanent": true
+    },
+    {
+      "source": "/guide",
+      "destination": "/teacher/guide",
+      "permanent": true
+    },
+    {
+      "source": "/teacher-guide",
+      "destination": "/teacher/guide",
+      "permanent": true
+    }
+  ],
   "cleanUrls": true,
   "trailingSlash": false
 }
