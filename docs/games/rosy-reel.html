@@ -709,19 +709,20 @@
             filter: brightness(1.1);
         }
         
-        /* Fish container - must be positioned for fish to show */
+        /* Fish container - must span entire pond for fish coordinates to work */
         #fish-container {
             position: absolute;
-            top: 50%;
+            top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            z-index: 30;
+            z-index: 35;
             pointer-events: none;
         }
         
         #fish-container .fish {
             pointer-events: auto;
+            cursor: pointer;
         }
         
         /* Shark styles */
@@ -1525,6 +1526,12 @@
                     e.preventDefault();
                     boatPosition = Math.max(15, Math.min(85, boatPosition + moveSpeed));
                     updateBoatPosition();
+                } else if (e.key === 'y' || e.key === 'Y') {
+                    // Secret cheat code! Shhh... 🤫
+                    money += 100;
+                    saveState();
+                    updateDisplay();
+                    showToast('💰 Found treasure! +100 coins!', 'success');
                 }
             });
         }
