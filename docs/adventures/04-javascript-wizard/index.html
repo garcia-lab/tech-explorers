@@ -489,6 +489,13 @@
     </footer>
 
     <script>
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
         // Magic box demos
         const colors = ['#f72585', '#7209b7', '#4361ee', '#06d6a0', '#ffd166', '#e74c3c'];
         let colorIndex = 0;
@@ -553,11 +560,12 @@
                 output.innerHTML = '👆 Please type your name first!';
                 output.style.color = '#f72585';
             } else {
+                const safeName = escapeHtml(name);
                 const greetings = [
-                    `Hello, ${name}! 👋`,
-                    `Nice to meet you, ${name}! 🎉`,
-                    `Welcome, ${name}! ⭐`,
-                    `Hey there, ${name}! You're awesome! 🚀`
+                    `Hello, ${safeName}! 👋`,
+                    `Nice to meet you, ${safeName}! 🎉`,
+                    `Welcome, ${safeName}! ⭐`,
+                    `Hey there, ${safeName}! You're awesome! 🚀`
                 ];
                 output.innerHTML = greetings[Math.floor(Math.random() * greetings.length)];
                 output.style.color = '#06d6a0';

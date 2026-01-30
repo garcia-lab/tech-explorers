@@ -398,6 +398,13 @@
         
         let currentLevel = 'html';
         let currentText = '';
+        
+        // Escape HTML entities for display
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
         let typedText = '';
         let startTime = null;
         let timerInterval = null;
@@ -441,7 +448,7 @@
             let html = '';
             
             for (let i = 0; i < currentText.length; i++) {
-                const char = currentText[i] === ' ' ? '&nbsp;' : currentText[i];
+                const char = currentText[i] === ' ' ? '&nbsp;' : escapeHtml(currentText[i]);
                 
                 if (i < typedText.length) {
                     if (typedText[i] === currentText[i]) {

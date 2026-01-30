@@ -341,7 +341,21 @@
     <div class="toast" id="toast">Color copied!</div>
     
     <script>
+        // Validate hex color format
+        function isValidHexColor(color) {
+            return /^#[0-9a-fA-F]{6}$/i.test(color);
+        }
+        
+        // Escape HTML for safe display
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
         let palette = JSON.parse(localStorage.getItem('colorPalette')) || [];
+        // Filter out any invalid colors from localStorage
+        palette = palette.filter(c => isValidHexColor(c));
         
         function mixColors() {
             const color1 = document.getElementById('color1').value;
@@ -396,11 +410,14 @@
         
         function renderPalette() {
             const container = document.getElementById('palette');
-            container.innerHTML = palette.map((color, i) => `
-                <div class="palette-color" style="background: ${color};" onclick="copyPaletteColor('${color}')" title="${color}">
-                    <button class="delete-btn" onclick="event.stopPropagation(); removeFromPalette(${i})">×</button>
-                </div>
-            `).join('');
+            container.innerHTML = palette.filter(c => isValidHexColor(c)).map((color, i) => {
+                const safeColor = escapeHtml(color);
+                return `
+                    <div class="palette-color" style="background: ${safeColor};" onclick="copyPaletteColor('${safeColor}')" title="${safeColor}">
+                        <button class="delete-btn" onclick="event.stopPropagation(); removeFromPalette(${i})">×</button>
+                    </div>
+                `;
+            }).join('');
             
             if (palette.length === 0) {
                 container.innerHTML = '<p style="color: #999;">Your saved colors will appear here!</p>';

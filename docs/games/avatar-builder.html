@@ -495,6 +495,21 @@
     <div class="toast" id="toast"></div>
     
     <script>
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Validate that a value is a safe CSS color/gradient
+        function isSafeBackground(value) {
+            // Only allow hex colors, named colors, or linear-gradient with safe values
+            const hexPattern = /^#[0-9a-fA-F]{3,6}$/;
+            const gradientPattern = /^linear-gradient\(\d+deg,\s*#[0-9a-fA-F]{3,6},\s*#[0-9a-fA-F]{3,6}\)$/;
+            return hexPattern.test(value) || gradientPattern.test(value);
+        }
+        
         let avatar = {
             hair: '👑',
             mouth: '😊',
@@ -615,14 +630,19 @@
                 return;
             }
             
-            container.innerHTML = savedAvatars.map((av, i) => `
-                <div class="saved-avatar" 
-                     style="background: ${av.background};"
-                     onclick="loadAvatar(${i})"
-                     title="${av.name}">
-                    ${av.mouth}
-                </div>
-            `).join('');
+            container.innerHTML = savedAvatars.map((av, i) => {
+                const safeBg = isSafeBackground(av.background) ? av.background : '#f8f9fa';
+                const safeName = escapeHtml(av.name || 'Avatar');
+                const safeMouth = escapeHtml(av.mouth || '😊');
+                return `
+                    <div class="saved-avatar" 
+                         style="background: ${safeBg};"
+                         onclick="loadAvatar(${i})"
+                         title="${safeName}">
+                        ${safeMouth}
+                    </div>
+                `;
+            }).join('');
         }
         
         function loadAvatar(index) {
