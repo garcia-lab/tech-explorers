@@ -227,6 +227,43 @@
         .no-results.show { display: block; }
         .no-results i { font-size: 4rem; color: #ddd; margin-bottom: 20px; }
         
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-family: 'Varela Round', sans-serif;
+            transition: all 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #4361ee;
+            box-shadow: 0 0 15px rgba(67, 97, 238, 0.2);
+        }
+        
+        .search-input::placeholder { color: #999; }
+        
+        .clear-search {
+            padding: 15px 25px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .clear-search:hover { background: #ddd; }
+        
         footer {
             background: #1a1a2e;
             color: white;
@@ -275,6 +312,12 @@
         
         <div class="filter-section">
             <h3><i class="fas fa-filter"></i> Filter Activities</h3>
+            
+            <div class="search-box">
+                <input type="text" id="search-input" class="search-input" placeholder="🔍 Search activities... (e.g. 'pixel art', 'typing', 'robot')">
+                <button class="clear-search" id="clear-search">✕ Clear</button>
+            </div>
+            
             <div class="filter-controls">
                 <button class="filter-btn active" data-filter="all"><i class="fas fa-th"></i> All</button>
                 <button class="filter-btn" data-filter="html"><i class="fas fa-code"></i> HTML</button>
@@ -692,21 +735,32 @@
             const diffBtns = document.querySelectorAll('.diff-btn');
             const cards = document.querySelectorAll('.activity-card');
             const noResults = document.getElementById('no-results');
+            const searchInput = document.getElementById('search-input');
+            const clearSearch = document.getElementById('clear-search');
             
             let currentCategory = 'all';
             let currentDifficulty = 'all';
+            let currentSearch = '';
             
             function filterCards() {
                 let visibleCount = 0;
+                const searchLower = currentSearch.toLowerCase();
                 
                 cards.forEach(card => {
                     const categories = card.dataset.categories.split(' ');
                     const difficulty = card.dataset.difficulty;
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.textContent.toLowerCase()).join(' ');
                     
                     const matchesCategory = currentCategory === 'all' || categories.includes(currentCategory);
                     const matchesDifficulty = currentDifficulty === 'all' || difficulty === currentDifficulty;
+                    const matchesSearch = !currentSearch || 
+                        title.includes(searchLower) || 
+                        description.includes(searchLower) || 
+                        tags.includes(searchLower);
                     
-                    if (matchesCategory && matchesDifficulty) {
+                    if (matchesCategory && matchesDifficulty && matchesSearch) {
                         card.style.display = 'block';
                         visibleCount++;
                     } else {
@@ -734,6 +788,27 @@
                     currentDifficulty = this.dataset.difficulty;
                     filterCards();
                 });
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value;
+                filterCards();
+            });
+            
+            clearSearch.addEventListener('click', function() {
+                searchInput.value = '';
+                currentSearch = '';
+                filterCards();
+            });
+            
+            // Clear search with Escape key
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    this.value = '';
+                    currentSearch = '';
+                    filterCards();
+                }
             });
         });
     </script>

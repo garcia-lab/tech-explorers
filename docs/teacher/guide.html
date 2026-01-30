@@ -185,6 +185,90 @@
             .print-btn { display: none; }
             .section { break-inside: avoid; }
         }
+        
+        /* Session tracker */
+        .session-tracker {
+            position: sticky;
+            top: 10px;
+            background: linear-gradient(135deg, #06d6a0, #047857);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 5px 25px rgba(6, 214, 160, 0.3);
+            z-index: 50;
+        }
+        
+        .tracker-title { font-weight: bold; font-size: 1.1rem; }
+        
+        .tracker-progress {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .tracker-dot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tracker-dot.completed {
+            background: white;
+            color: #047857;
+        }
+        
+        .tracker-dot:hover { transform: scale(1.1); }
+        
+        .tracker-reset {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        
+        .tracker-reset:hover { background: rgba(255,255,255,0.3); }
+        
+        .session-notes {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .session-notes h4 { color: #3a0ca3; margin-bottom: 10px; }
+        
+        .session-notes textarea {
+            width: 100%;
+            height: 100px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        
+        .session-notes textarea:focus {
+            outline: none;
+            border-color: #4361ee;
+        }
     </style>
 </head>
 <body>
@@ -194,6 +278,21 @@
     </header>
 
     <main class="container">
+        <!-- Session Tracker -->
+        <div class="session-tracker" id="session-tracker">
+            <div class="tracker-title">📍 Session Progress:</div>
+            <div class="tracker-progress">
+                <span class="tracker-dot" data-step="1" title="Welcome">1</span>
+                <span class="tracker-dot" data-step="2" title="Adventure 1">2</span>
+                <span class="tracker-dot" data-step="3" title="Adventure 2">3</span>
+                <span class="tracker-dot" data-step="4" title="Break">4</span>
+                <span class="tracker-dot" data-step="5" title="Adventure 3">5</span>
+                <span class="tracker-dot" data-step="6" title="Adventure 4">6</span>
+                <span class="tracker-dot" data-step="7" title="Wrap-up">7</span>
+            </div>
+            <button class="tracker-reset" onclick="resetTracker()">Reset</button>
+        </div>
+        
         <!-- Quick Start -->
         <section class="section">
             <h2>🚀 Quick Start</h2>
@@ -511,9 +610,96 @@
     <a href="../index.html" style="display: block; text-align: center; padding: 30px; background: #f8f9fa; text-decoration: none; color: #4361ee; font-weight: bold;">
         <i class="fas fa-arrow-left"></i> Back to Tech Explorers Home
     </a>
+    
+    <!-- Session Notes Floating Box -->
+    <div class="session-notes" style="position: fixed; bottom: 80px; right: 20px; width: 300px; box-shadow: 0 5px 25px rgba(0,0,0,0.15); z-index: 100; display: none;" id="notes-panel">
+        <h4>📝 Session Notes</h4>
+        <textarea id="session-notes" placeholder="Jot down notes during the session..."></textarea>
+        <button style="margin-top: 10px; background: #4361ee; color: white; border: none; padding: 8px 20px; border-radius: 10px; cursor: pointer; width: 100%;" onclick="saveNotes()">💾 Save Notes</button>
+    </div>
+    
+    <button class="print-btn" style="right: 120px;" onclick="toggleNotes()" id="notes-btn">
+        <i class="fas fa-sticky-note"></i> Notes
+    </button>
 
     <button class="print-btn" onclick="window.print()">
-        <i class="fas fa-print"></i> Print Guide
+        <i class="fas fa-print"></i> Print
     </button>
+    
+    <script>
+        // Session tracker
+        const trackerDots = document.querySelectorAll('.tracker-dot');
+        
+        function loadTrackerState() {
+            const state = JSON.parse(localStorage.getItem('teacherSessionTracker') || '[]');
+            trackerDots.forEach(dot => {
+                if (state.includes(parseInt(dot.dataset.step))) {
+                    dot.classList.add('completed');
+                }
+            });
+        }
+        
+        function saveTrackerState() {
+            const completed = Array.from(trackerDots)
+                .filter(dot => dot.classList.contains('completed'))
+                .map(dot => parseInt(dot.dataset.step));
+            localStorage.setItem('teacherSessionTracker', JSON.stringify(completed));
+        }
+        
+        trackerDots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                this.classList.toggle('completed');
+                saveTrackerState();
+            });
+        });
+        
+        function resetTracker() {
+            trackerDots.forEach(dot => dot.classList.remove('completed'));
+            localStorage.removeItem('teacherSessionTracker');
+        }
+        
+        // Session notes
+        function toggleNotes() {
+            const panel = document.getElementById('notes-panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function saveNotes() {
+            const notes = document.getElementById('session-notes').value;
+            localStorage.setItem('teacherSessionNotes', notes);
+            alert('Notes saved! ✓');
+        }
+        
+        function loadNotes() {
+            const notes = localStorage.getItem('teacherSessionNotes') || '';
+            document.getElementById('session-notes').value = notes;
+        }
+        
+        // Before class checklist persistence
+        const checklistItems = document.querySelectorAll('.checklist input');
+        
+        function loadChecklistState() {
+            const state = JSON.parse(localStorage.getItem('teacherChecklist') || '[]');
+            checklistItems.forEach((item, index) => {
+                item.checked = state.includes(index);
+            });
+        }
+        
+        function saveChecklistState() {
+            const checked = Array.from(checklistItems)
+                .map((item, index) => item.checked ? index : null)
+                .filter(i => i !== null);
+            localStorage.setItem('teacherChecklist', JSON.stringify(checked));
+        }
+        
+        checklistItems.forEach(item => {
+            item.addEventListener('change', saveChecklistState);
+        });
+        
+        // Initialize
+        loadTrackerState();
+        loadNotes();
+        loadChecklistState();
+    </script>
 </body>
 </html>

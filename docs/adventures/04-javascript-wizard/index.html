@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../assets/css/adventure.css">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="../../assets/js/project-storage.js"></script>
     <style>
         /* JavaScript Wizard specific styles */
         .demo-buttons {
@@ -1040,6 +1041,31 @@
         const confettiStyle = document.createElement('style');
         confettiStyle.textContent = `@keyframes confettiFall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }`;
         document.head.appendChild(confettiStyle);
+        
+        // Progress tracking with achievements
+        document.querySelectorAll('.checkpoint-check').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const completed = document.querySelectorAll('.checkpoint-check:checked').length;
+                const total = document.querySelectorAll('.checkpoint-check').length;
+                
+                if (completed === total) {
+                    document.getElementById('celebration').scrollIntoView({ behavior: 'smooth' });
+                    confetti();
+                    
+                    // Unlock achievement when all checkpoints complete
+                    if (window.TechExplorers && TechExplorers.storage) {
+                        TechExplorers.storage.addAchievement({
+                            id: 'adventure-4',
+                            name: 'JavaScript Wizard',
+                            icon: '⚡',
+                            description: 'Completed Adventure 4: JavaScript Wizard',
+                            adventure: 4,
+                            type: 'complete'
+                        });
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>

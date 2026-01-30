@@ -396,17 +396,60 @@
             display: inline-block;
             margin-top: 20px;
         }
+        
+        .progress-container .progress-label {
+            display: block;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .progress-container .stars-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
 
-        .progress-container span {
+        .progress-container span.star {
             margin: 0 5px;
             font-size: 1.5rem;
             opacity: 0.5;
             transition: all 0.3s ease;
         }
 
-        .progress-container span.completed {
+        .progress-container span.star.completed {
             opacity: 1;
             transform: scale(1.2);
+            animation: starPop 0.5s ease-out;
+        }
+        
+        @keyframes starPop {
+            0% { transform: scale(0.5); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1.2); }
+        }
+        
+        .adventure-card.completed {
+            border-color: #06d6a0;
+            background: linear-gradient(135deg, #f0fff8, #ffffff);
+        }
+        
+        .adventure-card.completed::after {
+            content: '✓ Complete!';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #06d6a0;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .adventure-card {
+            position: relative;
         }
     </style>
 </head>
@@ -424,11 +467,14 @@
                 🚀 Start Your Adventure!
             </a>
             <div class="progress-container">
-                <span class="completed">⭐</span>
-                <span>⭐</span>
-                <span>⭐</span>
-                <span>⭐</span>
-                <span>⭐</span>
+                <span class="progress-label">Your Progress: <span id="progress-count">0</span>/5 Adventures</span>
+                <div class="stars-row">
+                    <span class="star" data-adventure="1">⭐</span>
+                    <span class="star" data-adventure="2">⭐</span>
+                    <span class="star" data-adventure="3">⭐</span>
+                    <span class="star" data-adventure="4">⭐</span>
+                    <span class="star" data-adventure="5">⭐</span>
+                </div>
             </div>
         </div>
     </section>
@@ -462,7 +508,7 @@
             <div class="adventure-path"></div>
             
             <div class="adventure-item">
-                <a href="adventures/01-meet-the-computer/index.html" class="adventure-card">
+                <a href="adventures/01-meet-the-computer/index.html" class="adventure-card" data-adventure="1">
                     <h3><span class="emoji">🖥️</span> Meet the Computer</h3>
                     <p>What IS a computer? How do we talk to it? Let's find out together!</p>
                     <span class="time-badge">⏱️ 20 minutes</span>
@@ -472,7 +518,7 @@
             </div>
 
             <div class="adventure-item">
-                <a href="adventures/02-html-hero/index.html" class="adventure-card">
+                <a href="adventures/02-html-hero/index.html" class="adventure-card" data-adventure="2">
                     <h3><span class="emoji">🏗️</span> HTML Hero</h3>
                     <p>Build your very first webpage from scratch! You'll be a website builder!</p>
                     <span class="time-badge">⏱️ 30 minutes</span>
@@ -482,7 +528,7 @@
             </div>
 
             <div class="adventure-item">
-                <a href="adventures/03-css-artist/index.html" class="adventure-card">
+                <a href="adventures/03-css-artist/index.html" class="adventure-card" data-adventure="3">
                     <h3><span class="emoji">🎨</span> CSS Artist</h3>
                     <p>Make your webpage BEAUTIFUL with colors, fonts, and cool designs!</p>
                     <span class="time-badge">⏱️ 25 minutes</span>
@@ -492,7 +538,7 @@
             </div>
 
             <div class="adventure-item">
-                <a href="adventures/04-javascript-wizard/index.html" class="adventure-card">
+                <a href="adventures/04-javascript-wizard/index.html" class="adventure-card" data-adventure="4">
                     <h3><span class="emoji">⚡</span> JavaScript Wizard</h3>
                     <p>Make things HAPPEN! Buttons that click, animations that move, and more!</p>
                     <span class="time-badge">⏱️ 20 minutes</span>
@@ -502,7 +548,7 @@
             </div>
 
             <div class="adventure-item">
-                <a href="adventures/05-ai-explorer/index.html" class="adventure-card bonus">
+                <a href="adventures/05-ai-explorer/index.html" class="adventure-card bonus" data-adventure="5">
                     <h3><span class="emoji">🤖</span> AI Explorer <span style="font-size: 0.8rem; background: #f72585; color: white; padding: 3px 10px; border-radius: 10px; margin-left: 10px;">BONUS!</span></h3>
                     <p>Peek into the future! Learn how AI is changing coding forever.</p>
                     <span class="time-badge">⏱️ 15 minutes</span>
@@ -670,21 +716,48 @@
 
         // Update progress stars based on achievements
         document.addEventListener('DOMContentLoaded', function() {
-            if (window.TechExplorers) {
+            if (window.TechExplorers && TechExplorers.storage) {
                 const achievements = TechExplorers.storage.getAchievements();
-                const stars = document.querySelectorAll('.progress-container span');
+                const stars = document.querySelectorAll('.progress-container .star');
+                const adventureCards = document.querySelectorAll('.adventure-card[data-adventure]');
+                const progressCount = document.getElementById('progress-count');
                 
-                const adventureAchievements = [
-                    'adventure-1', 'adventure-2', 'adventure-3', 'adventure-4', 'adventure-5'
-                ];
+                let completedCount = 0;
                 
-                adventureAchievements.forEach((id, index) => {
-                    if (achievements.some(a => a.id === id)) {
-                        if (stars[index]) {
-                            stars[index].classList.add('completed');
+                // Check each adventure
+                for (let i = 1; i <= 5; i++) {
+                    const achievementId = `adventure-${i}`;
+                    const hasAchievement = achievements.some(a => a.id === achievementId);
+                    
+                    if (hasAchievement) {
+                        completedCount++;
+                        
+                        // Update star
+                        const star = document.querySelector(`.star[data-adventure="${i}"]`);
+                        if (star) {
+                            star.classList.add('completed');
+                        }
+                        
+                        // Update adventure card
+                        const card = document.querySelector(`.adventure-card[data-adventure="${i}"]`);
+                        if (card) {
+                            card.classList.add('completed');
                         }
                     }
-                });
+                }
+                
+                // Update progress count
+                if (progressCount) {
+                    progressCount.textContent = completedCount;
+                }
+                
+                // Show celebration if all complete
+                if (completedCount === 5) {
+                    const progressLabel = document.querySelector('.progress-label');
+                    if (progressLabel) {
+                        progressLabel.innerHTML = '🎉 ALL COMPLETE! You\'re a Coding Superstar! 🌟';
+                    }
+                }
             }
         });
     </script>

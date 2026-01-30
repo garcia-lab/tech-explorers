@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../assets/css/adventure.css">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Varela+Round&family=Fira+Code&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="../../assets/js/project-storage.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -746,6 +747,18 @@
                 if (completed === total) {
                     document.getElementById('celebration').scrollIntoView({ behavior: 'smooth' });
                     confetti();
+                    
+                    // Unlock achievement when all checkpoints complete
+                    if (window.TechExplorers && TechExplorers.storage) {
+                        TechExplorers.storage.addAchievement({
+                            id: 'adventure-1',
+                            name: 'Computer Explorer',
+                            icon: '💻',
+                            description: 'Completed Adventure 1: Meet the Computer',
+                            adventure: 1,
+                            type: 'complete'
+                        });
+                    }
                 }
             });
         });
