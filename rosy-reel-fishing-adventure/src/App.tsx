@@ -8,7 +8,7 @@ import { toast, Toaster } from 'sonner'
 
 // Build information - updated on each commit
 const BUILD_INFO = {
-  commitHash: 'c4d1254',
+  commitHash: '33d4cdb',
   buildDate: '2026-01-30'
 }
 
