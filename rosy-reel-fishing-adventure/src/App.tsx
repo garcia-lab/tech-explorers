@@ -26,10 +26,92 @@ interface FishType {
 
 type FishingTool = 'rod' | 'spear'
 
+type EnvironmentType = 'beach' | 'lake' | 'arctic' | 'tropical' | 'sunset' | 'night'
+
+interface Environment {
+  id: EnvironmentType
+  name: string
+  emoji: string
+  sky: { from: string; to: string }
+  land: { from: string; via: string; to: string }
+  water: { from: string; via: string; to: string }
+  sunColor: string
+  hasMoon?: boolean
+  hasStars?: boolean
+}
+
+const environments: Environment[] = [
+  {
+    id: 'beach',
+    name: 'Sunny Beach',
+    emoji: '🏖️',
+    sky: { from: '#e0f2fe', to: '#bae6fd' },
+    land: { from: '#fde68a', via: '#fcd34d', to: '#f59e0b' },
+    water: { from: '#7dd3fc', via: '#38bdf8', to: '#0369a1' },
+    sunColor: '#fbbf24'
+  },
+  {
+    id: 'lake',
+    name: 'Forest Lake',
+    emoji: '🌲',
+    sky: { from: '#d1fae5', to: '#a7f3d0' },
+    land: { from: '#86efac', via: '#4ade80', to: '#16a34a' },
+    water: { from: '#67e8f9', via: '#22d3ee', to: '#0891b2' },
+    sunColor: '#fcd34d'
+  },
+  {
+    id: 'arctic',
+    name: 'Arctic Ice',
+    emoji: '🧊',
+    sky: { from: '#f0f9ff', to: '#e0f2fe' },
+    land: { from: '#f1f5f9', via: '#e2e8f0', to: '#cbd5e1' },
+    water: { from: '#a5f3fc', via: '#67e8f9', to: '#155e75' },
+    sunColor: '#fef3c7'
+  },
+  {
+    id: 'tropical',
+    name: 'Tropical Paradise',
+    emoji: '🌴',
+    sky: { from: '#fdf4ff', to: '#f5d0fe' },
+    land: { from: '#fef08a', via: '#fde047', to: '#facc15' },
+    water: { from: '#5eead4', via: '#2dd4bf', to: '#0f766e' },
+    sunColor: '#fb923c'
+  },
+  {
+    id: 'sunset',
+    name: 'Golden Sunset',
+    emoji: '🌅',
+    sky: { from: '#fecaca', to: '#fdba74' },
+    land: { from: '#fed7aa', via: '#fdba74', to: '#c2410c' },
+    water: { from: '#fb923c', via: '#ea580c', to: '#7c2d12' },
+    sunColor: '#f97316'
+  },
+  {
+    id: 'night',
+    name: 'Starry Night',
+    emoji: '🌙',
+    sky: { from: '#1e1b4b', to: '#312e81' },
+    land: { from: '#3f3f46', via: '#27272a', to: '#18181b' },
+    water: { from: '#1e3a5f', via: '#172554', to: '#0c1929' },
+    sunColor: '#fef9c3',
+    hasMoon: true,
+    hasStars: true
+  }
+]
+
 const baitTypes: BaitType[] = [
-  { id: 'worm', name: 'Worm', price: 0, size: 1, catchRate: 0.3 },
-  { id: 'minnow', name: 'Minnow', price: 10, size: 1.5, catchRate: 0.5 },
-  { id: 'lure', name: 'Special Lure', price: 25, size: 2, catchRate: 0.7 }
+  { id: 'worm', name: '🪱 Worm', price: 0, size: 1, catchRate: 0.3 },
+  { id: 'minnow', name: '🐟 Minnow', price: 10, size: 1.2, catchRate: 0.4 },
+  { id: 'cricket', name: '🦗 Cricket', price: 15, size: 1, catchRate: 0.45 },
+  { id: 'shrimp', name: '🦐 Shrimp', price: 20, size: 1.3, catchRate: 0.5 },
+  { id: 'grub', name: '🐛 Grub', price: 25, size: 1.1, catchRate: 0.55 },
+  { id: 'spinner', name: '✨ Spinner', price: 35, size: 1.5, catchRate: 0.6 },
+  { id: 'fly', name: '🪰 Fly Lure', price: 40, size: 0.8, catchRate: 0.55 },
+  { id: 'jig', name: '🎣 Jig', price: 50, size: 1.4, catchRate: 0.65 },
+  { id: 'crankbait', name: '🐠 Crankbait', price: 60, size: 1.6, catchRate: 0.7 },
+  { id: 'spoon', name: '🥄 Spoon Lure', price: 75, size: 1.7, catchRate: 0.75 },
+  { id: 'golden', name: '🌟 Golden Lure', price: 100, size: 2, catchRate: 0.85 },
+  { id: 'magic', name: '🔮 Magic Bait', price: 150, size: 2.5, catchRate: 0.95 }
 ]
 
 const sillyCatPhrases = [
@@ -73,31 +155,41 @@ function App() {
   const [fishingTool, setFishingTool] = useState<FishingTool>('rod')
   const [spearPosition, setSpearPosition] = useState<{ x: number; y: number } | null>(null)
   const [isSpearThrown, setIsSpearThrown] = useState(false)
+  const [currentEnvironment, setCurrentEnvironment] = useState<Environment>(environments[0])
   const gameAreaRef = useRef<HTMLDivElement>(null)
 
-  // Keyboard controls for boat movement
+  // Auto-focus game area on mount for keyboard controls
+  useEffect(() => {
+    if (gameAreaRef.current) {
+      gameAreaRef.current.focus()
+    }
+  }, [])
+
+  // Keyboard controls for boat movement - using document level for reliable capture
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (fishFightStage) return // Don't move boat while catching fish
       
-      const moveSpeed = 3
-      if (e.key === 'ArrowLeft') {
-        setBoatPosition(prev => Math.max(10, prev - moveSpeed))
+      const moveSpeed = 5
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+        e.preventDefault()
+        setBoatPosition(prev => Math.max(15, prev - moveSpeed))
         // Update line position to follow boat if not cast
         if (!isLineCast) {
-          setLinePosition(prev => ({ ...prev, x: Math.max(10, prev.x - moveSpeed) }))
+          setLinePosition(prev => ({ ...prev, x: Math.max(15, prev.x - moveSpeed) }))
         }
-      } else if (e.key === 'ArrowRight') {
-        setBoatPosition(prev => Math.min(90, prev + moveSpeed))
+      } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+        e.preventDefault()
+        setBoatPosition(prev => Math.min(85, prev + moveSpeed))
         // Update line position to follow boat if not cast
         if (!isLineCast) {
-          setLinePosition(prev => ({ ...prev, x: Math.min(90, prev.x + moveSpeed) }))
+          setLinePosition(prev => ({ ...prev, x: Math.min(85, prev.x + moveSpeed) }))
         }
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isLineCast, fishFightStage])
 
   // Initialize all fish
@@ -518,47 +610,89 @@ function App() {
             <div className="md:col-span-2">
               <Card className="bg-card border-border">
                 <CardContent className="p-6">
+                  {/* Environment selector */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="text-sm font-medium text-card-foreground self-center mr-2">🌍 Environment:</span>
+                    {environments.map((env) => (
+                      <button
+                        key={env.id}
+                        onClick={() => setCurrentEnvironment(env)}
+                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                          currentEnvironment.id === env.id
+                            ? 'bg-accent text-white shadow-md scale-105'
+                            : 'bg-secondary/50 text-card-foreground hover:bg-secondary/80'
+                        }`}
+                      >
+                        {env.emoji} {env.name}
+                      </button>
+                    ))}
+                  </div>
+                  
                   <div 
                     ref={gameAreaRef}
-                    className="relative w-full h-96 bg-gradient-to-b from-blue-200 via-blue-300 to-blue-700 rounded-lg cursor-pointer overflow-visible"
+                    className="relative w-full h-96 rounded-lg cursor-pointer overflow-visible outline-none focus:ring-2 focus:ring-accent"
+                    style={{
+                      background: `linear-gradient(to bottom, ${currentEnvironment.water.from}, ${currentEnvironment.water.via}, ${currentEnvironment.water.to})`
+                    }}
                     onClick={handleFishingClick}
                     tabIndex={0}
                     onKeyDown={(e) => {
-                      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'a' || e.key === 'd') {
                         e.preventDefault()
                       }
                     }}
                   >
                     {/* Sky with clouds - in the very back, covers top third */}
-                    <div className="absolute top-0 left-0 w-full bg-gradient-to-b from-blue-100 to-blue-200 rounded-t-lg z-0" style={{height: '33.33%'}}>
-                      {/* Beautiful sun */}
+                    <div 
+                      className="absolute top-0 left-0 w-full rounded-t-lg z-0" 
+                      style={{
+                        height: '33.33%',
+                        background: `linear-gradient(to bottom, ${currentEnvironment.sky.from}, ${currentEnvironment.sky.to})`
+                      }}
+                    >
+                      {/* Stars for night mode */}
+                      {currentEnvironment.hasStars && (
+                        <>
+                          <div className="absolute top-2 left-[10%] w-1 h-1 bg-white rounded-full animate-pulse"></div>
+                          <div className="absolute top-4 left-[20%] w-0.5 h-0.5 bg-white rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                          <div className="absolute top-1 left-[35%] w-1 h-1 bg-white rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                          <div className="absolute top-6 left-[50%] w-0.5 h-0.5 bg-white rounded-full animate-pulse" style={{animationDelay: '0.3s'}}></div>
+                          <div className="absolute top-3 left-[65%] w-1 h-1 bg-white rounded-full animate-pulse" style={{animationDelay: '0.7s'}}></div>
+                          <div className="absolute top-5 left-[80%] w-0.5 h-0.5 bg-white rounded-full animate-pulse" style={{animationDelay: '1.2s'}}></div>
+                          <div className="absolute top-8 left-[15%] w-0.5 h-0.5 bg-white rounded-full animate-pulse" style={{animationDelay: '0.9s'}}></div>
+                          <div className="absolute top-7 left-[45%] w-1 h-1 bg-white rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                        </>
+                      )}
+                      
+                      {/* Sun or Moon */}
                       <div className="absolute top-3 right-8 z-10">
-                        <svg width="50" height="50" viewBox="0 0 50 50" className="animate-pulse" style={{animationDuration: '4s'}}>
-                          {/* Sun rays */}
-                          <g stroke="#fbbf24" strokeWidth="2" strokeLinecap="round">
-                            <line x1="25" y1="2" x2="25" y2="8" />
-                            <line x1="25" y1="42" x2="25" y2="48" />
-                            <line x1="2" y1="25" x2="8" y2="25" />
-                            <line x1="42" y1="25" x2="48" y2="25" />
-                            <line x1="8.1" y1="8.1" x2="12.2" y2="12.2" />
-                            <line x1="37.8" y1="37.8" x2="41.9" y2="41.9" />
-                            <line x1="8.1" y1="41.9" x2="12.2" y2="37.8" />
-                            <line x1="37.8" y1="12.2" x2="41.9" y2="8.1" />
-                          </g>
-                          {/* Sun body with gradient */}
-                          <defs>
-                            <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%">
-                              <stop offset="0%" stopColor="#fde047" />
-                              <stop offset="70%" stopColor="#facc15" />
-                              <stop offset="100%" stopColor="#eab308" />
-                            </radialGradient>
-                          </defs>
-                          <circle cx="25" cy="25" r="12" fill="url(#sunGradient)" stroke="#f59e0b" strokeWidth="1" />
-                          {/* Sun face */}
-                          <circle cx="21" cy="21" r="1.5" fill="#f59e0b" />
-                          <circle cx="29" cy="21" r="1.5" fill="#f59e0b" />
-                          <path d="M20 28 Q25 32 30 28" stroke="#f59e0b" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-                        </svg>
+                        {currentEnvironment.hasMoon ? (
+                          <svg width="40" height="40" viewBox="0 0 40 40" className="animate-pulse" style={{animationDuration: '4s'}}>
+                            <circle cx="20" cy="20" r="14" fill={currentEnvironment.sunColor} />
+                            <circle cx="14" cy="14" r="3" fill="#fef3c7" opacity="0.5" />
+                            <circle cx="24" cy="22" r="2" fill="#fef3c7" opacity="0.3" />
+                            <circle cx="18" cy="26" r="1.5" fill="#fef3c7" opacity="0.4" />
+                          </svg>
+                        ) : (
+                          <svg width="50" height="50" viewBox="0 0 50 50" className="animate-pulse" style={{animationDuration: '4s'}}>
+                            {/* Sun rays */}
+                            <g stroke={currentEnvironment.sunColor} strokeWidth="2" strokeLinecap="round">
+                              <line x1="25" y1="2" x2="25" y2="8" />
+                              <line x1="25" y1="42" x2="25" y2="48" />
+                              <line x1="2" y1="25" x2="8" y2="25" />
+                              <line x1="42" y1="25" x2="48" y2="25" />
+                              <line x1="8.1" y1="8.1" x2="12.2" y2="12.2" />
+                              <line x1="37.8" y1="37.8" x2="41.9" y2="41.9" />
+                              <line x1="8.1" y1="41.9" x2="12.2" y2="37.8" />
+                              <line x1="37.8" y1="12.2" x2="41.9" y2="8.1" />
+                            </g>
+                            <circle cx="25" cy="25" r="12" fill={currentEnvironment.sunColor} stroke="#f59e0b" strokeWidth="1" />
+                            {/* Sun face */}
+                            <circle cx="21" cy="21" r="1.5" fill="#f59e0b" />
+                            <circle cx="29" cy="21" r="1.5" fill="#f59e0b" />
+                            <path d="M20 28 Q25 32 30 28" stroke="#f59e0b" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                          </svg>
+                        )}
                       </div>
                       
                       {/* Cloud 1 */}
@@ -612,33 +746,95 @@ function App() {
                     </div>
 
                     {/* Beach/Land area - middle section from 33% to 50% */}
-                    <div className="absolute inset-0 w-full bg-gradient-to-b from-yellow-200 via-yellow-300 to-yellow-400 z-5" style={{top: '33.33%', height: '16.67%'}}>
-                      {/* Sand texture */}
+                    <div 
+                      className="absolute inset-0 w-full z-5" 
+                      style={{
+                        top: '33.33%', 
+                        height: '16.67%',
+                        background: `linear-gradient(to bottom, ${currentEnvironment.land.from}, ${currentEnvironment.land.via}, ${currentEnvironment.land.to})`
+                      }}
+                    >
+                      {/* Ground texture */}
                       <div className="absolute inset-0 opacity-30">
                         <div className="w-full h-full" style={{
-                          backgroundImage: `radial-gradient(circle at 20% 30%, rgba(194, 164, 108, 0.3) 1px, transparent 1px),
-                                          radial-gradient(circle at 60% 70%, rgba(194, 164, 108, 0.2) 1px, transparent 1px),
-                                          radial-gradient(circle at 80% 20%, rgba(194, 164, 108, 0.4) 1px, transparent 1px)`,
+                          backgroundImage: `radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                                          radial-gradient(circle at 60% 70%, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+                                          radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.12) 1px, transparent 1px)`,
                           backgroundSize: '20px 20px, 15px 15px, 25px 25px'
                         }}></div>
                       </div>
                       
-                      {/* Palm tree - positioned close to water on beach */}
-                      <div className="absolute bottom-2 right-12 z-20">
-                        <svg width="70" height="100" viewBox="0 0 70 100">
-                          {/* Tree trunk */}
-                          <rect x="29" y="40" width="12" height="60" fill="#8B4513" rx="6" />
-                          <ellipse cx="35" cy="60" rx="3" ry="10" fill="#654321" />
-                          <ellipse cx="35" cy="80" rx="2" ry="6" fill="#654321" />
-                          
-                          {/* Palm fronds */}
-                          <path d="M35 40 Q27 25 17 15 Q13 12 17 10 Q23 12 35 30" fill="#228B22" />
-                          <path d="M35 40 Q43 25 53 15 Q57 12 53 10 Q47 12 35 30" fill="#228B22" />
-                          <path d="M35 40 Q23 30 9 20 Q5 17 9 15 Q15 17 33 30" fill="#32CD32" />
-                          <path d="M35 40 Q47 30 61 20 Q65 17 61 15 Q55 17 37 30" fill="#32CD32" />
-                          <path d="M35 40 Q35 22 33 5 Q32 0 35 0 Q38 0 37 5 Q35 22 35 40" fill="#228B22" />
-                        </svg>
-                      </div>
+                      {/* Trees/vegetation based on environment */}
+                      {(currentEnvironment.id === 'beach' || currentEnvironment.id === 'tropical') && (
+                        <div className="absolute bottom-2 right-12 z-20">
+                          <svg width="70" height="100" viewBox="0 0 70 100">
+                            {/* Tree trunk */}
+                            <rect x="29" y="40" width="12" height="60" fill="#8B4513" rx="6" />
+                            <ellipse cx="35" cy="60" rx="3" ry="10" fill="#654321" />
+                            <ellipse cx="35" cy="80" rx="2" ry="6" fill="#654321" />
+                            
+                            {/* Palm fronds */}
+                            <path d="M35 40 Q27 25 17 15 Q13 12 17 10 Q23 12 35 30" fill="#228B22" />
+                            <path d="M35 40 Q43 25 53 15 Q57 12 53 10 Q47 12 35 30" fill="#228B22" />
+                            <path d="M35 40 Q23 30 9 20 Q5 17 9 15 Q15 17 33 30" fill="#32CD32" />
+                            <path d="M35 40 Q47 30 61 20 Q65 17 61 15 Q55 17 37 30" fill="#32CD32" />
+                            <path d="M35 40 Q35 22 33 5 Q32 0 35 0 Q38 0 37 5 Q35 22 35 40" fill="#228B22" />
+                          </svg>
+                        </div>
+                      )}
+                      
+                      {currentEnvironment.id === 'lake' && (
+                        <>
+                          <div className="absolute bottom-0 right-8 z-20">
+                            <svg width="50" height="80" viewBox="0 0 50 80">
+                              <path d="M25 80 L25 20" stroke="#4a3728" strokeWidth="4" />
+                              <path d="M25 20 Q15 10 25 0 Q35 10 25 20" fill="#228B22" />
+                              <path d="M25 35 Q10 25 25 15 Q40 25 25 35" fill="#22c55e" />
+                              <path d="M25 50 Q5 40 25 30 Q45 40 25 50" fill="#16a34a" />
+                            </svg>
+                          </div>
+                          <div className="absolute bottom-0 right-24 z-20">
+                            <svg width="40" height="60" viewBox="0 0 40 60">
+                              <path d="M20 60 L20 15" stroke="#4a3728" strokeWidth="3" />
+                              <path d="M20 15 Q12 8 20 0 Q28 8 20 15" fill="#228B22" />
+                              <path d="M20 28 Q8 20 20 12 Q32 20 20 28" fill="#22c55e" />
+                              <path d="M20 40 Q5 32 20 24 Q35 32 20 40" fill="#16a34a" />
+                            </svg>
+                          </div>
+                        </>
+                      )}
+                      
+                      {currentEnvironment.id === 'arctic' && (
+                        <>
+                          <div className="absolute bottom-0 right-16 z-20">
+                            <svg width="60" height="50" viewBox="0 0 60 50">
+                              <path d="M0 50 L15 20 L30 50 Z" fill="#e2e8f0" stroke="#cbd5e1" strokeWidth="1" />
+                              <path d="M20 50 L40 10 L60 50 Z" fill="#f1f5f9" stroke="#e2e8f0" strokeWidth="1" />
+                            </svg>
+                          </div>
+                          <div className="absolute bottom-2 left-24 z-20">
+                            <svg width="30" height="40" viewBox="0 0 30 40">
+                              <ellipse cx="15" cy="30" rx="12" ry="8" fill="white" />
+                              <ellipse cx="15" cy="20" rx="8" ry="6" fill="white" />
+                              <circle cx="15" cy="10" r="5" fill="white" />
+                              <circle cx="13" cy="8" r="1" fill="black" />
+                              <circle cx="17" cy="8" r="1" fill="black" />
+                              <path d="M14 11 L16 11" stroke="orange" strokeWidth="1.5" />
+                            </svg>
+                          </div>
+                        </>
+                      )}
+                      
+                      {currentEnvironment.id === 'night' && (
+                        <div className="absolute bottom-0 right-16 z-20">
+                          <svg width="50" height="70" viewBox="0 0 50 70">
+                            <rect x="20" y="30" width="10" height="40" fill="#3f3f46" />
+                            <circle cx="25" cy="20" r="15" fill="#27272a" />
+                            <rect x="8" y="10" width="5" height="10" fill="#fbbf24" opacity="0.8" />
+                            <rect x="37" y="10" width="5" height="10" fill="#fbbf24" opacity="0.8" />
+                          </svg>
+                        </div>
+                      )}
                       
                       {/* Three cheering cat friends - positioned close to water on beach */}
                       
@@ -810,11 +1006,18 @@ function App() {
                       </div>
                     </div>
                     {/* Water area - bottom half of screen */}
-                    <div className="absolute inset-0 w-full bg-gradient-to-b from-blue-200 via-blue-300 to-blue-700 rounded-lg z-10" style={{top: '50%', height: '50%'}}>
+                    <div 
+                      className="absolute inset-0 w-full rounded-b-lg z-10" 
+                      style={{
+                        top: '50%', 
+                        height: '50%',
+                        background: `linear-gradient(to bottom, ${currentEnvironment.water.from}, ${currentEnvironment.water.via}, ${currentEnvironment.water.to})`
+                      }}
+                    >
                     </div>
                     
                     {/* Water surface line - horizontal line separating beach and water */}
-                    <div className="absolute w-full h-px bg-blue-100 opacity-50 z-20" style={{top: '50%'}}></div>
+                    <div className="absolute w-full h-px opacity-50 z-20" style={{top: '50%', backgroundColor: currentEnvironment.water.from}}></div>
                     
                     {/* Cat fishing in boat on the water */}
                     <div 
@@ -1117,34 +1320,38 @@ function App() {
               </Card>
 
               <Card className="bg-card border-border">
-                <CardHeader>
+                <CardHeader className="pb-2">
                   <CardTitle className="flex items-center gap-2 text-card-foreground">
                     <ShoppingBag className="text-accent" />
                     Bait Shop
                   </CardTitle>
+                  <p className="text-xs text-muted-foreground">Better bait = higher catch rate!</p>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-2 max-h-80 overflow-y-auto">
                   {baitTypes.map((bait) => (
                     <div 
                       key={bait.id}
-                      className="flex items-center justify-between p-3 rounded-lg bg-secondary/20 border border-border"
+                      className={`flex items-center justify-between p-2 rounded-lg border transition-all ${
+                        currentBait?.id === bait.id 
+                          ? 'bg-accent/20 border-accent' 
+                          : 'bg-secondary/20 border-border hover:bg-secondary/40'
+                      }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <div 
-                          className="w-4 h-4 bg-accent rounded-full"
-                          style={{ transform: `scale(${bait.size})` }}
-                        ></div>
-                        <div>
-                          <div className="font-medium text-card-foreground">{bait.name}</div>
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <div className="text-lg flex-shrink-0">{bait.name.split(' ')[0]}</div>
+                        <div className="min-w-0">
+                          <div className="font-medium text-card-foreground text-sm truncate">
+                            {bait.name.split(' ').slice(1).join(' ')}
+                          </div>
                           <div className="text-xs text-muted-foreground">
-                            {Math.round(bait.catchRate * 100)}% catch rate
+                            {Math.round(bait.catchRate * 100)}% catch
                           </div>
                         </div>
                       </div>
                       
                       {bait.price === 0 ? (
-                        <Badge variant={currentBait?.id === bait.id ? 'default' : 'secondary'}>
-                          {currentBait?.id === bait.id ? 'Using' : 'Free'}
+                        <Badge variant={currentBait?.id === bait.id ? 'default' : 'secondary'} className="flex-shrink-0">
+                          {currentBait?.id === bait.id ? '✓ Using' : 'Free'}
                         </Badge>
                       ) : (
                         <Button
@@ -1152,9 +1359,9 @@ function App() {
                           onClick={() => buyBait(bait)}
                           disabled={(money || 0) < bait.price}
                           variant={currentBait?.id === bait.id ? 'default' : 'outline'}
-                          className={currentBait?.id === bait.id ? 'bg-accent text-accent-foreground' : ''}
+                          className={`flex-shrink-0 text-xs px-2 ${currentBait?.id === bait.id ? 'bg-accent text-accent-foreground' : ''}`}
                         >
-                          {currentBait?.id === bait.id ? 'Using' : `${bait.price} coins`}
+                          {currentBait?.id === bait.id ? '✓ Using' : `${bait.price} 🪙`}
                         </Button>
                       )}
                     </div>
